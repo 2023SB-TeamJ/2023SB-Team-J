@@ -20,7 +20,7 @@ services:
       dockerfile: Dockerfile
     container_name: t4y-backend
     ports:
-      - 8080:8080
+      - 8000:8000
     depends_on:
       - database
     environment:
@@ -28,6 +28,12 @@ services:
       - DB_NAME=mydatabase
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
+    command: sh -c "/wait &  python manage.py makemigrations common
+      && python manage.py migrate common
+      && python manage.py makemigrations image
+      && python manage.py migrate image
+      && python manage.py runserver 0.0.0.0:8000"
+    tty: true
 
   # frontend:
   #   build:

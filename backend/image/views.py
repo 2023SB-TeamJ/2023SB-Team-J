@@ -1,10 +1,14 @@
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import UploadedImageSerializer
 from .s3_utils import upload_image_to_s3
 from .models import Image_origin
 class UploadImageView(APIView):
+    # permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
+    permission_classes = [AllowAny]
+
     def post(self, request):
         serializer = UploadedImageSerializer(data=request.data)
         if serializer.is_valid():

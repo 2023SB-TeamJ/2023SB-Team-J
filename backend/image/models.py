@@ -3,6 +3,7 @@ from django.db import models
 # from backend.common.models import User
 # from ..common.models import User
 
+
 class Image_origin(models.Model):
     user_id = models.ForeignKey('common.User', on_delete=models.RESTRICT)
     url_1 = models.URLField(null=False)
