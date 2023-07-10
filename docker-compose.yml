@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  database:
+    image: mysql:8.0
+    container_name: t4y-database
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=mydatabase
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: t4y-backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    environment:
+      - DB_HOST=t4y-database
+      - DB_NAME=mydatabase
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: t4y-frontend
+    ports:
+      - "3000:3000" # 포트 매핑 설정
+    volumes:
+      - ./frontend:/frontend
