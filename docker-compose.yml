@@ -4,11 +4,15 @@ services:
   database:
     image: mysql:8.0
     container_name: t4y-database
-    environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_DATABASE=mydatabase
-      - MYSQL_USER=myuser
-      - MYSQL_PASSWORD=mypassword
+    env_file:
+      - ./backend/.env 
+    # environment:
+    #   - MYSQL_ROOT_PASSWORD=rootpassword
+    #   - MYSQL_DATABASE=${mydatabase}
+    #   - MYSQL_USER=myuser
+    #   - MYSQL_PASSWORD=mypassword
+    ports:
+    - 3306:3306
 
   backend:
     build:

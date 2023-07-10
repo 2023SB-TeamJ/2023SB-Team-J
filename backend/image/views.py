@@ -14,7 +14,7 @@ class UploadImageView(APIView):
 
             for img_file in img_files:
                 # S3 버킷에 이미지 업로드
-                bucket_name = 'bucketkubit'  # S3 버킷 이름 입력
+                bucket_name = 't4y-bucket'  # S3 버킷 이름 입력
                 img_url = upload_image_to_s3(img_file, bucket_name)
                 img_urls.append(img_url)
 
