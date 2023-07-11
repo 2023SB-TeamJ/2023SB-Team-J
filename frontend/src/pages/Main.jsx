@@ -14,7 +14,6 @@ function Main() {
         <TestBtn onClick={() => navigate('/album')}>앨범 Button</TestBtn>
       </Container>
     </div>
-
   );
 }
 
