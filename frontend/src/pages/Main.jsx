@@ -1,3 +1,6 @@
+// import { styled } from 'styled-components';
+
+// function Main() {
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +14,7 @@ function Main() {
         <TestBtn onClick={() => navigate('/album')}>앨범 Button</TestBtn>
       </Container>
     </div>
+
   );
 }
 
