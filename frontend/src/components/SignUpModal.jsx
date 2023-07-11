@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
 import {
   AuthLogo,
@@ -9,8 +9,8 @@ import {
   AuthLink,
   RowDiv,
 } from './AuthModalStyle';
-import { useState, useEffect } from 'react';
 
+// eslint-disable-next-line react/prop-types
 function SignUpModal({ isOpen, onClose }) {
   const MAX_NICKNAME_LENGTH = 10; // 최대 닉네임 길이
   const MAX_ID_LENGTH = 15; // 최대 아이디 길이
@@ -32,6 +32,7 @@ function SignUpModal({ isOpen, onClose }) {
     }
   }, [isOpen, animation]);
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (animation === 'fadeOut') {
       const timer = setTimeout(() => {
@@ -77,26 +78,26 @@ function SignUpModal({ isOpen, onClose }) {
       <ModalWindow>
         <SignUpModalFrame>
           <XIcon
-            xmlns='http://www.w3.org/2000/svg'
-            width='14'
-            height='14'
-            viewBox='0 0 12 12'
-            fill='none'
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 12 12"
+            fill="none"
             onClick={onClose}
           >
             <path
-              fill-rule='evenodd'
-              clip-rule='evenodd'
-              d='M0.29903 10.8524C0.0793599 11.0721 0.0793599 11.4282 0.29903 11.6479C0.5187 11.8676 0.874855 11.8676 1.09452 11.6479L5.94677 6.79566L10.9056 11.7545C11.1253 11.9742 11.4815 11.9742 11.7011 11.7545C11.9208 11.5348 11.9208 11.1787 11.7011 10.959L6.74227 6.00016L11.7011 1.0413C11.9208 0.821632 11.9208 0.465477 11.7011 0.245807C11.4815 0.026137 11.1253 0.0261374 10.9056 0.245807L5.94677 5.20466L1.09452 0.352414C0.874855 0.132744 0.5187 0.132744 0.29903 0.352414C0.0793599 0.572084 0.0793599 0.92824 0.29903 1.14791L5.15128 6.00016L0.29903 10.8524Z'
-              fill='#D3D3D3'
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M0.29903 10.8524C0.0793599 11.0721 0.0793599 11.4282 0.29903 11.6479C0.5187 11.8676 0.874855 11.8676 1.09452 11.6479L5.94677 6.79566L10.9056 11.7545C11.1253 11.9742 11.4815 11.9742 11.7011 11.7545C11.9208 11.5348 11.9208 11.1787 11.7011 10.959L6.74227 6.00016L11.7011 1.0413C11.9208 0.821632 11.9208 0.465477 11.7011 0.245807C11.4815 0.026137 11.1253 0.0261374 10.9056 0.245807L5.94677 5.20466L1.09452 0.352414C0.874855 0.132744 0.5187 0.132744 0.29903 0.352414C0.0793599 0.572084 0.0793599 0.92824 0.29903 1.14791L5.15128 6.00016L0.29903 10.8524Z"
+              fill="#D3D3D3"
             />
           </XIcon>
-          <AuthLogo></AuthLogo>
+          <AuthLogo />
           <AuthTitle>회원가입</AuthTitle>
           <AuthInputField>
             <input
-              type='text'
-              placeholder='닉네임'
+              type="text"
+              placeholder="닉네임"
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_NICKNAME_LENGTH}
@@ -105,8 +106,8 @@ function SignUpModal({ isOpen, onClose }) {
           </AuthInputField>
           <AuthInputField>
             <input
-              type='text'
-              placeholder='아이디'
+              type="text"
+              placeholder="아이디"
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_ID_LENGTH}
@@ -116,40 +117,40 @@ function SignUpModal({ isOpen, onClose }) {
           <AuthInputField>
             <input
               type={showPassword ? 'text' : 'password'}
-              placeholder='비밀번호'
+              placeholder="비밀번호"
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_PASSWORD_LENGTH}
               onChange={handlePasswordLength}
             />
             <EyeIcon
-              xmlns='http://www.w3.org/2000/svg'
-              width='22'
-              height='16'
-              viewBox='0 0 22 16'
-              fill='none'
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="16"
+              viewBox="0 0 22 16"
+              fill="none"
               onClick={toggleShowPassword}
             >
               <path
-                d='M1.26387 8.71318C1.12769 8.49754 1.05959 8.38972 1.02147 8.22342C0.992842 8.0985 0.992842 7.9015 1.02147 7.77658C1.05959 7.61028 1.12769 7.50246 1.26387 7.28682C2.38928 5.50484 5.73915 1 10.8442 1C15.9492 1 19.299 5.50484 20.4244 7.28682C20.5606 7.50246 20.6287 7.61028 20.6668 7.77658C20.6955 7.9015 20.6955 8.0985 20.6668 8.22342C20.6287 8.38972 20.5606 8.49754 20.4244 8.71318C19.299 10.4952 15.9492 15 10.8442 15C5.73915 15 2.38928 10.4952 1.26387 8.71318Z'
-                stroke='#EFEFEF'
-                stroke-width='2'
-                stroke-linecap='round'
-                stroke-linejoin='round'
+                d="M1.26387 8.71318C1.12769 8.49754 1.05959 8.38972 1.02147 8.22342C0.992842 8.0985 0.992842 7.9015 1.02147 7.77658C1.05959 7.61028 1.12769 7.50246 1.26387 7.28682C2.38928 5.50484 5.73915 1 10.8442 1C15.9492 1 19.299 5.50484 20.4244 7.28682C20.5606 7.50246 20.6287 7.61028 20.6668 7.77658C20.6955 7.9015 20.6955 8.0985 20.6668 8.22342C20.6287 8.38972 20.5606 8.49754 20.4244 8.71318C19.299 10.4952 15.9492 15 10.8442 15C5.73915 15 2.38928 10.4952 1.26387 8.71318Z"
+                stroke="#EFEFEF"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
-                d='M10.8442 11C12.501 11 13.8442 9.65685 13.8442 8C13.8442 6.34315 12.501 5 10.8442 5C9.1873 5 7.84415 6.34315 7.84415 8C7.84415 9.65685 9.1873 11 10.8442 11Z'
-                stroke='#EFEFEF'
-                stroke-width='2'
-                stroke-linecap='round'
-                stroke-linejoin='round'
+                d="M10.8442 11C12.501 11 13.8442 9.65685 13.8442 8C13.8442 6.34315 12.501 5 10.8442 5C9.1873 5 7.84415 6.34315 7.84415 8C7.84415 9.65685 9.1873 11 10.8442 11Z"
+                stroke="#EFEFEF"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </EyeIcon>
           </AuthInputField>
           <AuthInputField>
             <input
-              type='password'
-              placeholder='비밀번호 확인'
+              type="password"
+              placeholder="비밀번호 확인"
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_PASSWORD_LENGTH}
