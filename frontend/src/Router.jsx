@@ -5,6 +5,7 @@ import ChoseeFrame from './pages/ChooseFrame';
 import UploadImage from './pages/UploadImage';
 import ConvertAI from './pages/ConvertAI';
 import Customizing from './pages/Customizing';
+import Test from './pages/Test';
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
         <Route path="upload" element={<UploadImage />} />
         <Route path="convert" element={<ConvertAI />} />
         <Route path="custom" element={<Customizing />} />
+        <Route path="test" element={<Test />} />
       </Routes>
     </BrowserRouter>
   );
