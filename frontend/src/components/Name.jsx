@@ -1,11 +1,11 @@
-import styled from "styled-components";
-import image77 from "../assets/images/image77.png";
+import styled from 'styled-components';
+import logoText from '../assets/images/logoText.png';
 
-let NameStyle = styled.div`
+const NameStyle = styled.div`
   width: 290px;
   height: 50px;
   flex-shrink: 0;
-  background-image: url(${image77});
+  background-image: url(${logoText});
   background-size: cover;
 `;
 
