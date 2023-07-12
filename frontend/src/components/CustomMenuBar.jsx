@@ -1,85 +1,142 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
+import textbox from '../assets/images/textbox.png';
+import photo from '../assets/images/photo.png';
+import sticker from '../assets/images/sticker.png';
+
+// import stickerSmile from '../assets/images/sticker_smile.png';
 
 function CustomMenuBar() {
-  const [isMenuOpen1, setMenuOpen1] = useState(false);
-  const [isMenuOpen2, setMenuOpen2] = useState(false);
-  const [isMenuOpen3, setMenuOpen3] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu1 = () => {
-    setMenuOpen1(!isMenuOpen1);
-    setMenuOpen2(false);
-    setMenuOpen3(false);
+    setMenuOpen(false);
   };
 
   const toggleMenu2 = () => {
-    setMenuOpen2(!isMenuOpen2);
-    setMenuOpen1(false);
-    setMenuOpen3(false);
+    setMenuOpen(false);
   };
 
   const toggleMenu3 = () => {
-    setMenuOpen3(!isMenuOpen3);
-    setMenuOpen1(false);
-    setMenuOpen2(false);
+    setMenuOpen(!isMenuOpen);
   };
-
   return (
     <div>
       <MenuWrap>
         <ButtonWrap>
-          <Button onClick={toggleMenu1}>Button 1</Button>
+          <TextboxBtn
+            onClick={toggleMenu1}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          />
 
-          <Button onClick={toggleMenu2}>Button 2</Button>
+          <PhotoBtn
+            onClick={toggleMenu2}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          />
 
-          <Button onClick={toggleMenu3}>Button 3</Button>
+          <StickerBtn
+            onClick={toggleMenu3}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          />
         </ButtonWrap>
+
         <ContentWrap>
-          <Content isOpen={isMenuOpen1}>
-            {/* 상세 메뉴 내용 */}
-            Content 1
-          </Content>
-          <Content isOpen={isMenuOpen2}>
-            {/* 상세 메뉴 내용 */}
-            Content 2
-          </Content>
-          <Content isOpen={isMenuOpen3}>
-            {/* 상세 메뉴 내용 */}
-            Content 3
-          </Content>
+          <AnimatePresence>
+            {' '}
+            {/* Framer Motion의 AnimatePresence를 추가 */}
+            {isMenuOpen && (
+              <ContentSticker
+                initial={{ width: 0 }}
+                animate={{ width: '30rem' }}
+                exit={{ width: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* 상세 메뉴 내용 */}
+                Content 3
+              </ContentSticker>
+            )}
+          </AnimatePresence>
         </ContentWrap>
       </MenuWrap>
     </div>
   );
 }
-const Button = styled.button`
-  background-color: lightcyan;
+const TextboxBtn = styled(motion.div)`
+  background-color: #c8cfd4;
+  margin: 8px;
+  padding: 10px;
+  border: 10x;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: block;
+  width: 63px;
+  height: 63px;
+  flex-shrink: 0;
+  background:
+    url(${textbox}),
+    lightgray 50% / cover no-repeat;
+  background-size: cover;
+`;
+const PhotoBtn = styled(motion.div)`
+  background-color: #c8cfd4;
+  margin: 8px;
   padding: 10px;
   border: none;
   cursor: pointer;
   margin-bottom: 10px;
   display: block;
+  width: 4rem;
+  height: 4rem;
+  flex-shrink: 0;
+  background:
+    url(${photo}),
+    lightgray 50% / cover no-repeat;
+  background-size: cover;
 `;
-
-const Content = styled.div`
+const StickerBtn = styled(motion.div)`
+  background-color: #c8cfd4;
+  margin: 8px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  display: block;
+  width: 63px;
+  height: 63px;
+  flex-shrink: 0;
+  background:
+    url(${sticker}),
+    lightgray 50% / cover no-repeat;
+  background-size: cover;
+`;
+const ContentSticker = styled(motion.div)`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   width: 30rem;
-  height: 9rem;
+  height: 100%;
   padding: 10px;
   background-color: #f5f5f5;
-  transition: 0.5s ease-in-out;
+  transition: 0.1 ease-in-out;
 `;
 
 const ButtonWrap = styled.div`
-  display: inline-block;
-  vertical-align: bottom;
-
-  justify-content: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 620px;
+  border: 2px solid #3f3d3f;
 `;
 
-const ContentWrap = styled.div``;
-export default CustomMenuBar;
+const ContentWrap = styled.div`
+  height: 620px;
+  border: 2px solid #3f3d3f;
+`;
 
 const MenuWrap = styled.div`
   display: flex;
 `;
+
+export default CustomMenuBar;
