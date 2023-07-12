@@ -1,7 +1,7 @@
 import React from 'react';
 
-function UploadImage() {
+function AlbumPage() {
   return <div>앨범</div>;
 }
 
-export default UploadImage;
+export default AlbumPage;

@@ -2,7 +2,7 @@ import React from 'react';
 import { styled } from 'styled-components';
 import AlbumDetailModal from '../components/AlbumDetailModal';
 
-function Test() {
+function TestPage() {
   return (
     <div>
       <Container>
@@ -13,7 +13,7 @@ function Test() {
   );
 }
 
-export default Test;
+export default TestPage;
 
 const Container = styled.div`
   width: 100%;

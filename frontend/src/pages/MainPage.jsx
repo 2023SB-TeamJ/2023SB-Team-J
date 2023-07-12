@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-function Main() {
+function MainPage() {
   const navigate = useNavigate();
 
   return (
@@ -14,7 +14,7 @@ function Main() {
   );
 }
 
-export default Main;
+export default MainPage;
 
 const Container = styled.div`
   width: 100%;
