@@ -50,6 +50,7 @@ class UploadImageView(APIView):
             raw_data = request.body.decode('utf-8')
 
             try:
+<<<<<<< HEAD
                 data = json.loads(raw_data)
                 user_id = data.get('user_id')
                 source = data.get('source')
@@ -69,6 +70,10 @@ class UploadImageView(APIView):
                 }
                 return Response(picture, status=status.HTTP_200_OK)
 
+=======
+                image_origin = Image_origin.objects.get(id=pk,
+                                                        user_id=fk)
+>>>>>>> 8e3a6e7 (feat : reabase 2, fix error with docker compose yml file)
             except:
                 # 찾지 못한 경우 HTTP_400
                 return Response(status=status.HTTP_400_BAD_REQUEST)
