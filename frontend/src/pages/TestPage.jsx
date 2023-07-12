@@ -6,8 +6,10 @@ function TestPage() {
   return (
     <div>
       <Container>
-        <h1>테스트 페이지 입니다</h1>
-        <AlbumDetailModal />
+        <MainWrap>
+          <div>테스트 페이지 입니다</div>
+          <AlbumDetailModal />
+        </MainWrap>
       </Container>
     </div>
   );
@@ -19,4 +21,12 @@ const Container = styled.div`
   width: 100%;
   min-height: 100vh;
   background: ${(props) => props.theme.backgroundColor};
+`;
+
+const MainWrap = styled.div`
+  max-width: 1440px;
+  height: 100vh;
+  margin: 0 auto;
+  flex-shrink: 0;
+  border: 3px solid black;
 `;
