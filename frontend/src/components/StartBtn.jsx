@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-let StartStyle = styled.button`
+const StartStyle = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: center;
