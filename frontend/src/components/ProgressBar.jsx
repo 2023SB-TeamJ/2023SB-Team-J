@@ -4,6 +4,52 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+function ProgressBarComponent() {
+  const [active, setActive] = useState(1);
+
+  const handleNext = () => {
+    setActive((prevActive) =>
+      prevActive < steps.length ? prevActive + 1 : prevActive,
+    );
+  };
+
+  const handlePrev = () => {
+    setActive((prevActive) => (prevActive > 1 ? prevActive - 1 : prevActive));
+  };
+
+  const updateProgress = () => {
+    if (active < 1) setActive(1);
+    if (active > steps.length) setActive(steps.length);
+  };
+
+  const steps = [1, 2, 3, 4];
+
+  return (
+    <ProgressBarContainer>
+      <ProgressBar progress={((active - 1) / (steps.length - 1)) * 100} />
+      <ProgressNumList>
+        {steps.map((step, index) => (
+          <ProgressNumItem
+            key={index}
+            active={index < active}
+            className={index < active ? 'active' : ''}
+          >
+            {step}
+          </ProgressNumItem>
+        ))}
+      </ProgressNumList>
+      <PrevButton disabled={active === 1} onClick={handlePrev}>
+        Prev
+      </PrevButton>
+      <NextButton disabled={active === steps.length} onClick={handleNext}>
+        Next
+      </NextButton>
+    </ProgressBarContainer>
+  );
+}
+
+export default ProgressBarComponent;
+
 const ProgressBarContainer = styled.div`
   position: relative;
   margin-bottom: 30px;
@@ -67,49 +113,3 @@ const NextButton = styled.button`
   border: none;
   cursor: pointer;
 `;
-
-function ProgressBarComponent() {
-  const [active, setActive] = useState(1);
-
-  const handleNext = () => {
-    setActive((prevActive) =>
-      prevActive < steps.length ? prevActive + 1 : prevActive,
-    );
-  };
-
-  const handlePrev = () => {
-    setActive((prevActive) => (prevActive > 1 ? prevActive - 1 : prevActive));
-  };
-
-  const updateProgress = () => {
-    if (active < 1) setActive(1);
-    if (active > steps.length) setActive(steps.length);
-  };
-
-  const steps = [1, 2, 3, 4];
-
-  return (
-    <ProgressBarContainer>
-      <ProgressBar progress={((active - 1) / (steps.length - 1)) * 100} />
-      <ProgressNumList>
-        {steps.map((step, index) => (
-          <ProgressNumItem
-            key={index}
-            active={index < active}
-            className={index < active ? 'active' : ''}
-          >
-            {step}
-          </ProgressNumItem>
-        ))}
-      </ProgressNumList>
-      <PrevButton disabled={active === 1} onClick={handlePrev}>
-        Prev
-      </PrevButton>
-      <NextButton disabled={active === steps.length} onClick={handleNext}>
-        Next
-      </NextButton>
-    </ProgressBarContainer>
-  );
-}
-
-export default ProgressBarComponent;
