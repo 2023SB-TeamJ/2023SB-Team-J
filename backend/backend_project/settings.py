@@ -4,7 +4,8 @@ import pymysql
 import os, json
 from django.core.exceptions import ImproperlyConfigured
 
-
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend_project.settings')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 secret_file = os.path.join(BASE_DIR, "secrets.json")
