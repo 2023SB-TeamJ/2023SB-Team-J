@@ -1,10 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-let SignStyle = styled.button`
+export default styled.button`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   width: 120px;
   height: 35px;
   flex-shrink: 0;
@@ -28,13 +29,3 @@ let SignStyle = styled.button`
     transition: all 0.4s;
   }
 `;
-
-function SignBtn({ name }) {
-  return (
-    <div>
-      <SignStyle>{name}</SignStyle>
-    </div>
-  );
-}
-
-export default SignBtn;

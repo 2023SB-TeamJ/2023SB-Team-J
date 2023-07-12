@@ -1,6 +1,6 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
-const TitleStyle = styled.h1`
+export default styled.h1`
   width: 976px;
   height: 111px;
   flex-direction: column;
@@ -14,9 +14,3 @@ const TitleStyle = styled.h1`
   font-weight: 400;
   line-height: normal;
 `;
-
-function Title({ type }) {
-  return <TitleStyle>{type}</TitleStyle>;
-}
-
-export default Title;
