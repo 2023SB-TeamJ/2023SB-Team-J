@@ -5,12 +5,7 @@ services:
     image: mysql:8.0
     container_name: t4y-database
     env_file:
-      - ./backend/.env 
-    # environment:
-    #   - MYSQL_ROOT_PASSWORD=rootpassword
-    #   - MYSQL_DATABASE=${mydatabase}
-    #   - MYSQL_USER=myuser
-    #   - MYSQL_PASSWORD=mypassword
+      - ./backend/.env
     ports:
     - 3306:3306
 
@@ -19,6 +14,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: t4y-backend
+    volumes:
+      - ./backend:/backend
+    restart: on-failure
     ports:
       - 8000:8000
     depends_on:
@@ -34,6 +32,13 @@ services:
       && python manage.py migrate image
       && python manage.py runserver 0.0.0.0:8000"
     tty: true
+#    env_file:
+#      - ./backend/.env
+    # environment:
+    #   - MYSQL_ROOT_PASSWORD=rootpassword
+    #   - MYSQL_DATABASE=${mydatabase}
+    #   - MYSQL_USER=myuser
+    #   - MYSQL_PASSWORD=mypassword
 
   # frontend:
   #   build:
