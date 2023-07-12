@@ -1,7 +1,7 @@
 import React from 'react';
 
-function UploadImage() {
+function ConvertAIPage() {
   return <div>AI 변환</div>;
 }
 
-export default UploadImage;
+export default ConvertAIPage;

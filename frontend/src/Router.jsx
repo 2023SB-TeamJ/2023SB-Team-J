@@ -1,23 +1,23 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Main from './pages/Main';
-import Album from './pages/Album';
-import ChoseeFrame from './pages/ChooseFrame';
-import UploadImage from './pages/UploadImage';
-import ConvertAI from './pages/ConvertAI';
-import Customizing from './pages/Customizing';
-import Test from './pages/Test';
+import MainPage from './pages/MainPage';
+import AlbumPage from './pages/AlbumPage';
+import ChoseeFramePage from './pages/ChooseFramePage';
+import UploadImagePage from './pages/UploadImagePage';
+import ConvertAIPage from './pages/ConvertAIPage';
+import CustomizingPage from './pages/CustomizingPage';
+import TestPage from './pages/TestPage';
 
 function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Main />} />
-        <Route path="album" element={<Album />} />
-        <Route path="choose" element={<ChoseeFrame />} />
-        <Route path="upload" element={<UploadImage />} />
-        <Route path="convert" element={<ConvertAI />} />
-        <Route path="custom" element={<Customizing />} />
-        <Route path="test" element={<Test />} />
+        <Route index element={<MainPage />} />
+        <Route path="album" element={<AlbumPage />} />
+        <Route path="choose" element={<ChoseeFramePage />} />
+        <Route path="upload" element={<UploadImagePage />} />
+        <Route path="convert" element={<ConvertAIPage />} />
+        <Route path="custom" element={<CustomizingPage />} />
+        <Route path="test" element={<TestPage />} />
       </Routes>
     </BrowserRouter>
   );
