@@ -4,7 +4,7 @@ import Logo from './Logo';
 import Name from './Name';
 import SignBtn from './SignBtn';
 
-function ChooseFramePage() {
+function Header() {
   return (
     <div>
       <Container>
@@ -20,7 +20,7 @@ function ChooseFramePage() {
   );
 }
 
-export default ChooseFramePage;
+export default Header;
 const Container = styled.div`
   display: flex;
   margin-top: 3rem;
