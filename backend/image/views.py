@@ -12,6 +12,7 @@ from datetime import datetime
 from PIL import Image
 import io
 from .AiTask import *
+from io import BytesIO
 
 
 class UploadImageView(APIView):
@@ -27,10 +28,12 @@ class UploadImageView(APIView):
 
             for img_file in img_files:
                 # S3 버킷에 이미지 업로드
-                img_format = Image.open(io.BytesIO(img_file.read())).format
-                img_format = 'image/' + img_format.lower()
-                key = request.data.get("user_id") + str(datetime.now()).replace('.', '')
-                img_url = upload_image_to_s3(img_file, key, ExtraArgs={'ContentType': img_format})
+                with Image.open(img_file) as im:
+                    im_jpeg = BytesIO()
+                    im.save(im_jpeg, 'JPEG')
+                    im_jpeg.seek(0)
+                key = request.data.get("user_id") + str(datetime.now()).replace('.', '') + "." + "jpeg"
+                img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
                 img_urls.append(img_url)
 
             # 이미지 URL과 닉네임을 RDS MySQL에 저장
