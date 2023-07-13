@@ -15,7 +15,6 @@ export default styled.button`
   border: none;
 
   color: #000;
-  font-family: Do Hyeon;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
