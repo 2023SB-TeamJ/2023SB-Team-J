@@ -1,17 +1,10 @@
 import { React } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 
 function UploadImagePage() {
-  const navigate = useNavigate();
-
-  const handlePageShift = () => {
-    navigate('/upload');
-  };
-
   return (
     <div>
       <Container>
@@ -25,7 +18,7 @@ function UploadImagePage() {
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
           <PageShiftWrap>
-            <PageShiftBtn onClick={handlePageShift} />
+            <PageShiftBtn path="/convert" />
           </PageShiftWrap>
         </MainWrap>
       </Container>

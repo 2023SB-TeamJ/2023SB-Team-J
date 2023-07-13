@@ -1,17 +1,10 @@
 import { React } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 
 function ConvertAIPage() {
-  const navigate = useNavigate();
-
-  const handlePageShift = () => {
-    navigate('/upload');
-  };
-
   return (
     <div>
       <Container>
@@ -25,7 +18,7 @@ function ConvertAIPage() {
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
           <PageShiftWrap>
-            <PageShiftBtn onClick={handlePageShift} />
+            <PageShiftBtn path="/custom" />
           </PageShiftWrap>
         </MainWrap>
       </Container>
