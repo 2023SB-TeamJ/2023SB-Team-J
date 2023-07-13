@@ -1,8 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-function PageShiftBtn() {
+function PageShiftBtn({ path }) {
+  const navigate = useNavigate();
+
   return (
-    <PageContainer>
+    <PageContainer
+      onClick={() => {
+        navigate(path);
+      }}
+    >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77 77" fill="none">
         <g filter="url(#filter0_d_606_413)">
           <circle cx="38.5" cy="34.5" r="33" stroke="#151515" strokeWidth="3" />
