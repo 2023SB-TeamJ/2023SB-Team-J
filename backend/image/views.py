@@ -29,7 +29,7 @@ class UploadImageView(APIView):
                 # S3 버킷에 이미지 업로드
                 img_format = Image.open(io.BytesIO(img_file.read())).format
                 img_format = 'image/' + img_format.lower()
-                key = request.data.get("user_id") + str(datetime.now())
+                key = request.data.get("user_id") + str(datetime.now()).replace('.', '')
                 img_url = upload_image_to_s3(img_file, key, ExtraArgs={'ContentType': img_format})
                 img_urls.append(img_url)
 
