@@ -5,8 +5,8 @@ const NameStyle = styled.div`
   width: 290px;
   height: 50px;
   flex-shrink: 0;
-  background-image: url(${logoText});
-  background-size: cover;
+  background: url(${logoText}) lightgray 50% / cover no-repeat;
+  background-color: ${(props) => props.theme.backgroundColor};
 `;
 
 function Name() {
