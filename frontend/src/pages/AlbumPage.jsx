@@ -1,6 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import Masonry from 'react-masonry-css';
+import styled from 'styled-components';
+// import UploadBtn from '../components/UploadBtn';
+import AlbumDetailModal from '../components/AlbumDetailModal';
 
 function AlbumPage() {
   const images = [
@@ -13,6 +15,14 @@ function AlbumPage() {
     'https://s3-alpha-sig.figma.com/img/96b8/1294/9370388aa14e755a90a10150f4ec7db9?Expires=1690156800&Signature=Ma~zci7IS17NGIASOGZ2tiVna6075kN7tjZ7wnF~0cwu98kUqfpPp7XSWN-AZsCiIN3hGngc4puWMPjBV4TPSEqjSkYLcOozC8kkkpZZogLnkPYKhluW72vbpvu7OdQNMyC677Sj1vnYFi8uoGiKKfRNpp1du9Qv6FSX4SCSg78c06Iv4TtOv0Wz6Ja6newc9IUkCsf2W8q5T9W0UERZpJ~du6IrxN0rK0~JiT0TpkapLzC3lZ2diHqrilXfD0IG2CdQqdvHQAx9QWAJLQljWWaRF61K7D1NkO4JAW7Z4U~RwlnGnumtFTl3QWYtaDd0nZA-aR7~LLulc7cXlVnmKg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
   ];
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModalHandler = () => {
+    // isOpen의 상태를 변경하는 메소드를 구현
+    // !false -> !true -> !false
+    setIsOpen(true);
+  };
+
   const breakpointColumnObj = {
     default: 4, // 기본 레이아웃에서 4열
     1200: 3, // 창 너비 1200px 이하일 때 3열
@@ -20,41 +30,32 @@ function AlbumPage() {
     600: 1, // 창 너비 600px 이하일 때 1열
   };
 
-  const MyMasonryGrid = styled(Masonry)`
-    display: flex;
-    margin-left: -30px; /* 컬럼 간격을 조절하기 위해 음수 마진을 적용 */
-    width: auto;
-
-    &::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-  `;
-
-  const MyMasonryGridColumn = styled.div`
-    padding-left: 30px; /* 컬럼 간격을 조절하기 위해 패딩을 적용 */
-    background-clip: padding-box;
-
-    img {
-      width: 100%;
-      display: block;
-    }
-  `;
-
   return (
     <div>
       <Container>
+        <Navbar>상단바</Navbar>
         <MainWrap>
-          <MyMasonryGrid breakpointCols={breakpointColumnObj}>
+          <MyMasonryGrid
+            breakpointCols={breakpointColumnObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
             {images.map((v, i) => {
               return (
                 <MyMasonryGridColumn key={v}>
-                  <img src={images[i]} alt="" />
+                  <ImageWithShadow
+                    src={images[i]}
+                    alt=""
+                    onClick={openModalHandler}
+                  />
+                  {isOpen && <AlbumDetailModal setIsOpen={setIsOpen} />}
                 </MyMasonryGridColumn>
               );
             })}
           </MyMasonryGrid>
+          {/* <CenteredButton>
+            <UploadBtn path="/upload" />
+          </CenteredButton> */}
         </MainWrap>
       </Container>
     </div>
@@ -75,4 +76,43 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   border: 3px solid black;
+  background-color: white;
 `;
+
+const Navbar = styled.div`
+  height: 120px; /* 예시로 50px 높이 설정 */
+  background-color: ${(props) => props.theme.navbarColor};
+`;
+
+const MyMasonryGrid = styled(Masonry)`
+  display: flex;
+  margin-left: -30px; /* 컬럼 간격을 조절하기 위해 음수 마진을 적용 */
+  width: auto;
+
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+`;
+
+const MyMasonryGridColumn = styled.div`
+  padding-left: 30px; /* 컬럼 간격을 조절하기 위해 패딩을 적용 */
+  background-clip: padding-box;
+
+  img {
+    width: 100%;
+    display: block;
+  }
+`;
+
+const ImageWithShadow = styled.img`
+  box-shadow: 10px 10px 6px 0px rgba(0, 0, 0, 0.25);
+`;
+
+// const CenteredButton = styled.div`
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// `;
