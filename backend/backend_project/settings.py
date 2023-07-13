@@ -14,7 +14,7 @@ with open(secret_file) as f:
     secrets = json.loads(f.read())
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '_static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 def get_secret(setting):
     """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
     try:
@@ -34,8 +34,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
 
 # Application definition
-
 INSTALLED_APPS = [
+    'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -48,8 +48,45 @@ INSTALLED_APPS = [
     'storages',
     'common',
     'image',
-    'drf_yasg',
 ]
+
+SWAGGER_SETTINGS = {
+    'exclude_url_names': [],
+    'exclude_namespaces': [],
+    'api_version': '0.1',
+    'api_path': '/',
+    'relative_paths': False,
+    'enabled_methods': [
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
+    ],
+    'api_key': '',
+    'is_authenticated': True,#
+    'is_superuser': True, #
+    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+    'permission_denied_handler': None,
+    'resource_access_handler': None,
+    'base_path':'helloreverb.com/docs',
+    'info': {
+        'contact': 'apiteam@wordnik.com',
+        'description': 'This is a sample server Petstore server. '
+                       'You can find out more about Swagger at '
+                       '<a href="http://swagger.wordnik.com">'
+                       'http://swagger.wordnik.com</a> '
+                       'or on irc.freenode.net, #swagger. '
+                       'For this sample, you can use the api key '
+                       '"special-key" to test '
+                       'the authorization filters',
+        'license': 'Apache 2.0',
+        'licenseUrl': 'http://www.apache.org/licenses/LICENSE-2.0.html',
+        'termsOfServiceUrl': 'http://helloreverb.com/terms/',
+        'title': 'Swagger Sample App',
+    },
+    'doc_expansion': 'none',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
