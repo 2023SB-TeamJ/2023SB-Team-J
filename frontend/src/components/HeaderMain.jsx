@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logo from './Logo';
 import Name from './Name';
 import SignBtn from './SignBtn';
+import SignUpModal from './SignUpModal';
+import LoginModal from './LoginModal';
 
 function HeaderMain() {
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [signUpModalOpen, setSignUpModalOpen] = useState(false);
+  const handleOpenLoginModal = () => {
+    setLoginModalOpen(true);
+  };
+  const handleCloseLoginModal = () => {
+    setLoginModalOpen(false);
+  };
+  const handleOpenSignUpModal = () => {
+    setSignUpModalOpen(true);
+  };
+  const handleCloseSignUpModal = () => {
+    setSignUpModalOpen(false);
+  };
   return (
     <div>
       <Container>
@@ -13,9 +29,16 @@ function HeaderMain() {
           <Name />
         </LogoWrap>
         <BtnWrap>
-          <LoginBtn>로그인</LoginBtn>
-          <SignBtn className="signUp">회원가입</SignBtn>
+          <LoginBtn onClick={handleOpenLoginModal}>로그인</LoginBtn>
+          <SignBtn className="signUp" onClick={handleOpenSignUpModal}>
+            회원가입
+          </SignBtn>
         </BtnWrap>
+        <SignUpModal
+          isOpen={signUpModalOpen}
+          onClose={handleCloseSignUpModal}
+        />
+        <LoginModal isOpen={loginModalOpen} onClose={handleCloseLoginModal} />
       </Container>
     </div>
   );
@@ -36,6 +59,11 @@ const LogoWrap = styled.div`
 
 const BtnWrap = styled.div`
   display: flex;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const LoginBtn = styled.button`
@@ -64,5 +92,11 @@ const LoginBtn = styled.button`
     background-color: #000;
     color: #fff;
     transition: all 0.4s;
+  }
+
+  @media screen and (max-width: 600px) {
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 120px;
   }
 `;

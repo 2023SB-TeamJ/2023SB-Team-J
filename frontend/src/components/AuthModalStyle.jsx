@@ -20,7 +20,6 @@ export const AuthTitle = styled.div`
 
   color: #000;
   text-align: center;
-  font-family: Do Hyeon;
   font-size: 22px;
   font-style: normal;
   font-weight: 400;
@@ -36,7 +35,6 @@ export const AuthInputField = styled.div`
   margin-top: 35px;
 
   color: #d3d3d3;
-  font-family: Do Hyeon;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -49,7 +47,6 @@ export const AuthInputField = styled.div`
     outline: none;
     background: transparent;
     color: #080808;
-    font-family: Do Hyeon;
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
@@ -60,7 +57,6 @@ export const AuthInputField = styled.div`
       color: black;
     }
     &::placeholder {
-      font-family: 'Do Hyeon';
       color: #d3d3d3;
     }
   }
@@ -71,7 +67,6 @@ export const AuthBtn = styled.button`
   height: 40px;
   flex-shrink: 0;
   margin-top: 46px;
-  font-family: Do Hyeon;
   font-size: 12px;
   border: none;
   border-radius: 70px;
@@ -100,7 +95,6 @@ export const AuthQuestion = styled.div`
   margin-top: 30px;
   color: #747272;
   text-align: center;
-  font-family: Do Hyeon;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -118,7 +112,6 @@ export const AuthLink = styled.div`
   margin-top: 30px;
   color: #000;
   text-align: center;
-  font-family: Do Hyeon;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;

@@ -15,7 +15,7 @@ const StartStyle = styled.button`
   position: absolute;
   z-index: 3;
   left: 10rem;
-  bottom: 18%;
+  top: 74%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -39,5 +39,15 @@ const StartStyle = styled.button`
     background-color: #000;
     color: #fff;
     transition: all 0.4s;
+  }
+
+  @media screen and (max-width: 980px) {
+    top: 83%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 11rem;
+    height: 3rem;
+    font-size: 1.5rem;
   }
 `;

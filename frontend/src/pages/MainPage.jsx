@@ -13,8 +13,10 @@ function MainPage() {
           <Slogan1>추억을 간직하는</Slogan1>
           <Slogan2>THIS IS 4 YOU</Slogan2>
           <StartBtn />
-          <OneTimesOneSampleImage />
-          <TwoTimesTwoSampleImage />
+          <SampleImageWrapper>
+            <OneTimesFourSampleImage />
+            <TwoTimesTwoSampleImage />
+          </SampleImageWrapper>
         </MainWrap>
       </Container>
     </div>
@@ -50,6 +52,10 @@ const Slogan1 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media screen and (max-width: 980px) {
+    display: none;
+  }
 `;
 
 const Slogan2 = styled.div`
@@ -65,13 +71,33 @@ const Slogan2 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media screen and (max-width: 980px) {
+    display: none;
+  }
 `;
 
-const OneTimesOneSampleImage = styled.div`
+const SampleImageWrapper = styled.div`
+  position: absolute;
+  top: 10%;
+  right: 3%;
+  width: 700px;
+  height: 700px;
+
+  @media screen and (max-width: 980px) {
+    width: 500px;
+    top: 15%;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+`;
+
+const OneTimesFourSampleImage = styled.div`
   position: absolute;
   z-index: 2;
-  top: 90px;
-  right: 440px;
+  top: 1%;
+  right: 60%;
   width: 220px;
   height: 680px;
   transform: rotate(-10deg);
@@ -81,13 +107,21 @@ const OneTimesOneSampleImage = styled.div`
     lightgray 50% / cover no-repeat;
   background-size: cover;
   box-shadow: 3px 4px 4px 3px rgba(0, 0, 0, 0.25);
+
+  @media screen and (max-width: 980px) {
+    position: absolute;
+    width: 160px;
+    height: 500px;
+    top: 3vh;
+    right: 61%;
+  }
 `;
 
 const TwoTimesTwoSampleImage = styled.div`
   position: absolute;
   z-index: 1;
-  top: 100px;
-  right: 80px;
+  top: 3vh;
+  right: 7%;
   width: 480px;
   height: 645px;
   transform: rotate(5.63deg);
@@ -96,4 +130,12 @@ const TwoTimesTwoSampleImage = styled.div`
     lightgray 50% / cover no-repeat;
   background-size: cover;
   box-shadow: 3px 4px 4px 3px rgba(0, 0, 0, 0.25);
+
+  @media screen and (max-width: 980px) {
+    position: absolute;
+    width: 350px;
+    height: 470px;
+    top: 3vh;
+    right: 7%;
+  }
 `;

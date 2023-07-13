@@ -199,6 +199,7 @@ const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
   opacity: 0;
+  z-index: 5;
 
   ${(props) =>
     props.animation === 'fadeIn' &&
