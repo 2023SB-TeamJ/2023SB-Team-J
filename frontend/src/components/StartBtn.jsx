@@ -1,12 +1,26 @@
 import styled from 'styled-components';
 
+function StartBtn() {
+  return (
+    <div>
+      <StartStyle>시작하기</StartStyle>
+    </div>
+  );
+}
+
+export default StartBtn;
+
 const StartStyle = styled.button`
   display: flex;
+  position: absolute;
+  z-index: 3;
+  left: 10rem;
+  bottom: 18%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 240px;
-  height: 72px;
+  width: 13rem;
+  height: 4rem;
   flex-shrink: 0;
   border-radius: 50px;
   background: #fff;
@@ -14,8 +28,7 @@ const StartStyle = styled.button`
   border: none;
 
   color: #000;
-  font-family: Do Hyeon;
-  font-size: 36px;
+  font-size: 1.8rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -28,13 +41,3 @@ const StartStyle = styled.button`
     transition: all 0.4s;
   }
 `;
-
-function StartBtn() {
-  return (
-    <div>
-      <StartStyle>시작하기</StartStyle>
-    </div>
-  );
-}
-
-export default StartBtn;
