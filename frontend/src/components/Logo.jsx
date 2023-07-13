@@ -5,10 +5,11 @@ const LogoStyle = styled.div`
   width: 55px;
   height: 54px;
   flex-shrink: 0;
-  border-radius: 10px;s
+  border-radius: 10px;
   background:
     url(${logoImage}),
     lightgray 50% / cover no-repeat;
+  background-size: cover;
 `;
 
 function Logo() {

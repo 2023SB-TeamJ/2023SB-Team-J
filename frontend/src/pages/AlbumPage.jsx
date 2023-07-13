@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Masonry from 'react-masonry-css';
 import styled from 'styled-components';
 // import UploadBtn from '../components/UploadBtn';
+import Header from '../components/HeaderAlbum';
 import AlbumDetailModal from '../components/AlbumDetailModal';
 
 function AlbumPage() {
@@ -33,7 +34,7 @@ function AlbumPage() {
   return (
     <div>
       <Container>
-        <Navbar>상단바</Navbar>
+        <Header />
         <MainWrap>
           <MyMasonryGrid
             breakpointCols={breakpointColumnObj}
@@ -72,16 +73,12 @@ const Container = styled.div`
 
 const MainWrap = styled.div`
   max-width: 1440px;
-  height: 100vh;
+  width: 76vw;
+  height: 100%;
   margin: 0 auto;
   flex-shrink: 0;
   border: 3px solid black;
   background-color: white;
-`;
-
-const Navbar = styled.div`
-  height: 120px; /* 예시로 50px 높이 설정 */
-  background-color: ${(props) => props.theme.navbarColor};
 `;
 
 const MyMasonryGrid = styled(Masonry)`

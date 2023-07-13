@@ -7,10 +7,11 @@ const NameStyle = styled.div`
   flex-shrink: 0;
   background-image: url(${logoText});
   background-size: cover;
+  background: url(${logoText}) lightgray 50% / cover no-repeat;
+  background-color: ${(props) => props.theme.backgroundColor};
 `;
 
 function Name() {
   return <NameStyle alt="F4Y" />;
 }
-
 export default Name;

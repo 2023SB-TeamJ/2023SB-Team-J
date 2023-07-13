@@ -1,9 +1,5 @@
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import image from '../assets/images/photo1.png';
-// import star from '../assets/images/star.png';
-// import trash from '../assets/images/trash.png';
-// import save from '../assets/images/save.png';
 
 function AlbumDetailModal({ setIsOpen }) {
   const closeModal = () => {
@@ -12,17 +8,15 @@ function AlbumDetailModal({ setIsOpen }) {
   return (
     <ModalContainer>
       <ModalBackdrop>
-        <ModalView
-          onClick={(e) => e.stopPropagation()}
-          initial={{ y: -1000 }}
-          animate={{ y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <ExitBtn onClick={closeModal}>
+        <ModalView onClick={(e) => e.stopPropagation()}>
+          <ExitBtn
+            onClick={closeModal}
+            style={{ backgroundColor: 'transparent' }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
+              width="20"
+              height="20"
               viewBox="0 0 12 12"
               fill="none"
             >
@@ -30,7 +24,7 @@ function AlbumDetailModal({ setIsOpen }) {
                 fillRule="evenodd"
                 clipRule="evenodd"
                 d="M0.29903 10.8524C0.0793599 11.0721 0.0793599 11.4282 0.29903 11.6479C0.5187 11.8676 0.874855 11.8676 1.09452 11.6479L5.94677 6.79566L10.9056 11.7545C11.1253 11.9742 11.4815 11.9742 11.7011 11.7545C11.9208 11.5348 11.9208 11.1787 11.7011 10.959L6.74227 6.00016L11.7011 1.0413C11.9208 0.821632 11.9208 0.465477 11.7011 0.245807C11.4815 0.026137 11.1253 0.0261374 10.9056 0.245807L5.94677 5.20466L1.09452 0.352414C0.874855 0.132744 0.5187 0.132744 0.29903 0.352414C0.0793599 0.572084 0.0793599 0.92824 0.29903 1.14791L5.15128 6.00016L0.29903 10.8524Z"
-                fill="#D3D3D3"
+                fill="#fff"
               />
             </svg>
           </ExitBtn>
@@ -238,34 +232,7 @@ const ModalBackdrop = styled.div`
   bottom: 0;
 `;
 
-// const ExitBtn = styled(ModalBtn)`
-//   background-color: #4000c7;
-//   border-radius: 10px;
-//   text-decoration: none;
-//   margin: 10px;
-//   padding: 5px 10px;
-//   width: 40px;
-//   height: 40px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
-
-// const ModalView = styled.div.attrs(() => ({
-//   // attrs 메소드를 이용해서 아래와 같이 div 엘리먼트에 속성을 추가할 수 있다.
-//   role: 'dialog',
-// }))`
-//   // Modal창 CSS를 구현합니다.
-//   display: flex;
-//   align-items: center;
-//   flex-direction: column;
-//   border-radius: 20px;
-//   width: 50rem;
-//   height: 40rem;
-//   background-color: #3f3d3f;
-// `;
-
-const ModalView = styled(motion.div)`
+const ModalView = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -300,8 +267,7 @@ const Date = styled.div`
   color: #fff;
   text-align: center;
   text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  font-family: Do Hyeon;
-  font-size: 30px;
+  font-size: 26px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -340,4 +306,12 @@ const SaveBtn = styled.div`
   cursor: pointer;
 `;
 
-const ExitBtn = styled.button``;
+const ExitBtn = styled.div`
+  position: absolute;
+  top: 25px;
+  right: 25px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
