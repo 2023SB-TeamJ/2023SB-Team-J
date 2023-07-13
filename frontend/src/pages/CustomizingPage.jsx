@@ -1,16 +1,14 @@
 import { React } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Title from '../components/Title';
-import PageShiftBtn from '../components/PageShiftBtn';
+import CustomMenuBar from '../components/Custom/CustomMenuBar';
+import addphoto from '../assets/images/addphoto.png';
 
 function CustomizingPage() {
   const navigate = useNavigate();
-
-  const handlePageShift = () => {
-    navigate('/upload');
-  };
 
   return (
     <div>
@@ -24,9 +22,16 @@ function CustomizingPage() {
             프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
-          <PageShiftWrap>
-            <PageShiftBtn onClick={handlePageShift} />
-          </PageShiftWrap>
+          <PageShiftWrap />
+          <CustomWrap>
+            <CustomMenuBar />
+          </CustomWrap>
+          <AddPhotoBtn
+            onClick={() => navigate('/album')}
+            // {앨범에 추가}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          />
         </MainWrap>
       </Container>
     </div>
@@ -65,4 +70,21 @@ const ProgressBar = styled.div`
 const PageShiftWrap = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const CustomWrap = styled.div`
+  display: flex;
+`;
+
+const AddPhotoBtn = styled(motion.div)`
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  width: 79.5px;
+  height: 66px;
+  flex-shrink: 0;
+  background: url(${addphoto}) lightgray 50% / cover no-repeat;
+  background-color: ${(props) => props.theme.backgroundColor};
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 `;
