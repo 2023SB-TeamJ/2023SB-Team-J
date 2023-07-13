@@ -4,6 +4,8 @@ import pymysql
 import os, json
 from django.core.exceptions import ImproperlyConfigured
 
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend_project.settings')
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,6 +13,8 @@ secret_file = os.path.join(BASE_DIR, "secrets.json")
 with open(secret_file) as f:
     secrets = json.loads(f.read())
 
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, '_static')
 def get_secret(setting):
     """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
     try:
@@ -27,7 +31,7 @@ SECRET_KEY = get_secret("django_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '0.0.0.0']
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
 
 # Application definition
 
@@ -44,6 +48,7 @@ INSTALLED_APPS = [
     'storages',
     'common',
     'image',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

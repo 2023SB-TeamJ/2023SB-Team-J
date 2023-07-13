@@ -1,5 +1,9 @@
 import json
 
+import jwt
+from jwt.exceptions import InvalidSignatureError, InvalidTokenError
+from jwt.exceptions import DecodeError
+
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -8,6 +12,7 @@ from rest_framework.views import APIView
 from .serializers import UploadedImageSerializer
 from .s3_utils import upload_image_to_s3
 from .models import Image_origin
+from backend_project.settings import SECRET_KEY
 
 
 class UploadImageView(APIView):
@@ -15,21 +20,34 @@ class UploadImageView(APIView):
 
     def post(self, request):
         try:
+            try:
+                data = request.headers['Authorization']
+                token = str.replace(str(data), 'Bearer ', '')
+                user_id = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            except (InvalidSignatureError, InvalidTokenError) as e:
+                # Handle the JWT decoding error
+                return Response({'error': 'Invalid JWT: {}'.format(str(e))}, status=status.HTTP_400_BAD_REQUEST)
+
+            # post_serializer = U
+            # user_id = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+
             serializer = UploadedImageSerializer(data=request.data)
             if serializer.is_valid():
                 # 이미지 저장
                 img_files = request.FILES.getlist('img_files')
                 img_urls = []
-
                 for img_file in img_files:
                     # S3 버킷에 이미지 업로드
                     bucket_name = 't4y-bucket'  # S3 버킷 이름 입력
                     img_url = upload_image_to_s3(img_file, bucket_name)
                     img_urls.append(img_url)
 
+                # user_id = User.objects.filter(user_id=payload['id'])
+
                 # 이미지 URL과 닉네임을 RDS MySQL에 저장
                 data = {
-                    'user_id': serializer.validated_data['user_id'],
+                    # 'user_id': serializer.validated_data['user_id'],
+                    'user_id': user_id,
                     'url_1': img_urls[0] if len(img_urls) > 0 else '',
                     'url_2': img_urls[1] if len(img_urls) > 1 else '',
                     'url_3': img_urls[2] if len(img_urls) > 2 else '',
@@ -40,28 +58,22 @@ class UploadImageView(APIView):
 
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
+                print(serializer.errors)
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
             return JsonResponse({"error message": str(e)}, status=500)
-
     def get(self, request, format=None):
         try:
             raw_data = request.body.decode('utf-8')
-
             try:
-<<<<<<< HEAD
                 data = json.loads(raw_data)
                 user_id = data.get('user_id')
                 source = data.get('source')
-
                 if user_id is None or source is None:  # request 형식에 맞지 않는 경우
                     return Response(status=status.HTTP_400_BAD_REQUEST)
-
                 image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
-
                 serializer = UploadedImageSerializer(image_origin)
-
                 picture = {
                     'picture1': serializer.data.get('url_1'),
                     'picture2': serializer.data.get('url_2'),
@@ -69,11 +81,6 @@ class UploadImageView(APIView):
                     'picture4': serializer.data.get('url_4'),
                 }
                 return Response(picture, status=status.HTTP_200_OK)
-
-=======
-                image_origin = Image_origin.objects.get(id=pk,
-                                                        user_id=fk)
->>>>>>> 8e3a6e7 (feat : reabase 2, fix error with docker compose yml file)
             except:
                 # 찾지 못한 경우 HTTP_400
                 return Response(status=status.HTTP_400_BAD_REQUEST)
