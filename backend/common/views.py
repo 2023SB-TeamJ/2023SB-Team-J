@@ -4,12 +4,14 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer
+from .serializers import UserSerializer, SwaggerLoginPostSerializer, SwaggerLogoutPostSerializer, SwaggerSignupPostSerializer
+from drf_yasg.utils import swagger_auto_schema
 
 # 회원가입
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(query_serializer=SwaggerSignupPostSerializer, responses={"200": SwaggerSignupPostSerializer})
     def post(self, request):
         serializer = UserSerializer(data=request.data) #직렬화
         if serializer.is_valid(): #유효한 지 확인
@@ -30,6 +32,7 @@ class SignupAPIView(APIView):
 class LoginAPIView(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(query_serializer=SwaggerLoginPostSerializer, responses={"200": SwaggerLoginPostSerializer})
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
@@ -53,6 +56,7 @@ class LoginAPIView(APIView):
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
 
+    @swagger_auto_schema(query_serializer=SwaggerLogoutPostSerializer, responses={"200": SwaggerLogoutPostSerializer})
     def post(self, request):
         try:
             # Blacklist the refresh token to invalidate it

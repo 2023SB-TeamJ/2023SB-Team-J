@@ -6,18 +6,22 @@ from jwt.exceptions import DecodeError
 
 from django.http import JsonResponse
 from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.parsers import FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UploadedImageSerializer
+from .serializers import UploadedImageSerializer, SwaggerFrameGetSerializer, SwaggerFramePost
 from .s3_utils import upload_image_to_s3
 from .models import Image_origin
 from backend_project.settings import SECRET_KEY
+from drf_yasg.utils import swagger_auto_schema
 
 
 class UploadImageView(APIView):
     permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
 
+    @swagger_auto_schema(manual_parameters=SwaggerFramePost)
     def post(self, request):
         try:
             try:
@@ -63,6 +67,8 @@ class UploadImageView(APIView):
 
         except Exception as e:
             return JsonResponse({"error message": str(e)}, status=500)
+
+    @swagger_auto_schema(query_serializer=SwaggerFrameGetSerializer, responses={"200":SwaggerFrameGetSerializer})
     def get(self, request, format=None):
         try:
             raw_data = request.body.decode('utf-8')

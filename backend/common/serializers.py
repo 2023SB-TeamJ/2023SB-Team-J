@@ -23,3 +23,15 @@ class UserSerializer(serializers.ModelSerializer):
         nickname = validated_data.pop('nickname', "이름없음")
         user = User.objects.create_user(nickname=nickname, **validated_data)
         return user
+
+class SwaggerLoginPostSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    password = serializers.CharField()
+
+class SwaggerLogoutPostSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+class SwaggerSignupPostSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    nickname = serializers.CharField()
+    password = serializers.CharField()
