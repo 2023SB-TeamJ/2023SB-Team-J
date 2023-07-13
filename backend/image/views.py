@@ -1,5 +1,6 @@
 import json
 
+import jwt
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -9,41 +10,53 @@ from .serializers import UploadedImageSerializer
 from .s3_utils import upload_image_to_s3
 from .models import Image_origin
 
+from django.conf import settings
+
+from common.models import User
+
 
 class UploadImageView(APIView):
     permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
 
     def post(self, request):
-        try:
-            serializer = UploadedImageSerializer(data=request.data)
-            if serializer.is_valid():
-                # 이미지 저장
-                img_files = request.FILES.getlist('img_files')
-                img_urls = []
+        serializer = UploadedImageSerializer(data=request.data)
+        if serializer.is_valid():
+            # 이미지 저장
+            img_files = request.FILES.getlist('img_files')
+            img_urls = []
+        token = request.headers.get('Authorization', None)
+        token = str.replace(str(token), 'Bearer ', '')
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
 
-                for img_file in img_files:
-                    # S3 버킷에 이미지 업로드
-                    bucket_name = 't4y-bucket'  # S3 버킷 이름 입력
-                    img_url = upload_image_to_s3(img_file, bucket_name)
-                    img_urls.append(img_url)
+        User.objects.values_list("id", "email")
+        user = User.objects.filter(id=payload['user_id']).first()
 
-                # 이미지 URL과 닉네임을 RDS MySQL에 저장
-                data = {
-                    'user_id': serializer.validated_data['user_id'],
-                    'url_1': img_urls[0] if len(img_urls) > 0 else '',
-                    'url_2': img_urls[1] if len(img_urls) > 1 else '',
-                    'url_3': img_urls[2] if len(img_urls) > 2 else '',
-                    'url_4': img_urls[3] if len(img_urls) > 3 else '',
-                }
-                uploaded_image = Image_origin.objects.create(**data)
-                serializer = UploadedImageSerializer(uploaded_image)
+        serializer = UploadedImageSerializer(data=request.data)
+        if serializer.is_valid():
+            # 이미지 저장
+            img_files = request.FILES.getlist('img_files')
+            img_urls = []
 
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        for img_file in img_files:
+            # S3 버킷에 이미지 업로드
+            bucket_name = 't4y-bucket'  # S3 버킷 이름 입력
+            img_url = upload_image_to_s3(img_file, bucket_name)
+            img_urls.append(img_url)
 
-        except Exception as e:
-            return JsonResponse({"error message": str(e)}, status=500)
+
+        # 이미지 URL과 닉네임을 RDS MySQL에 저장
+        data = {
+            'user_id': user,
+            'url_1': img_urls[0] if len(img_urls) > 0 else '',
+            'url_2': img_urls[1] if len(img_urls) > 1 else '',
+            'url_3': img_urls[2] if len(img_urls) > 2 else '',
+            'url_4': img_urls[3] if len(img_urls) > 3 else '',
+        }
+        uploaded_image = Image_origin.objects.create(**data)
+        serializer = UploadedImageSerializer(uploaded_image)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 
 
     def get(self, request, format=None):
