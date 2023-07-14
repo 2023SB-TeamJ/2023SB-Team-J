@@ -92,7 +92,9 @@ export default Carousel;
 // Carousel 컨테이너 스타일
 const CarouselWrap = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
 `;
 
 // Indicator 버튼 컨테이너 스타일
@@ -104,7 +106,9 @@ const CarouselWrap = styled.div`
 // const IndicatorButton = styled.button``;
 
 // 전체 이미지 스타일
-const ImageWrap = styled.div``;
+const ImageWrap = styled.div`
+  margin: 3rem;
+`;
 
 // 각각의 이미지 스타일
 const CarouselImage = styled.div``;
