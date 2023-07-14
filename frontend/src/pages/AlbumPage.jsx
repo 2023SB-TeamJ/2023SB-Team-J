@@ -125,6 +125,7 @@ const MyMasonryGridColumn = styled.div`
   img {
     width: 100%;
     display: block;
+    margin-bottom: 20px;
   }
 `;
 
