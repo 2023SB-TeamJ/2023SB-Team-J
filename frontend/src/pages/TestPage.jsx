@@ -25,6 +25,7 @@ const Container = styled.div`
 
 const MainWrap = styled.div`
   max-width: 1440px;
+  width: 76vw;
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;

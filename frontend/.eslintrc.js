@@ -31,5 +31,6 @@ module.exports = {
     'no-multiple-empty-lines': 'error', // 여러 줄 공백 금지
     'no-console': ['warn', { allow: ['warn', 'error', 'info'] }], // console.log() 금지
     'import/no-unresolved': 'off',
+    'react/prop-types': 'off',
   },
 };
