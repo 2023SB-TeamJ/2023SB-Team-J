@@ -206,7 +206,6 @@ function AlbumDetailModal({ setIsOpen }) {
   );
 }
 
-// <ExitBtn onClick={openModalHandler}>x</ExitBtn>
 export default AlbumDetailModal;
 
 const ModalContainer = styled.div`
@@ -230,6 +229,7 @@ const ModalBackdrop = styled.div`
   right: 0;
   bottom: 0;
 `;
+
 
 const ModalView = styled.div`
   position: relative;
