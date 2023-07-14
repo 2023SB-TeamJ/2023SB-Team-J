@@ -1,10 +1,12 @@
 import { styled } from 'styled-components';
-import StartBtn from '../components/StartBtn';
+import { useNavigate } from 'react-router-dom';
 import SampleImage1 from '../assets/images/1x4sampleImage.png';
 import SampleImage2 from '../assets/images/2x2sampleImage.jpg';
 import HeaderMain from '../components/HeaderMain';
 
 function MainPage() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <Container>
@@ -12,7 +14,7 @@ function MainPage() {
           <HeaderMain />
           <Slogan1>추억을 간직하는</Slogan1>
           <Slogan2>THIS IS 4 YOU</Slogan2>
-          <StartBtn />
+          <StartBtn onClick={() => navigate('/album')}>시작하기</StartBtn>
           <SampleImageWrapper>
             <OneTimesFourSampleImage />
             <TwoTimesTwoSampleImage />
@@ -74,6 +76,48 @@ const Slogan2 = styled.div`
 
   @media screen and (max-width: 980px) {
     display: none;
+  }
+`;
+
+const StartBtn = styled.button`
+  display: flex;
+  position: absolute;
+  z-index: 3;
+  left: 10rem;
+  top: 74%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 13rem;
+  height: 4rem;
+  flex-shrink: 0;
+  border-radius: 50px;
+  background: #fff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border: none;
+
+  color: #000;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #000;
+    color: #fff;
+    transition: all 0.4s;
+  }
+
+  @media screen and (max-width: 980px) {
+    top: 83%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 11rem;
+    height: 3rem;
+    font-size: 1.5rem;
   }
 `;
 

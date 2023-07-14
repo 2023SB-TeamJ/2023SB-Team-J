@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Logo from './Logo';
 import Name from './Name';
 import SignBtn from './SignBtn';
 
 function HeaderAlbum() {
+  const navigate = useNavigate();
+
   return (
     <HeaderWrapper>
       <Container>
-        <LogoWrap>
+        <LogoWrap onClick={() => navigate('/')}>
           <Logo />
           <Name />
         </LogoWrap>
@@ -39,6 +42,10 @@ const Container = styled.div`
 const LogoWrap = styled.div`
   display: flex;
   align-items: center;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const BtnWrap = styled.div`

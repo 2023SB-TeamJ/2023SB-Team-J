@@ -230,7 +230,6 @@ const ModalBackdrop = styled.div`
   bottom: 0;
 `;
 
-
 const ModalView = styled.div`
   position: relative;
   display: flex;
