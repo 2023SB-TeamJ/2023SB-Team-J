@@ -32,7 +32,7 @@ class UploadImageView(APIView):
                     im_jpeg = BytesIO()
                     im.save(im_jpeg, 'JPEG')
                     im_jpeg.seek(0)
-                key = request.data.get("user_id") + str(datetime.now()).replace('.', '') + "." + "jpeg"
+                key = request.data.get("user_id") + str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
                 img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
                 img_urls.append(img_url)
 
@@ -76,9 +76,10 @@ class UploadImageView(APIView):
 
 
 class AiExecute(APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request):
-        image_origin_id = request.data.get["image_origin_id"]
+        image_origin_id = request.data.get("image_origin_id")
         origin_img = Image.open(io.BytesIO(request.FILES.get("image").read()))
 
         origin_img_pickle = pickle.dumps(origin_img)
@@ -88,18 +89,24 @@ class AiExecute(APIView):
         result3 = model3_execute.delay(origin_img_pickle)
 
         while True:
-            if result1.ready() or result2.ready() or result3.ready() == False:
-                time.sleep(1)
-                continue
-            else:
-                data = {
-                    "image_origin_id": image_origin_id,
-                    "result_url_1": result1.result(),
-                    "result_url_2": result2.result(),
-                    "result_url_3": result3.result()
-                }
-                serializer = Ai_modelSerializer(data)
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(serializer.data, status=status.HTTP_201_CREATED)
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+            if result1.ready() and result2.ready() and result3.ready():
+                break
+            time.sleep(1)
+
+        url1 = result1.result
+        url2 = result2.result
+        url3 = result3.result
+        data = {
+            "image_origin_id": image_origin_id,
+            "result_url_1": url1,
+            "result_url_2": url2,
+            "result_url_3": url3
+        }
+
+        serializer = Ai_modelSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

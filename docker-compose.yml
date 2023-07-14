@@ -5,12 +5,7 @@ services:
     image: mysql:8.0
     container_name: t4y-database
     env_file:
-      - ./backend/.env 
-    # environment:
-    #   - MYSQL_ROOT_PASSWORD=rootpassword
-    #   - MYSQL_DATABASE=${mydatabase}
-    #   - MYSQL_USER=myuser
-    #   - MYSQL_PASSWORD=mypassword
+      - ./backend/.env
     ports:
     - 3306:3306
 
@@ -35,7 +30,33 @@ services:
       && python manage.py runserver 0.0.0.0:8000"
     tty: true
 
-  # frontend:
+  rabbitmq:
+    hostname: t4yhost
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    command: rabbitmq-server
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+    ports:
+      - 5672:5672 # Default Port
+      - 15672:15672 # For UI=
+    depends_on:
+      - backend
+
+  celery_worker:
+    container_name: celery_worker
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: "celery multi start 6 -A backend_project.celery worker --loglevel=info --pool=solo"
+    depends_on:
+      - rabbitmq
+      - backend
+
+
+    # frontend:
   #   build:
   #     context: ./frontend
   #     dockerfile: Dockerfile

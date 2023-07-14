@@ -11,12 +11,10 @@ def model1_execute(origin_image):
     with BytesIO() as file:
         result_image.save(file, format='JPEG')
         file.seek(0)
-        key = str(datetime.now())
-        key = key.replace('.', '')
-        key = key+".jpeg"
+        key = str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
         img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
 
-    return {"model2_url": img_url}
+    return img_url
 
 
 @app.task(name="model2_execute")
@@ -26,12 +24,10 @@ def model2_execute(origin_image):
     with BytesIO() as file:
         result_image.save(file, format='JPEG')
         file.seek(0)
-        key = str(datetime.now())
-        key = key.replace('.', '')
-        key = key + ".jpeg"
+        key = str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
         img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
 
-    return {"model2_url": img_url}
+    return img_url
 
 
 @app.task(name="model3_execute")
@@ -41,9 +37,7 @@ def model3_execute(origin_image):
     with BytesIO() as file:
         result_image.save(file, format='JPEG')
         file.seek(0)
-        key = str(datetime.now())
-        key = key.replace('.', '')
-        key = key + ".jpeg"
+        key = str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
         img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
-
-    return {"model2_url": img_url}
+        print(img_url)
+    return img_url
