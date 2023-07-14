@@ -1,7 +1,6 @@
 import boto3
 from backend_project.settings import *
 
-
 def upload_image_to_s3(img_file, key, ExtraArgs):
     s3 = boto3.client(
         "s3",
