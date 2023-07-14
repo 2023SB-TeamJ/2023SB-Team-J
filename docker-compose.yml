@@ -14,9 +14,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: t4y-backend
-    volumes:
-      - ./backend:/backend
-    restart: on-failure
     ports:
       - 8000:8000
     depends_on:
@@ -103,7 +100,7 @@ networks:
       - backend
 
 
-    # frontend:
+  # frontend:
   #   build:
   #     context: ./frontend
   #     dockerfile: Dockerfile
