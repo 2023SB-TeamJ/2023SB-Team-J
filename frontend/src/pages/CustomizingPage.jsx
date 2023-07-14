@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Title from '../components/Title';
 import CustomMenuBar from '../components/Custom/CustomMenuBar';
 import addphoto from '../assets/images/addphoto.png';
+import CustomPhoto from '../components/Custom/CustomPhoto';
 
 function CustomizingPage() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function CustomizingPage() {
           <PageShiftWrap />
           <CustomWrap>
             <CustomMenuBar />
+            <CustomPhoto />
           </CustomWrap>
           <AddPhotoBtn
             onClick={() => navigate('/album')}

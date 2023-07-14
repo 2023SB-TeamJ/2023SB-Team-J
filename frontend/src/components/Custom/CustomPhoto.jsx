@@ -1,90 +1,57 @@
-// import styled from 'styled-components';
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+// import { ResizableBox } from 'react-resizable';
+import { Draggable } from 'react-draggable';
+import styled from 'styled-components';
 
-import ResizableRect from 'react-resizable-rotatable-draggable';
+function CustomPhoto() {
+  const [image, setImage] = useState(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  // const [size, setSize] = useState({ width: 200, height: 200 });
 
-export default function CustomPhoto({ parentFunction, photo }) {
-  const [position, setPosition] = useState({
-    width2: 100,
-    height2: 100,
-    top2: 100,
-    left2: 100,
-    rotate2: 0,
-  });
+  const onDrop = (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
 
-  // eslint-disable-next-line no-unused-vars
-  const handleResize = (style, isShiftKey, type) => {
-    let { top, left, width, height } = style;
-    top = Math.round(top);
-    left = Math.round(left);
-    width = Math.round(width);
-    height = Math.round(height);
-    setPosition((prevState) => ({
-      ...prevState,
-      width2: width,
-      top2: top,
-      height2: height,
-      left2: left,
-    }));
-  };
-  const handleRotate = (rotateAngle2) => {
-    setPosition((prevState) => ({
-      ...prevState,
-      rotate2: rotateAngle2,
-    }));
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+
+    reader.readAsDataURL(file);
   };
 
-  const handleDrag = (deltaX, deltaY) => {
-    setPosition((prevState) => ({
-      ...prevState,
-      top2: position.top2 + deltaY,
-      left2: position.left2 + deltaX,
-    }));
-  };
-  parentFunction(position);
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div
-      style={{
-        width: position.width2,
-        height: position.height2,
-        position: 'absolute',
-        zIndex: 1,
-      }}
-    >
-      <img
-        src={photo?.image_url}
-        style={{
-          width: position.width2,
-          height: position.height2,
-          left: position.left2 + 1,
-          top: position.top2 + 1,
-          rotate: `${position.rotate2}deg`,
-          position: 'absolute',
-        }}
-        alt=""
-      />
-      <ResizableRect
-        left={position.left2}
-        top={position.top2}
-        width={position.width2}
-        height={position.height2}
-        rotateAngle={position.rotate2}
-        minWidth={100} // 최소크기
-        // aspectRatio={false}
-        minHeight={100}
-        zoomable="n, w, s, e, nw, ne, se, sw"
-        // onRotateStart={this.handleRotateStart}
-        onRotate={handleRotate}
-        rotable
-        // onRotateEnd={this.handleRotateEnd}
-        // onResizeStart={this.handleResizeStart}
-        onResize={handleResize}
-        // onResizeEnd={this.handleUp}
-        // onDragStart={this.handleDragStart}
-        onDrag={handleDrag}
-        // onDragEnd={this.handleDragEnd}
-      />
-    </div>
+    <ImageContainer>
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <button>Upload Image</button>
+      </div>
+      {image && (
+        <Draggable
+          position={position}
+          onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
+        >
+          {/* <ResizableBox
+            width={size.width}
+            height={size.height}
+            onResizeStop={(e, data) =>
+              setSize({ width: data.size.width, height: data.size.height })
+            }
+          > */}
+          <img src={image} alt="Uploaded" />
+          {/* </ResizableBox> */}
+        </Draggable>
+      )}
+    </ImageContainer>
   );
 }
+
+const ImageContainer = styled.div`
+  position: relative;
+`;
+
+export default CustomPhoto;
