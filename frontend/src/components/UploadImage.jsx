@@ -2,25 +2,53 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
+import axios from 'axios';
 import sampleUploadImage from '../assets/images/SampleUploadImage.png';
 
 function UploadImage() {
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [fileError, setFileError] = useState(null);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFiles) => {
       acceptedFiles.forEach((file) => {
-        const reader = new FileReader();
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
 
-        reader.onabort = () => console.log('file reading was aborted');
-        reader.onerror = () => console.log('file reading has failed');
-        reader.onload = () => {
-          const binaryStr = reader.result;
-          setUploadedImage(binaryStr);
-        };
-        reader.readAsDataURL(file);
+          reader.onabort = () => console.log('file reading was aborted');
+          reader.onerror = () => console.log('file reading has failed');
+          reader.onload = () => {
+            const binaryStr = reader.result;
+            setUploadedImage(binaryStr);
+            setFileError(null);
+
+            // 서버에 이미지를 POST 하는 코드
+            const formData = new FormData();
+            const userId = 'dummyUser123';
+            formData.append('user_id', userId);
+            formData.append('img_files', file);
+
+            axios
+              .post('http://localhost:8000/api/v1/frame/', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              })
+
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          };
+          reader.readAsDataURL(file);
+        } else {
+          setFileError('Only image files are allowed.');
+        }
       });
     },
+    accept: 'image/*',
   });
 
   return (
@@ -39,6 +67,7 @@ function UploadImage() {
             </UploadGuideText>
           </>
         )}
+        {fileError && <ErrorMessage>{fileError}</ErrorMessage>}
       </UploadImageFrame>
     </ColDiv>
   );
@@ -82,4 +111,9 @@ const UploadedImg = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
+`;
+
+const ErrorMessage = styled.div`
+  color: red;
+  margin-top: 8px;
 `;
