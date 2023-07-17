@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UploadImageView
+from image.views import UploadImageView
 
 urlpatterns = [
     path('api/v1/frame/', UploadImageView.as_view(), name='upload_image'),
