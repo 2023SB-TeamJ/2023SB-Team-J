@@ -29,10 +29,7 @@ class UploadImageView(APIView):
             for img_file in img_files:
                 # S3 버킷에 이미지 업로드
                 with Image.open(img_file) as im:
-                    channels = im.mode
-                    if channels == "RGBA":
-                        # 알파 채널 제거하고 RGB 형식으로 변환
-                        image = image.convert("RGB")
+                    im.convert("RGB")
                     im_jpeg = BytesIO()
                     im.save(im_jpeg, 'JPEG')
                     im_jpeg.seek(0)
@@ -126,3 +123,5 @@ class AiExecute(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 """
+#sudo celery -A backend_project.celery multi start 4 --loglevel=info --pool=threads
+#sudo celery multi stop 4 -A backend_project.celery --all

@@ -6,7 +6,7 @@ from backend_project.celery import *
 from .s3_utils import upload_image_to_s3
 from concurrent.futures import ThreadPoolExecutor
 from image.serializers import Ai_modelSerializer
-
+from django import db
 """@app.task(name="model1_execute")
 def model1_execute(origin_image):
     image = pickle.loads(origin_image)
@@ -67,6 +67,7 @@ def model_execute(origin_image, origin_img_id):
     serializer = Ai_modelSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
+        db.connections.close_all()
         return data
     else:
         return False
