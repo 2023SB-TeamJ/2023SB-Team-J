@@ -50,7 +50,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: "celery -A backend_project.celery multi start 8 --loglevel=info --pool=threads"
+    command: "celery -A backend_project.celery worker  --loglevel=info --pool=threads --concurrency=8"
     depends_on:
       - rabbitmq
       - backend
