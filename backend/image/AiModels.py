@@ -1,5 +1,9 @@
+from datetime import datetime
+from io import BytesIO
+from .s3_utils import upload_image_to_s3
 import torch
 from PIL import Image
+from django import db
 class Models:
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model1 = torch.hub.load("bryandlee/animegan2-pytorch:main", "generator", device=device,
@@ -19,8 +23,13 @@ class Models:
             image = image.convert("RGB")
         image = image.resize((512, 512))
         result = Models.face2paint(Models.model1, image, size=512).resize((width, height))
-        return result.resize((width, height))
-
+        with BytesIO() as file:
+            result.save(file, format='JPEG')
+            file.seek(0)
+            key = str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
+            img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
+        db.connections.close_all()
+        return img_url
     def model2_face2paint(self, image: Image):
         width, height = image.size
         # 채널 수 확인
@@ -31,7 +40,13 @@ class Models:
             image = image.convert("RGB")
         image = image.resize((512, 512))
         result = Models.face2paint(Models.model2, image, size=512).resize((width, height))
-        return result.resize((width, height))
+        with BytesIO() as file:
+            result.save(file, format='JPEG')
+            file.seek(0)
+            key = str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
+            img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
+        db.connections.close_all()
+        return img_url
 
     def model3_face2paint(self, image: Image):
         width, height = image.size
@@ -43,7 +58,13 @@ class Models:
             image = image.convert("RGB")
         image = image.resize((512, 512))
         result = Models.face2paint(Models.model3, image, size=512).resize((width, height))
-        return result.resize((width, height))
+        with BytesIO() as file:
+            result.save(file, format='JPEG')
+            file.seek(0)
+            key = str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
+            img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
+        db.connections.close_all()
+        return img_url
 
 
 model = Models()
