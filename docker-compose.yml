@@ -50,7 +50,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: "celery multi start 6 -A backend_project.celery worker --loglevel=info --pool=solo"
+    command: "celery -A backend_project.celery worker --loglevel=info --pool=solo
+"
     depends_on:
       - rabbitmq
       - backend
