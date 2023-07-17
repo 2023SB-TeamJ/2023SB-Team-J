@@ -26,9 +26,3 @@ class Ai_model(models.Model):
     deleted_at = models.DateTimeField(null=True)  # 삭제일 필드 추가
 
 
-class Image_collage(models.Model):
-    user_id = models.ForeignKey('common.User', on_delete=models.RESTRICT)
-    result_url = models.URLField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)  # 생성일 필드 추가
-    updated_at = models.DateTimeField(auto_now=True, null=True)  # 수정일 필드 추가
-    deleted_at = models.DateTimeField(null=True)  # 삭제일 필드 추가

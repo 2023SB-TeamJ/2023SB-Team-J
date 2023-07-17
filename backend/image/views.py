@@ -30,7 +30,7 @@ class UploadImageView(APIView):
             for img_file in img_files:
                 # S3 버킷에 이미지 업로드
                 with Image.open(img_file) as im:
-                    im = im.convert('RGB')
+                    im.convert("RGB")
                     im_jpeg = BytesIO()
                     im.save(im_jpeg, 'JPEG')
                     im_jpeg.seek(0)
@@ -91,15 +91,15 @@ class AiExecute(APIView):
         result2 = model2_execute.delay(origin_img_pickle)
         result3 = model3_execute.delay(origin_img_pickle)"""
 
-        result = model_execute(origin_img_pickle, image_origin_id)
+        result = model_execute.apply_async(args=(origin_img_pickle, image_origin_id_picle))
 
         while True:
             if result.ready():
                 break
             time.sleep(1)
-        result = result.result
-        if not result:
-            return Response(result, status=status.HTTP_201_CREATED)
+        result1 = result.result
+        if result:
+            return Response(result1, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
     """    while True:
@@ -124,3 +124,5 @@ class AiExecute(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 """
+#sudo celery -A backend_project.celery multi start 4 --loglevel=info --pool=threads
+#sudo celery multi stop 4 -A backend_project.celery --all
