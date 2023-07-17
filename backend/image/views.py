@@ -24,11 +24,13 @@ class UploadImageView(APIView):
         if serializer.is_valid():
             # 이미지 저장
             img_files = request.FILES.getlist('img_files')
+            
             img_urls = []
 
             for img_file in img_files:
                 # S3 버킷에 이미지 업로드
                 with Image.open(img_file) as im:
+                    im = im.convert('RGB')
                     im_jpeg = BytesIO()
                     im.save(im_jpeg, 'JPEG')
                     im_jpeg.seek(0)
