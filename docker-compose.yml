@@ -7,7 +7,7 @@ services:
     env_file:
       - ./backend/.env
     ports:
-    - 3306:3306
+      - 3306:3306
 
   backend:
     build:
@@ -34,7 +34,7 @@ services:
       && python manage.py migrate album
       && python manage.py runserver 0.0.0.0:8000"
     tty: true
-    
+
   rabbitmq:
     hostname: t4yhost
     container_name: rabbitmq
@@ -75,6 +75,7 @@ services:
       dockerfile: Dockerfile
     container_name: t4y-frontend
     ports:
-      - "3000:3000" # 포트 매핑 설정
-#    volumes:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend
 

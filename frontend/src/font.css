@@ -1,0 +1,9 @@
+@font-face {
+  font-family: main;
+  src: url('./assets/font/BMDOHYEON_ttf.ttf'); /* 파일 경로와 형식을 수정하세요. */
+}
+/* 다른 글꼴 스타일들을 추가할 수 있습니다. */
+/* @font-face {
+  font-family: Cafe24Ssurround;
+  src: URL('./assets/font/Cafe24Ssurround.ttf');
+} */
