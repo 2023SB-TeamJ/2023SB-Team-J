@@ -43,7 +43,7 @@ class AlbumDetailView(APIView): #album/detail
             return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = AlbumDetailSerializer(image_collage)
 
-        #form data로 어떻게 보내나용..?
+        # formdata 형식으로 보내기
         response = {
             "result_image": serializer.data.get('result_url'),
             "create_date": serializer.data.get('created_at')
