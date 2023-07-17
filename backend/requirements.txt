@@ -3,13 +3,14 @@ Django==4.2.2
 PyMySQL==1.1.0
 django-storages==1.13.2
 config==0.5.1
-
+storage
 boto3==1.28.1
 #회원가입
 PyJWT==2.7.0
 djangorestframework-simplejwt==5.2.2
 celery
 django-celery-results
+django-cors-headers
 # ai
 pandas==1.4.2
 numpy==1.24.4

@@ -24,6 +24,7 @@ class UploadImageView(APIView):
         if serializer.is_valid():
             # 이미지 저장
             img_files = request.FILES.getlist('img_files')
+            
             img_urls = []
 
             for img_file in img_files:
