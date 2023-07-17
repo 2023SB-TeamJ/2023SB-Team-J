@@ -5,7 +5,12 @@ services:
     image: mysql:8.0
     container_name: t4y-database
     env_file:
-      - ./backend/.env
+      - ./backend/.env 
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=rootpassword
+#      - MYSQL_DATABASE=${mydatabase}
+#      - MYSQL_USER=myuser
+#      - MYSQL_PASSWORD=mypassword
     ports:
     - 3306:3306
 
@@ -30,22 +35,27 @@ services:
       && python manage.py migrate common
       && python manage.py makemigrations image
       && python manage.py migrate image
+      && python manage.py makemigrations album
+      && python manage.py migrate album
       && python manage.py runserver 0.0.0.0:8000"
     tty: true
-#    env_file:
-#      - ./backend/.env
-    # environment:
-    #   - MYSQL_ROOT_PASSWORD=rootpassword
-    #   - MYSQL_DATABASE=${mydatabase}
-    #   - MYSQL_USER=myuser
-    #   - MYSQL_PASSWORD=mypassword
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: t4y-frontend
-  #   ports:
-  #     - "3000:3000" # 포트 매핑 설정
-  #   volumes:
-  #     - ./frontend:/frontend
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend
+      - frontend
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: t4y-frontend
+    ports:
+      - "3000:3000" # 포트 매핑 설정
+    volumes:
+      - ./frontend:/frontend
