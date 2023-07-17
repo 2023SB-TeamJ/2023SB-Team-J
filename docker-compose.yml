@@ -19,6 +19,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: t4y-backend
+    volumes:
+      - ./backend:/backend
+    restart: on-failure
     ports:
       - 8000:8000
     depends_on:
@@ -32,6 +35,8 @@ services:
       && python manage.py migrate common
       && python manage.py makemigrations image
       && python manage.py migrate image
+      && python manage.py makemigrations album
+      && python manage.py migrate album
       && python manage.py runserver 0.0.0.0:8000"
     tty: true
 

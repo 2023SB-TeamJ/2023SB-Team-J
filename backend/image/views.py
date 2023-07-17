@@ -1,8 +1,11 @@
 import pickle
 import time
+import json
+from datetime import datetime
 
+from django.http import JsonResponse
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
@@ -11,58 +14,64 @@ from PIL import Image
 import io
 from .AiTask import *
 from io import BytesIO
-from django.utils import timezone
 from .s3_utils import upload_image_to_s3
-from datetime import datetime
+from .models import Image_origin
 
 class UploadImageView(APIView):
-    # permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
 
     def post(self, request):
-        serializer = UploadedImageSerializer(data=request.data)
-        if serializer.is_valid():
-            # 이미지 저장
-            img_files = request.FILES.getlist('img_files')
-            img_urls = []
+        try:
+            serializer = UploadedImageSerializer(data=request.data)
+            if serializer.is_valid():
+                # 이미지 저장
+                img_files = request.FILES.getlist('img_files')
+                img_urls = []
 
-            for img_file in img_files:
-                # S3 버킷에 이미지 업로드
-                with Image.open(img_file) as im:
-                    im_jpeg = BytesIO()
-                    im.save(im_jpeg, 'JPEG')
-                    im_jpeg.seek(0)
-                key = request.data.get("user_id") + str(datetime.now()).replace('.', '') + "." + "jpeg"
-                img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
-                img_urls.append(img_url)
+                for img_file in img_files:
+                    # S3 버킷에 이미지 업로드
+                    with Image.open(img_file) as im:
+                        im_jpeg = BytesIO()
+                        im.save(im_jpeg, 'JPEG')
+                        im_jpeg.seek(0)
+                    key = request.data.get("user_id") + str(datetime.now()).replace('.', '') + "." + "jpeg"
+                    img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
+                    img_urls.append(img_url)
 
             # 이미지 URL MySQL에 저장
-            data = {
-                'user_id': serializer.validated_data['user_id'],
-                'url_1': img_urls[0] if len(img_urls) > 0 else '',
-                'url_2': img_urls[1] if len(img_urls) > 1 else '',
-                'url_3': img_urls[2] if len(img_urls) > 2 else '',
-                'url_4': img_urls[3] if len(img_urls) > 3 else '',
-            }
-            uploaded_image = Image_origin.objects.create(**data)
-            serializer = UploadedImageSerializer(uploaded_image)
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                data = {
+                    'user_id': serializer.validated_data['user_id'],
+                    'url_1': img_urls[0] if len(img_urls) > 0 else '',
+                    'url_2': img_urls[1] if len(img_urls) > 1 else '',
+                    'url_3': img_urls[2] if len(img_urls) > 2 else '',
+                    'url_4': img_urls[3] if len(img_urls) > 3 else '',
+                }
+                uploaded_image = Image_origin.objects.create(**data)
+                serializer = UploadedImageSerializer(uploaded_image)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return JsonResponse({"error message": str(e)}, status=500)
 
     def get(self, request, format=None):
-        if request.data.get('result_image_id') is not None and request.data.get('user_id') is not None:
-            pk = request.data.get('result_image_id')
-            fk = request.data.get('user_id')
+        try:
+            raw_data = request.body.decode('utf-8')
 
             try:
-                image_origin = Image_origin.objects.get(id=pk,
-                                                        user_id=fk,
-                                                        deleted_at__isnull=True)
+                data = json.loads(raw_data)
+                user_id = data.get('user_id')
+                source = data.get('source')
+
+                if user_id is None or source is None:  # request 형식에 맞지 않는 경우
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+                image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
+
             except:
                 # 찾지 못한 경우 HTTP_400
                 return Response(status=status.HTTP_400_BAD_REQUEST)
+
             serializer = UploadedImageSerializer(image_origin)
 
             picture = {
@@ -72,8 +81,8 @@ class UploadImageView(APIView):
                 'url_4': serializer.data.get('url_4'),
             }
             return Response(picture, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
+        except Exception as e:
+            return JsonResponse({"error message": str(e)}, status=500)
 
 class AiExecute(APIView):
     permission_classes = [AllowAny]
@@ -99,11 +108,13 @@ class AiExecute(APIView):
                     "result_url_3": result3.result()
                 }
                 serializer = Ai_modelSerializer(data)
+
                 if serializer.is_valid():
                     serializer.save()
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
+#
 class ResultImageView(APIView):
     permission_classes = [AllowAny]
     def post(self, request):
@@ -125,6 +136,5 @@ class ResultImageView(APIView):
             serializer = ResultImageSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
