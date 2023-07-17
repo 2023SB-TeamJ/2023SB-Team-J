@@ -58,18 +58,16 @@ class UploadImageView(APIView):
             return JsonResponse({"error message": str(e)}, status=500)
 
     def get(self, request, format=None):
-        try:
-            raw_data = request.body.decode('utf-8')
-
+        raw_data = request.body.decode('utf-8')
             try:
                 data = json.loads(raw_data)
                 user_id = data.get('user_id')
                 source = data.get('source')
 
-                if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-                    return Response(status=status.HTTP_400_BAD_REQUEST)
+        if user_id is None or source is None:  # request 형식에 맞지 않는 경우
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-                image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
+        image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
             except:
                 # 찾지 못한 경우 HTTP_400
