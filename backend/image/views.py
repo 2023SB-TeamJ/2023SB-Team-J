@@ -59,31 +59,31 @@ class UploadImageView(APIView):
 
     def get(self, request, format=None):
         raw_data = request.body.decode('utf-8')
-            try:
-                data = json.loads(raw_data)
-                user_id = data.get('user_id')
-                source = data.get('source')
+        try:
+            data = json.loads(raw_data)
+            user_id = data.get('user_id')
+            source = data.get('source')
 
-        if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
-
-            except:
-                # 찾지 못한 경우 HTTP_400
+            if user_id is None or source is None:  # request 형식에 맞지 않는 경우
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            serializer = UploadedImageSerializer(image_origin)
+            image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
-            picture = {
-                'url_1': serializer.data.get('url_1'),
-                'url_2': serializer.data.get('url_2'),
-                'url_3': serializer.data.get('url_3'),
-                'url_4': serializer.data.get('url_4'),
-            }
-            return Response(picture, status=status.HTTP_200_OK)
-        except Exception as e:
-            return JsonResponse({"error message": str(e)}, status=500)
+        except:
+            # 찾지 못한 경우 HTTP_400
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+        serializer = UploadedImageSerializer(image_origin)
+
+        picture = {
+            'url_1': serializer.data.get('url_1'),
+            'url_2': serializer.data.get('url_2'),
+            'url_3': serializer.data.get('url_3'),
+            'url_4': serializer.data.get('url_4'),
+        }
+        return Response(picture, status=status.HTTP_200_OK)
+
 
 
 class AiExecute(APIView):
