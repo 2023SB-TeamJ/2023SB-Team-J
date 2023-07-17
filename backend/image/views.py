@@ -46,36 +46,24 @@ class UploadImageView(APIView):
             return JsonResponse({"error message": str(e)}, status=500)
 
     def get(self, request, format=None):
-        try:
-            raw_data = request.body.decode('utf-8')
+        raw_data = request.body.decode('utf-8')
 
-            try:
-<<<<<<< HEAD
-                data = json.loads(raw_data)
-                user_id = data.get('user_id')
-                source = data.get('source')
+        data = json.loads(raw_data)
+        user_id = data.get('user_id')
+        source = data.get('source')
 
-                if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-                    return Response(status=status.HTTP_400_BAD_REQUEST)
+        if user_id is None or source is None:  # request 형식에 맞지 않는 경우
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-                image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
+        image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
-                serializer = UploadedImageSerializer(image_origin)
+        serializer = UploadedImageSerializer(image_origin)
 
-                picture = {
-                    'picture1': serializer.data.get('url_1'),
-                    'picture2': serializer.data.get('url_2'),
-                    'picture3': serializer.data.get('url_3'),
-                    'picture4': serializer.data.get('url_4'),
-                }
-                return Response(picture, status=status.HTTP_200_OK)
+        picture = {
+            'picture1': serializer.data.get('url_1'),
+            'picture2': serializer.data.get('url_2'),
+            'picture3': serializer.data.get('url_3'),
+            'picture4': serializer.data.get('url_4'),
+        }
+        return Response(picture, status=status.HTTP_200_OK)
 
-=======
-                image_origin = Image_origin.objects.get(id=pk,
-                                                        user_id=fk)
->>>>>>> 8e3a6e7 (feat : reabase 2, fix error with docker compose yml file)
-            except:
-                # 찾지 못한 경우 HTTP_400
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return JsonResponse({"error message": str(e)}, status=500)
