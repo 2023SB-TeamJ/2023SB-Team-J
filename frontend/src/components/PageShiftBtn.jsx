@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-function PageShiftBtn({ path, onClick }) {
+function PageShiftBtn({ path, onButtonClick }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onClick) {
-      onClick();
+    if (onButtonClick) {
+      onButtonClick();
     } else {
       navigate(path);
     }

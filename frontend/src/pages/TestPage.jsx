@@ -70,7 +70,7 @@ function TestPage() {
           <UploadImage onImageUpload={onImageUpload} />
           <UploadImage onImageUpload={onImageUpload} />
           <UploadImage onImageUpload={onImageUpload} />
-          <PageShiftBtn onClick={uploadAllImages} />
+          <PageShiftBtn onButtonClick={uploadAllImages} />
         </MainWrap>
       </Container>
     </div>
