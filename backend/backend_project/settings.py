@@ -2,11 +2,10 @@ from pathlib import Path
 import pymysql
 import os, json
 from django.core.exceptions import ImproperlyConfigured
+import django
+from django.utils.encoding import smart_str
+django.utils.encoding.smart_text = smart_str
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
-
-# os.environ['DJANGO_SETTINGS_MODULE'] = 'backend_project.settings'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 secret_file = os.path.join(BASE_DIR, "secrets.json")
@@ -32,14 +31,20 @@ SECRET_KEY = get_secret("django_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0", "localhost"]
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+
     'rest_framework',
-    'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,8 +55,17 @@ INSTALLED_APPS = [
     'common',
     'image',
     'django_celery_results',
+    'album',
     'corsheaders',
 ]
+SITE_ID = 1
+
+
+ACCOUNT_EMAIL_REQUIRED = False
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+ACCOUNT_LOGOUT_ON_GET = False
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -79,6 +93,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+
             ],
         },
     },
@@ -86,12 +102,24 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ],
+        'rest_framework.permissions.AllowAny'
+
+],
 }
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
