@@ -1,8 +1,6 @@
 import pickle
 import time
 import json
-from datetime import datetime
-
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -16,9 +14,16 @@ from .AiTask import *
 from io import BytesIO
 from .s3_utils import upload_image_to_s3
 from .models import Image_origin
+from album.models import Image_collage
+from album.serializers import CollageImageSerializer
+from rest_framework.permissions import AllowAny
+from datetime import datetime
+
 
 class UploadImageView(APIView):
-    permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
+    permission_classes = [AllowAny]
+
+    # permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
 
     def post(self, request):
         try:
@@ -38,7 +43,7 @@ class UploadImageView(APIView):
                     img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
                     img_urls.append(img_url)
 
-            # 이미지 URL MySQL에 저장
+                # 이미지 URL MySQL에 저장
                 data = {
                     'user_id': serializer.validated_data['user_id'],
                     'url_1': img_urls[0] if len(img_urls) > 0 else '',
@@ -84,8 +89,10 @@ class UploadImageView(APIView):
         except Exception as e:
             return JsonResponse({"error message": str(e)}, status=500)
 
+
 class AiExecute(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request):
         image_origin_id = request.data.get("image_origin_id")
         origin_img = Image.open(io.BytesIO(request.FILES.get("image").read()))
@@ -114,26 +121,30 @@ class AiExecute(APIView):
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 #
 class ResultImageView(APIView):
     permission_classes = [AllowAny]
+
     def post(self, request):
-        serializer = ResultImageSerializer(data=request.data)
+        serializer = CollageImageSerializer(data=request.data)
         if serializer.is_valid():
+            user_id = request.data.get('user_id')
             img_file = request.FILES.get('img_file')
             im = Image.open(img_file)
+            im.convert("RGB")
             im_jpeg = BytesIO()
             im.save(im_jpeg, 'JPEG')
             im_jpeg.seek(0)
-            key = request.data.get("user_id") + str(datetime.now()).replace('.','') + "." + "jpeg"
+            key = request.data.get("user_id") + str(datetime.now()).replace('.', '').replace(' ', '') + "." + "jpeg"
             img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
 
             data = {
-                'user_id': request.data.get("user_id"),
-                'result_url': img_url,
+                'user_id': user_id,
+                "img_origin_id" : request.data.get('img_origin_id'),
+                'result_url': img_url
             }
-
-            serializer = ResultImageSerializer(data=data)
+            serializer = CollageImageSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)

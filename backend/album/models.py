@@ -17,9 +17,9 @@ class Image_chosen(models.Model):
 
 class Image_collage(models.Model):
     user_id = models.ForeignKey('common.User', on_delete=models.RESTRICT)
-    img_chosen_id = models.ForeignKey('Image_chosen', on_delete=models.RESTRICT)
+    #img_chosen_id = models.ForeignKey('Image_chosen', on_delete=models.RESTRICT)
     img_origin_id = models.ForeignKey('image.Image_origin', on_delete=models.RESTRICT)
     result_url = models.URLField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)  # 생성일 필드 추가
-    updated_at = models.DateTimeField(null=True)  # 수정일 필드 추가
+    updated_at = models.DateTimeField(auto_now=True,null=True)  # 수정일 필드 추가
     deleted_at = models.DateTimeField(null=True)  # 삭제일 필드 추가
