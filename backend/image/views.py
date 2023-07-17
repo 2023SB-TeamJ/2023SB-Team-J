@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import timezone
 
 from django.http import JsonResponse
 from rest_framework import status
@@ -56,13 +56,13 @@ class UploadImageView(APIView):
                 source = data.get('source')
 
                 if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-                    return Response(status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"error message": "request 형식이 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
                 image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
             except:
                 # 찾지 못한 경우 HTTP_400
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error message": "해당되는 데이터가 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
             serializer = UploadedImageSerializer(image_origin)
 
@@ -90,7 +90,7 @@ class UploadImageView(APIView):
 
                 image_origin = Image_origin.objects.get(id=result_image_id, user_id=user_id, deleted_at__isnull=True)
 
-                image_origin.deleted_at = datetime.now() # time 에 관해서 물어보기!!
+                image_origin.deleted_at = timezone.localtime(timezone.now())
                 image_origin.save()
 
                 return Response(status=status.HTTP_200_OK)
@@ -99,4 +99,3 @@ class UploadImageView(APIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return JsonResponse({"error message": str(e)}, status=500)
-
