@@ -29,6 +29,10 @@ class UploadImageView(APIView):
             for img_file in img_files:
                 # S3 버킷에 이미지 업로드
                 with Image.open(img_file) as im:
+                    channels = im.mode
+                    if channels == "RGBA":
+                        # 알파 채널 제거하고 RGB 형식으로 변환
+                        image = image.convert("RGB")
                     im_jpeg = BytesIO()
                     im.save(im_jpeg, 'JPEG')
                     im_jpeg.seek(0)
@@ -89,15 +93,15 @@ class AiExecute(APIView):
         result2 = model2_execute.delay(origin_img_pickle)
         result3 = model3_execute.delay(origin_img_pickle)"""
 
-        result = model_execute(origin_img_pickle, image_origin_id)
+        result = model_execute.apply_async(args=(origin_img_pickle, image_origin_id_picle))
 
         while True:
             if result.ready():
                 break
             time.sleep(1)
-        result = result.result
-        if not result:
-            return Response(result, status=status.HTTP_201_CREATED)
+        result1 = result.result
+        if result:
+            return Response(result1, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
     """    while True:
