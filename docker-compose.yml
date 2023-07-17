@@ -76,5 +76,5 @@ services:
     container_name: t4y-frontend
     ports:
       - "3000:3000" # 포트 매핑 설정
-    volumes:
+#    volumes:
 
