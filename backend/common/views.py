@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
 
-# 회원가입 이여유
+# 회원가입
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
 
