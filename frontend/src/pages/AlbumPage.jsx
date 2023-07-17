@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Masonry from 'react-masonry-css';
+import axios from 'axios';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 // import UploadBtn from '../components/UploadBtn';
@@ -10,6 +12,7 @@ import PlusBtn from '../assets/images/plusBtn.png';
 
 function AlbumPage() {
   const navigate = useNavigate();
+
   const images = [
     'https://s3-alpha-sig.figma.com/img/bc16/dca6/87bcc750a17c8606010729684a71e24a?Expires=1690156800&Signature=Zg9jI3wu6OMplp1Gv6pxWzBA36c4U8lXHOtJw~hMjDgkkNiGu11UFDekP-zsQ70zY5eGbLzt00pRkS1IRu2rU-rKlhDz63oK6aIGMSThShqAI8zaKm3c6TzNOb2EtseD8AQBIVqkXbslw6xRrBkuBoV0GHbqavmUrBQhGnZRcoEtl~T9Y7lFbQfqedx78G7PY82qZ8ZSV3nIJrI4ZC4fPs~Ha0iPwPxvbn0XQ0W3qL7gcDidY4rGIYy85abedhI6JkF5vHjeYblNXZgHdzDRUmiVdW-8ORkVkg~zvGorzdTdbsjbyQph02VMLHbnNi4LLpWxvR10OB84TaJ-Nngawg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
     'https://s3-alpha-sig.figma.com/img/33b6/231f/4ef9af44b444ede0015278dbafbea50a?Expires=1690156800&Signature=LgDA0fZ99FMtk3ZHwtTT~rmd-BBTGyMF1rLwQ1dl0r2pegJgIcPCbld1be420GLNQ1vn80sOAjlkHvIMX3gbgqsLKoeIvlLGsKxz4mRpJjo~8HUqmMVlrZTWA59cxnQIH4o7uNGugvfUQlM6aBmYXD1yCiva5uaj~ftc~SitoVOw6m4O41NIvvt2PSjhQZ0WXlAHZRgx5i7MDZ165RC~DpeDx0dDRAoNqpniwytoC~X7U2Krpg~T089gjIzCG7uSITwAFkW598c4ln4RXwZcWUH2ArJhdyhJKE7QbNtXzVulDLCd60beYdhP071g54i85-uVOizFlbMTTQ-H2vah8g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4',
@@ -34,6 +37,32 @@ function AlbumPage() {
     900: 2, // 창 너비 900px 이하일 때 2열
     600: 1, // 창 너비 600px 이하일 때 1열
   };
+
+  // 앨벨 조회 요청 함수
+  async function InquireAlbum(userId) {
+    try {
+      const response = await axios.get(`YOUR_API_ENDPOINT/albums/${userId}`); // 앨범 조회 API 엔드포인트
+
+      // 서버 응답 처리
+      const albumData = response.data; // 응답 데이터
+      console.log('앨범 데이터: ', albumData);
+
+      // 사진 URL 추출
+      const photoUrl = albumData; // 사진 URL 프로퍼티 이름에 따라 변경해야 함
+      console.log('사진 URL: ', photoUrl);
+
+      // 여기서 사진 URL을 사용하여 원하는 동작을 수행하세요.
+      // 예를 들면, 이미지 엘리먼트에 사진을 표시하거나 다운로드할 수 있습니다.
+    } catch (error) {
+      console.error('앨범 조회 오류:', error);
+      // 오류 처리
+      console.log('에러 발생');
+    }
+  }
+
+  // 앨벨 조회 요청 보내기
+  const userId = '사용자 아이디'; // 실제 사용자 아이디로 대체
+  InquireAlbum(userId);
 
   return (
     <div>
