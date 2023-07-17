@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-props-no-spreading */
 import 'react-resizable/css/styles.css';
@@ -6,11 +7,13 @@ import { useDropzone } from 'react-dropzone';
 import { ResizableBox } from 'react-resizable';
 import Draggable from 'react-draggable';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import imageButton from '../../assets/images/photo.png';
 
 function CustomPhoto() {
   const [image, setImage] = useState(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [size, setSize] = useState({ width: 200, height: 200 });
+  const [size, setSize] = useState({ width: 300, height: 200 });
 
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -25,11 +28,24 @@ function CustomPhoto() {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
+  const handleResize = (e, { size }) => {
+    setSize(size);
+  };
+
+  const handleDelete = () => {
+    setImage(null);
+  };
+
   return (
     <ImageContainer>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <button>Upload Image</button>
+        <ImageButtonContainer
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ borderRadius: '50%' }}
+        >
+          <img src={imageButton} alt="Upload" />
+        </ImageButtonContainer>
       </div>
       {image && (
         <Draggable
@@ -40,11 +56,10 @@ function CustomPhoto() {
           <ResizableBox
             width={size.width}
             height={size.height}
-            onResizeStop={(e, data) =>
-              setSize({ width: data.size.width, height: data.size.height })
-            }
+            onResize={handleResize}
           >
             <div style={{ width: '100%', height: '100%' }}>
+              <DeleteButton onClick={handleDelete}>X</DeleteButton>
               <img
                 src={image}
                 style={{ width: '100%', height: '100%' }}
@@ -60,6 +75,25 @@ function CustomPhoto() {
 
 const ImageContainer = styled.div`
   position: relative;
+`;
+
+const ImageButtonContainer = styled(motion.div)`
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+`;
+
+const DeleteButton = styled.button`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 5px;
+  border: none;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 `;
 
 export default CustomPhoto;

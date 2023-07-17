@@ -2,19 +2,22 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import textbox from '../../assets/images/textbox.png';
+
 import photo from '../../assets/images/photo.png';
 import sticker from '../../assets/images/sticker.png';
 import CustomTextBox from './CustomTextBox';
-// import CustomPhoto from './CustomPhoto';
-// import stickerSmile from '../assets/images/sticker_smile.png';
+import CustomSticker from './CustomSticker';
+import smile from '../../assets/images/sticker_smile.png';
+import sunglass from '../../assets/images/sticker_sunglass.png';
+import heart from '../../assets/images/sticker_heart.png';
 
 function CustomMenuBar() {
+  const imageList = [smile, sunglass, heart];
   const [isMenuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu1 = () => {
-    setMenuOpen(false);
-  };
+  // const toggleMenu1 = () => {
+  //   setMenuOpen(false);
+  // };
 
   const toggleMenu2 = () => {
     setMenuOpen(false);
@@ -27,11 +30,7 @@ function CustomMenuBar() {
     <div>
       <MenuWrap>
         <ButtonWrap>
-          <TextboxBtn
-            onClick={toggleMenu1}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ borderRadius: '50%' }}
-          />
+          <CustomTextBox />
 
           <PhotoBtn
             onClick={toggleMenu2}
@@ -47,10 +46,6 @@ function CustomMenuBar() {
         </ButtonWrap>
 
         <ContentWrap>
-          <ContentTextBox>
-            <CustomTextBox />
-          </ContentTextBox>
-          <ContentPhoto>{/* <CustomPhoto /> */}</ContentPhoto>
           <AnimatePresence>
             {' '}
             {/* Framer Motion의 AnimatePresence를 추가 */}
@@ -61,8 +56,9 @@ function CustomMenuBar() {
                 exit={{ width: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                {/* 상세 메뉴 내용 */}
-                <StickerList />
+                <PageContainer>
+                  <ImageGallery imageList={imageList} />
+                </PageContainer>
               </ContentSticker>
             )}
           </AnimatePresence>
@@ -72,26 +68,22 @@ function CustomMenuBar() {
   );
 }
 
-function StickerList() {
-  return <div>이미지 이밎이미 지이비지잊밎이ㅣ</div>;
-}
-
-const TextboxBtn = styled(motion.div)`
-  background-color: #c8cfd4;
-  margin: 8px;
-  padding: 10px;
-  border: 10x;
-  cursor: pointer;
-  margin-bottom: 10px;
-  display: block;
-  width: 63px;
-  height: 63px;
-  flex-shrink: 0;
-  background:
-    url(${textbox}),
-    lightgray 50% / cover no-repeat;
-  background-size: cover;
-`;
+// const TextboxBtn = styled(motion.div)`
+//   background-color: #c8cfd4;
+//   margin: 8px;
+//   padding: 10px;
+//   border: 10x;
+//   cursor: pointer;
+//   margin-bottom: 10px;
+//   display: block;
+//   width: 63px;
+//   height: 63px;
+//   flex-shrink: 0;
+//   background:
+//     url(${textbox}),
+//     lightgray 50% / cover no-repeat;
+//   background-size: cover;
+// `;
 const PhotoBtn = styled(motion.div)`
   background-color: #c8cfd4;
   margin: 8px;
@@ -107,6 +99,7 @@ const PhotoBtn = styled(motion.div)`
     url(${photo}),
     lightgray 50% / cover no-repeat;
   background-size: cover;
+  background-color: ${(props) => props.theme.backgroundColor};
 `;
 const StickerBtn = styled(motion.div)`
   background-color: #c8cfd4;
@@ -123,25 +116,26 @@ const StickerBtn = styled(motion.div)`
     url(${sticker}),
     lightgray 50% / cover no-repeat;
   background-size: cover;
+  background-color: ${(props) => props.theme.backgroundColor};
 `;
 
-const ContentTextBox = styled(motion.div)`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
-  width: 30rem;
-  height: 100%;
-  padding: 10px;
-  background-color: #f5f5f5;
-  transition: 0.1 ease-in-out;
-`;
+// const ContentTextBox = styled(motion.div)`
+//   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+//   width: 30rem;
+//   height: 100%;
+//   padding: 10px;
+//   background-color: #f5f5f5;
+//   transition: 0.1 ease-in-out;
+// `;
 
-const ContentPhoto = styled(motion.div)`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
-  width: 30rem;
-  height: 100%;
-  padding: 10px;
-  background-color: #f5f5f5;
-  transition: 0.1 ease-in-out;
-`;
+// const ContentPhoto = styled(motion.div)`
+//   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+//   width: 30rem;
+//   height: 100%;
+//   padding: 10px;
+//   background-color: #f5f5f5;
+//   transition: 0.1 ease-in-out;
+// `;
 
 const ContentSticker = styled(motion.div)`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
@@ -169,4 +163,18 @@ const MenuWrap = styled.div`
   display: flex;
 `;
 
+const PageContainer = styled.div``;
+
 export default CustomMenuBar;
+
+function ImageGallery({ imageList }) {
+  return (
+    <GalleryContainer>
+      <CustomSticker imageList={imageList} />
+    </GalleryContainer>
+  );
+}
+
+const GalleryContainer = styled.div`
+  width: 10px;
+`;

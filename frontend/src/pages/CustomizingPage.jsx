@@ -1,15 +1,33 @@
+/* eslint-disable react/button-has-type */
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import html2canvas from 'html2canvas';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import CustomMenuBar from '../components/Custom/CustomMenuBar';
 import addphoto from '../assets/images/addphoto.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
+import CustomTextBox from '../components/Custom/CustomTextBox';
 
 function CustomizingPage() {
   const navigate = useNavigate();
+
+  const captureArea = () => {
+    const captureDiv = document.getElementById('captureArea');
+
+    html2canvas(captureDiv).then((canvas) => {
+      // 캡처된 canvas 객체를 사용할 수 있습니다.
+      // 예를 들어, 이미지로 저장하거나 다른 작업을 수행할 수 있습니다.
+      // 아래는 이미지로 저장하는 예제입니다.
+      const imgData = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = imgData;
+      link.download = 'capture.png';
+      link.click();
+    });
+  };
 
   return (
     <div>
@@ -23,17 +41,26 @@ function CustomizingPage() {
             프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
-          <PageShiftWrap />
           <CustomWrap>
-            <CustomMenuBar />
-            <CustomPhoto />
+            <MenuWrap>
+              <CustomMenuBar />
+              <TestWrap>
+                <TextBoxWrap>
+                  <CustomTextBox />
+                </TextBoxWrap>
+                <CustomPhoto />
+              </TestWrap>
+            </MenuWrap>
+            <CaptureWrap>
+              <div id="captureArea"> 이미지 들어 가는 곳</div>
+            </CaptureWrap>
+            <button onClick={captureArea}>영역 캡처</button>
+            <AddPhotoBtn
+              onClick={() => navigate('/album')}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ borderRadius: '50%' }}
+            />
           </CustomWrap>
-          <AddPhotoBtn
-            onClick={() => navigate('/album')}
-            // {앨범에 추가}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ borderRadius: '50%' }}
-          />
         </MainWrap>
       </Container>
     </div>
@@ -68,25 +95,37 @@ const ProgressBar = styled.div`
   justify-content: center;
   margin: 3rem;
 `;
-
-const PageShiftWrap = styled.div`
+const CustomWrap = styled.div`
   display: flex;
-  justify-content: center;
+  align-items: center;
 `;
 
-const CustomWrap = styled.div`
+const MenuWrap = styled.div`
   display: flex;
 `;
 
 const AddPhotoBtn = styled(motion.div)`
-  position: absolute;
-  bottom: 20%;
-  right: 20%;
   width: 79.5px;
   height: 66px;
   flex-shrink: 0;
+  margin-left: 10rem;
   background: url(${addphoto}) lightgray 50% / cover no-repeat;
   background-color: ${(props) => props.theme.backgroundColor};
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
   cursor: pointer;
+`;
+
+const TextBoxWrap = styled.div``;
+
+const CaptureWrap = styled.div`
+  width: 40rem;
+  height: 40rem;
+  border: solid 2px;
+  margin-left: 10rem;
+`;
+
+const TestWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
 `;
