@@ -13,6 +13,29 @@ function TestPage() {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
 
+  const uploadImagesToCharacterEndpoint = (imgOriginId, uploadFiles) => {
+    const promises = uploadFiles.map((file) => {
+      const formData = new FormData();
+      formData.append('img_origin_id', imgOriginId);
+      formData.append('image', file);
+      console.log([...formData.entries()]);
+      return axios.post('http://localhost:8000/api/v1/character/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    });
+
+    Promise.all(promises)
+      .then((responses) => {
+        console.log(responses);
+        navigate('/ConvertAIPage');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const uploadAllImages = () => {
     const formData = new FormData();
     const userId = 1;
@@ -29,7 +52,8 @@ function TestPage() {
       })
       .then((response) => {
         console.log(response);
-        navigate('/ConvertAIPage');
+        const { id } = response.data;
+        uploadImagesToCharacterEndpoint(id, files);
       })
       .catch((error) => {
         console.log(error);
