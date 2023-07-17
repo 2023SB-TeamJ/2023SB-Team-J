@@ -46,22 +46,46 @@ def model3_execute(origin_image):
     return img_url"""
 
 
-@app.task(name="model_execute")
+"""@app.task(name="model_execute")
 def model_execute(origin_image, origin_img_id):
     image = pickle.loads(origin_image)
     id = pickle.loads(origin_img_id)
 
-    executor = ThreadPoolExecutor(max_workers=3)
+   # executor = ThreadPoolExecutor(max_workers=3)
 
-    future1 = executor.submit(model.model1_face2paint, image)
-    future2 = executor.submit(model.model2_face2paint, image)
-    future3 = executor.submit(model.model3_face2paint, image)
+    # future1 = executor.submit(model.model1_face2paint, image)
+    # future2 = executor.submit(model.model2_face2paint, image)
+    # future3 = executor.submit(model.model3_face2paint, image)
 
     data = {
         "image_origin_id": id,
         "result_url_1": future1.result(),
         "result_url_2": future2.result(),
         "result_url_3": future3.result()
+    }
+
+    serializer = Ai_modelSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        db.connections.close_all()
+        return data
+    else:
+        return False
+"""
+@app.task(name="model_execute")
+def model_execute(origin_image, origin_img_id):
+    image = pickle.loads(origin_image)
+    id = pickle.loads(origin_img_id)
+
+    future1 = model.model1_face2paint(image)
+    future2 = model.model2_face2paint(image)
+    future3 = model.model3_face2paint(image)
+
+    data = {
+        "image_origin_id": id,
+        "result_url_1": future1,
+        "result_url_2": future2,
+        "result_url_3": future3,
     }
 
     serializer = Ai_modelSerializer(data=data)

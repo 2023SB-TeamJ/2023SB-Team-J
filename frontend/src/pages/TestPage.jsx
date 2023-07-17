@@ -19,7 +19,7 @@ function TestPage() {
       formData.append('img_origin_id', imgOriginId);
       formData.append('image', file);
       console.log([...formData.entries()]);
-      return axios.post('http://localhost:8000/api/v1/character/', formData, {
+      return axios.post('http://localhost:8000/api/v1/frame/ai/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

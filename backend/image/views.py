@@ -22,8 +22,8 @@ from datetime import datetime
 
 class UploadImageView(APIView):
     permission_classes = [AllowAny]
-
-  def post(self, request):
+    
+    def post(self, request):
         try:
             serializer = UploadedImageSerializer(data=request.data)
             if serializer.is_valid():
