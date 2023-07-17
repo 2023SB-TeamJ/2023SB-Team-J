@@ -67,6 +67,7 @@ class UploadImageView(APIView):
             serializer = UploadedImageSerializer(image_origin)
 
             picture = {
+
                 'picture1': serializer.data.get('url_1'),
                 'picture2': serializer.data.get('url_2'),
                 'picture3': serializer.data.get('url_3'),
