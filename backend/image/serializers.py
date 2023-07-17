@@ -16,10 +16,3 @@ class Ai_modelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ai_model
         fields = '__all__'
-
-class ResultImageSerializer(serializers.ModelSerializer):
-    result_url = serializers.URLField(required=False)
-    created_at = serializers.DateTimeField(read_only=True)
-    class Meta:
-        model = Image_collage
-        fields = ('user_id', 'result_url', 'created_at')
