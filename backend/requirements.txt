@@ -12,11 +12,14 @@ boto3==1.28.1
 #회원가입
 PyJWT==2.7.0
 djangorestframework-simplejwt==5.2.2
+
 django-allauth==0.54.0
 oauthlib==3.2.2
 python3-openid==3.2.0
 requests-oauthlib==1.3.1
 
+celery
+django-celery-results
 
 # ai
 pandas==1.4.2
@@ -25,7 +28,6 @@ torch==2.0.1
 Pillow==10.0.0
 matplotlib==3.7.1
 opencv-python==4.8.0.74
-
-
-
+django-celery-results
+torchvision
 
