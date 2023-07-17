@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from django.http import JsonResponse
 from rest_framework import status
@@ -59,17 +60,43 @@ class UploadImageView(APIView):
 
                 image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
-                serializer = UploadedImageSerializer(image_origin)
-
-                picture = {
-                    'picture1': serializer.data.get('url_1'),
-                    'picture2': serializer.data.get('url_2'),
-                    'picture3': serializer.data.get('url_3'),
-                    'picture4': serializer.data.get('url_4'),
-                }
-                return Response(picture, status=status.HTTP_200_OK)
             except:
                 # 찾지 못한 경우 HTTP_400
                 return Response(status=status.HTTP_400_BAD_REQUEST)
+
+            serializer = UploadedImageSerializer(image_origin)
+
+            picture = {
+                'url_1': serializer.data.get('url_1'),
+                'url_2': serializer.data.get('url_2'),
+                'url_3': serializer.data.get('url_3'),
+                'url_4': serializer.data.get('url_4'),
+            }
+            return Response(picture, status=status.HTTP_200_OK)
         except Exception as e:
             return JsonResponse({"error message": str(e)}, status=500)
+
+    def put(self, request, format=None):
+        try:
+            raw_data = request.body.decode('utf-8')
+
+            try:
+                data = json.loads(raw_data)
+                user_id = data.get('user_id')
+                result_image_id = data.get('result_image_id')
+
+                if user_id is None or result_image_id is None:  # request 형식에 맞지 않는 경우
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+                image_origin = Image_origin.objects.get(id=result_image_id, user_id=user_id, deleted_at__isnull=True)
+
+                image_origin.deleted_at = datetime.now() # time 에 관해서 물어보기!!
+                image_origin.save()
+
+                return Response(status=status.HTTP_200_OK)
+            except:
+                # 해당 객체를 찾지 못한 경우 HTTP_400
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return JsonResponse({"error message": str(e)}, status=500)
+
