@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'storages',
     'common',
     'image',
+    'album',
 ]
 
 MIDDLEWARE = [
