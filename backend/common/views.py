@@ -1,9 +1,8 @@
-from django.contrib.auth import authenticate, get_user_model, logout, login
+from django.contrib.auth import get_user_model, logout, login, logout
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
-# from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
 
 User = get_user_model()
@@ -21,7 +20,6 @@ class SignupAPIView(APIView):
 
         if serializer.is_valid(): #유효한 지 확인
             user = serializer.save()
-            # refresh = RefreshToken.for_user(user)
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -40,35 +38,17 @@ class LoginAPIView(APIView):
 
         user = User.objects.filter(email=email).first()
 
-        # user = authenticate(request, email=email, password=password) #회원 검증
         if user and user.check_password(password):
-            # refresh = RefreshToken.for_user(user)
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            # serializer = UserSerializer(user)
 
             return Response({'nickname': user.nickname}, status=status.HTTP_200_OK)
 
         return Response({'message': '이메일 또는 비밀번호가 올바르지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
+#로그아웃
+class LogoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
-# class LogoutAPIView(APIView):
-#     # permission_classes = [IsAuthenticated]
-#
-#     def post(self, request):
-#         logout(request)
-        # return Response({'success': 'Successfully logged out.'}, status=status.HTTP_200_OK)
-# #로그아웃
-# class LogoutAPIView(APIView):
-#     permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
-#
-#     def post(self, request):
-#         try:
-#             # Blacklist the refresh token to invalidate it
-#             # refresh_token = request.data.get('refresh')
-#             # token = RefreshToken(refresh_token)
-#             # token.blacklist() #refresh 토큰 삭제
-#
-#
-#             return Response(status=status.HTTP_200_OK)
-#         except Exception:
-#             return Response(status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        logout(request)
+        return Response({'success': 'Successfully logged out.'}, status=status.HTTP_200_OK)
