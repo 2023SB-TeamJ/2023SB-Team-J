@@ -80,15 +80,27 @@ class AiExecute(APIView):
 
     def post(self, request):
         image_origin_id = request.data.get("image_origin_id")
-        origin_img = Image.open(io.BytesIO(request.FILES.get("image").read()))
+        image_origin_id_picle = pickle.dumps(image_origin_id)
 
+        origin_img = Image.open(io.BytesIO(request.FILES.get("image").read()))
         origin_img_pickle = pickle.dumps(origin_img)
 
-        result1 = model1_execute.delay(origin_img_pickle)
+        """result1 = model1_execute.delay(origin_img_pickle)
         result2 = model2_execute.delay(origin_img_pickle)
-        result3 = model3_execute.delay(origin_img_pickle)
+        result3 = model3_execute.delay(origin_img_pickle)"""
+
+        result = model_execute(origin_img_pickle, image_origin_id)
 
         while True:
+            if result.ready():
+                break
+            time.sleep(1)
+        result = result.result
+        if not result:
+            return Response(result, status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    """    while True:
             if result1.ready() and result2.ready() and result3.ready():
                 break
             time.sleep(1)
@@ -109,4 +121,4 @@ class AiExecute(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+"""
