@@ -31,3 +31,4 @@ opencv-python==4.8.0.74
 django-celery-results
 torchvision
 
+django-cors-headers
