@@ -56,4 +56,4 @@ class LogoutAPIView(APIView):
         csrf_token = get_token(request)
 
         logout(request)
-        return Response({'success': 'Successfully logged out.'}, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK)
