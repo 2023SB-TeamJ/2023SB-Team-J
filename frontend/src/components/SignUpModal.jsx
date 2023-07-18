@@ -47,7 +47,7 @@ function SignUpModal({ isOpen, onClose }) {
       // 응답 확인
       if (response.status === 201) {
         alert('회원가입 성공!');
-        navigate('/MainPage');
+        navigate('/');
       }
     } catch (error) {
       console.error(error);

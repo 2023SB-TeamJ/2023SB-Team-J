@@ -25,18 +25,8 @@ function LoginModal({ isOpen, onClose }) {
   const [isVisible, setIsVisible] = useState(false);
   const [animation, setAnimation] = useState('');
 
-  const [email, setEmail] = useState(''); // 이메일 상태 저장
-  const [password, setPassword] = useState(''); // 비밀번호 상태 저장
-
-  const handleEmailChange = (e) => {
-    const emailValue = e.target.value;
-    setEmail(emailValue);
-  };
-
-  const handlePasswordChange = (e) => {
-    const passwordValue = e.target.value;
-    setPassword(passwordValue);
-  };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -87,18 +77,21 @@ function LoginModal({ isOpen, onClose }) {
   const handleInputBlur = (e) => {
     e.target.placeholder = e.target.dataset.placeholder; // 저장한 placeholder 복원
   };
+
   const handleEmailLength = (e) => {
     const { value } = e.target;
     if (value.length > MAX_EMAIL_LENGTH) {
       e.target.value = value.slice(0, MAX_EMAIL_LENGTH); // 최대 이메일 길이를 넘어가는 경우 잘라내기
     }
   };
+
   const handlePasswordLength = (e) => {
     const { value } = e.target;
     if (value.length > MAX_PASSWORD_LENGTH) {
       e.target.value = value.slice(0, MAX_PASSWORD_LENGTH); // 최대 비밀번호 길이를 넘어가는 경우 잘라내기
     }
   };
+
   return (
     <ModalOverlay animation={animation}>
       <ModalWindow>
@@ -129,7 +122,7 @@ function LoginModal({ isOpen, onClose }) {
               maxLength={MAX_EMAIL_LENGTH}
               onChange={(e) => {
                 handleEmailLength(e);
-                handleEmailChange(e);
+                setEmail(e.target.value);
               }}
             />
           </AuthInputField>
@@ -142,7 +135,7 @@ function LoginModal({ isOpen, onClose }) {
               maxLength={MAX_PASSWORD_LENGTH}
               onChange={(e) => {
                 handlePasswordLength(e);
-                handlePasswordChange(e);
+                setPassword(e.target.value);
               }}
             />
             <EyeIcon
