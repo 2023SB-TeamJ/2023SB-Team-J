@@ -37,7 +37,7 @@ class UploadImageView(APIView):
                         im_jpeg = BytesIO()
                         im.save(im_jpeg, 'JPEG')
                         im_jpeg.seek(0)
-                    key = request.data.get("user_id") + str(datetime.now()).replace('.', '') + "." + "jpeg"
+                    key = request.data.get("user_id") + str(datetime.now()).replace('.', '').replace(' ', '') + "." + "jpeg"
                     img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
                     img_urls.append(img_url)
 
