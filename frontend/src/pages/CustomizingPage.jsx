@@ -17,16 +17,20 @@ function CustomizingPage() {
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
 
-    html2canvas(captureDiv).then((canvas) => {
-      // 캡처된 canvas 객체를 사용할 수 있습니다.
-      // 예를 들어, 이미지로 저장하거나 다른 작업을 수행할 수 있습니다.
-      // 아래는 이미지로 저장하는 예제입니다.
-      const imgData = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.href = imgData;
-      link.download = 'capture.png';
-      link.click();
-    });
+    html2canvas(captureDiv)
+      .then((canvas) => {
+        // 캡처된 canvas 객체를 사용할 수 있습니다.
+        // 예를 들어, 이미지로 저장하거나 다른 작업을 수행할 수 있습니다.
+        // 아래는 이미지로 저장하는 예제입니다.
+        const imgData = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'capture.png';
+        link.click();
+      })
+      .then(() => {
+        navigate('/album');
+      });
   };
 
   return (
@@ -54,9 +58,9 @@ function CustomizingPage() {
             <CaptureWrap>
               <div id="captureArea"> 이미지 들어 가는 곳</div>
             </CaptureWrap>
-            <button onClick={captureArea}>영역 캡처</button>
+
             <AddPhotoBtn
-              onClick={() => navigate('/album')}
+              onClick={captureArea}
               whileHover={{ scale: 1.2 }}
               whileTap={{ borderRadius: '50%' }}
             />
@@ -122,6 +126,7 @@ const CaptureWrap = styled.div`
   height: 40rem;
   border: solid 2px;
   margin-left: 10rem;
+  flex-shrink: 1;
 `;
 
 const TestWrap = styled.div`

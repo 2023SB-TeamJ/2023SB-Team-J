@@ -11,6 +11,7 @@ import { motion } from 'framer-motion';
 import imageButton from '../../assets/images/photo.png';
 
 function CustomPhoto() {
+  // 배열로 변경, 페이지 관리
   const [image, setImage] = useState(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [size, setSize] = useState({ width: 300, height: 200 });
@@ -47,28 +48,30 @@ function CustomPhoto() {
           <img src={imageButton} alt="Upload" />
         </ImageButtonContainer>
       </div>
-      {image && (
-        <Draggable
-          position={position}
-          onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
-          cancel=".react-resizable-handle"
-        >
-          <ResizableBox
-            width={size.width}
-            height={size.height}
-            onResize={handleResize}
+      <Wrapper>
+        {image && (
+          <Draggable
+            position={position}
+            onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
+            cancel=".react-resizable-handle"
           >
-            <div style={{ width: '100%', height: '100%' }}>
-              <DeleteButton onClick={handleDelete}>X</DeleteButton>
-              <img
-                src={image}
-                style={{ width: '100%', height: '100%' }}
-                alt="Uploaded"
-              />
-            </div>
-          </ResizableBox>
-        </Draggable>
-      )}
+            <ResizableBox
+              width={size.width}
+              height={size.height}
+              onResize={handleResize}
+            >
+              <div style={{ width: '100%', height: '100%' }}>
+                <DeleteButton onClick={handleDelete}>X</DeleteButton>
+                <img
+                  src={image}
+                  style={{ width: '100%', height: '100%' }}
+                  alt="Uploaded"
+                />
+              </div>
+            </ResizableBox>
+          </Draggable>
+        )}
+      </Wrapper>
     </ImageContainer>
   );
 }
@@ -96,4 +99,7 @@ const DeleteButton = styled.button`
   cursor: pointer;
 `;
 
+const Wrapper = styled.div`
+  position: absolute;
+`;
 export default CustomPhoto;
