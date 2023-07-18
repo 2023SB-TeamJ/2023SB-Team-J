@@ -31,8 +31,19 @@ function LoginModal({ isOpen, onClose }) {
 
   const { setIsLoggedIn } = useAuth();
 
+  const getCsrfToken = async () => {
+    try {
+      await axios.get('http://localhost:8000/api/v1/login/');
+      // The CSRF token cookie will be set in the browser
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleLogin = async () => {
     try {
+      await getCsrfToken(); // Retrieve the CSRF token
+
       const response = await axios.post('http://localhost:8000/api/v1/login/', {
         email,
         password,
