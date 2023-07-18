@@ -11,7 +11,7 @@ import {
 } from './AuthModalStyle';
 
 // eslint-disable-next-line react/prop-types
-function SignUpModal({ isOpen, onClose }) {
+function LoginModal({ isOpen, onClose }) {
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
   const [showPassword, setShowPassword] = useState(false); //  눈 아이콘 패스워드 보이기
@@ -150,7 +150,7 @@ function SignUpModal({ isOpen, onClose }) {
   );
 }
 
-export default SignUpModal;
+export default LoginModal;
 
 const fadeIn = keyframes`
   0% {
