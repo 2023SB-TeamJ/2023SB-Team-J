@@ -11,6 +11,7 @@ import {
   AuthLink,
   RowDiv,
 } from './AuthModalStyle';
+import { useAuth } from '../contexts/AuthContext';
 
 // eslint-disable-next-line react/prop-types
 function LoginModal({ isOpen, onClose }) {
@@ -28,6 +29,8 @@ function LoginModal({ isOpen, onClose }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const { setIsLoggedIn } = useAuth();
+
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:8000/api/v1/login/', {
@@ -37,9 +40,10 @@ function LoginModal({ isOpen, onClose }) {
 
       // 로그인 성공 시 페이지를 전환
       if (response.status === 200) {
+        setIsLoggedIn(true);
         console.log(response);
         alert('로그인 성공!');
-        navigate('/');
+        navigate('/test');
       }
     } catch (error) {
       console.error(error);

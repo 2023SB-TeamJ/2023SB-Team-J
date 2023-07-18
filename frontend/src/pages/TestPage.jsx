@@ -1,14 +1,16 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import { useAuth } from '../contexts/AuthContext';
+import Header from '../components/Header';
 import HeaderMain from '../components/HeaderMain';
 
 function TestPage() {
+  const { isLoggedIn } = useAuth();
+
   return (
     <div>
       <Container>
-        <MainWrap>
-          <HeaderMain />
-        </MainWrap>
+        <MainWrap>{isLoggedIn ? <Header /> : <HeaderMain />}</MainWrap>
       </Container>
     </div>
   );
