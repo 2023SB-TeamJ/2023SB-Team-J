@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model, logout, login, logout
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -11,7 +13,6 @@ User = get_user_model()
 # 회원가입
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
-
     def post(self, request):
         serializer = UserSerializer(data=request.data) #직렬화
 
@@ -28,7 +29,9 @@ class SignupAPIView(APIView):
 #로그인
 class LoginAPIView(APIView):
     permission_classes = [AllowAny]
-
+    @ensure_csrf_cookie
+    def get(self, request):
+        return Response()
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
@@ -50,5 +53,7 @@ class LogoutAPIView(APIView):
     # permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        csrf_token = get_token(request)
+
         logout(request)
         return Response({'success': 'Successfully logged out.'}, status=status.HTTP_200_OK)
