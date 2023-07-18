@@ -2,10 +2,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
-import axios from 'axios';
 import sampleUploadImage from '../assets/images/SampleUploadImage.png';
 
-function UploadImage() {
+function UploadImage({ onImageUpload }) {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [fileError, setFileError] = useState(null);
 
@@ -21,26 +20,7 @@ function UploadImage() {
             const binaryStr = reader.result;
             setUploadedImage(binaryStr);
             setFileError(null);
-
-            // 서버에 이미지를 POST 하는 코드
-            const formData = new FormData();
-            const userId = 'dummyUser123';
-            formData.append('user_id', userId);
-            formData.append('img_files', file);
-
-            axios
-              .post('http://localhost:8000/api/v1/frame/', formData, {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                },
-              })
-
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((error) => {
-                console.error(error);
-              });
+            onImageUpload(file); // Pass the file to the parent component
           };
           reader.readAsDataURL(file);
         } else {
