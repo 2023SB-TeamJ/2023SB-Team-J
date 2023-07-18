@@ -19,6 +19,8 @@ services:
     restart: on-failure
     ports:
       - 8000:8000
+    expose:
+      - 8000
     depends_on:
       - database
     environment:

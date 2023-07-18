@@ -208,16 +208,17 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = (
-    'localhost:8000',
-    '127.0.0.1:8000',
-    '000.0.0.0:8000'
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://0.0.0.0:8000'
 )
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:8000',
-    '127.0.0.1:8000',
-    '000.0.0.0:8000'
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://0.0.0.0:8000'
 )
+
 
 CORS_ALLOW_HEADERS = (
     'access-control-allow-credentials',
