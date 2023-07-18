@@ -55,7 +55,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: 'celery -A backend_project.celery worker --loglevel=info --pool=solo'
+    command: 'celery -A backend_project.celery worker --loglevel=info --pool=threads --concurrency=4'
     depends_on:
       - rabbitmq
       - backend
