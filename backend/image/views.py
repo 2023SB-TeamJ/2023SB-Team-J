@@ -90,13 +90,9 @@ class AiExecute(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        image_origin_id = request.data.get("image_origin_id")
-        image_origin_id_picle = pickle.dumps(image_origin_id)
-
-        origin_img = Image.open(io.BytesIO(request.FILES.get("image").read()))
-        origin_img_pickle = pickle.dumps(origin_img)
-
-        result = model_execute.apply_async(args=(origin_img_pickle, image_origin_id_picle))
+        url = request.data.get("image")
+        id = request.data.get("image_origin_id")
+        result = model_execute.delay(url,id)
 
         while True:
 
