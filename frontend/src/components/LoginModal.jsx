@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import {
   AuthLogo,
   AuthTitle,
@@ -13,6 +14,7 @@ import {
 
 // eslint-disable-next-line react/prop-types
 function LoginModal({ isOpen, onClose }) {
+  const navigate = useNavigate();
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
   const [showPassword, setShowPassword] = useState(false); //  눈 아이콘 패스워드 보이기
@@ -27,13 +29,13 @@ function LoginModal({ isOpen, onClose }) {
   const [password, setPassword] = useState(''); // 비밀번호 상태 저장
 
   const handleEmailChange = (e) => {
-    // 이메일 변경 핸들러
-    setEmail(e.target.value);
+    const emailValue = e.target.value;
+    setEmail(emailValue);
   };
 
   const handlePasswordChange = (e) => {
-    // 비밀번호 변경 핸들러
-    setPassword(e.target.value);
+    const passwordValue = e.target.value;
+    setPassword(passwordValue);
   };
 
   const handleLogin = async () => {
@@ -45,8 +47,9 @@ function LoginModal({ isOpen, onClose }) {
 
       // 로그인 성공 시 페이지를 전환
       if (response.status === 200) {
-        // 로그인 상태를 true로 변경
-        // MainPage에서 로그인 상태에 따라 HeaderMain과 Header를 조건부 렌더링하게 할 수 있습니다.
+        console.log(response);
+        alert('로그인 성공!');
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
@@ -124,7 +127,10 @@ function LoginModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_EMAIL_LENGTH}
-              onChange={handleEmailLength}
+              onChange={(e) => {
+                handleEmailLength(e);
+                handleEmailChange(e);
+              }}
             />
           </AuthInputField>
           <AuthInputField>
@@ -134,7 +140,10 @@ function LoginModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_PASSWORD_LENGTH}
-              onChange={handlePasswordLength}
+              onChange={(e) => {
+                handlePasswordLength(e);
+                handlePasswordChange(e);
+              }}
             />
             <EyeIcon
               xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +179,7 @@ function LoginModal({ isOpen, onClose }) {
               onChange={handlePasswordLength}
             />
           </AuthInputField>
-          <AuthBtn onClick={() => console.log(1)}>로그인</AuthBtn>
+          <AuthBtn onClick={handleLogin}>로그인</AuthBtn>
           <RowDiv>
             <AuthQuestion>아직 회원이 아니신가요?</AuthQuestion>
             <AuthLink>가입하기</AuthLink>

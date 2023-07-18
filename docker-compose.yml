@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
   database:
@@ -7,7 +7,7 @@ services:
     env_file:
       - ./backend/.env
     ports:
-    - 3306:3306
+      - 3306:3306
 
   backend:
     build:
@@ -34,31 +34,31 @@ services:
       && python manage.py migrate album
       && python manage.py runserver 0.0.0.0:8000"
     tty: true
-    
-  rabbitmq:
-    hostname: t4yhost
-    container_name: rabbitmq
-    image: rabbitmq:3-management
-    command: rabbitmq-server
-    restart: unless-stopped
-    env_file:
-      - backend/.env
-    ports:
-      - 5672:5672 # Default Port
-      - 15672:15672 # For UI=
-    depends_on:
-      - backend
 
-  celery_worker:
-    container_name: celery_worker
-    restart: always
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    command: "celery -A backend_project.celery worker  --loglevel=info --pool=threads --concurrency=8"
-    depends_on:
-      - rabbitmq
-      - backend
+  # rabbitmq:
+  #   hostname: t4yhost
+  #   container_name: rabbitmq
+  #   image: rabbitmq:3-management
+  #   command: rabbitmq-server
+  #   restart: unless-stopped
+  #   env_file:
+  #     - backend/.env
+  #   ports:
+  #     - 5672:5672 # Default Port
+  #     - 15672:15672 # For UI=
+  #   depends_on:
+  #     - backend
+
+  # celery_worker:
+  #   container_name: celery_worker
+  #   restart: always
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   command: "celery -A backend_project.celery worker  --loglevel=info --pool=threads --concurrency=8"
+  #   depends_on:
+  #     - rabbitmq
+  #     - backend
   nginx:
     image: nginx
     ports:
@@ -75,6 +75,6 @@ services:
       dockerfile: Dockerfile
     container_name: t4y-frontend
     ports:
-      - "3000:3000" # 포트 매핑 설정
+      - '3000:3000' # 포트 매핑 설정
 #    volumes:
 
