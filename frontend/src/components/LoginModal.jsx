@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
+import axios from 'axios';
 import {
   AuthLogo,
   AuthTitle,
@@ -11,7 +12,7 @@ import {
 } from './AuthModalStyle';
 
 // eslint-disable-next-line react/prop-types
-function SignUpModal({ isOpen, onClose }) {
+function LoginModal({ isOpen, onClose }) {
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
   const [showPassword, setShowPassword] = useState(false); //  눈 아이콘 패스워드 보이기
@@ -21,6 +22,36 @@ function SignUpModal({ isOpen, onClose }) {
 
   const [isVisible, setIsVisible] = useState(false);
   const [animation, setAnimation] = useState('');
+
+  const [email, setEmail] = useState(''); // 이메일 상태 저장
+  const [password, setPassword] = useState(''); // 비밀번호 상태 저장
+
+  const handleEmailChange = (e) => {
+    // 이메일 변경 핸들러
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    // 비밀번호 변경 핸들러
+    setPassword(e.target.value);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/login/', {
+        email,
+        password,
+      });
+
+      // 로그인 성공 시 페이지를 전환
+      if (response.status === 200) {
+        // 로그인 상태를 true로 변경
+        // MainPage에서 로그인 상태에 따라 HeaderMain과 Header를 조건부 렌더링하게 할 수 있습니다.
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -150,7 +181,7 @@ function SignUpModal({ isOpen, onClose }) {
   );
 }
 
-export default SignUpModal;
+export default LoginModal;
 
 const fadeIn = keyframes`
   0% {
