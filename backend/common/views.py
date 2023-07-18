@@ -41,7 +41,7 @@ class LoginAPIView(APIView):
         if user and user.check_password(password):
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
-            return Response({'nickname': user.nickname}, status=status.HTTP_200_OK)
+            return Response({'nickname': user.nickname, 'user_id': user.id}, status=status.HTTP_200_OK)
 
         return Response({'message': '이메일 또는 비밀번호가 올바르지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
