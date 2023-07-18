@@ -9,12 +9,12 @@ from .serializers import *
 
 class AlbumView(APIView):
     permission_classes = [AllowAny]
-    def get(self, request):
+    def post(self, request):
         try:
-            user_id = request.GET.get('user_id')
+            user_id = request.data.get('user_id')  # 변경된 부분: request.GET 대신 request.data 사용
             if not user_id:  # user_id가 제공되지 않았을 경우에 대한 처리
                 return Response({"error": "User ID is required."}, status=status.HTTP_400_BAD_REQUEST)
-            image_collages = Image_collage.objects.filter(user_id=user_id,deleted_at__isnull=True).order_by('-created_at')
+            image_collages = Image_collage.objects.filter(user_id=user_id, deleted_at__isnull=True).order_by('-created_at')
             if image_collages.exists():
                 serializer = CollageImageSerializer(image_collages, many=True)
                 result_urls = []
