@@ -92,25 +92,6 @@ function AlbumPage() {
       inquireAlbum();
     }
   }, [images]);
-  // state로 이미지 관리
-  // const [images, setImages] = useState([]);
-
-  // async function inquireAlbum() {
-  //   try {
-  //     const response = await axios.post('http://localhost:8000/api/v1/album/', {
-  //       userId: '2',
-  //     });
-
-  //     // 서버 응답 처리
-  //     const albumData = response.data; // 응답 데이터
-
-  //     // 이미지 배열에 추가
-  //     const newImages = albumData.map((item) => item.result_url);
-  //     setImages((prevImages) => [...prevImages, ...newImages]);
-  //   } catch (error) {
-  //     console.log('에러 발생');
-  //   }
-  // }
 
   // // 앨범 조회 요청 보내기
   // useEffect(() => {
