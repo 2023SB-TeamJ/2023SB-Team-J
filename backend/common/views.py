@@ -23,8 +23,6 @@ class SignupAPIView(APIView):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
 #로그인
 class LoginAPIView(APIView):
     permission_classes = [AllowAny]

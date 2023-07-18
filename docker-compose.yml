@@ -45,10 +45,10 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
-    user: root
+#    user: root
     volumes:
-      - ./prometheus/config/:/etc/prometheus/
-      - ./prometheus/prometheus-volume:/prometheus
+      - ~/prometheus/config/:/etc/prometheus/
+      - ~/prometheus/prometheus-volume:/prometheus
     ports:
       - 9090:9090
     command: # web.enalbe-lifecycle은 api 재시작없이 설정파일들을 reload 할 수 있게 해줌
@@ -70,64 +70,6 @@ services:
       networks:
         - promnet
 
-
 networks:
   promnet:
     driver: bridge
-
-
-
-
-
-  rabbitmq:
-    hostname: t4yhost
-    container_name: rabbitmq
-    image: rabbitmq:3-management
-    command: rabbitmq-server
-    restart: unless-stopped
-    env_file:
-      - backend/.env
-    ports:
-      - 5672:5672 # Default Port
-      - 15672:15672 # For UI=
-    depends_on:
-      - backend
-
-  celery_worker:
-    container_name: celery_worker
-    restart: always
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    command: "celery -A backend_project.celery worker  --loglevel=info --pool=threads --concurrency=8"
-    depends_on:
-      - rabbitmq
-      - backend
-  nginx:
-    image: nginx
-    ports:
-      - 80:80
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - backend
-      - frontend
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: t4y-frontend
-    ports:
-      - "3000:3000" # 포트 매핑 설정
-    volumes:
-
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: t4y-frontend
-  #   ports:
-  #     - "3000:3000" # 포트 매핑 설정
-  #   volumes:
-  #     - ./frontend:/frontend

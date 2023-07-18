@@ -3,6 +3,12 @@ global:
   scrape_timeout: 15s
   evaluation_interval: 2m
 
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'prometheus-monitor' # 기본적으로 붙여줄 라벨
+  query_log_file: /prometheus/query.log # prometheus의 쿼리 로그들을 기록, 없으면 기록안함
+
 # 프로메테우스 연결
 scrape_configs:
   - job_name: 'prometheus'
@@ -13,5 +19,5 @@ scrape_configs:
   - job_name: '2023sb-team-j-backend'
     scrape_interval: 5s
     static_configs:
-      - targets: [ 'host.docker.internal:8000' ]
-    metrics_path: '/admin/'
+      - targets: [ 't4y-backend:8000', 'localhost:8000', '127.0.0.1:8000' ]
+#    metrics_path: '/admin/'
