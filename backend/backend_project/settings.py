@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.sites',
 
     'allauth',
@@ -120,6 +121,11 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

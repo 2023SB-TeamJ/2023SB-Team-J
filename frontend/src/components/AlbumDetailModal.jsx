@@ -1,10 +1,46 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-shadow */
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import image from '../assets/images/photo1.png';
 
 function AlbumDetailModal({ setIsOpen }) {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const formData = new FormData();
+  const [resultImageId] = useState('4');
+  formData.append('result_image_id', resultImageId);
+
+  async function InquireAlbumDetail() {
+    try {
+      const response = await axios.get(
+        'http://localhost:8000/api/v1/album/detail',
+        {
+          params: {
+            result_image_id: 4,
+          },
+        },
+      );
+      const albumDetailData = response.data; // 응답 데이터
+      console.log('앨범 상세 데이터: ', albumDetailData);
+    } catch (error) {
+      console.error('앨범 상세 조회 오류: ', error);
+      console.log('에러 발생');
+    }
+  }
+
+  InquireAlbumDetail();
+
+  useEffect(() => {
+    if (albumDetailData !== null) {
+      InquireAlbumDetail(resultImageId);
+    }
+  }, [resultImageId]);
+
   return (
     <ModalContainer>
       <ModalBackdrop>
