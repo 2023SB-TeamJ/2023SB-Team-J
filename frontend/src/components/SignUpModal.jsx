@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
+import axios from 'axios';
 import {
   AuthLogo,
   AuthTitle,
@@ -22,6 +23,25 @@ function SignUpModal({ isOpen, onClose }) {
 
   const [isVisible, setIsVisible] = useState(false);
   const [animation, setAnimation] = useState('');
+
+  const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignUp = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/signup', {
+        email,
+        nickname,
+        password,
+      });
+
+      // 응답 확인
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -101,7 +121,10 @@ function SignUpModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_NICKNAME_LENGTH}
-              onChange={handleNicknameLength}
+              onChange={(e) => {
+                handleNicknameLength(e);
+                setNickname(e.target.value);
+              }}
             />
           </AuthInputField>
           <AuthInputField>
@@ -111,7 +134,10 @@ function SignUpModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_EMAIL_LENGTH}
-              onChange={handleEmailLength}
+              onChange={(e) => {
+                handleEmailLength(e);
+                setEmail(e.target.value);
+              }}
             />
           </AuthInputField>
           <AuthInputField>
@@ -121,7 +147,10 @@ function SignUpModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_PASSWORD_LENGTH}
-              onChange={handlePasswordLength}
+              onChange={(e) => {
+                handlePasswordLength(e);
+                setPassword(e.target.value);
+              }}
             />
             <EyeIcon
               xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +186,7 @@ function SignUpModal({ isOpen, onClose }) {
               onChange={handlePasswordLength}
             />
           </AuthInputField>
-          <AuthBtn onClick={() => console.log(1)}>회원가입</AuthBtn>
+          <AuthBtn onClick={handleSignUp}>회원가입</AuthBtn>
           <RowDiv>
             <AuthQuestion>이미 회원이신가요?</AuthQuestion>
             <AuthLink>로그인하기</AuthLink>

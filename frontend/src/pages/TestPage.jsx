@@ -1,17 +1,13 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import UploadImage from '../components/UploadImage';
+import HeaderMain from '../components/HeaderMain';
 
 function TestPage() {
   return (
     <div>
       <Container>
         <MainWrap>
-          <div>테스트 페이지 입니다</div>
-          <UploadImage />
-          <UploadImage />
-          <UploadImage />
-          <UploadImage />
+          <HeaderMain />
         </MainWrap>
       </Container>
     </div>
