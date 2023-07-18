@@ -1,10 +1,25 @@
 import styled from 'styled-components';
+import axios from 'axios';
 import image from '../assets/images/photo1.png';
 
 function AlbumDetailModal({ setIsOpen }) {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const [resultImageId] = useState('4');
+  async function InquireAlbumDetail(resultImageId) {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/album/detail/${resultImageId}`,
+      );
+      const  = response.data; // 응답 데이터
+      console.log('앨범 데이터: ', );
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   return (
     <ModalContainer>
       <ModalBackdrop>
