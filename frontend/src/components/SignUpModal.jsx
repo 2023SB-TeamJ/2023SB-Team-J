@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import {
   AuthLogo,
   AuthTitle,
@@ -13,6 +14,7 @@ import {
 
 // eslint-disable-next-line react/prop-types
 function SignUpModal({ isOpen, onClose }) {
+  const navigate = useNavigate();
   const MAX_NICKNAME_LENGTH = 10; // 최대 닉네임 길이
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
@@ -30,14 +32,23 @@ function SignUpModal({ isOpen, onClose }) {
 
   const handleSignUp = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/signup', {
+      const data = {
         email,
         nickname,
         password,
-      });
+      };
+      console.log(data);
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/signup/',
+        data,
+      );
 
+      console.log(response.status); // 실제 반환되는 상태 코드 확인
       // 응답 확인
-      console.log(response.data);
+      if (response.status === 201) {
+        alert('회원가입 성공!');
+        navigate('/');
+      }
     } catch (error) {
       console.error(error);
     }
