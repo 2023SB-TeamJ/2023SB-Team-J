@@ -26,8 +26,6 @@ from datetime import datetime
 class UploadImageView(APIView):
     permission_classes = [AllowAny]
 
-    # permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
-
     def post(self, request):
         serializer = UploadedImageSerializer(data=request.data)
         if serializer.is_valid():
@@ -68,13 +66,13 @@ class UploadImageView(APIView):
             source = data.get('source')
 
             if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-                return Response({"error message": "request 형식이 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
             image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
         except:
             # 찾지 못한 경우 HTTP_400
-            return Response({"error message": "해당되는 데이터가 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         serializer = UploadedImageSerializer(image_origin)
 
@@ -87,39 +85,34 @@ class UploadImageView(APIView):
         return Response(picture, status=status.HTTP_200_OK)
 
 
+
 class AiExecute(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
         image_origin_id = request.data.get("image_origin_id")
-        origin_img = Image.open(io.BytesIO(request.FILES.get("image").read()))
+        image_origin_id_picle = pickle.dumps(image_origin_id)
 
+        origin_img = Image.open(io.BytesIO(request.FILES.get("image").read()))
         origin_img_pickle = pickle.dumps(origin_img)
 
-        result1 = model1_execute.delay(origin_img_pickle)
-        result2 = model2_execute.delay(origin_img_pickle)
-        result3 = model3_execute.delay(origin_img_pickle)
+        result = model_execute.apply_async(args=(origin_img_pickle, image_origin_id_picle))
 
         while True:
-            if result1.ready() or result2.ready() or result3.ready() == False:
-                time.sleep(1)
-                continue
-            else:
-                data = {
-                    "image_origin_id": image_origin_id,
-                    "result_url_1": result1.result(),
-                    "result_url_2": result2.result(),
-                    "result_url_3": result3.result()
-                }
-                serializer = Ai_modelSerializer(data)
 
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(serializer.data, status=status.HTTP_201_CREATED)
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+            if result.ready():
+                break
+            time.sleep(1)
+        result1 = result.result
+        if result:
+            return Response(result1, status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
+#sudo celery -A backend_project.celery multi start 4 --loglevel=info --pool=threads
+#sudo celery multi stop 4 -A backend_project.celery --all
 
-#
+           
 class ResultImageView(APIView):
     permission_classes = [AllowAny]
 

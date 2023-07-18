@@ -6,3 +6,4 @@ urlpatterns = [
     path('add/', ResultImageView.as_view(), name='resultimage'),
     path('', UploadImageView.as_view(), name='frame'),
 ]
+
