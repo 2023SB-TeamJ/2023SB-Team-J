@@ -34,6 +34,7 @@ class UploadImageView(APIView):
                 for img_file in img_files:
                     # S3 버킷에 이미지 업로드
                     with Image.open(img_file) as im:
+                        im.convert("RGB")
                         im_jpeg = BytesIO()
                         im.save(im_jpeg, 'JPEG')
                         im_jpeg.seek(0)
@@ -56,6 +57,7 @@ class UploadImageView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return JsonResponse({"error message": str(e)}, status=500)
+
 
     def get(self, request, format=None):
         raw_data = request.body.decode('utf-8')
