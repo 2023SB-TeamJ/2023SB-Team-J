@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
 import axios from 'axios';
@@ -33,8 +34,8 @@ function LoginModal({ isOpen, onClose }) {
 
   const getCsrfToken = async () => {
     try {
-      await axios.get('http://localhost:8000/api/v1/login/');
-      // The CSRF token cookie will be set in the browser
+      const response = await axios.get('http://localhost:8000/api/v1/login/');
+      return response.data.csrfToken;
     } catch (error) {
       console.log(error);
     }
@@ -42,12 +43,20 @@ function LoginModal({ isOpen, onClose }) {
 
   const handleLogin = async () => {
     try {
-      await getCsrfToken(); // Retrieve the CSRF token
+      const csrfToken = await getCsrfToken(); // Retrieve the CSRF token
 
-      const response = await axios.post('http://localhost:8000/api/v1/login/', {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/login/',
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            'X-CSRFToken': csrfToken,
+          },
+        },
+      );
 
       // 로그인 성공 시 페이지를 전환
       if (response.status === 200) {
@@ -60,7 +69,6 @@ function LoginModal({ isOpen, onClose }) {
       console.error(error);
     }
   };
-
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true);

@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model, logout, login, logout
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -27,11 +28,15 @@ class SignupAPIView(APIView):
 
 
 #로그인
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class LoginAPIView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
-    @ensure_csrf_cookie
-    def get(self, request):
-        return Response()
+
+    def get(self, request, *args, **kwargs):
+        csrf_token = get_token(request)
+        return Response({'csrfToken': csrf_token})
+
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')

@@ -13,7 +13,17 @@ function Header() {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/logout/');
+      const csrfToken = await getCsrfToken(); // Retrieve the CSRF token
+
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/logout/',
+        {},
+        {
+          headers: {
+            'X-CSRFToken': csrfToken,
+          },
+        },
+      );
 
       // 로그아웃 성공 시 로그인 상태를 false로 설정하고 알림 표시
       if (response.status === 200) {
