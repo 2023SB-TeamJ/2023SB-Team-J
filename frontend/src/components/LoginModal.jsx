@@ -13,6 +13,7 @@ import {
   RowDiv,
 } from './AuthModalStyle';
 import { useAuth } from '../contexts/AuthContext';
+import getCsrfToken from './getCsrfToken';
 
 // eslint-disable-next-line react/prop-types
 function LoginModal({ isOpen, onClose }) {
@@ -31,20 +32,6 @@ function LoginModal({ isOpen, onClose }) {
   const [password, setPassword] = useState('');
 
   const { setIsLoggedIn } = useAuth();
-
-  const getCsrfToken = async () => {
-    try {
-      const response = await axios.get('http://localhost:8000/api/v1/login/');
-      const { csrfToken } = response.data;
-
-      // Token을 쿠키에 저장
-      document.cookie = `csrfToken=${csrfToken}; path=/`;
-
-      return csrfToken;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleLogin = async () => {
     try {

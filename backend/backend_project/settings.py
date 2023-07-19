@@ -122,10 +122,6 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
-
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Default primary key field type
@@ -214,13 +210,15 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = (
     'http://localhost:8000',
     'http://127.0.0.1:8000',
-    'http://0.0.0.0:8000'
+    'http://0.0.0.0:8000',
+    'http://localhost:3000',
 )
 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
     'http://127.0.0.1:8000',
-    'http://0.0.0.0:8000'
+    'http://0.0.0.0:8000',
+    'http://localhost:3000',
 )
 
 
