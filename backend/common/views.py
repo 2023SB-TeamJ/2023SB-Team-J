@@ -50,10 +50,15 @@ class LoginAPIView(APIView):
 
 #로그아웃
 class LogoutAPIView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         csrf_token = get_token(request)
 
         logout(request)
         return Response(status=status.HTTP_200_OK)
+
+class CsrfTokenView(APIView):
+    def get(self, request, *args, **kwargs):
+        csrf_token = get_token(request)
+        return Response({'csrfToken': csrf_token})
