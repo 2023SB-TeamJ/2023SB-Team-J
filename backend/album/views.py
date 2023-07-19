@@ -23,6 +23,7 @@ class AlbumView(APIView):
                 for image_collage in serializer.data:
                     data = {
                         'result_url': image_collage.get("result_url"),
+                        'result_image_id' :  image_collage.get("result_image_id"),
                     }
                     result_urls.append(data)
                 return Response(result_urls, status=status.HTTP_200_OK)

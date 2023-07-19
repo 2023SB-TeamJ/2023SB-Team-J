@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import logoImage from '../assets/images/logoImage.png';
 
-function LoadingPage() {
+function Loading() {
   return (
     <div>
       <Container>
@@ -17,7 +17,7 @@ function LoadingPage() {
   );
 }
 
-export default LoadingPage;
+export default Loading;
 
 const Logo = styled(motion.div)`
   width: 20rem;

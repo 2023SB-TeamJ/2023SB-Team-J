@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'image',
     'django_celery_results',
     'album',
-    'corsheaders',
+
 ]
 SITE_ID = 1
 

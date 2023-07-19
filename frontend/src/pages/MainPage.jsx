@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+// import { useState } from 'react';
 import SampleImage1 from '../assets/images/1x4sampleImage.png';
 import SampleImage2 from '../assets/images/2x2sampleImage.jpg';
 import HeaderMain from '../components/HeaderMain';
@@ -7,6 +8,10 @@ import HeaderMain from '../components/HeaderMain';
 function MainPage() {
   const navigate = useNavigate();
 
+  // const [userId, setUserId] = useState('');
+  // const [nickName, setNickName] = useState('');
+
+  // api~~~
   return (
     <div>
       <Container>
@@ -14,7 +19,16 @@ function MainPage() {
           <HeaderMain />
           <Slogan1>추억을 간직하는</Slogan1>
           <Slogan2>THIS IS 4 YOU</Slogan2>
-          <StartBtn onClick={() => navigate('/album')}>시작하기</StartBtn>
+          {/* useParams */}
+          <StartBtn
+            onClick={() =>
+              navigate('/album', {
+                // state: { userId, nickName },
+              })
+            }
+          >
+            시작하기
+          </StartBtn>
           <SampleImageWrapper>
             <OneTimesFourSampleImage />
             <TwoTimesTwoSampleImage />

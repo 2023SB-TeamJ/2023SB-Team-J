@@ -1,19 +1,19 @@
+/* eslint-disable no-const-assign */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import image from '../assets/images/photo1.png';
+// import image from '../assets/images/photo1.png';
 
-function AlbumDetailModal({ setIsOpen }) {
+function AlbumDetailModal({ setIsOpen, resultImgId }) {
   const closeModal = () => {
     setIsOpen(false);
   };
 
-  const formData = new FormData();
-  const [resultImageId] = useState('4');
-  formData.append('result_image_id', resultImageId);
+  const [url, setUrl] = useState('');
+  const [date, setDate] = useState('');
 
   async function InquireAlbumDetail() {
     try {
@@ -21,25 +21,23 @@ function AlbumDetailModal({ setIsOpen }) {
         'http://localhost:8000/api/v1/album/detail',
         {
           params: {
-            result_image_id: 4,
+            result_image_id: resultImgId,
           },
         },
       );
       const albumDetailData = response.data; // 응답 데이터
       console.log('앨범 상세 데이터: ', albumDetailData);
+      setUrl(albumDetailData.result_image);
+      setDate(albumDetailData.create_date);
     } catch (error) {
       console.error('앨범 상세 조회 오류: ', error);
       console.log('에러 발생');
     }
   }
 
-  InquireAlbumDetail();
-
   useEffect(() => {
-    if (albumDetailData !== null) {
-      InquireAlbumDetail(resultImageId);
-    }
-  }, [resultImageId]);
+    InquireAlbumDetail();
+  }, []);
 
   return (
     <ModalContainer>
@@ -64,8 +62,15 @@ function AlbumDetailModal({ setIsOpen }) {
               />
             </svg>
           </ExitBtn>
-          <Photo />
-          <Date>2023.07.12</Date>
+          {/* <Photo url={url} /> */}
+          {url && (
+            <img
+              style={{ height: '70%', objectFit: 'contain' }}
+              src={url}
+              alt="img"
+            />
+          )}
+          <Date>{date}</Date>
           <ButtonWrap>
             <BookmarkBtn>
               <svg
@@ -278,15 +283,17 @@ const ModalView = styled.div`
   box-shadow: 10px 10px 6px 0px rgba(0, 0, 0, 0.25);
 `;
 
-const Photo = styled.div`
-  width: 165px;
+const Photo = styled.img`
+  width: 100%;
   height: 503px;
   flex-shrink: 0;
   border-radius: 20px;
   margin-top: 20px;
-  background:
-    url(${image}),
-    lightgray 50% / cover no-repeat;
+  background-image: url(${(props) => props.url});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: lightgray;
   box-shadow: 10px 10px 6px 0px rgba(0, 0, 0, 0.25);
 `;
 
