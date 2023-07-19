@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import axios from 'axios';
@@ -13,23 +14,21 @@ function TestPage() {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
 
-  const uploadImagesToCharacterEndpoint = (imgOriginId, uploadFiles) => {
-    const promises = uploadFiles.map((file) => {
-      const formData = new FormData();
-      formData.append('img_origin_id', imgOriginId);
-      formData.append('image', file);
-      console.log([...formData.entries()]);
-      return axios.post('http://localhost:8000/api/v1/frame/ai/', formData, {
+  const uploadImagesToCharacterEndpoint = (imgOriginId, imageUrl) => {
+    const formData = new FormData();
+    formData.append('image_origin_id', imgOriginId);
+    formData.append('image', imageUrl);
+    console.log([...formData.entries()]);
+
+    axios
+      .post('http://localhost:8000/api/v1/frame/ai/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      });
-    });
-
-    Promise.all(promises)
-      .then((responses) => {
-        console.log(responses);
-        navigate('/ConvertAIPage');
+      })
+      .then((response) => {
+        console.log(response);
+        navigate('/convert');
       })
       .catch((error) => {
         console.log(error);
@@ -52,8 +51,11 @@ function TestPage() {
       })
       .then((response) => {
         console.log(response);
-        const { id } = response.data;
-        uploadImagesToCharacterEndpoint(id, files);
+        const { id, url_1, url_2, url_3, url_4 } = response.data;
+        uploadImagesToCharacterEndpoint(id, url_1);
+        uploadImagesToCharacterEndpoint(id, url_2);
+        uploadImagesToCharacterEndpoint(id, url_3);
+        uploadImagesToCharacterEndpoint(id, url_4);
       })
       .catch((error) => {
         console.log(error);

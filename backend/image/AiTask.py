@@ -75,20 +75,19 @@ def model_execute(origin_image, origin_img_id):
         return False
 """
 @app.task(name="model_execute")
-def model_execute(url,id):
-
-
+def model_execute(url, id):
     image = download_image_from_s3(url)
-    result1 = model.model1_face2paint(image)
-    result2 = model.model2_face2paint(image)
-    result3 = model.model3_face2paint(image)
+    executor = ThreadPoolExecutor(max_workers=3)
 
+    future1 = executor.submit(model.model1_face2paint, image)
+    future2 = executor.submit(model.model2_face2paint, image)
+    future3 = executor.submit(model.model3_face2paint, image)
 
     data = {
         "image_origin_id": id,
-        "result_url_1": result1,
-        "result_url_2": result2,
-        "result_url_3": result3
+        "result_url_1": future1.result(),
+        "result_url_2": future2.result(),
+        "result_url_3": future3.result()
     }
 
     serializer = Ai_modelSerializer(data=data)

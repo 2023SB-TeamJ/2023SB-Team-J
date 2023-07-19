@@ -26,14 +26,14 @@ services:
       - DB_NAME=mydatabase
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
-    # command: "python manage.py runserver 0.0.0.0:8000"
-    command: sh -c "/wait &  python manage.py makemigrations common
-      && python manage.py migrate common
-      && python manage.py makemigrations image
-      && python manage.py migrate image
-      && python manage.py makemigrations album
-      && python manage.py migrate album
-      && python manage.py runserver 0.0.0.0:8000"
+    command: 'python manage.py runserver 0.0.0.0:8000'
+    # command: sh -c "/wait &  python manage.py makemigrations common
+    #   && python manage.py migrate common
+    #   && python manage.py makemigrations image
+    #   && python manage.py migrate image
+    #   && python manage.py makemigrations album
+    #   && python manage.py migrate album
+    #   && python manage.py runserver 0.0.0.0:8000"
     tty: true
 
   rabbitmq:
@@ -56,8 +56,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: 'celery -A backend_project.celery worker --loglevel=info --pool=threads --concurrency=4
-'
+    command: 'celery -A backend_project.celery worker --loglevel=info --pool=solo'
     depends_on:
       - rabbitmq
       - backend
