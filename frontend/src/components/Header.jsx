@@ -11,6 +11,7 @@ function Header() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
 
+  // 로그아웃 API 요청
   const handleLogout = async () => {
     try {
       const csrfToken = document.cookie

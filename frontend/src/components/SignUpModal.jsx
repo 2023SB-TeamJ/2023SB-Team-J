@@ -30,6 +30,7 @@ function SignUpModal({ isOpen, onClose }) {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
 
+  // 회원가입 API 요청
   const handleSignUp = async () => {
     try {
       const data = {

@@ -8,8 +8,6 @@ const getCsrfToken = async () => {
 
     // Token을 쿠키에 저장
     document.cookie = `csrfToken=${csrfToken}; path=/`;
-
-    return csrfToken;
   } catch (error) {
     console.log(error);
   }

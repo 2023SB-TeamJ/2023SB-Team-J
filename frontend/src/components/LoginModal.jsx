@@ -33,10 +33,9 @@ function LoginModal({ isOpen, onClose }) {
 
   const { setIsLoggedIn } = useAuth();
 
+  // 로그인 API 요청
   const handleLogin = async () => {
     try {
-      await getCsrfToken(); // Retrieve the CSRF token
-
       const response = await axios.post('http://localhost:8000/api/v1/login/', {
         email,
         password,
@@ -44,6 +43,7 @@ function LoginModal({ isOpen, onClose }) {
 
       // 로그인 성공 시 페이지를 전환
       if (response.status === 200) {
+        await getCsrfToken(); // Retrieve the CSRF token
         setIsLoggedIn(true);
         console.log(response);
         alert('로그인 성공!');
