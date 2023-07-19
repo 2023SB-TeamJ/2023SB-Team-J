@@ -28,12 +28,13 @@ SECRET_KEY = get_secret("django_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0", "localhost", "host.docker.internal"]
+ALLOWED_HOSTS = ["0.0.0.0", "localhost", "host.docker.internal", 'docker.for.mac.localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django_prometheus',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -57,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'backend_project.urls'
