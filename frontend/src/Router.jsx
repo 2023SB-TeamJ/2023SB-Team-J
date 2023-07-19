@@ -6,7 +6,6 @@ import UploadImagePage from './pages/UploadImagePage';
 import ConvertAIPage from './pages/ConvertAIPage';
 import CustomizingPage from './pages/CustomizingPage';
 import TestPage from './pages/TestPage';
-import LoadingPage from './pages/LoadingPage';
 
 function Router() {
   return (
@@ -19,7 +18,6 @@ function Router() {
         <Route path="convert" element={<ConvertAIPage />} />
         <Route path="custom" element={<CustomizingPage />} />
         <Route path="test" element={<TestPage />} />
-        <Route path="loading" element={<LoadingPage />} />
       </Routes>
     </BrowserRouter>
   );

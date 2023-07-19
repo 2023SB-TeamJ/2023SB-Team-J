@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 // import image from '../assets/images/photo1.png';
 
-function AlbumDetailModal({ setIsOpen, resultImgId }) {
+function AlbumDetailModal({ setIsOpen, imgId }) {
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -21,12 +21,12 @@ function AlbumDetailModal({ setIsOpen, resultImgId }) {
         'http://localhost:8000/api/v1/album/detail',
         {
           params: {
-            result_image_id: resultImgId,
+            result_image_id: imgId,
           },
         },
       );
       const albumDetailData = response.data; // 응답 데이터
-      console.log('앨범 상세 데이터: ', albumDetailData);
+      // console.log('앨범 상세 데이터: ', albumDetailData);
       setUrl(albumDetailData.result_image);
       setDate(albumDetailData.create_date);
     } catch (error) {

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-use-before-define */
 /* eslint-disable func-names */
 /* eslint-disable array-callback-return */
@@ -16,7 +17,7 @@ import { motion } from 'framer-motion';
 import Header from '../components/HeaderAlbum';
 import AlbumDetailModal from '../components/AlbumDetailModal';
 import PlusBtn from '../assets/images/plusBtn.png';
-import LoadingPage from './Loading';
+import Loading from '../components/Loading';
 
 function AlbumPage() {
   const navigate = useNavigate();
@@ -80,10 +81,11 @@ function AlbumPage() {
 
       // 서버 응답 처리
       const albumData = response.data; // 응답 데이터
-
+      console.log(albumData);
       // 이미지 배열에 추가
-      const newImages = albumData.map((item) => item.result_url);
-      setImages((prevImages) => [...prevImages, ...newImages]);
+
+      setImages((prevImages) => [...prevImages, ...albumData]);
+
       setIsLoading(false);
     } catch (error) {
       console.log('에러 발생');
@@ -112,15 +114,17 @@ function AlbumPage() {
             columnClassName="my-masonry-grid_column"
           >
             {isLoading ? (
-              <LoadingPage />
+              <LoadingWrap>
+                <Loading />
+              </LoadingWrap>
             ) : (
               images.map((img, i) => {
                 return (
-                  <MyMasonryGridColumn key={img}>
+                  <MyMasonryGridColumn key={img.result_image_id}>
                     <ImageWithShadow
                       src={img.result_url}
-                      alt=""
-                      onClick={() => openModalHandler(img.resultImgId)} // 보낸는 값에 따라 다름
+                      alt="photo"
+                      onClick={() => openModalHandler(img.result_image_id)} // 보내는 값에 따라 다름
                     />
                     {/* id값을 모달창에 보내야됨 */}
                   </MyMasonryGridColumn>
@@ -128,10 +132,7 @@ function AlbumPage() {
               })
             )}
             {isOpen && (
-              <AlbumDetailModal
-                resultImgId={resultImgId}
-                setIsOpen={setIsOpen}
-              />
+              <AlbumDetailModal imgId={resultImgId} setIsOpen={setIsOpen} />
             )}
           </MyMasonryGrid>
           {/* <CenteredButton>
@@ -203,3 +204,5 @@ const MyMasonryGridColumn = styled.div`
 const ImageWithShadow = styled.img`
   box-shadow: 10px 10px 6px 0px rgba(0, 0, 0, 0.25);
 `;
+
+const LoadingWrap = styled.div``;

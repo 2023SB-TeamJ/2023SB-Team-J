@@ -6,13 +6,11 @@ import logoImage from '../assets/images/logoImage.png';
 function Loading() {
   return (
     <div>
-      <Container>
-        <Logo
-          alt="T4Y Logo"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-        />
-      </Container>
+      <Logo
+        alt="T4Y Logo"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+      />
     </div>
   );
 }
@@ -25,14 +23,4 @@ const Logo = styled(motion.div)`
   flex-shrink: 0;
   border-radius: 10px;
   background: url(${logoImage}) lightgray 50% / cover no-repeat;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 100vh;
-  background: ${(props) => props.theme.backgroundColor};
 `;
