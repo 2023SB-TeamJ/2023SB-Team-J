@@ -35,20 +35,12 @@ function LoginModal({ isOpen, onClose }) {
 
   const handleLogin = async () => {
     try {
-      const csrfToken = await getCsrfToken(); // Retrieve the CSRF token
+      await getCsrfToken(); // Retrieve the CSRF token
 
-      const response = await axios.post(
-        'http://localhost:8000/api/v1/login/',
-        {
-          email,
-          password,
-        },
-        {
-          headers: {
-            'X-CSRFToken': csrfToken,
-          },
-        },
-      );
+      const response = await axios.post('http://localhost:8000/api/v1/login/', {
+        email,
+        password,
+      });
 
       // 로그인 성공 시 페이지를 전환
       if (response.status === 200) {

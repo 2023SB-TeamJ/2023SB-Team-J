@@ -25,7 +25,7 @@ function Header() {
         {},
         {
           headers: {
-            'X-CSRFToken': csrfToken, // 쿠키에서 추출한 CSRF 토큰을 요청 헤더에 포함
+            'X-XSRF-TOKEN': csrfToken, // 쿠키에서 추출한 CSRF 토큰을 요청 헤더에 포함
           },
         },
       );
