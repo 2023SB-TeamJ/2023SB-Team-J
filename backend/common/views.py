@@ -57,19 +57,39 @@ class LoginAPIView(APIView):
         return Response({'message': '이메일 또는 비밀번호가 올바르지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
 #로그아웃
-@method_decorator(ensure_csrf_cookie, name='dispatch')
+# @method_decorator(ensure_csrf_cookie, name='dispatch')
+# class LogoutAPIView(APIView):
+#     authentication_classes = [SessionAuthentication, TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request):
+#         csrftoken = request.COOKIES.get('csrfToken')
+#         if csrftoken:
+#             request.META['X-XSRF-TOKEN'] = csrftoken
+            
+#         request.user.auth_token.delete()  # Assuming you are using TokenAuthentication
+#         print(">>>> logout >>>> ")
+#         return Response(status=status.HTTP_200_OK)
+
 class LogoutAPIView(APIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @method_decorator(ensure_csrf_cookie)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self, request):
-        csrftoken = request.COOKIES.get('csrftoken')
+        csrftoken = request.COOKIES.get('csrfToken')
+        print(">>>>> csrftoken>>>>> ", csrftoken)
         if csrftoken:
-            request.META['X-XSRF-TOKEN'] = csrftoken
-            
-        request.user.auth_token.delete()  # Assuming you are using TokenAuthentication
-        print(">>>> logout >>>> ")
+            print(">>>> in csrftoken >>>> ")
+            request.META['HTTP_X_CSRFTOKEN'] = csrftoken
+
+        print(" >>>>> user auth token delete >>>> ")
+        request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
 
 class CsrfTokenView(APIView):
     def get(self, request, *args, **kwargs):

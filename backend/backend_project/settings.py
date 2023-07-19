@@ -38,11 +38,9 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.sites',
-
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
 
     'rest_framework',
     'corsheaders',
@@ -105,7 +103,7 @@ TEMPLATES = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-
+            'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -215,8 +213,8 @@ MEDIA_URL = "http://%s/media/" % AWS_S3_CUSTOM_DOMAIN
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
-CSRF_COOKIE_NAME = 'XSRF-TOKEN'
-CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
+CSRF_COOKIE_NAME = 'csrfToken'
+CSRF_HEADER_NAME = 'X-CSRFToken'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -255,7 +253,7 @@ CORS_ALLOW_HEADERS = (
     'csrftoken',
     'x-requested-with',
     'x-xsrf-token',
-    'x-csrftoken',
+    'x-csrf-token',
     'mode',
     'Sec-Ch-Ua',
     'Sec-Ch-Ua-Mobile',
