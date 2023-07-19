@@ -114,6 +114,20 @@ REST_FRAMEWORK = {
 ],
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',  # 필요에 따라 로깅 레벨을 설정할 수 있습니다.
+    },
+}
+
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
@@ -241,5 +255,5 @@ CORS_ALLOW_HEADERS = (
     'X-CSRFToken',
     'csrftoken',
     'x-requested-with',
-    'x-xsrf-token',
+    'X-XSRF-TOKEN',
 )

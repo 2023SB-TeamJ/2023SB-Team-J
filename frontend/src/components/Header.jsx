@@ -13,24 +13,30 @@ function Header() {
 
   const handleLogout = async () => {
     try {
-      const csrfToken = document.cookie // 쿠키에서 CSRF 토큰 추출
+      const csrfToken = document.cookie
         .split('; ')
-        .find((row) => row.startsWith('csrfToken='))
-        .split('=')[1];
-
-      console.log('Extracted CSRF Token:', csrfToken);
+        .find((row) => row.startsWith('csrfToken='));
+      if (!csrfToken) {
+        console.error('CSRF Token not found in cookies.');
+        return;
+      }
+      const csrfTokenValue = csrfToken.split('=')[1];
+      const requestData = {};
 
       const response = await axios.post(
         'http://localhost:8000/api/v1/logout/',
-        {},
+        requestData,
         {
+          withCredentials: true,
           headers: {
-            'X-XSRF-TOKEN': csrfToken, // 쿠키에서 추출한 CSRF 토큰을 요청 헤더에 포함
+            'X-XSRF-TOKEN': csrfTokenValue,
           },
         },
       );
 
-      // 로그아웃 성공 시 로그인 상태를 false로 설정하고 알림 표시
+      console.log('Request Data:', requestData);
+      console.log('Logout Response:', response.data);
+
       if (response.status === 200) {
         setIsLoggedIn(false);
         navigate('/test');

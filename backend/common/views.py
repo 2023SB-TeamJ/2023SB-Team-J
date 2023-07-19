@@ -1,4 +1,4 @@
-from django.contrib.auth import get_user_model, logout, login, logout
+from django.contrib.auth import get_user_model, logout, login
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
@@ -60,8 +60,9 @@ class LogoutAPIView(APIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        request.user.auth_token.delete()  # Assuming you are using TokenAuthentication
+    def post(self, request, *args, **kwargs):
+        request.user.auth_token.delete()
+        logout(request)
         return Response(status=status.HTTP_200_OK)
 
 class CsrfTokenView(APIView):
