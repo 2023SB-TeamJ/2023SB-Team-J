@@ -35,7 +35,12 @@ function LoginModal({ isOpen, onClose }) {
   const getCsrfToken = async () => {
     try {
       const response = await axios.get('http://localhost:8000/api/v1/login/');
-      return response.data.csrfToken;
+      const { csrfToken } = response.data;
+
+      // Token을 쿠키에 저장
+      document.cookie = `csrfToken=${csrfToken}; path=/`;
+
+      return csrfToken;
     } catch (error) {
       console.log(error);
     }
