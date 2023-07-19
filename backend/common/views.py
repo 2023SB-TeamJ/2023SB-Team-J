@@ -63,6 +63,10 @@ class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        csrftoken = request.COOKIES.get('csrftoken')
+        if csrftoken:
+            request.META['X-XSRF-TOKEN'] = csrftoken
+            
         request.user.auth_token.delete()  # Assuming you are using TokenAuthentication
         print(">>>> logout >>>> ")
         return Response(status=status.HTTP_200_OK)
@@ -71,3 +75,9 @@ class CsrfTokenView(APIView):
     def get(self, request, *args, **kwargs):
         csrf_token = get_token(request)
         return Response({'csrfToken': csrf_token})
+    
+class CsrfCookieToHeader(object):
+    def process_request(self, request):
+        csrftoken = request.COOKIES.get('csrftoken')
+        if csrftoken:
+            request.META['HTTP_X_CSRFTOKEN'] = csrftoken
