@@ -8,6 +8,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from .serializers import UserSerializer
 
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+
 User = get_user_model()
 
 
@@ -55,12 +57,11 @@ class LoginAPIView(APIView):
 
 #로그아웃
 class LogoutAPIView(APIView):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        csrf_token = get_token(request)
-
-        logout(request)
+        request.user.auth_token.delete()  # Assuming you are using TokenAuthentication
         return Response(status=status.HTTP_200_OK)
 
 class CsrfTokenView(APIView):
