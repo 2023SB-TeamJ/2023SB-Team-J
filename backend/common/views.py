@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model, logout, login, logout
 from django.middleware.csrf import get_token
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -56,12 +57,14 @@ class LoginAPIView(APIView):
         return Response({'message': '이메일 또는 비밀번호가 올바르지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
 #로그아웃
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class LogoutAPIView(APIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
         request.user.auth_token.delete()  # Assuming you are using TokenAuthentication
+        print(">>>> logout >>>> ")
         return Response(status=status.HTTP_200_OK)
 
 class CsrfTokenView(APIView):
