@@ -41,9 +41,9 @@ function LoginModal({ isOpen, onClose }) {
         password,
       });
 
-      // 로그인 성공 시 로컬 스토리지에 토큰 저장 및 페이지 전환
       if (response.status === 200) {
-        document.cookie = `jwt=${response.data.jwt}; path=/;`;
+        localStorage.setItem('refresh', response.data.refresh);
+        localStorage.setItem('access', response.data.access);
         setIsLoggedIn(true);
         console.log(response);
         alert('로그인 성공!');

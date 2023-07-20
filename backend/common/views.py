@@ -10,8 +10,9 @@ from rest_framework import status
 from .serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework_simplejwt.tokens import OutstandingToken, BlacklistedToken
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import UntypedToken
 # from django.middleware.csrf import CsrfViewMiddleware
 
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
@@ -40,42 +41,36 @@ class LoginAPIView(APIView):
         email = request.data.get('email')
         password = request.data.get('password')
 
-        # 이메일 또는 비밀번호가 제공되지 않은 경우 오류 메시지를 반환합니다.
         if email is None or password is None:
             return Response({'error': 'Please provide both email and password.'}, status=status.HTTP_400_BAD_REQUEST)
 
         user = User.objects.filter(email=email).first()
 
-        # 사용자가 있는 경우 비밀번호를 확인하고 JWT 토큰을 생성합니다.
         if user and user.check_password(password):
             refresh = RefreshToken.for_user(user)
             return Response({
                 'message': 'success',
-                'jwt': str(refresh.access_token), # JWT 토큰을 응답 본문에 추가합니다.
+                'refresh': str(refresh),  # Refresh 토큰을 응답 본문에 추가합니다.
+                'access': str(refresh.access_token),  # Access 토큰을 응답 본문에 추가합니다.
             }, status=status.HTTP_200_OK)
 
-        # 잘못된 이메일 또는 비밀번호를 입력한 경우 오류 메시지를 반환합니다.
         return Response({'message': 'Invalid email or password.'}, status=status.HTTP_400_BAD_REQUEST)
 
+# 로그아웃
 class LogoutAPIView(APIView):
     permission_classes = [AllowAny]
     
     def post(self, request):
-        access_token = request.data.get('token')
-
-        # 토큰이 제공되지 않은 경우 오류 메시지를 반환합니다.
-        if not access_token:
-            return Response({'error': 'Access token is required.'}, status=status.HTTP_400_BAD_REQUEST)
-
         try:
-            # 제공된 토큰을 블랙리스트에 추가합니다.
-            token = OutstandingToken.objects.get(token=access_token)
+            # Refresh 토큰을 가져옵니다.
+            refresh_token = request.data.get('refresh')
+            token = RefreshToken(refresh_token)
             token.blacklist()
-            return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
-        except (OutstandingToken.DoesNotExist, TokenError):
-            # 토큰이 유효하지 않은 경우나 이미 블랙리스트에 있는 경우에도 성공 메시지를 반환합니다.
-            return Response({'message': 'success'}, status=status.HTTP_200_OK)
+            return Response({'message': '로그아웃 되었습니다.'}, status=status.HTTP_200_OK)
+        except TokenError as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 # class CsrfTokenView(APIView):
 #     def get(self, request, *args, **kwargs):
