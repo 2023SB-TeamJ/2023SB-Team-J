@@ -13,7 +13,7 @@ import {
   RowDiv,
 } from './AuthModalStyle';
 import { useAuth } from '../contexts/AuthContext';
-import getCsrfToken from './getCsrfToken';
+// import getCsrfToken from './getCsrfToken';
 
 // eslint-disable-next-line react/prop-types
 function LoginModal({ isOpen, onClose }) {
@@ -41,9 +41,9 @@ function LoginModal({ isOpen, onClose }) {
         password,
       });
 
-      // 로그인 성공 시 페이지를 전환
+      // 로그인 성공 시 로컬 스토리지에 토큰 저장 및 페이지 전환
       if (response.status === 200) {
-        getCsrfToken();
+        document.cookie = `jwt=${response.data.jwt}; path=/;`;
         setIsLoggedIn(true);
         console.log(response);
         alert('로그인 성공!');
@@ -53,6 +53,7 @@ function LoginModal({ isOpen, onClose }) {
       console.error(error);
     }
   };
+
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true);

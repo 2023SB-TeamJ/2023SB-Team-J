@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -13,37 +14,33 @@ function Header() {
 
   // 로그아웃 API 요청
   const handleLogout = async () => {
-    const csrfToken = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('csrftoken='))
-      .split('=')[1];
-
-    if (!csrfToken) {
-      console.error('CSRF Token not found in cookies.');
-      return;
-    }
-    console.log('Request Data:', csrfToken);
-    const requestData = {};
-
     try {
+      const cookies = document.cookie.split(';'); // 모든 쿠키 가져오기
+      let jwtToken = '';
+
+      // 쿠키에서 JWT 토큰 찾기
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith('jwt=')) {
+          jwtToken = cookie.substring(4); // 'jwt=' 제외한 토큰 값만 추출
+          break;
+        }
+      }
+
       const response = await axios.post(
         'http://localhost:8000/api/v1/logout/',
-        requestData,
         {
-          withCredentials: true,
-          headers: {
-            'X-CSRFToken': csrfToken,
-          },
+          token: jwtToken, // JWT 토큰을 요청 데이터에 포함하여 전송
         },
       );
 
-      console.log('Request Data:', requestData);
-      console.log('Logout Response:', response.data);
-
       if (response.status === 200) {
+        // 쿠키에서 JWT 토큰을 삭제
+        document.cookie =
+          'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         setIsLoggedIn(false);
-        navigate('/test');
         alert('로그아웃 성공!');
+        navigate('/test');
       }
     } catch (error) {
       console.error(error);
