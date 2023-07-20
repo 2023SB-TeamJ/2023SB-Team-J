@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-use-before-define */
@@ -68,17 +69,19 @@ function CustomText() {
 
   return (
     <div>
-      <AddTextboxButton
-        onClick={handleAddTextbox}
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ borderRadius: '50%' }}
-      >
-        <img
-          src={img}
-          style={{ width: '100%', height: '100%' }}
-          alt="Uploaded"
-        />
-      </AddTextboxButton>
+      <BtnWrap>
+        <AddTextboxButton
+          onClick={handleAddTextbox}
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ borderRadius: '50%' }}
+        >
+          <img
+            src={img}
+            style={{ width: '100%', height: '100%' }}
+            alt="Uploaded"
+          />
+        </AddTextboxButton>
+      </BtnWrap>
       {textElements.map((element) => (
         <Draggable
           key={element.id}
@@ -112,11 +115,14 @@ function CustomText() {
   );
 }
 
+const BtnWrap = styled.div`
+  position: absolute;
+  top: 32%;
+  left: 22%;
+`;
 const AddTextboxButton = styled(motion.div)`
-  background-color: #c8cfd4;
-  border: #c8cfd4;
-  width: 75px;
-  height: 75px;
+  width: 100px;
+  height: 100px;
 `;
 
 const TextboxContainer = styled.div`

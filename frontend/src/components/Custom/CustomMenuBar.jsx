@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import photo from '../../assets/images/photo.png';
 import sticker from '../../assets/images/sticker.png';
-import CustomTextBox from './CustomTextBox';
+// import CustomTextBox from './CustomTextBox';
 import CustomSticker from './CustomSticker';
 import smile from '../../assets/images/sticker_smile.png';
 import sunglass from '../../assets/images/sticker_sunglass.png';
@@ -30,7 +30,7 @@ function CustomMenuBar() {
     <div>
       <MenuWrap>
         <ButtonWrap>
-          <CustomTextBox />
+          {/* <CustomTextBox /> */}
 
           <PhotoBtn
             onClick={toggleMenu2}

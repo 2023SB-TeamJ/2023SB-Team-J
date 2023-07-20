@@ -1,3 +1,7 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/button-has-type */
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -6,14 +10,32 @@ import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import Header from '../components/Header';
 import Title from '../components/Title';
-import CustomMenuBar from '../components/Custom/CustomMenuBar';
+// import CustomMenuBar from '../components/Custom/CustomMenuBar';
 import addphoto from '../assets/images/addphoto.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
 
+const DivArea = styled.div`
+  width: 100%;
+  height: 100%;
+  font-size: 900;
+  /* background-image: url('https://t4y-bucket.s3.amazonaws.com/22023-07-1814:05:53105150.jpeg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+  background: #fb8ffba1;
+`;
+// const IMG = styled.div`
+//   width: 100%;
+//   height: 100%;
+
+//   /* background-image: url('https://t4y-bucket.s3.amazonaws.com/22023-07-1814:05:53105150.jpeg');
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: cover; */
+// `;
 function CustomizingPage() {
   const navigate = useNavigate();
-
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
 
@@ -45,26 +67,18 @@ function CustomizingPage() {
             프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
-          <CustomWrap>
-            <MenuWrap>
+          {/* <CustomWrap> */}
+          {/* <MenuWrap>
               <CustomMenuBar />
-              <TestWrap>
-                <TextBoxWrap>
-                  <CustomTextBox />
-                </TextBoxWrap>
-                <CustomPhoto />
-              </TestWrap>
-            </MenuWrap>
-            <CaptureWrap>
-              <div id="captureArea"> 이미지 들어 가는 곳</div>
-            </CaptureWrap>
-
-            <AddPhotoBtn
-              onClick={captureArea}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ borderRadius: '50%' }}
-            />
-          </CustomWrap>
+            </MenuWrap> */}
+          <CaptureWrap>
+            <DivArea id="captureArea">
+              <div>이미지 들어 가는 곳</div>
+              <CustomTextBox />
+              <CustomPhoto />
+            </DivArea>
+          </CaptureWrap>
+          {/* </CustomWrap> */}
         </MainWrap>
       </Container>
     </div>
@@ -99,14 +113,14 @@ const ProgressBar = styled.div`
   justify-content: center;
   margin: 3rem;
 `;
-const CustomWrap = styled.div`
-  display: flex;
-  align-items: center;
-`;
+// const CustomWrap = styled.div`
+//   display: flex;
+//   align-items: center;
+// `;
 
-const MenuWrap = styled.div`
-  display: flex;
-`;
+// const MenuWrap = styled.div`
+//   display: flex;
+// `;
 
 const AddPhotoBtn = styled(motion.div)`
   width: 79.5px;
@@ -122,15 +136,15 @@ const AddPhotoBtn = styled(motion.div)`
 const TextBoxWrap = styled.div``;
 
 const CaptureWrap = styled.div`
+  display: flex;
   width: 40rem;
   height: 40rem;
   border: solid 2px;
-  margin-left: 10rem;
-  flex-shrink: 1;
+  justify-content: center;
 `;
 
-const TestWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 2rem;
-`;
+// const TestWrap = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   margin-left: 2rem;
+// `;

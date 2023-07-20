@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-shadow */
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -9,6 +10,7 @@ import Draggable from 'react-draggable';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import imageButton from '../../assets/images/photo.png';
+// import CustomPhotoBtn from './CustomPhotoBtn';
 
 function CustomPhoto() {
   // 배열로 변경, 페이지 관리
@@ -36,19 +38,21 @@ function CustomPhoto() {
   const handleDelete = () => {
     setImage(null);
   };
-
   return (
     <ImageContainer>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        <ImageButtonContainer
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ borderRadius: '50%' }}
-        >
-          <img src={imageButton} alt="Upload" />
-        </ImageButtonContainer>
-      </div>
-      <Wrapper>
+      <BtnWrap>
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
+          <ImageButtonContainer
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          >
+            <img src={imageButton} alt="Upload" />
+          </ImageButtonContainer>
+        </div>
+      </BtnWrap>
+
+      <ImgWrap>
         {image && (
           <Draggable
             position={position}
@@ -71,15 +75,19 @@ function CustomPhoto() {
             </ResizableBox>
           </Draggable>
         )}
-      </Wrapper>
+      </ImgWrap>
     </ImageContainer>
   );
 }
 
-const ImageContainer = styled.div`
-  position: relative;
-`;
+const ImageContainer = styled.div``;
 
+const BtnWrap = styled.div`
+  position: absolute;
+  top: 46%;
+  left: 22%;
+`;
+const ImgWrap = styled.div``;
 const ImageButtonContainer = styled(motion.div)`
   border: none;
   background: none;
@@ -97,9 +105,5 @@ const DeleteButton = styled.button`
   color: white;
   font-weight: bold;
   cursor: pointer;
-`;
-
-const Wrapper = styled.div`
-  position: absolute;
 `;
 export default CustomPhoto;

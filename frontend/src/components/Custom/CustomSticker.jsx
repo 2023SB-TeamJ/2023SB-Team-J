@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-shadow */
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
