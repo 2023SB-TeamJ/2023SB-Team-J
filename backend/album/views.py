@@ -37,7 +37,6 @@ class AlbumDetailView(APIView): #album/detail
 
 
     def get(self, request, format=None): #앨범 상세 조회
-
         result_image_id = request.data.get('result_image_id')
         try:
             image_collage = Image_collage.objects.get(id=result_image_id, deleted_at__isnull=True)
