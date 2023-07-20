@@ -39,6 +39,7 @@ class LoginAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         csrf_token = get_token(request)
+        print(csrf_token)
         return Response({'csrftoken': csrf_token})
 
     def post(self, request):
