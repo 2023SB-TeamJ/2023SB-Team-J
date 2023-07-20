@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from .serializers import UserSerializer
+from django.middleware.csrf import CsrfViewMiddleware
 
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
@@ -38,7 +39,7 @@ class LoginAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         csrf_token = get_token(request)
-        return Response({'csrfToken': csrf_token})
+        return Response({'csrftoken': csrf_token})
 
     def post(self, request):
         email = request.data.get('email')
@@ -57,24 +58,31 @@ class LoginAPIView(APIView):
         return Response({'message': '이메일 또는 비밀번호가 올바르지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
 #로그아웃
-@method_decorator(ensure_csrf_cookie, name='dispatch')
 class LogoutAPIView(APIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        csrftoken = request.COOKIES.get('csrftoken')
-        if csrftoken:
-            request.META['X-XSRF-TOKEN'] = csrftoken
-            
-        request.user.auth_token.delete()  # Assuming you are using TokenAuthentication
-        print(">>>> logout >>>> ")
+        csrf_token = get_token(request)  # CSRF 토큰 가져오기
+        print("Server CSRF Token:", csrf_token)
+
+        received_token = request.META.get('HTTP_X_CSRFTOKEN')  # 클라이언트에서 전달된 토큰 값
+        print('Received CSRF token:', received_token)
+
+        # CSRF 토큰 유효성 검사
+        csrf_middleware = CsrfViewMiddleware()
+        csrf_middleware.process_view(request, None, None, None)
+        if not request.META.get('CSRF_COOKIE_USED', False):
+            return Response({'error': 'CSRF 토큰 유효성 검사 실패.'}, status=status.HTTP_403_FORBIDDEN)
+
+        request.user.auth_token.delete()  # 토큰 인증을 사용하고 있다고 가정합니다.
+        print(">>>> 로그아웃 >>>> ")
         return Response(status=status.HTTP_200_OK)
 
 class CsrfTokenView(APIView):
     def get(self, request, *args, **kwargs):
         csrf_token = get_token(request)
-        return Response({'csrfToken': csrf_token})
+        return Response({'csrftoken': csrf_token})
     
 class CsrfCookieToHeader(object):
     def process_request(self, request):

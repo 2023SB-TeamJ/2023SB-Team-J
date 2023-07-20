@@ -13,24 +13,26 @@ function Header() {
 
   // 로그아웃 API 요청
   const handleLogout = async () => {
-    try {
-      const csrfToken = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('csrfToken='));
-      if (!csrfToken) {
-        console.error('CSRF Token not found in cookies.');
-        return;
-      }
-      const csrfTokenValue = csrfToken.split('=')[1];
-      const requestData = {};
+    const csrfToken = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('csrftoken='))
+      .split('=')[1];
 
+    if (!csrfToken) {
+      console.error('CSRF Token not found in cookies.');
+      return;
+    }
+    console.log('Request Data:', csrfToken);
+    const requestData = {};
+
+    try {
       const response = await axios.post(
         'http://localhost:8000/api/v1/logout/',
         requestData,
         {
           withCredentials: true,
           headers: {
-            'X-XSRF-TOKEN': csrfTokenValue,
+            'X-CSRFToken': csrfToken,
           },
         },
       );

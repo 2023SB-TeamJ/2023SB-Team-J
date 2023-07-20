@@ -214,10 +214,6 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = "http://%s/media/" % AWS_S3_CUSTOM_DOMAIN
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-
-CSRF_COOKIE_NAME = 'XSRF-TOKEN'
-CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
-
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 

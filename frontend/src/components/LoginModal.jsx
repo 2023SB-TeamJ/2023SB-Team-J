@@ -43,7 +43,7 @@ function LoginModal({ isOpen, onClose }) {
 
       // 로그인 성공 시 페이지를 전환
       if (response.status === 200) {
-        await getCsrfToken(); // Retrieve the CSRF token
+        getCsrfToken();
         setIsLoggedIn(true);
         console.log(response);
         alert('로그인 성공!');
