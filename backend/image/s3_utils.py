@@ -1,3 +1,5 @@
+import hashlib
+
 import boto3
 
 from backend_project.settings import *
@@ -28,3 +30,14 @@ def download_image_from_s3(s3_url):
     except requests.exceptions.RequestException as e:
         print(f"Failed to download image: {e}")
         return None
+
+
+def generate_unique_filename(image_data):
+    # 이미지 데이터의 해시값을 계산합니다.
+    hasher = hashlib.md5()
+    hasher.update(image_data)
+    hash_value = hasher.hexdigest()
+
+    # 해시값을 파일 이름에 추가하여 고유한 파일 이름을 생성합니다.
+    filename = f"image_{hash_value}"
+    return filename

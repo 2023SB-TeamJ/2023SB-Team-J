@@ -111,7 +111,7 @@ class UploadImageView(APIView):
 
 
 
-class AiExecute(APIView):
+"""class AiExecute(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -128,7 +128,41 @@ class AiExecute(APIView):
         if result:
             return Response(result1, status=status.HTTP_201_CREATED)
         else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)"""
+
+class AiExecute(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        url = request.data.get("image")
+        id = request.data.get("image_origin_id")
+        result1 = model1_execute.delay(url)
+        result2 = model2_execute.delay(url)
+        result3 = model3_execute.delay(url)
+
+        while True:
+            if result1.ready() and result2.ready() and result3.ready():
+                break
+            time.sleep(1)
+
+        result1 = result1.result
+        result2 = result2.result
+        result3 = result3.result
+
+        data = {
+            "image_origin_id": id,
+            "result_url_1": result1,
+            "result_url_2": result2,
+            "result_url_3": result3
+        }
+        serializer = Ai_modelSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            db.connections.close_all()
+            return Response(data, status=status.HTTP_201_CREATED)
+        else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 #sudo celery -A backend_project.celery multi start 4 --loglevel=info --pool=threads
 #sudo celery multi stop 4 -A backend_project.celery --all

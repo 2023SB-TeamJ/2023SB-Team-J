@@ -28,4 +28,4 @@ matplotlib==3.7.1
 opencv-python==4.8.0.74
 django-celery-results
 torchvision
-
+gevent
