@@ -253,6 +253,7 @@ CORS_ALLOW_HEADERS = (
     'csrftoken',
     'x-requested-with',
     'x-xsrf-token',
+    'x-csrftoken',
     'x-csrf-token',
     'mode',
     'Sec-Ch-Ua',

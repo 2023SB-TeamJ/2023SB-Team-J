@@ -9,6 +9,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from .serializers import UserSerializer
 
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 User = get_user_model()
@@ -70,16 +73,26 @@ class LoginAPIView(APIView):
 #         request.user.auth_token.delete()  # Assuming you are using TokenAuthentication
 #         print(">>>> logout >>>> ")
 #         return Response(status=status.HTTP_200_OK)
-
+@method_decorator(csrf_exempt, name='dispatch')
 class LogoutAPIView(APIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    print(">>>>> logout api >>>>> ")
 
-    @method_decorator(ensure_csrf_cookie)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    # def options(self, request):
+    #     my_res=Response(status=status.HTTP_200_OK)
+    #     # 사전요청 print('--사전 요청(Preflight Request)--')
+    #     my_res.headers.add('Access-Control-Allow-Origin', '*')
+    #     my_res.headers.add('Access-Control-Allow-Headers', '*')
+    #     my_res.headers.add('Access-Control-Allow-Methods', 'POST, GET')
+    #
+    # def get(self, request):
+    #     my_res=Response(status=status.HTTP_200_OK)
+    #     my_res.headers['Access-Control-Allow-Origin']='*'
 
     def post(self, request):
+        # my_res=Response()
+        # my_res.headers["Access-Control-Allow-Origin"] = "*"
         csrftoken = request.COOKIES.get('csrfToken')
         print(">>>>> csrftoken>>>>> ", csrftoken)
         if csrftoken:
@@ -88,6 +101,8 @@ class LogoutAPIView(APIView):
 
         print(" >>>>> user auth token delete >>>> ")
         request.user.auth_token.delete()
+
+        # my_res = Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_200_OK)
 
 
