@@ -11,7 +11,6 @@ import img from '../../assets/images/textbox.png';
 
 function CustomText() {
   const [textElements, setTextElements] = useState([]);
-
   const handleAddTextbox = () => {
     setTextElements((prevTextElements) => [
       ...prevTextElements,
@@ -117,8 +116,8 @@ function CustomText() {
 
 const BtnWrap = styled.div`
   position: absolute;
-  top: 32%;
-  left: 22%;
+  top: 35%;
+  left: 21%;
 `;
 const AddTextboxButton = styled(motion.div)`
   width: 100px;

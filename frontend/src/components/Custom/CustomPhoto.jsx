@@ -84,10 +84,13 @@ const ImageContainer = styled.div``;
 
 const BtnWrap = styled.div`
   position: absolute;
-  top: 46%;
-  left: 22%;
+  top: 50%;
+  left: 20%;
 `;
-const ImgWrap = styled.div``;
+const ImgWrap = styled.div`
+  z-index: -1;
+`;
+
 const ImageButtonContainer = styled(motion.div)`
   border: none;
   background: none;

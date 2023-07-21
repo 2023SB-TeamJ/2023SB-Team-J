@@ -14,17 +14,13 @@ import Title from '../components/Title';
 import addphoto from '../assets/images/addphoto.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
+import cut4 from '../assets/images/4cut_test.png';
+// import CustomSticker from '../components/Custom/CustomSticker';
+import CustomMenuBar from '../components/Custom/CustomMenuBar';
+// import smile from '../../assets/images/sticker_smile.png';
+// import sunglass from '../../assets/images/sticker_sunglass.png';
+// import heart from '../../assets/images/sticker_heart.png';
 
-const DivArea = styled.div`
-  width: 100%;
-  height: 100%;
-  font-size: 900;
-  /* background-image: url('https://t4y-bucket.s3.amazonaws.com/22023-07-1814:05:53105150.jpeg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; */
-  background: #fb8ffba1;
-`;
 // const IMG = styled.div`
 //   width: 100%;
 //   height: 100%;
@@ -73,10 +69,16 @@ function CustomizingPage() {
             </MenuWrap> */}
           <CaptureWrap>
             <DivArea id="captureArea">
-              <div>이미지 들어 가는 곳</div>
-              <CustomTextBox />
               <CustomPhoto />
+              <TextBoxWrap>
+                <CustomTextBox />
+              </TextBoxWrap>
             </DivArea>
+            <AddPhotoBtn
+              onClick={captureArea}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ borderRadius: '50%' }}
+            />
           </CaptureWrap>
           {/* </CustomWrap> */}
         </MainWrap>
@@ -123,13 +125,12 @@ const ProgressBar = styled.div`
 // `;
 
 const AddPhotoBtn = styled(motion.div)`
+  margin-left: 30px;
   width: 79.5px;
   height: 66px;
   flex-shrink: 0;
-  margin-left: 10rem;
   background: url(${addphoto}) lightgray 50% / cover no-repeat;
   background-color: ${(props) => props.theme.backgroundColor};
-
   cursor: pointer;
 `;
 
@@ -137,12 +138,23 @@ const TextBoxWrap = styled.div``;
 
 const CaptureWrap = styled.div`
   display: flex;
-  width: 40rem;
-  height: 40rem;
-  border: solid 2px;
-  justify-content: center;
+  flex-direction: row;
+  margin-left: 33%;
+  width: 38rem;
+  height: 38rem;
 `;
 
+const DivArea = styled.div`
+  width: 100%;
+  height: 100%;
+  font-size: 900;
+  background: url(${cut4}) lightgray 50% / cover no-repeat;
+  /* background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background: #ffffff;
+  border: solid 2px; */
+`;
 // const TestWrap = styled.div`
 //   display: flex;
 //   flex-direction: column;
