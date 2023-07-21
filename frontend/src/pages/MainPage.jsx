@@ -2,23 +2,24 @@ import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import SampleImage1 from '../assets/images/1x4sampleImage.png';
 import SampleImage2 from '../assets/images/2x2sampleImage.jpg';
+import { useAuth } from '../contexts/AuthContext';
+import Header from '../components/Header';
 import HeaderMain from '../components/HeaderMain';
 
 function MainPage() {
   const navigate = useNavigate();
-
-  // const [userId, setUserId] = useState('');
+  const { isLoggedIn } = useAuth();
+  // const [userId, setUserId] = useStat`e('');
   // const [nickName, setNickName] = useState('');
-
   // api~~~
   return (
     <div>
       <Container>
         <MainWrap>
-          <HeaderMain />
+          {isLoggedIn ? <Header /> : <HeaderMain />}
           <Slogan1>추억을 간직하는</Slogan1>
           <Slogan2>THIS IS 4 YOU</Slogan2>
-          {/* useParams */}
+          {/* useLocation */}
           <StartBtn
             onClick={() =>
               navigate('/album', {

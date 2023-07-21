@@ -1,4 +1,3 @@
-
 /* eslint-disable no-const-assign */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
@@ -39,7 +38,7 @@ function AlbumDetailModal({ setIsOpen, imgId }) {
   useEffect(() => {
     InquireAlbumDetail();
   }, []);
-  
+
   return (
     <ModalContainer>
       <ModalBackdrop>
@@ -285,8 +284,6 @@ const ModalView = styled.div`
   background-color: #3f3d3f;
   box-shadow: 10px 10px 6px 0px rgba(0, 0, 0, 0.25);
 `;
-
-
 const Photo = styled.img`
   width: 100%;
   height: 503px;

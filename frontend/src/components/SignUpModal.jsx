@@ -14,7 +14,6 @@ import {
 
 // eslint-disable-next-line react/prop-types
 function SignUpModal({ isOpen, onClose }) {
-
   const navigate = useNavigate();
   const MAX_NICKNAME_LENGTH = 10; // 최대 닉네임 길이
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이

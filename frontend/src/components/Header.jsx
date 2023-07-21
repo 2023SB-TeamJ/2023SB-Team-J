@@ -35,8 +35,6 @@ function Header() {
       console.error(error);
     }
   };
-
-
   return (
     <div>
       <Container>

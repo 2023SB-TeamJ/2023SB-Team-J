@@ -27,10 +27,11 @@ function LoginModal({ isOpen, onClose }) {
     setShowPassword(!showPassword); // 눈 아이콘 토글
   };
 
+  // const [userId, setUserID] = useState('');
+  // const [nickName, setNickName] = useState('');
+
   const [isVisible, setIsVisible] = useState(false);
   const [animation, setAnimation] = useState('');
-
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
