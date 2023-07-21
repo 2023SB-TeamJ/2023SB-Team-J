@@ -1,4 +1,5 @@
-import { React } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
@@ -6,6 +7,12 @@ import PageShiftBtn from '../components/PageShiftBtn';
 import Carousel from '../components/Carousel';
 
 function ConvertAIPage() {
+  const location = useLocation();
+  const { frameType } = location.state.frameType;
+  console.log(frameType);
+  // const navigate = useNavigate();
+
+  // const frameComponents = Array(4).fill(<Carousel />);
   return (
     <div>
       <Container>
