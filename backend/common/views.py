@@ -62,19 +62,6 @@ class LoginAPIView(APIView):
 # 로그아웃
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    print(">>>>> logout api >>>>> ")
-
-    # def options(self, request):
-    #     my_res=Response(status=status.HTTP_200_OK)
-    #     # 사전요청 print('--사전 요청(Preflight Request)--')
-    #     my_res.headers.add('Access-Control-Allow-Origin', '*')
-    #     my_res.headers.add('Access-Control-Allow-Headers', '*')
-    #     my_res.headers.add('Access-Control-Allow-Methods', 'POST, GET')
-    #
-    # def get(self, request):
-    #     my_res=Response(status=status.HTTP_200_OK)
-    #     my_res.headers['Access-Control-Allow-Origin']='*'
-
     def post(self, request):
         try:
             # Blacklist the refresh token to invalidate it
@@ -82,23 +69,6 @@ class LogoutAPIView(APIView):
             token = RefreshToken(refresh_token)
             token.blacklist()
 
-            # Optionally, you can also delete the user's access token if desired
-            # access_token = request.data.get('access')
-            # token = AccessToken(access_token)
-            # token.blacklist()
-
             return Response(status=status.HTTP_200_OK)
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-# class CsrfTokenView(APIView):
-#     def get(self, request, *args, **kwargs):
-#         csrf_token = get_token(request)
-#         return Response({'csrftoken': csrf_token})
-    
-# class CsrfCookieToHeader(object):
-#     def process_request(self, request):
-#         csrftoken = request.COOKIES.get('csrftoken')
-#         if csrftoken:
-#             request.META['HTTP_X_CSRFTOKEN'] = csrftoken
