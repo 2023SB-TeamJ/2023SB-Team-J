@@ -13,7 +13,7 @@ import io
 from .AiTask import *
 from io import BytesIO
 from .s3_utils import upload_image_to_s3
-from .models import Image_origin
+from .models import *
 from album.models import Image_collage
 from album.serializers import CollageImageSerializer
 from rest_framework.permissions import AllowAny
@@ -50,7 +50,7 @@ class UploadImageView(APIView):
                     'url_3': img_urls[2] if len(img_urls) > 2 else '',
                     'url_4': img_urls[3] if len(img_urls) > 3 else '',
                 }
-                uploaded_image = Image_origin.objects.create(**data)
+                uploaded_image = Image_upload.objects.create(**data)
                 serializer = UploadedImageSerializer(uploaded_image)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
@@ -69,7 +69,7 @@ class UploadImageView(APIView):
             if user_id is None or source is None:  # request 형식에 맞지 않는 경우
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
+            image_origin = Image_upload.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
         except:
             # 찾지 못한 경우 HTTP_400
