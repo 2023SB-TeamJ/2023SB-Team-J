@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import {
   AuthLogo,
   AuthTitle,
@@ -12,6 +14,8 @@ import {
 
 // eslint-disable-next-line react/prop-types
 function SignUpModal({ isOpen, onClose }) {
+
+  const navigate = useNavigate();
   const MAX_NICKNAME_LENGTH = 10; // 최대 닉네임 길이
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
@@ -19,9 +23,36 @@ function SignUpModal({ isOpen, onClose }) {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword); // 눈 아이콘 토글
   };
-
   const [isVisible, setIsVisible] = useState(false);
   const [animation, setAnimation] = useState('');
+  const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [password, setPassword] = useState('');
+
+  // 회원가입 API 요청
+  const handleSignUp = async () => {
+    try {
+      const data = {
+        email,
+        nickname,
+        password,
+      };
+      console.log(data);
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/signup/',
+        data,
+      );
+
+      console.log(response.status); // 실제 반환되는 상태 코드 확인
+      // 응답 확인
+      if (response.status === 201) {
+        alert('회원가입 성공!');
+        navigate('/');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -101,7 +132,10 @@ function SignUpModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_NICKNAME_LENGTH}
-              onChange={handleNicknameLength}
+              onChange={(e) => {
+                handleNicknameLength(e);
+                setNickname(e.target.value);
+              }}
             />
           </AuthInputField>
           <AuthInputField>
@@ -111,7 +145,10 @@ function SignUpModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_EMAIL_LENGTH}
-              onChange={handleEmailLength}
+              onChange={(e) => {
+                handleEmailLength(e);
+                setEmail(e.target.value);
+              }}
             />
           </AuthInputField>
           <AuthInputField>
@@ -121,7 +158,10 @@ function SignUpModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_PASSWORD_LENGTH}
-              onChange={handlePasswordLength}
+              onChange={(e) => {
+                handlePasswordLength(e);
+                setPassword(e.target.value);
+              }}
             />
             <EyeIcon
               xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +197,7 @@ function SignUpModal({ isOpen, onClose }) {
               onChange={handlePasswordLength}
             />
           </AuthInputField>
-          <AuthBtn onClick={() => console.log(1)}>회원가입</AuthBtn>
+          <AuthBtn onClick={handleSignUp}>회원가입</AuthBtn>
           <RowDiv>
             <AuthQuestion>이미 회원이신가요?</AuthQuestion>
             <AuthLink>로그인하기</AuthLink>

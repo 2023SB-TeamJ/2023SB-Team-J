@@ -6,7 +6,10 @@ config==0.5.1
 boto3==1.28.1
 mysqlclient==2.2.0
 django-storages==1.13.2
+
 storage
+
+
 boto3==1.28.1
 #회원가입
 PyJWT==2.7.0

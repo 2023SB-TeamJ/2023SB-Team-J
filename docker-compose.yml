@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
   database:
@@ -19,6 +19,8 @@ services:
     restart: on-failure
     ports:
       - 8000:8000
+    expose:
+      - 8000
     depends_on:
       - database
     environment:
@@ -78,3 +80,4 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
+

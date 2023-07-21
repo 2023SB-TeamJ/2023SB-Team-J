@@ -1,6 +1,5 @@
 import { styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-// import { useState } from 'react';
 import SampleImage1 from '../assets/images/1x4sampleImage.png';
 import SampleImage2 from '../assets/images/2x2sampleImage.jpg';
 import HeaderMain from '../components/HeaderMain';

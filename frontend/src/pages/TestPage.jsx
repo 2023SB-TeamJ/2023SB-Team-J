@@ -1,18 +1,16 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import UploadImage from '../components/UploadImage';
+import { useAuth } from '../contexts/AuthContext';
+import Header from '../components/Header';
+import HeaderMain from '../components/HeaderMain';
 
 function TestPage() {
+  const { isLoggedIn } = useAuth();
+
   return (
     <div>
       <Container>
-        <MainWrap>
-          <div>테스트 페이지 입니다</div>
-          <UploadImage />
-          <UploadImage />
-          <UploadImage />
-          <UploadImage />
-        </MainWrap>
+        <MainWrap>{isLoggedIn ? <Header /> : <HeaderMain />}</MainWrap>
       </Container>
     </div>
   );

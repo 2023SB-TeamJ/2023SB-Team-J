@@ -1,3 +1,4 @@
+
 /* eslint-disable no-const-assign */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
@@ -38,7 +39,7 @@ function AlbumDetailModal({ setIsOpen, imgId }) {
   useEffect(() => {
     InquireAlbumDetail();
   }, []);
-
+  
   return (
     <ModalContainer>
       <ModalBackdrop>
@@ -62,6 +63,7 @@ function AlbumDetailModal({ setIsOpen, imgId }) {
               />
             </svg>
           </ExitBtn>
+
           {/* <Photo url={url} /> */}
           {url && (
             <img
@@ -71,6 +73,7 @@ function AlbumDetailModal({ setIsOpen, imgId }) {
             />
           )}
           <Date>{date}</Date>
+
           <ButtonWrap>
             <BookmarkBtn>
               <svg
@@ -283,6 +286,7 @@ const ModalView = styled.div`
   box-shadow: 10px 10px 6px 0px rgba(0, 0, 0, 0.25);
 `;
 
+
 const Photo = styled.img`
   width: 100%;
   height: 503px;
@@ -294,6 +298,7 @@ const Photo = styled.img`
   background-repeat: no-repeat;
   background-size: cover;
   background-color: lightgray;
+
   box-shadow: 10px 10px 6px 0px rgba(0, 0, 0, 0.25);
 `;
 
