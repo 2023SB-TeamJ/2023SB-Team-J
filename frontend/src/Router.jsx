@@ -8,6 +8,7 @@ import CustomizingPage from './pages/CustomizingPage';
 import TestPage from './pages/TestPage';
 import LoadingPage from './pages/LoadingPage';
 
+
 function Router() {
   return (
     <BrowserRouter>
@@ -20,6 +21,7 @@ function Router() {
         <Route path="custom" element={<CustomizingPage />} />
         <Route path="test" element={<TestPage />} />
         <Route path="loading" element={<LoadingPage />} />
+
       </Routes>
     </BrowserRouter>
   );

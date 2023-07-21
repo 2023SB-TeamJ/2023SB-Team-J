@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 import {
   AuthLogo,
   AuthTitle,
@@ -12,6 +13,7 @@ import {
   AuthLink,
   RowDiv,
 } from './AuthModalStyle';
+
 import { useAuth } from '../contexts/AuthContext';
 // import getCsrfToken from './getCsrfToken';
 
@@ -27,6 +29,7 @@ function LoginModal({ isOpen, onClose }) {
 
   const [isVisible, setIsVisible] = useState(false);
   const [animation, setAnimation] = useState('');
+
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

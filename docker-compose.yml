@@ -15,7 +15,7 @@ services:
       dockerfile: Dockerfile
     container_name: t4y-backend
     volumes:
-      - ./backend:/backend
+      - ./backend:/app # 컴파일시 자동으로 빌드 설정
     restart: on-failure
     ports:
       - 8000:8000
@@ -77,21 +77,7 @@ services:
       dockerfile: Dockerfile
     container_name: t4y-frontend
     ports:
-      - '3000:3000' # 포트 매핑 설정
+      - "3000:3000"
     volumes:
       - ./frontend:/frontend
-#    volumes:
-#      - ./nginx.conf:/etc/nginx/nginx.conf
-#    depends_on:
-#      - backend
-#      - frontend
-
-#  frontend:
-#    build:
-#      context: ./frontend
-#      dockerfile: Dockerfile
-#    container_name: t4y-frontend
-#    ports:
-#      - "3000:3000" # 포트 매핑 설정
-##    volumes:
 

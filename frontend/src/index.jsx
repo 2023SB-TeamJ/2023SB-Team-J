@@ -25,8 +25,10 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <AuthProvider>
     <App />
   </AuthProvider>,
 );
+
