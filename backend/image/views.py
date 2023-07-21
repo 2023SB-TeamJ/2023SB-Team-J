@@ -16,7 +16,7 @@ import io
 from .AiTask import *
 from io import BytesIO
 from .s3_utils import upload_image_to_s3
-from .models import Image_origin
+from .models import *
 from album.models import Image_collage
 from album.serializers import CollageImageSerializer
 from rest_framework.permissions import AllowAny
@@ -42,20 +42,21 @@ class UploadImageView(APIView):
                 key = request.data.get("user_id") + str(datetime.now()).replace('.', '') + "." + "jpeg"
                 img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
                 img_urls.append(img_url)
-
-            # 이미지 URL MySQL에 저장
-            data = {
-                'user_id': serializer.validated_data['user_id'],
-                'url_1': img_urls[0] if len(img_urls) > 0 else '',
-                'url_2': img_urls[1] if len(img_urls) > 1 else '',
-                'url_3': img_urls[2] if len(img_urls) > 2 else '',
-                'url_4': img_urls[3] if len(img_urls) > 3 else '',
-            }
-            uploaded_image = Image_origin.objects.create(**data)
-            serializer = UploadedImageSerializer(uploaded_image)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                # 이미지 URL MySQL에 저장
+                data = {
+                    'user_id': serializer.validated_data['user_id'],
+                    'url_1': img_urls[0] if len(img_urls) > 0 else '',
+                    'url_2': img_urls[1] if len(img_urls) > 1 else '',
+                    'url_3': img_urls[2] if len(img_urls) > 2 else '',
+                    'url_4': img_urls[3] if len(img_urls) > 3 else '',
+                }
+                uploaded_image = Image_upload.objects.create(**data)
+                serializer = UploadedImageSerializer(uploaded_image)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return JsonResponse({"error message": str(e)}, status=500)
 
     def get(self, request, format=None):
         raw_data = request.body.decode('utf-8')
@@ -68,7 +69,7 @@ class UploadImageView(APIView):
             if user_id is None or source is None:  # request 형식에 맞지 않는 경우
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
+            image_origin = Image_upload.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
         except:
             # 찾지 못한 경우 HTTP_400

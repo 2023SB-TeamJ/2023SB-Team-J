@@ -8,7 +8,7 @@ class UploadedImageSerializer(serializers.ModelSerializer):
     url_3 = serializers.URLField(required=False)
     url_4 = serializers.URLField(required=False)
     class Meta:
-        model = Image_origin
+        model = Image_upload
         fields = ('user_id', 'url_1', 'url_2', 'url_3', 'url_4', 'created_at', 'deleted_at')
 
 
