@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import AlbumDetailModal from '../components/AlbumDetailModal';
+import UploadImage from '../components/UploadImage';
 
 function TestPage() {
   return (
@@ -8,7 +8,10 @@ function TestPage() {
       <Container>
         <MainWrap>
           <div>테스트 페이지 입니다</div>
-          <AlbumDetailModal />
+          <UploadImage />
+          <UploadImage />
+          <UploadImage />
+          <UploadImage />
         </MainWrap>
       </Container>
     </div>
@@ -25,6 +28,7 @@ const Container = styled.div`
 
 const MainWrap = styled.div`
   max-width: 1440px;
+  width: 76vw;
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;

@@ -11,8 +11,8 @@ import {
 } from './AuthModalStyle';
 
 // eslint-disable-next-line react/prop-types
-function SignUpModal({ isOpen, onClose }) {
-  const MAX_ID_LENGTH = 15; // 최대 아이디 길이
+function LoginModal({ isOpen, onClose }) {
+  const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
   const [showPassword, setShowPassword] = useState(false); //  눈 아이콘 패스워드 보이기
   const toggleShowPassword = () => {
@@ -53,10 +53,10 @@ function SignUpModal({ isOpen, onClose }) {
   const handleInputBlur = (e) => {
     e.target.placeholder = e.target.dataset.placeholder; // 저장한 placeholder 복원
   };
-  const handleIdLength = (e) => {
+  const handleEmailLength = (e) => {
     const { value } = e.target;
-    if (value.length > MAX_ID_LENGTH) {
-      e.target.value = value.slice(0, MAX_ID_LENGTH); // 최대 아이디 길이를 넘어가는 경우 잘라내기
+    if (value.length > MAX_EMAIL_LENGTH) {
+      e.target.value = value.slice(0, MAX_EMAIL_LENGTH); // 최대 이메일 길이를 넘어가는 경우 잘라내기
     }
   };
   const handlePasswordLength = (e) => {
@@ -89,11 +89,11 @@ function SignUpModal({ isOpen, onClose }) {
           <AuthInputField>
             <input
               type="text"
-              placeholder="아이디"
+              placeholder="이메일"
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
-              maxLength={MAX_ID_LENGTH}
-              onChange={handleIdLength}
+              maxLength={MAX_EMAIL_LENGTH}
+              onChange={handleEmailLength}
             />
           </AuthInputField>
           <AuthInputField>
@@ -150,7 +150,7 @@ function SignUpModal({ isOpen, onClose }) {
   );
 }
 
-export default SignUpModal;
+export default LoginModal;
 
 const fadeIn = keyframes`
   0% {
@@ -181,6 +181,7 @@ const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
   opacity: 0;
+  z-index: 5;
 
   ${(props) =>
     props.animation === 'fadeIn' &&
