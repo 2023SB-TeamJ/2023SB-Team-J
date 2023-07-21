@@ -11,7 +11,7 @@ function UploadImagePage() {
   // locainon 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
   const location = useLocation();
   // loaction 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
-  const { frameType } = location.state;
+  const frameType = location.state;
 
   // UploadImage 컴포넌트 4개로 이루어진 배열을 생성한다.
   const uploadImageComponents = Array(4).fill(<UploadImage />);
@@ -28,9 +28,9 @@ function UploadImagePage() {
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
           <PageShiftWrap>
-            <PageShiftBtn path="/convert" />
+            <PageShiftBtn path="/convert" state={{ frameType }} />
           </PageShiftWrap>
-          <ImageWrapper frameType={frameType}>
+          <ImageWrapper frametype={frameType}>
             {uploadImageComponents}
           </ImageWrapper>
         </MainWrap>
@@ -46,7 +46,6 @@ const Container = styled.div`
   min-height: 100vh;
   background: ${(props) => props.theme.backgroundColor};
 `;
-
 const MainWrap = styled.div`
   max-width: 1440px;
   height: 100vh;
@@ -55,13 +54,11 @@ const MainWrap = styled.div`
   border: 3px solid black;
   align-items: center;
 `;
-
 const TitleWrap = styled.div`
   margin-top: 3rem;
   display: flex;
   justify-content: center;
 `;
-
 const ProgressBar = styled.div`
   display: flex;
   justify-content: center;
@@ -77,17 +74,16 @@ const ImageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  ${({ frameType }) => {
+  ${({ frametype }) => {
     // frameType prop을 사용하여 스타일링 변경
-    if (frameType === '1X4') {
+    if (frametype === '1X4') {
       return `
         flex-direction: column;
         gap: 20px;
         height: 2rem;
       `;
     }
-    if (frameType === '2X2') {
+    if (frametype === '2X2') {
       return `
         display: grid;
         grid-template-rows: repeat(2, 200px);

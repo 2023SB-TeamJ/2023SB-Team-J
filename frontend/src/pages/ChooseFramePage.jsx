@@ -1,15 +1,14 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import oneFourImage from '../assets/images/1x4sampleImage.png';
-import twoTwoImage from '../assets/images/2x2sampleImage.jpg';
+import twoTwoImage from '../assets/images/2x2sampleImage.png';
 
 function ChooseFramePage() {
-  const [frameType] = useState('');
   const navigate = useNavigate();
 
   const handleImageClick1 = () => {
@@ -20,6 +19,7 @@ function ChooseFramePage() {
   const handleImageClick2 = () => {
     navigate('/upload', { state: { frameType: '2X2' } });
   };
+
   return (
     <div>
       <Container>
@@ -72,7 +72,6 @@ const Container = styled.div`
   min-height: 100vh;
   background: ${(props) => props.theme.backgroundColor};
 `;
-
 const MainWrap = styled.div`
   max-width: 1440px;
   height: 100vh;
@@ -81,23 +80,16 @@ const MainWrap = styled.div`
   border: 3px solid black;
   align-items: center;
 `;
-
 const TitleWrap = styled.div`
   margin-top: 3rem;
   display: flex;
   justify-content: center;
 `;
-
 const ProgressBar = styled.div`
   display: flex;
   justify-content: center;
   margin: 3rem;
 `;
-
-// const PageShiftWrap = styled.div`
-//   display: flex;
-//   justify-content: center;
-// `;
 
 const FrameWrap = styled.div`
   display: flex;

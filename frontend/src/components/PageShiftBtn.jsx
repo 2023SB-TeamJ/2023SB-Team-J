@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-function PageShiftBtn({ path }) {
+function PageShiftBtn({ path, state }) {
   const navigate = useNavigate();
 
   return (
+    // 업로드 페이지 -> AI 변환 페이지로 넘어갈 때 state 값 null 오류 발생
+    // 원인 : pageshiftbtn 컴포넌트에 onClick 함수를 줄 때 props로 전달되어 페이지가 넘어갈 수가 없음
+    // 해결 : 구조 분해 할당으로 pageshiftbtn 컴포넌트에 state도 props로 주기로 함
+    // onClick 함수에 state도 같이 줄 때 navigate(path, {state}), 주지 않는다면 navigate(path)
     <PageContainer
-      onClick={() => {
-        navigate(path);
-      }}
+      onClick={() => (state ? navigate(path, { state }) : navigate(path))}
     >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77 77" fill="none">
         <g filter="url(#filter0_d_606_413)">
