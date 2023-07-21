@@ -16,12 +16,12 @@ function Header() {
   const handleLogout = async () => {
     try {
       const refresh = localStorage.getItem('refresh');
+      const access = localStorage.getItem('access');
 
       const response = await axios.post(
         'http://localhost:8000/api/v1/logout/',
-        {
-          refresh,
-        },
+        { refresh },
+        { headers: { Authorization: `Bearer ${access}` } },
       );
 
       if (response.status === 200) {

@@ -58,18 +58,23 @@ class LoginAPIView(APIView):
 
 # 로그아웃
 class LogoutAPIView(APIView):
-    permission_classes = [AllowAny]
-    
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         try:
-            # Refresh 토큰을 가져옵니다.
+            # Blacklist the refresh token to invalidate it
             refresh_token = request.data.get('refresh')
             token = RefreshToken(refresh_token)
             token.blacklist()
 
-            return Response({'message': '로그아웃 되었습니다.'}, status=status.HTTP_200_OK)
-        except TokenError as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            # Optionally, you can also delete the user's access token if desired
+            # access_token = request.data.get('access')
+            # token = AccessToken(access_token)
+            # token.blacklist()
+
+            return Response(status=status.HTTP_200_OK)
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 # class CsrfTokenView(APIView):
