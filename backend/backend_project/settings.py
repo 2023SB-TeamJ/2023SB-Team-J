@@ -38,11 +38,9 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.sites',
-
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
 
     'rest_framework',
     'rest_framework_simplejwt',
@@ -256,6 +254,7 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'x-xsrf-token',
     'x-csrftoken',
+    'x-csrf-token',
     'mode',
     'Sec-Ch-Ua',
     'Sec-Ch-Ua-Mobile',
