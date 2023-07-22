@@ -9,10 +9,10 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
 
 
 class CollageImageSerializer(serializers.ModelSerializer):
-    # result_image_id = serializers.IntegerField(source='id')
+    result_image_id = serializers.IntegerField(source='id')
     result_url = serializers.URLField(required=False)
     created_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Image_collage
-        fields = ('user_id', 'result_image_id', 'img_origin_id', 'result_url', 'created_at')
+        fields = ('user_id', 'result_image_id', 'img_origin_id', 'result_url', 'created_at', 'state')

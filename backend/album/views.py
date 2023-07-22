@@ -30,8 +30,8 @@ class AlbumView(APIView):
             else:
                 return Response({"error": "No images found for the user."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            print(str(e))
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            print(">>>> error >>> ", e)
+            return Response({"error": e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class AlbumDetailView(APIView): #album/detail
     permission_classes = [AllowAny]
