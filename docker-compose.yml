@@ -10,7 +10,8 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
-      
+      - ./frontend/node_modules/:/frontend/node_modules
+
   database:
     image: mysql:8.0
     container_name: t4y-database
@@ -18,6 +19,8 @@ services:
       - ./backend/.env
     ports:
       - 3306:3306
+    networks:
+      - t4y
 
   backend:
     build:
@@ -44,6 +47,8 @@ services:
       && python manage.py migrate
       && python manage.py runserver 0.0.0.0:8000"
     tty: true
+    networks:
+      - t4y
 
   rabbitmq:
     hostname: t4yhost
@@ -56,8 +61,15 @@ services:
     ports:
       - 5672:5672 # Default Port
       - 15672:15672 # For UI=
+    environment:
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASSWORD=guest
+    volumes:
+      - ./backend:/backend
     depends_on:
       - backend
+    networks:
+      - t4y
 
 
   celery_worker:
@@ -80,5 +92,12 @@ services:
     depends_on:
       - backend
       - frontend
+    # networks:
+    #   - t4y
+
+
+networks:
+  t4y:
+    driver: bridge
 
 

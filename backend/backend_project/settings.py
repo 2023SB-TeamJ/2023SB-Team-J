@@ -79,6 +79,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Celery
+# CELERY_BROKER_URL = 'amqp://guest:guest@t4yhost'
+# CELERY_RESULT_BACKEND = 'django-db+mysql://admin:kimdw0823!@t4y-database.cnfbwfoijmwg.us-east-1.rds.amazonaws.com/t4yDB'
+# # Replace 'user', 'password', and 't4yDB' with your actual MySQL RDS credentials and database name
+
+# # CELERY_RESULT_BACKEND = 't4y-database.cnfbwfoijmwg.us-east-1.rds.amazonaws.com'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
 
 # CORS 설정 - whitelist 에 추가된 주소 접근 허용
 CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000' ,'http://localhost:3000']
