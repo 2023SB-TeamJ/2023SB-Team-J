@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import oneFourImage from '../assets/images/1x4sampleImage.png';
-import twoTwoImage from '../assets/images/2x2sampleImage.png';
+import twoTwoImage from '../assets/images/2x2sampleImage.jpg';
 
 function ChooseFramePage() {
   const navigate = useNavigate();
