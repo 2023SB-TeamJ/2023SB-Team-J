@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
@@ -54,10 +55,8 @@ function TestPage() {
         console.log('All images uploaded');
         // handle the response of each promise
         results.forEach((response) => {
-          const { id, url } = response.data;
-          console.log(id);
-          console.log(url);
-          uploadImagesToCharacterEndpoint(id, url);
+          const { origin_img_id, url } = response.data;
+          uploadImagesToCharacterEndpoint(origin_img_id, url);
         });
       })
       .catch((error) => {
