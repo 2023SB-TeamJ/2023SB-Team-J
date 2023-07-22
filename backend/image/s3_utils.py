@@ -1,7 +1,6 @@
 import hashlib
 
 import boto3
-
 from backend_project.settings import *
 import requests
 from io import BytesIO
@@ -18,7 +17,6 @@ def upload_image_to_s3(img_file, key, ExtraArgs):
     s3.upload_fileobj(img_file, bucket_name, key, ExtraArgs)
     img_url = f"https://{bucket_name}.s3.amazonaws.com/{key}"
     return img_url
-
 
 def download_image_from_s3(s3_url):
     try:
@@ -41,3 +39,4 @@ def generate_unique_filename(image_data):
     # 해시값을 파일 이름에 추가하여 고유한 파일 이름을 생성합니다.
     filename = hash_value
     return filename
+

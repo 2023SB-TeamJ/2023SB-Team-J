@@ -1,5 +1,9 @@
+/* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 import {
   AuthLogo,
   AuthTitle,
@@ -10,8 +14,12 @@ import {
   RowDiv,
 } from './AuthModalStyle';
 
+import { useAuth } from '../contexts/AuthContext';
+// import getCsrfToken from './getCsrfToken';
+
 // eslint-disable-next-line react/prop-types
 function LoginModal({ isOpen, onClose }) {
+  const navigate = useNavigate();
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
   const [showPassword, setShowPassword] = useState(false); //  눈 아이콘 패스워드 보이기
@@ -19,8 +27,36 @@ function LoginModal({ isOpen, onClose }) {
     setShowPassword(!showPassword); // 눈 아이콘 토글
   };
 
+  // const [userId, setUserID] = useState('');
+  // const [nickName, setNickName] = useState('');
+
   const [isVisible, setIsVisible] = useState(false);
   const [animation, setAnimation] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { setIsLoggedIn } = useAuth();
+
+  // 로그인 API 요청
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/login/', {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem('refresh', response.data.refresh);
+        localStorage.setItem('access', response.data.access);
+        setIsLoggedIn(true);
+        console.log(response);
+        alert('로그인 성공!');
+        navigate('/test');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -53,18 +89,21 @@ function LoginModal({ isOpen, onClose }) {
   const handleInputBlur = (e) => {
     e.target.placeholder = e.target.dataset.placeholder; // 저장한 placeholder 복원
   };
+
   const handleEmailLength = (e) => {
     const { value } = e.target;
     if (value.length > MAX_EMAIL_LENGTH) {
       e.target.value = value.slice(0, MAX_EMAIL_LENGTH); // 최대 이메일 길이를 넘어가는 경우 잘라내기
     }
   };
+
   const handlePasswordLength = (e) => {
     const { value } = e.target;
     if (value.length > MAX_PASSWORD_LENGTH) {
       e.target.value = value.slice(0, MAX_PASSWORD_LENGTH); // 최대 비밀번호 길이를 넘어가는 경우 잘라내기
     }
   };
+
   return (
     <ModalOverlay animation={animation}>
       <ModalWindow>
@@ -93,7 +132,10 @@ function LoginModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_EMAIL_LENGTH}
-              onChange={handleEmailLength}
+              onChange={(e) => {
+                handleEmailLength(e);
+                setEmail(e.target.value);
+              }}
             />
           </AuthInputField>
           <AuthInputField>
@@ -103,7 +145,10 @@ function LoginModal({ isOpen, onClose }) {
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               maxLength={MAX_PASSWORD_LENGTH}
-              onChange={handlePasswordLength}
+              onChange={(e) => {
+                handlePasswordLength(e);
+                setPassword(e.target.value);
+              }}
             />
             <EyeIcon
               xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +184,7 @@ function LoginModal({ isOpen, onClose }) {
               onChange={handlePasswordLength}
             />
           </AuthInputField>
-          <AuthBtn onClick={() => console.log(1)}>로그인</AuthBtn>
+          <AuthBtn onClick={handleLogin}>로그인</AuthBtn>
           <RowDiv>
             <AuthQuestion>아직 회원이 아니신가요?</AuthQuestion>
             <AuthLink>가입하기</AuthLink>

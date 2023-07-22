@@ -2,6 +2,7 @@ import pickle
 import time
 import json
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
@@ -11,6 +12,7 @@ from .models import *
 from rest_framework.permissions import AllowAny
 
 from album.serializers import CollageImageSerializer
+
 
 
 class UploadImageView(APIView):
@@ -41,32 +43,32 @@ class UploadImageView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request, format=None):
-        raw_data = request.body.decode('utf-8')
-        try:
-            data = json.loads(raw_data)
-            user_id = data.get('user_id')
-            source = data.get('source')
+#     def get(self, request, format=None):
+#         raw_data = request.body.decode('utf-8')
+#         try:
+#             data = json.loads(raw_data)
+#             user_id = data.get('user_id')
+#             source = data.get('source')
 
-            if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+#             if user_id is None or source is None:  # request 형식에 맞지 않는 경우
+#                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            image_origin = Image_upload.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
+#             image_origin = Image_upload.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
-        except:
-            # 찾지 못한 경우 HTTP_400
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+#         except:
+#             # 찾지 못한 경우 HTTP_400
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-        serializer = UploadedImageSerializer(image_origin)
+#         serializer = UploadedImageSerializer(image_origin)
 
-        picture = {
-            'url_1': serializer.data.get('url_1'),
-            'url_2': serializer.data.get('url_2'),
-            'url_3': serializer.data.get('url_3'),
-            'url_4': serializer.data.get('url_4'),
-        }
-        return Response(picture, status=status.HTTP_200_OK)
+#         picture = {
+#             'url_1': serializer.data.get('url_1'),
+#             'url_2': serializer.data.get('url_2'),
+#             'url_3': serializer.data.get('url_3'),
+#             'url_4': serializer.data.get('url_4'),
+#         }
+#         return Response(picture, status=status.HTTP_200_OK)
 
 class AiExecute(APIView):
     permission_classes = [AllowAny]
@@ -125,3 +127,4 @@ class SelectImage(APIView):
     def post(self, request):
         select = request.data.getlist("select", [])
         return Response(select, status=status.HTTP_201_CREATED)
+

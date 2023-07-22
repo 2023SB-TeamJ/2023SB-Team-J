@@ -59,3 +59,4 @@ class Models:
             key = "ai_model/" + generate_unique_filename(file.getvalue()) + ".jpeg"
             img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
         return img_url
+

@@ -7,3 +7,4 @@ urlpatterns = [
     path('', UploadImageView.as_view(), name='frame'),
     path("ai/select/", SelectImage.as_view(), name="select_image")
 ]
+
