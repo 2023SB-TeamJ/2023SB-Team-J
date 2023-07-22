@@ -1,3 +1,4 @@
+
 from django.contrib.auth import get_user_model, logout, login
 # from django.middleware.csrf import get_token
 from django.views.decorators.cache import cache_page
@@ -36,7 +37,7 @@ class SignupAPIView(APIView):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# 로그인
+
 class LoginAPIView(APIView):
     permission_classes = [AllowAny]
 
@@ -53,6 +54,7 @@ class LoginAPIView(APIView):
             refresh = RefreshToken.for_user(user)
             return Response({
                 'message': 'success',
+                'nickname': user.nickname,
                 'refresh': str(refresh),  # Refresh 토큰을 응답 본문에 추가합니다.
                 'access': str(refresh.access_token),  # Access 토큰을 응답 본문에 추가합니다.
             }, status=status.HTTP_200_OK)

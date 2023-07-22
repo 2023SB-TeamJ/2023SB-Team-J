@@ -1,6 +1,16 @@
 version: '3.9'
 
-services:
+services:  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: t4y-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend
+      
   database:
     image: mysql:8.0
     container_name: t4y-database
@@ -35,30 +45,32 @@ services:
       && python manage.py runserver 0.0.0.0:8000"
     tty: true
 
-  # rabbitmq:
-  #   hostname: t4yhost
-  #   container_name: rabbitmq
-  #   image: rabbitmq:3-management
-  #   command: rabbitmq-server
-  #   restart: unless-stopped
-  #   env_file:
-  #     - backend/.env
-  #   ports:
-  #     - 5672:5672 # Default Port
-  #     - 15672:15672 # For UI=
-  #   depends_on:
-  #     - backend
+  rabbitmq:
+    hostname: t4yhost
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    command: rabbitmq-server
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+    ports:
+      - 5672:5672 # Default Port
+      - 15672:15672 # For UI=
+    depends_on:
+      - backend
 
-  # celery_worker:
-  #   container_name: celery_worker
-  #   restart: always
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   command: "celery -A backend_project.celery worker  --loglevel=info --pool=threads --concurrency=8"
-  #   depends_on:
-  #     - rabbitmq
-  #     - backend
+
+  celery_worker:
+    container_name: celery_worker
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: 'celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12'
+
+    depends_on:
+      - rabbitmq
+      - backend
   nginx:
     image: nginx
     ports:
@@ -69,13 +81,4 @@ services:
       - backend
       - frontend
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: t4y-frontend
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/frontend
 

@@ -1,130 +1,93 @@
 import pickle
 import time
 import json
-from django.utils import timezone
-
-
-from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
-from .models import *
-from PIL import Image
-import io
 from .AiTask import *
-from io import BytesIO
-from .s3_utils import upload_image_to_s3
-from .models import Image_upload
-from album.models import Image_collage
-from album.serializers import CollageImageSerializer
+from .s3_utils import *
+from .models import *
 from rest_framework.permissions import AllowAny
-from datetime import datetime
+
+from album.serializers import CollageImageSerializer
+
 
 
 class UploadImageView(APIView):
     permission_classes = [AllowAny]
-
+    
     def post(self, request):
-        serializer = UploadedImageSerializer(data=request.data)
+        image = request.data.get("image")
+        user_id = request.data.get("id")
+        with Image.open(image) as im:
+            im = im.convert("RGB")
+            im_jpeg = BytesIO()
+            im.save(im_jpeg, 'JPEG')
+            im_jpeg.seek(0)
+        key = "image_upload/" + generate_unique_filename(im_jpeg.getvalue()) + ".jpeg"
+        img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
+        data ={
+            "user_id": user_id,
+            "url": img_url
+        }
+        serializer = UploadedImageSerializer(data=data)
         if serializer.is_valid():
-            # 이미지 저장
-            img_files = request.FILES.getlist('img_files')
-            img_urls = []
-
-            for img_file in img_files:
-                # S3 버킷에 이미지 업로드
-                with Image.open(img_file) as im:
-                    im_jpeg = BytesIO()
-                    im.save(im_jpeg, 'JPEG')
-                    im_jpeg.seek(0)
-                key = request.data.get("user_id") + str(datetime.now()).replace('.', '') + "." + "jpeg"
-                img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
-                img_urls.append(img_url)
-
-            # 이미지 URL MySQL에 저장
-            data = {
-                'user_id': serializer.validated_data['user_id'],
-                'url_1': img_urls[0] if len(img_urls) > 0 else '',
-                'url_2': img_urls[1] if len(img_urls) > 1 else '',
-                'url_3': img_urls[2] if len(img_urls) > 2 else '',
-                'url_4': img_urls[3] if len(img_urls) > 3 else '',
+            serializer.save()
+            response = {
+                "origin_img_id": serializer.data["id"],
+                "url": serializer.data["url"]
             }
-            uploaded_image = Image_origin.objects.create(**data)
-            serializer = UploadedImageSerializer(uploaded_image)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(response, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        raw_data = request.body.decode('utf-8')
-
-        try:
-            data = json.loads(raw_data)
-            user_id = data.get('user_id')
-            source = data.get('source')
-
-            if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-
-            image_origin = Image_origin.objects.get(id=source, user_id=user_id, state=True)
-
-        except:
-            # 찾지 못한 경우 HTTP_400
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = UploadedImageSerializer(image_origin)
+#     def get(self, request, format=None):
+#         raw_data = request.body.decode('utf-8')
+#         try:
+#             data = json.loads(raw_data)
+#             user_id = data.get('user_id')
+#             source = data.get('source')
 
-        picture = {
-            'url_1': serializer.data.get('url_1'),
-            'url_2': serializer.data.get('url_2'),
-            'url_3': serializer.data.get('url_3'),
-            'url_4': serializer.data.get('url_4'),
-        }
-        return Response(picture, status=status.HTTP_200_OK)
+#             if user_id is None or source is None:  # request 형식에 맞지 않는 경우
+#                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, format=None): #결과 이미지 삭제
-        raw_data = request.body.decode('utf-8')
-        try:
-            data = json.loads(raw_data)
-            user_id = data.get('user_id')
-            result_image_id = data.get('result_image_id')
+#             image_origin = Image_upload.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
 
-            if user_id is None or result_image_id is None:  # request 형식에 맞지 않는 경우
-                return Response({"error" : "request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+#         except:
+#             # 찾지 못한 경우 HTTP_400
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            image_origin = Image_origin.objects.get(id=result_image_id, user_id=user_id, state=True)
-        except:
-            # 해당 객체를 찾지 못한 경우 HTTP_400
-            return Response({"error" : "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
-        # serializer = AlbumDetailSerializer(image_collage)
 
-        image_origin.deleted_at = timezone.localtime(timezone.now())
-        image_origin.save()
+#         serializer = UploadedImageSerializer(image_origin)
 
-        return Response(status=status.HTTP_200_OK)
+#         picture = {
+#             'url_1': serializer.data.get('url_1'),
+#             'url_2': serializer.data.get('url_2'),
+#             'url_3': serializer.data.get('url_3'),
+#             'url_4': serializer.data.get('url_4'),
+#         }
+#         return Response(picture, status=status.HTTP_200_OK)
 
 class AiExecute(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        image_origin_id = request.data.get("image_origin_id")
-        image_origin_id_picle = pickle.dumps(image_origin_id)
-
-        origin_img = Image.open(io.BytesIO(request.FILES.get("image").read()))
-        origin_img_pickle = pickle.dumps(origin_img)
-
-        result = model_execute.apply_async(args=(origin_img_pickle, image_origin_id_picle))
+        url = request.data.get("image")
+        id = request.data.get("image_origin_id")
+        task1 = model1_execute.delay(url, id)
+        task2 = model2_execute.delay(url, id)
+        task3 = model3_execute.delay(url, id)
 
         while True:
-
-            if result.ready():
+            if task1.ready() and task2.ready() and task3.ready():
                 break
             time.sleep(1)
-        result1 = result.result
-        if result:
-            return Response(result1, status=status.HTTP_201_CREATED)
+        if task1.result and task2.result and task3.result:
+            response = {**task1.result, **task2.result, **task3.result}
+
+            return Response(response, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -158,3 +121,10 @@ class ResultImageView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class SelectImage(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        select = request.data.getlist("select", [])
+        return Response(select, status=status.HTTP_201_CREATED)
+

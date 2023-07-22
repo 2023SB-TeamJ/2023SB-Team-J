@@ -3,10 +3,9 @@ from .models import *
 
 
 class UploadedImageSerializer(serializers.ModelSerializer):
-    url = serializers.URLField(required=False)
     class Meta:
         model = Image_upload
-        fields = ('user_id', 'url', 'created_at','state','is_selected')
+        fields = "__all__"
 
 
 class Ai_modelSerializer(serializers.ModelSerializer):

@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'image',
     'django_celery_results',
     'album',
-
 ]
 SITE_ID = 1
 
@@ -79,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 # CORS 설정 - whitelist 에 추가된 주소 접근 허용
 CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000' ,'http://localhost:3000']

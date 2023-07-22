@@ -1,73 +1,66 @@
-from .AiModels import model
-import pickle
-from datetime import datetime
-from io import BytesIO
+from image.apps import ImgsAppConfig
 from backend_project.celery import *
-from .s3_utils import upload_image_to_s3
-from concurrent.futures import ThreadPoolExecutor
+from image.s3_utils import *
+from backend_project.settings import *
 from image.serializers import Ai_modelSerializer
-from django import db
-"""@app.task(name="model1_execute")
-def model1_execute(origin_image):
-    image = pickle.loads(origin_image)
-    result_image = model.model1_face2paint(image)
-    with BytesIO() as file:
-        result_image.save(file, format='JPEG')
-        file.seek(0)
-        key = str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
-        img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
 
-    return img_url
-
-
-@app.task(name="model2_execute")
-def model2_execute(origin_image):
-    image = pickle.loads(origin_image)
-    result_image = model.model2_face2paint(image)
-    with BytesIO() as file:
-        result_image.save(file, format='JPEG')
-        file.seek(0)
-        key = str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
-        img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
-
-    return img_url
-
-
-@app.task(name="model3_execute")
-def model3_execute(origin_image):
-    image = pickle.loads(origin_image)
-    result_image = model.model3_face2paint(image)
-    with BytesIO() as file:
-        result_image.save(file, format='JPEG')
-        file.seek(0)
-        key = str(datetime.now()).replace('.', '').replace(" ", "") + "." + "jpeg"
-        img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
-        print(img_url)
-    return img_url"""
-
-
-@app.task(name="model_execute")
-def model_execute(origin_image, origin_img_id):
-    image = pickle.loads(origin_image)
-    id = pickle.loads(origin_img_id)
-
-    executor = ThreadPoolExecutor(max_workers=3)
-
-    future1 = executor.submit(model.model1_face2paint, image)
-    future2 = executor.submit(model.model2_face2paint, image)
-    future3 = executor.submit(model.model3_face2paint, image)
-
+@app.task(name="model1_execute")
+def model1_execute(url, id):
+    image = download_image_from_s3(url)
+    result = ImgsAppConfig.model.model1_face2paint(image)
     data = {
-        "image_origin_id": id,
-        "result_url_1": future1.result(),
-        "result_url_2": future2.result(),
-        "result_url_3": future3.result()
+        "image_upload_id": id,
+        "model_name": "face_paint_512_v2",
+        "model_result_url": result,
     }
-
     serializer = Ai_modelSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-        db.connections.close_all()
-        return data
+        response = {
+            "model1_id": serializer.data["id"],
+            "model1_url": serializer.data["model_result_url"]
+        }
+        return response
+    else:
+        return False
+
+@app.task(name="model2_execute")
+def model2_execute(url, id):
+    image = download_image_from_s3(url)
+    result = ImgsAppConfig.model.model2_face2paint(image)
+    data = {
+        "image_upload_id": id,
+        "model_name": "paprika",
+        "model_result_url": result,
+    }
+    serializer = Ai_modelSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        response = {
+            "model2_id": serializer.data["id"],
+            "model2_url": serializer.data["model_result_url"]
+        }
+        return response
+    else:
+        return False
+
+
+@app.task(name="model3_execute")
+def model3_execute(url, id):
+    image = download_image_from_s3(url)
+    result = ImgsAppConfig.model.model3_face2paint(image)
+    data = {
+        "image_upload_id": id,
+        "model_name": "celeba_distill",
+        "model_result_url": result,
+    }
+    serializer = Ai_modelSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        response = {
+            "model3_id": serializer.data["id"],
+            "model3_url": serializer.data["model_result_url"]
+        }
+        return response
     else:
         return False

@@ -1,8 +1,8 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
+
 from .views import LoginAPIView, LogoutAPIView, SignupAPIView
-# from .views import LoginAPIView, SignupAPIView, CsrfTokenView  # CsrfTokenView를 추가
 
 app_name = 'common'
 

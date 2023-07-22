@@ -1,4 +1,6 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable camelcase */
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
 import Header from '../components/Header';
