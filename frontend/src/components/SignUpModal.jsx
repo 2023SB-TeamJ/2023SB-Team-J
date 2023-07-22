@@ -13,7 +13,7 @@ import {
 // eslint-disable-next-line react/prop-types
 function SignUpModal({ isOpen, onClose }) {
   const MAX_NICKNAME_LENGTH = 10; // 최대 닉네임 길이
-  const MAX_EMAIL_LENGTH = 15; // 최대 이메일 길이
+  const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
   const [showPassword, setShowPassword] = useState(false); //  눈 아이콘 패스워드 보이기
   const toggleShowPassword = () => {

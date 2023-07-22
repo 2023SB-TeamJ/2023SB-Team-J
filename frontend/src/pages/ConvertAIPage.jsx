@@ -1,10 +1,18 @@
-import { React } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
+import Carousel from '../components/Carousel';
 
 function ConvertAIPage() {
+  const location = useLocation();
+  const { frameType } = location.state.frameType;
+  console.log(frameType);
+  // const navigate = useNavigate();
+
+  // const frameComponents = Array(4).fill(<Carousel />);
   return (
     <div>
       <Container>
@@ -17,6 +25,9 @@ function ConvertAIPage() {
             프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
+          <CarouselWrap>
+            <Carousel />
+          </CarouselWrap>
           <PageShiftWrap>
             <PageShiftBtn path="/custom" />
           </PageShiftWrap>
@@ -59,3 +70,5 @@ const PageShiftWrap = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+const CarouselWrap = styled.div``;
