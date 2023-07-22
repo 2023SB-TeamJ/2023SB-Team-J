@@ -5,7 +5,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend_project.settings')
 
 app = Celery('config',
-             broker='amqp://guest:guest@localhost',
+             broker='amqp://guest:guest@t4yhost',
              backend='rpc://',
              include=['image.AiTask'])
 

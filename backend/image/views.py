@@ -10,7 +10,7 @@ from .s3_utils import *
 from .models import *
 from rest_framework.permissions import AllowAny
 
-from ..album.serializers import CollageImageSerializer
+from album.serializers import CollageImageSerializer
 
 
 class UploadImageView(APIView):
@@ -120,6 +120,7 @@ class ResultImageView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SelectImage(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
-        selelct = request.get
-        return Response(status=status.HTTP_201_CREATED)
+        select = request.data.getlist("select", [])
+        return Response(select, status=status.HTTP_201_CREATED)
