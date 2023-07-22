@@ -27,6 +27,9 @@ function ConvertAIPage() {
           </ProgressBar>
           <CarouselWrap>
             <Carousel />
+            <Carousel />
+            <Carousel />
+            <Carousel />
           </CarouselWrap>
           <PageShiftWrap>
             <PageShiftBtn path="/custom" />

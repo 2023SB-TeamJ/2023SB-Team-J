@@ -1,7 +1,8 @@
 /* eslint-disable consistent-return */
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
@@ -12,9 +13,67 @@ function UploadImagePage() {
   const location = useLocation();
   // loaction 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
   const frameType = location.state;
+  const [files, setFiles] = useState([]);
+  const navigate = useNavigate();
+
+  const onImageUpload = (file) => {
+    setFiles((prevFiles) => [...prevFiles, file]);
+  };
+
+  const uploadImagesToCharacterEndpoint = (imgOriginId, imageUrl) => {
+    const formData = new FormData();
+    formData.append('image_origin_id', imgOriginId);
+    formData.append('image', imageUrl);
+    console.log([...formData.entries()]);
+    axios
+      .post('http://localhost:8000/api/v1/frame/ai/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        navigate('/convert', { state: { frameType } });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const uploadAllImages = () => {
+    const userId = 1;
+    const promises = files.map((file) => {
+      const formData = new FormData();
+      formData.append('id', userId);
+      formData.append('image', file);
+      navigate('/loading');
+
+      return axios.post('http://localhost:8000/api/v1/frame/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    });
+
+    Promise.all(promises)
+      .then((results) => {
+        console.log('All images uploaded');
+        // handle the response of each promise
+        results.forEach((response) => {
+          // eslint-disable-next-line camelcase
+          const { origin_img_id, url } = response.data;
+          uploadImagesToCharacterEndpoint(origin_img_id, url);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   // UploadImage 컴포넌트 4개로 이루어진 배열을 생성한다.
-  const uploadImageComponents = Array(4).fill(<UploadImage />);
+  const uploadImageComponents = Array(4).fill(
+    <UploadImage onImageUpload={onImageUpload} />,
+  );
   return (
     <div>
       <Container>
@@ -27,12 +86,10 @@ function UploadImagePage() {
             프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
-          <PageShiftWrap>
-            <PageShiftBtn path="/convert" state={{ frameType }} />
+          <PageShiftWrap onClick={uploadAllImages}>
+            <PageShiftBtn />
           </PageShiftWrap>
-          <ImageWrapper frametype={frameType}>
-            {uploadImageComponents}
-          </ImageWrapper>
+          <ImageWrapper>{uploadImageComponents}</ImageWrapper>
         </MainWrap>
       </Container>
     </div>
