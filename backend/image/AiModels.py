@@ -25,7 +25,7 @@ class Models:
         with BytesIO() as file:
             result.save(file, format='JPEG')
             file.seek(0)
-            key = generate_unique_filename(file.getvalue()) + ".jpeg"
+            key = "ai_model/" + generate_unique_filename(file.getvalue()) + ".jpeg"
             img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
         return img_url
     def model2_face2paint(self, image: Image):
@@ -40,7 +40,7 @@ class Models:
         with BytesIO() as file:
             result.save(file, format='JPEG')
             file.seek(0)
-            key = generate_unique_filename(file.getvalue()) + ".jpeg"
+            key = "ai_model/" + generate_unique_filename(file.getvalue()) + ".jpeg"
             img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
         return img_url
 
@@ -56,6 +56,6 @@ class Models:
         with BytesIO() as file:
             result.save(file, format='JPEG')
             file.seek(0)
-            key = generate_unique_filename(file.getvalue()) + ".jpeg"
+            key = "ai_model/" + generate_unique_filename(file.getvalue()) + ".jpeg"
             img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
         return img_url

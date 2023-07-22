@@ -39,5 +39,5 @@ def generate_unique_filename(image_data):
     hash_value = hasher.hexdigest()
 
     # 해시값을 파일 이름에 추가하여 고유한 파일 이름을 생성합니다.
-    filename = f"image_{hash_value}"
+    filename = hash_value
     return filename
