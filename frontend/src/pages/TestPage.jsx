@@ -36,31 +36,33 @@ function TestPage() {
   };
 
   const uploadAllImages = () => {
-    const formData = new FormData();
     const userId = 1;
-    formData.append('user_id', userId);
-    files.forEach((file) => {
-      formData.append(`img_files`, file);
-    });
+    const promises = files.map((file) => {
+      const formData = new FormData();
+      formData.append('id', userId);
+      formData.append('image', file);
 
-    axios
-      .post('http://localhost:8000/api/v1/frame/', formData, {
+      return axios.post('http://localhost:8000/api/v1/frame/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      })
-      .then((response) => {
-        console.log(response);
-        const { id, url_1, url_2, url_3, url_4 } = response.data;
-        uploadImagesToCharacterEndpoint(id, url_1);
-        uploadImagesToCharacterEndpoint(id, url_2);
-        uploadImagesToCharacterEndpoint(id, url_3);
-        uploadImagesToCharacterEndpoint(id, url_4);
+      });
+    });
+
+    Promise.all(promises)
+      .then((results) => {
+        console.log('All images uploaded');
+        // handle the response of each promise
+        results.forEach((response) => {
+          const { id, url } = response.data;
+          console.log(id);
+          console.log(url);
+          uploadImagesToCharacterEndpoint(id, url);
+        });
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log([...formData.entries()]);
   };
 
   return (

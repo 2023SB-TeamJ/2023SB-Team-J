@@ -15,7 +15,7 @@ services:
       dockerfile: Dockerfile
     container_name: t4y-backend
     volumes:
-      - ./backend:/backend
+      - ./backend:/app
     restart: on-failure
     ports:
       - 8000:8000

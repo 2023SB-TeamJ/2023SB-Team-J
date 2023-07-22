@@ -33,7 +33,7 @@ class UploadImageView(APIView):
         serializer = UploadedImageSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
