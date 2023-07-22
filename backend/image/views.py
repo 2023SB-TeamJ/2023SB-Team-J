@@ -33,7 +33,11 @@ class UploadImageView(APIView):
         serializer = UploadedImageSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(data, status=status.HTTP_201_CREATED)
+            response = {
+                "origin_img_id": serializer.data["id"],
+                "url": serializer.data["url"]
+            }
+            return Response(response, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -79,11 +83,8 @@ class AiExecute(APIView):
                 break
             time.sleep(1)
         if task1.result and task2.result and task3.result:
-            response = {
-                "result_url1": task1.result,
-                "result_url2": task2.result,
-                "result_url3": task3.result,
-            }
+            response = {**task1.result, **task2.result, **task3.result}
+
             return Response(response, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -16,7 +16,11 @@ def model1_execute(url, id):
     serializer = Ai_modelSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-        return result
+        response = {
+            "model1_id": serializer.data["id"],
+            "model1_url": serializer.data["model_result_url"]
+        }
+        return response
     else:
         return False
 
@@ -32,7 +36,11 @@ def model2_execute(url, id):
     serializer = Ai_modelSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-        return result
+        response = {
+            "model2_id": serializer.data["id"],
+            "model2_url": serializer.data["model_result_url"]
+        }
+        return response
     else:
         return False
 
@@ -49,6 +57,10 @@ def model3_execute(url, id):
     serializer = Ai_modelSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-        return result
+        response = {
+            "model3_id": serializer.data["id"],
+            "model3_url": serializer.data["model_result_url"]
+        }
+        return response
     else:
         return False

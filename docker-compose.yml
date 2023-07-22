@@ -15,7 +15,7 @@ services:
       dockerfile: Dockerfile
     container_name: t4y-backend
     volumes:
-      - ./backend:/backend
+      - ./backend:/app
     restart: on-failure
     ports:
       - 8000:8000
@@ -70,13 +70,13 @@ services:
   #   depends_on:
   #     - backend
   #     - frontend
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: t4y-frontend
-    ports:
-      - '3000:3000' # 포트 매핑 설정
-    volumes:
-      - ./frontend:/frontend
+#
+#  frontend:
+#    build:
+#      context: ./frontend
+#      dockerfile: Dockerfile
+#    container_name: t4y-frontend
+#    ports:
+#      - '3000:3000' # 포트 매핑 설정
+#    volumes:
+#      - ./frontend:/frontend
