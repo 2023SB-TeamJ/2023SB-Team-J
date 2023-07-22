@@ -41,7 +41,6 @@ function SignUpModal({ isOpen, onClose }) {
         'http://localhost:8000/api/v1/signup/',
         data,
       );
-
       console.log(response.status); // 실제 반환되는 상태 코드 확인
       // 응답 확인
       if (response.status === 201) {
@@ -50,6 +49,7 @@ function SignUpModal({ isOpen, onClose }) {
       }
     } catch (error) {
       console.error(error);
+      console.log(error.response.data);
     }
   };
 
