@@ -16,7 +16,7 @@ import io
 from .AiTask import *
 from io import BytesIO
 from .s3_utils import upload_image_to_s3
-from .models import Image_origin
+from .models import Image_upload
 from album.models import Image_collage
 from album.serializers import CollageImageSerializer
 from rest_framework.permissions import AllowAny

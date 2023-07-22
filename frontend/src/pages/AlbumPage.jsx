@@ -88,6 +88,7 @@ function AlbumPage() {
 
       setIsLoading(false);
     } catch (error) {
+      console.log(error);
       console.log('에러 발생');
     }
   }

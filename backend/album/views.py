@@ -16,7 +16,7 @@ class AlbumView(APIView):
             user_id = request.data.get('user_id')
             if not user_id:  # user_id가 제공되지 않았을 경우에 대한 처리
                 return Response({"error": "User ID is required."}, status=status.HTTP_400_BAD_REQUEST)
-            image_collages = Image_collage.objects.filter(user_id=user_id, deleted_at__isnull=True).order_by('-created_at')
+            image_collages = Image_collage.objects.filter(user_id=user_id, state=True).order_by('-created_at')
             if image_collages.exists():
                 serializer = CollageImageSerializer(image_collages, many=True)
                 results = []
@@ -30,6 +30,7 @@ class AlbumView(APIView):
             else:
                 return Response({"error": "No images found for the user."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
+            print(str(e))
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class AlbumDetailView(APIView): #album/detail
@@ -45,13 +46,13 @@ class AlbumDetailView(APIView): #album/detail
             if user_id is None or result_image_id is None:  # request 형식에 맞지 않는 경우
                 return Response({"error" : "request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
-            image_collage = Image_collage.objects.get(id=result_image_id, user_id=user_id, deleted_at__isnull=True)
+            image_collage = Image_collage.objects.get(id=result_image_id, user_id=user_id, state=True)
         except:
             # 해당 객체를 찾지 못한 경우 HTTP_400
             return Response({"error" : "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
         # serializer = AlbumDetailSerializer(image_collage)
 
-        image_collage.deleted_at = timezone.localtime(timezone.now())
+        image_collage.state = False
         image_collage.save()
 
         return Response(status=status.HTTP_200_OK)
@@ -62,7 +63,7 @@ class AlbumDetailView(APIView): #album/detail
         result_image_id = request.GET.get('result_image_id')
         print(result_image_id)
         try:
-            image_collage = Image_collage.objects.get(id=result_image_id, deleted_at__isnull=True)
+            image_collage = Image_collage.objects.get(id=result_image_id, state=True)
         except:
             # 찾지 못한 경우
             return Response(status=status.HTTP_400_BAD_REQUEST)
