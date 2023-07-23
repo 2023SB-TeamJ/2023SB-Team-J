@@ -5,7 +5,7 @@ class AlbumDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image_collage
-        fields = ('user_id', 'result_url', 'created_at', 'deleted_at')
+        fields = ('user_id', 'result_url', 'created_at', 'state')
 
 
 class CollageImageSerializer(serializers.ModelSerializer):

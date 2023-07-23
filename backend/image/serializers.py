@@ -9,7 +9,7 @@ class UploadedImageSerializer(serializers.ModelSerializer):
     url_4 = serializers.URLField(required=False)
     class Meta:
         model = Image_upload
-        fields = ('user_id', 'url_1', 'url_2', 'url_3', 'url_4', 'created_at', 'deleted_at')
+        fields = ('user_id', 'url_1', 'url_2', 'url_3', 'url_4', 'created_at', 'state')
 
 
 class Ai_modelSerializer(serializers.ModelSerializer):
