@@ -5,7 +5,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend_project.settings')
 
 app = Celery('config',
-            broker='pyamqp://guest:guest@t4yhost:5672//',
+            broker='pyamqp://guest:guest@t4yhost',
             backend='rpc://',
             broker_connection_retry_on_startup=True,  # Add this line to enable connection retries on startup
             include=['image.AiTask'])
@@ -14,5 +14,3 @@ app = Celery('config',
 
 app.autodiscover_tasks()
 
-if __name__ == '__main__':
-    app.start()

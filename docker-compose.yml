@@ -61,9 +61,6 @@ services:
     ports:
       - 5672:5672 # Default Port
       - 15672:15672 # For UI=
-    environment:
-      - RABBITMQ_USER=guest
-      - RABBITMQ_PASSWORD=guest
     volumes:
       - ./backend:/backend
     depends_on:
@@ -79,10 +76,14 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     command: 'celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12'
-
     depends_on:
       - rabbitmq
       - backend
+    volumes:
+      - ./backend:/backend
+    networks:
+      - t4y
+
   nginx:
     image: nginx
     ports:
