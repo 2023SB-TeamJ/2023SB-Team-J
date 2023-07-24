@@ -10,18 +10,18 @@ class UserSerializer(serializers.ModelSerializer):
     # images = UploadedImageSerializer(many=True, read_only=True)
     class Meta:
         model = User
-        fields = ("email", "nickname", "password", "created_at", "deleted_at", "updated_at", "images")
+        fields = ("email", "nickname", "password", "created_at", "updated_at", "state")
         extra_kwargs = {
             "nickname": {"write_only": True},
             "password": {"write_only": True},
             "created_at": {"read_only": True},
-            "deleted_at": {"read_only": True},
             "updated_at": {"read_only": True},
+            "state":{"read_only": True}
         }
 
     def create(self, validated_data):
         nickname = validated_data.pop('nickname', "이름없음")
-        user = User.objects.create_user(nickname=nickname, **validated_data)
+        user = User.objects.create_user(nickname=nickname, state=True, **validated_data)
         return user
 
 class SwaggerLoginPostSerializer(serializers.Serializer):

@@ -3,6 +3,8 @@ import Router from './Router';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/theme';
 
+import './font.css';
+
 function App() {
   return (
     <ThemeProvider theme={theme}>

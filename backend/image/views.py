@@ -1,72 +1,112 @@
+import pickle
+import time
 import json
-
-import jwt
-from jwt.exceptions import InvalidSignatureError, InvalidTokenError
-from jwt.exceptions import DecodeError
-
 from django.http import JsonResponse
+
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.parsers import FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UploadedImageSerializer, SwaggerFrameGetSerializer, SwaggerFramePost
-from .s3_utils import upload_image_to_s3
-from .models import Image_origin
-from backend_project.settings import SECRET_KEY
+
 from drf_yasg.utils import swagger_auto_schema
+from .serializers import *
+from .AiTask import *
+from .s3_utils import *
+from .models import *
+from rest_framework.permissions import AllowAny
+
+from album.serializers import CollageImageSerializer
+
 
 
 class UploadImageView(APIView):
-    permission_classes = [IsAuthenticated] #권한 있는 사람, 로그인 한 사람만 접근 가능
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        image = request.data.get("image")
+        user_id = request.data.get("id")
+        with Image.open(image) as im:
+            im = im.convert("RGB")
+            im_jpeg = BytesIO()
+            im.save(im_jpeg, 'JPEG')
+            im_jpeg.seek(0)
+        key = "image_upload/" + generate_unique_filename(im_jpeg.getvalue()) + ".jpeg"
+        img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
+        data ={
+            "user_id": user_id,
+            "url": img_url
+        }
+        serializer = UploadedImageSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            response = {
+                "origin_img_id": serializer.data["id"],
+                "url": serializer.data["url"]
+            }
+            return Response(response, status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class AiExecute(APIView):
+    permission_classes = [AllowAny]
 
     @swagger_auto_schema(manual_parameters=SwaggerFramePost)
     def post(self, request):
-        try:
-            try:
-                data = request.headers['Authorization']
-                token = str.replace(str(data), 'Bearer ', '')
-                user_id = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-            except (InvalidSignatureError, InvalidTokenError) as e:
-                # Handle the JWT decoding error
-                return Response({'error': 'Invalid JWT: {}'.format(str(e))}, status=status.HTTP_400_BAD_REQUEST)
+        url = request.data.get("image")
+        id = request.data.get("image_origin_id")
+        task1 = model1_execute.delay(url, id)
+        task2 = model2_execute.delay(url, id)
+        task3 = model3_execute.delay(url, id)
 
-            # post_serializer = U
-            # user_id = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        while True:
+            if task1.ready() and task2.ready() and task3.ready():
+                break
+            time.sleep(1)
+        if task1.result and task2.result and task3.result:
+            response = {**task1.result, **task2.result, **task3.result}
 
-            serializer = UploadedImageSerializer(data=request.data)
+            return Response(response, status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+#sudo celery -A backend_project.celery multi start 4 --loglevel=info --pool=threads
+#sudo celery multi stop 4 -A backend_project.celery --all
+
+           
+class ResultImageView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = CollageImageSerializer(data=request.data)
+        if serializer.is_valid():
+            user_id = request.data.get('user_id')
+            img_file = request.FILES.get('img_file')
+            im = Image.open(img_file)
+            im.convert("RGB")
+            im_jpeg = BytesIO()
+            im.save(im_jpeg, 'JPEG')
+            im_jpeg.seek(0)
+            key = request.data.get("user_id") + str(datetime.now()).replace('.', '').replace(' ', '') + "." + "jpeg"
+            img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
+
+            data = {
+                'user_id': user_id,
+                "img_origin_id" : request.data.get('img_origin_id'),
+                'result_url': img_url
+            }
+            serializer = CollageImageSerializer(data=data)
             if serializer.is_valid():
-                # 이미지 저장
-                img_files = request.FILES.getlist('img_files')
-                img_urls = []
-                for img_file in img_files:
-                    # S3 버킷에 이미지 업로드
-                    bucket_name = 't4y-bucket'  # S3 버킷 이름 입력
-                    img_url = upload_image_to_s3(img_file, bucket_name)
-                    img_urls.append(img_url)
-
-                # user_id = User.objects.filter(user_id=payload['id'])
-
-                # 이미지 URL과 닉네임을 RDS MySQL에 저장
-                data = {
-                    # 'user_id': serializer.validated_data['user_id'],
-                    'user_id': user_id,
-                    'url_1': img_urls[0] if len(img_urls) > 0 else '',
-                    'url_2': img_urls[1] if len(img_urls) > 1 else '',
-                    'url_3': img_urls[2] if len(img_urls) > 2 else '',
-                    'url_4': img_urls[3] if len(img_urls) > 3 else '',
-                }
-                uploaded_image = Image_origin.objects.create(**data)
-                serializer = UploadedImageSerializer(uploaded_image)
-
+                serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                print(serializer.errors)
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        except Exception as e:
-            return JsonResponse({"error message": str(e)}, status=500)
+class SelectImage(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        select = request.data.getlist("select", [])
+        return Response(select, status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(query_serializer=SwaggerFrameGetSerializer, responses={"200":SwaggerFrameGetSerializer})
     def get(self, request, format=None):

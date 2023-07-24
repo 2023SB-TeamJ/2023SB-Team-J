@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.urls import path, include, re_path
 
@@ -36,5 +35,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/frame/', include('image.urls')),
     path('api/v1/', include('common.urls')),
+    path('api/v1/album/', include('album.urls')),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
