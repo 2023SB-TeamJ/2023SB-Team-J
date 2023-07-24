@@ -1,5 +1,12 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable react/button-has-type */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-const-assign */
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import html2canvas from 'html2canvas';
 import LeftAIShift from '../LeftAIShift';
 import RightAIShift from '../RightAIShift';
 import Black from '../../assets/images/BlackImg.png';
@@ -10,6 +17,7 @@ import image1 from '../../assets/images/image1.png';
 import image2 from '../../assets/images/image2.png';
 import image3 from '../../assets/images/image3.png';
 import image4 from '../../assets/images/image4.png';
+import addphoto from '../../assets/images/addphoto.png';
 
 function Carousel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -24,15 +32,34 @@ function Carousel() {
     setActiveIndex((nextIndex) => (nextIndex === 3 ? 0 : nextIndex + 1));
   };
 
+  const navigate = useNavigate();
+
+  const captureArea = () => {
+    const [colImg, SetColImg] = useState('');
+    const captureDiv = document.getElementById('captureArea');
+
+    html2canvas(captureDiv).then((canvas) => {
+      // 캡처된 canvas 객체를 사용할 수 있습니다.
+      // 예를 들어, 이미지로 저장하거나 다른 작업을 수행할 수 있습니다.
+      // 아래는 이미지로 저장하는 예제입니다.
+      const imgData = canvas.toDataURL('image/png');
+      SetColImg = imgData;
+      console.log(imgData);
+    });
+    // .then(() => {
+    //   navigate('/custom');
+    // });
+  };
+
   return (
-    <CarouselWrap id="carouselExampleIndicators">
+    <Container id="carouselExampleIndicators">
       <ButtonWrap onClick={handlePrev}>
         <LeftAIShift
           className="carousel-control-prev-icon"
           aria-hidden="true"
         />
       </ButtonWrap>
-      <ImageWrap>
+      <ImageWrap id="captureArea">
         <CarouselImage>
           {activeIndex === 0 && <Image src={Black} alt="..." />}
         </CarouselImage>
@@ -45,7 +72,6 @@ function Carousel() {
         <CarouselImage>
           {activeIndex === 3 && <Image src={Brown} alt="..." />}
         </CarouselImage>
-
         <TopLeftImage src={image1} />
         <TopRightImage src={image2} />
         <BottomLeftImage src={image3} />
@@ -57,15 +83,19 @@ function Carousel() {
           aria-hidden="true"
         />
       </ButtonWrap>
-    </CarouselWrap>
+      <AddPhotoBtn
+        onClick={captureArea}
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ borderRadius: '50%' }}
+      />
+    </Container>
   );
 }
 
 export default Carousel;
 
 // Carousel 컨테이너 스타일
-const CarouselWrap = styled.div`
-  border: solid 2px black
+const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -92,7 +122,6 @@ const CarouselImage = styled.div`
 const Image = styled.img`
   width: 100%;
   height: 100%;
-  postion: absolute;
 `;
 
 // const TopLeftWrap = styled.div`
@@ -137,5 +166,14 @@ const BottomRightImage = styled.img`
 const ButtonWrap = styled.div`
   display: flex;
   justify-content: center;
-  align-items; center;
+  align-items: center;
+`;
+const AddPhotoBtn = styled(motion.div)`
+  margin-left: 30px;
+  width: 79.5px;
+  height: 66px;
+  flex-shrink: 0;
+  background: url(${addphoto}) lightgray 50% / cover no-repeat;
+  background-color: ${(props) => props.theme.backgroundColor};
+  cursor: pointer;
 `;
