@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import UploadImageView
+from .views import *
 
 urlpatterns = [
-    path('api/v1/frame/', UploadImageView.as_view(), name='upload_image'),
-    # 루트 URL 패턴
-    path('', UploadImageView.as_view(), name='root'),
+    path('ai/', AiExecute.as_view(), name='ai'),
+    path('add/', ResultImageView.as_view(), name='resultimage'),
+    path('', UploadImageView.as_view(), name='frame'),
 ]

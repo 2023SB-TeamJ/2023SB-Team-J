@@ -1,20 +1,88 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable consistent-return */
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
 
 function UploadImagePage() {
-  // locainon 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
+  // location 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
   const location = useLocation();
-  // loaction 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
+  // location 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
   const frameType = location.state;
+  const [files, setFiles] = useState([]);
+  const navigate = useNavigate();
+
+  const onImageUpload = (file) => {
+    setFiles((prevFiles) => [...prevFiles, file]);
+  };
+
+  const uploadAllImages = async () => {
+    const userId = 1;
+
+    const promises = files.map((file, index) => {
+      const formData = new FormData();
+      formData.append('id', userId);
+      formData.append('image', file);
+
+      return axios
+        .post('http://localhost:8000/api/v1/frame/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          const originImgId = response.data.origin_img_id;
+          const imageUrl = response.data.url;
+          return uploadImageToCharacterEndpoint(originImgId, imageUrl, index);
+        });
+    });
+
+    const results = await Promise.all(promises);
+
+    // Sort results based on original index
+    results.sort((a, b) => a.index - b.index);
+
+    // Move navigation here with sorted results
+    navigate('/convert', { state: { frameType, aiResponse: results } });
+  };
+
+  const uploadImageToCharacterEndpoint = (originImgId, imageUrl, index) => {
+    const formData = new FormData();
+    formData.append('image_origin_id', originImgId);
+    formData.append('image', imageUrl);
+
+    return axios
+      .post('http://localhost:8000/api/v1/frame/ai/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        return {
+          index, // Include index in return
+          origin_img_id: originImgId,
+          origin_img_url: imageUrl,
+          model1_id: response.data.model1_id,
+          model1_url: response.data.model1_url,
+          model2_id: response.data.model2_id,
+          model2_url: response.data.model2_url,
+          model3_id: response.data.model3_id,
+          model3_url: response.data.model3_url,
+        };
+      });
+  };
 
   // UploadImage 컴포넌트 4개로 이루어진 배열을 생성한다.
-  const uploadImageComponents = Array(4).fill(<UploadImage />);
+  const uploadImageComponents = Array(4).fill(
+    <UploadImage onImageUpload={onImageUpload} />,
+  );
   return (
     <div>
       <Container>
@@ -27,12 +95,10 @@ function UploadImagePage() {
             프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
-          <PageShiftWrap>
-            <PageShiftBtn path="/convert" state={{ frameType }} />
+          <PageShiftWrap onClick={uploadAllImages}>
+            <PageShiftBtn />
           </PageShiftWrap>
-          <ImageWrapper frametype={frameType}>
-            {uploadImageComponents}
-          </ImageWrapper>
+          <ImageWrapper>{uploadImageComponents}</ImageWrapper>
         </MainWrap>
       </Container>
     </div>
@@ -72,6 +138,7 @@ const PageShiftWrap = styled.div`
 
 const ImageWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   ${({ frametype }) => {
