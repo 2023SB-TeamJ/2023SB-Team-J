@@ -34,7 +34,7 @@ function ConvertAIPage() {
       await axios.patch('http://localhost:8000/api/v1/frame/ai/', requestData);
 
       // 응답이 성공적으로 완료되면 '/custom' 페이지로 이동
-      navigate('/custome', { state: { frameType } });
+      navigate('/custom', { state: { frameType } });
     } catch (error) {
       // 요청이 실패하면 에러를 콘솔에 출력
       console.error(error);
