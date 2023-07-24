@@ -11,8 +11,7 @@ from .s3_utils import *
 from .models import *
 from rest_framework.permissions import AllowAny
 
-from album.serializers import CollageImageSerializer
-
+from album.serializers import *
 
 
 class UploadImageView(APIView):

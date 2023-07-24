@@ -4,7 +4,7 @@ from .models import Image_collage
 class AlbumDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image_collage
-        fields = ('user_id', 'result_url', 'img_origin_id', 'created_at')
+        fields = ('user_id', 'result_url', 'created_at', 'state')
 
 
 class CollageImageSerializer(serializers.ModelSerializer):
@@ -14,4 +14,9 @@ class CollageImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image_collage
-        fields = ('user_id', 'result_image_id', 'img_origin_id', 'result_url', 'created_at', 'state')
+        fields = ('user_id', 'result_image_id', 'result_url', 'created_at', 'state')
+
+class ResultImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image_collage
+        fields = "__all__"

@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
+import axios from 'axios';
 import Header from '../components/Header';
 import Title from '../components/Title';
 // import CustomMenuBar from '../components/Custom/CustomMenuBar';
@@ -20,16 +21,6 @@ import CustomMenuBar from '../components/Custom/CustomMenuBar';
 // import smile from '../../assets/images/sticker_smile.png';
 // import sunglass from '../../assets/images/sticker_sunglass.png';
 // import heart from '../../assets/images/sticker_heart.png';
-
-// const IMG = styled.div`
-//   width: 100%;
-//   height: 100%;
-
-//   /* background-image: url('https://t4y-bucket.s3.amazonaws.com/22023-07-1814:05:53105150.jpeg');
-//   background-position: center;
-//   background-repeat: no-repeat;
-//   background-size: cover; */
-// `;
 function CustomizingPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,19 +28,35 @@ function CustomizingPage() {
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
 
+    function sendImageToServer(blob) {
+      const userDummy = '1';
+      const formData = new FormData();
+      formData.append('result_image', blob, 'capture.png');
+      formData.append('user_id', userDummy);
+
+      // console.log(blob);
+      // console.log(formData);
+      fetch('http://localhost:8000/api/v1/frame/add/', {
+        method: 'POST',
+        body: formData, // 이미지 데이터를 FormData로 전송
+      })
+        .then((data) => {
+          console.log('서버 응답:', data); // 서버로부터의 응답을 확인합니다.
+          navigate('/album'); // 작업이 완료되면 원하는 페이지로 이동합니다.
+        })
+        .catch((error) => {
+          console.error('에러 발생:', error); // 오류 처리
+        });
+    }
+
     html2canvas(captureDiv)
       .then((canvas) => {
-        // 캡처된 canvas 객체를 사용할 수 있습니다.
-        // 예를 들어, 이미지로 저장하거나 다른 작업을 수행할 수 있습니다.
-        // 아래는 이미지로 저장하는 예제입니다.
-        const imgData = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.href = imgData;
-        link.download = 'capture.png';
-        link.click();
+        canvas.toBlob((blob) => {
+          sendImageToServer(blob); // 이미지 데이터(Blob)를 서버로 전송하는 함수 호출
+        }, 'image/png');
       })
-      .then(() => {
-        navigate('/album');
+      .catch((error) => {
+        console.error('캡처 중 오류 발생:', error);
       });
   };
 
@@ -157,8 +164,17 @@ const DivArea = styled.div`
   background: #ffffff;
   border: solid 2px; */
 `;
+
 // const TestWrap = styled.div`
 //   display: flex;
 //   flex-direction: column;
 //   margin-left: 2rem;
+// `;
+// const IMG = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   /* background-image: url('https://t4y-bucket.s3.amazonaws.com/22023-07-1814:05:53105150.jpeg');
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: cover; */
 // `;
