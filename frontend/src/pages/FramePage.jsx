@@ -1,35 +1,31 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+import { styled } from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
-import Carousel from '../components/Carousel';
+import CustomCarousel from '../components/Custom/CustomCarousel';
 
-function ConvertAIPage() {
-  const location = useLocation();
-  const { frameType } = location.state.frameType;
-  console.log(frameType);
-  // const navigate = useNavigate();
+function FramePage() {
+  const [colImg, setColImg] = useState('');
 
-  // const frameComponents = Array(4).fill(<Carousel />);
   return (
     <div>
       <Container>
         <MainWrap>
           <Header />
           <TitleWrap>
-            <Title>AI 변환</Title>
+            <Title>프레임/색상 선택</Title>
           </TitleWrap>
           <ProgressBar>
             프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
           <CarouselWrap>
-            <Carousel />
+            <CustomCarousel setColImg={setColImg} />
           </CarouselWrap>
           <PageShiftWrap>
-            <PageShiftBtn path="/frame" />
+            <PageShiftBtn path="/custom" state={{ colImg }} />
           </PageShiftWrap>
         </MainWrap>
       </Container>
@@ -37,7 +33,7 @@ function ConvertAIPage() {
   );
 }
 
-export default ConvertAIPage;
+export default FramePage;
 
 const Container = styled.div`
   width: 100%;
@@ -66,9 +62,13 @@ const ProgressBar = styled.div`
   margin: 3rem;
 `;
 
-const PageShiftWrap = styled.div`
-  display: flex;
-  justify-content: center;
+const CarouselWrap = styled.div`
+  position: relative;
 `;
 
-const CarouselWrap = styled.div``;
+const PageShiftWrap = styled.div`
+  position: absolute;
+  top: 50%; /* 세로 가운데 정렬을 위해 50% */
+  right: 0; /* 가로 오른쪽 정렬을 위해 right: 0 */
+  transform: translateY(-50%); /* 세로 가운데 정렬을 위한 추가적인 변형 */
+`;
