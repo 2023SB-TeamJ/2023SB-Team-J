@@ -1,6 +1,4 @@
 import json
-from django.utils import timezone
-from datetime import datetime
 
 from django.http import JsonResponse
 from rest_framework.permissions import AllowAny
@@ -22,7 +20,7 @@ class AlbumDetailView(APIView): #album/detail
             result_image_id = data.get('result_image_id')
 
             if user_id is None or result_image_id is None:  # request 형식에 맞지 않는 경우
-                return Response({"error" : "request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error" :"request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
             image_collage = Image_collage.objects.get(id=result_image_id, user_id=user_id, state=1)
         except:
@@ -35,18 +33,21 @@ class AlbumDetailView(APIView): #album/detail
 
         return Response(status=status.HTTP_200_OK)
 
+    def get(self, request, format=None):
+        result_image_id = request.data.get('result_image_id')
 
-    def get(self, request, format=None): #앨범 상세 조회
+        if result_image_id is None:# request 형식에 맞지 않는 경우
+            return Response({"error": "request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
-        result_image_id = request.GET.get('result_image_id')
         try:
             image_collage = Image_collage.objects.get(id=result_image_id, state=1)
-        except:
+        except Image_collage.DoesNotExist:
             # 찾지 못한 경우
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         serializer = AlbumDetailSerializer(image_collage)
 
-        # formdata 형식으로 보내기
         response = {
             "result_image": serializer.data.get('result_url'),
             "create_date": serializer.data.get('created_at')
