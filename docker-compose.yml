@@ -109,17 +109,19 @@ services:
       - '--web.enable-lifecycle'
       - '--config.file=/etc/prometheus/prometheus.yml'
     restart: always
+    depends_on:
+      - backend
     networks:
       - t4y
 
   grafana:
-      image: grafana/grafana
+      image: grafana/grafana-oss:latest
       container_name: grafana
       user: root
       environment:
         GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
       ports:
-        - 3000:3000
+        - 9999:9999
       volumes:
         - ./grafana/grafana-volume:/var/lib/grafana
       restart: always

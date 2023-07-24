@@ -10,11 +10,11 @@ COPY package.json .
 COPY package-lock.json .
 
 # 패키지 설치
-RUN npm ci --production
+RUN npm install
 
 # 빌드
-COPY . ./
-RUN npm run build
+COPY . .
+#RUN npm run build
 
 # 실행
 CMD ["npm", "start"]

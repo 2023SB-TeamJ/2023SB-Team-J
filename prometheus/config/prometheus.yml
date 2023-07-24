@@ -11,7 +11,7 @@ global:
 
 # 프로메테우스 연결
 scrape_configs:
-  - job_name: 'prometheus'
+  - job_name: 'promethus'
     static_configs:
       - targets: ['localhost:9090']
 
@@ -19,5 +19,5 @@ scrape_configs:
   - job_name: '2023sb-team-j-backend'
     scrape_interval: 5s
     static_configs:
-      - targets: [ 't4y-backend:8000', 'localhost:8000', '127.0.0.1:8000', 'host.docker.internal:8000', 'docker.for.mac.localhost:8000' ]
-#    metrics_path: '/admin/'
+      - targets: [ 'localhost:8000', '127.0.0.1:8000', '0.0.0.0:8000' ]
+    metrics_path: 'monitor/'
