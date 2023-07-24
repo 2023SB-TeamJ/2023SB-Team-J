@@ -11,7 +11,26 @@ function Carousel4({ aiData, setSelectedData }) {
 
   // Carousel이 넘어갈 때마다 선택된 데이터를 부모 컴포넌트에게 전달
   useEffect(() => {
-    setSelectedData({ id: data.id, select: activeIndex === 0 ? 1 : 0 });
+    let selectedId;
+
+    switch (activeIndex) {
+      case 0:
+        selectedId = data.origin_img_id;
+        break;
+      case 1:
+        selectedId = data.model1_id;
+        break;
+      case 2:
+        selectedId = data.model2_id;
+        break;
+      case 3:
+        selectedId = data.model3_id;
+        break;
+      default:
+        selectedId = data.origin_img_id;
+    }
+
+    setSelectedData({ id: selectedId, select: activeIndex === 0 ? 1 : 0 });
   }, [activeIndex]);
 
   // 이전 버튼 클릭 시 activeIndex 값 업데이트
