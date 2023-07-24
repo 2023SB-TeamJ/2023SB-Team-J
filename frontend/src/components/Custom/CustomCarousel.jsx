@@ -19,7 +19,7 @@ import image3 from '../../assets/images/image3.png';
 import image4 from '../../assets/images/image4.png';
 import addphoto from '../../assets/images/addphoto.png';
 
-function Carousel({ setColImg }) {
+function CustomCarousel({ setColImg }) {
   // FramePage에서 구조 분해 할당으로 setColImg 받아옴
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -92,7 +92,7 @@ function Carousel({ setColImg }) {
   );
 }
 
-export default Carousel;
+export default CustomCarousel;
 
 // Carousel 컨테이너 스타일
 const Container = styled.div`
