@@ -25,7 +25,6 @@ function CustomizingPage() {
   const navigate = useNavigate();
 
   const location = useLocation();
-
   // FramePage.jsx에서 받아온 colImg를 가져와 colImg에 저장
   // location.state가 객체이고 그 객체의 colImg 프로퍼티도 객체인 것을 가정하고 있습니다.
   // 그러나 실제로는 colImg가 문자열이어서 아래 코드처럼 작성

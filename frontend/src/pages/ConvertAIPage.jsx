@@ -13,7 +13,7 @@ import Carousel4 from '../components/Carousel4';
 function ConvertAIPage() {
   const location = useLocation();
   const { frameType, aiResponse } = location.state;
-  console.log(frameType);
+  // console.log(frameType);
   const [selectedData, setSelectedData] = useState({
     carousel1: {},
     carousel2: {},
@@ -34,7 +34,7 @@ function ConvertAIPage() {
       await axios.patch('http://localhost:8000/api/v1/frame/ai/', requestData);
 
       // 응답이 성공적으로 완료되면 '/custom' 페이지로 이동
-      navigate('/custom', { state: { frameType } });
+      navigate('/custome', { state: { frameType } });
     } catch (error) {
       // 요청이 실패하면 에러를 콘솔에 출력
       console.error(error);
@@ -80,11 +80,8 @@ function ConvertAIPage() {
               }
             />
           </CarouselWrap>
-
-          <PageShiftWrap>
-            <PageShiftBtn path="/frame" />
-//           <PageShiftWrap onClick={handlePageShift}>
-//             <PageShiftBtn />
+          <PageShiftWrap onClick={handlePageShift}>
+            <PageShiftBtn />
           </PageShiftWrap>
         </MainWrap>
       </Container>
