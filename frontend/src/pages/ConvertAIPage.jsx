@@ -80,8 +80,11 @@ function ConvertAIPage() {
               }
             />
           </CarouselWrap>
-          <PageShiftWrap onClick={handlePageShift}>
-            <PageShiftBtn />
+
+          <PageShiftWrap>
+            <PageShiftBtn path="/frame" />
+//           <PageShiftWrap onClick={handlePageShift}>
+//             <PageShiftBtn />
           </PageShiftWrap>
         </MainWrap>
       </Container>

@@ -23,8 +23,16 @@ import CustomMenuBar from '../components/Custom/CustomMenuBar';
 // import heart from '../../assets/images/sticker_heart.png';
 function CustomizingPage() {
   const navigate = useNavigate();
+
   const location = useLocation();
-  const { frameType } = location.state;
+
+  // FramePage.jsx에서 받아온 colImg를 가져와 colImg에 저장
+  // location.state가 객체이고 그 객체의 colImg 프로퍼티도 객체인 것을 가정하고 있습니다.
+  // 그러나 실제로는 colImg가 문자열이어서 아래 코드처럼 작성
+  const { colImg } = location.state;
+
+  // const { frameType } = location.state;
+
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
 
@@ -77,7 +85,7 @@ function CustomizingPage() {
               <CustomMenuBar />
             </MenuWrap> */}
           <CaptureWrap>
-            <DivArea id="captureArea">
+            <DivArea id="captureArea" aiimage={colImg}>
               <CustomPhoto />
               <TextBoxWrap>
                 <CustomTextBox />
@@ -156,13 +164,11 @@ const CaptureWrap = styled.div`
 const DivArea = styled.div`
   width: 100%;
   height: 100%;
-  font-size: 900;
-  background: url(${cut4}) lightgray 50% / cover no-repeat;
+  background: url(${(props) => props.aiimage}) lightgray 50% / cover no-repeat;
   /* background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background: #ffffff;
-  border: solid 2px; */
+  background: #ffffff; */
 `;
 
 // const TestWrap = styled.div`
