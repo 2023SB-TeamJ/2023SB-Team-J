@@ -9,9 +9,9 @@ import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
 
 function UploadImagePage() {
-  // locainon 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
+  // location 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
   const location = useLocation();
-  // loaction 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
+  // location 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
   const frameType = location.state;
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ function UploadImagePage() {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
 
-  const uploadImagesToCharacterEndpoint = (imgOriginId, imageUrl) => {
+  const uploadImagesToCharacterEndpoint = (imgOriginId, imageUrl, index) => {
     const formData = new FormData();
     formData.append('image_origin_id', imgOriginId);
     formData.append('image', imageUrl);
@@ -32,8 +32,10 @@ function UploadImagePage() {
         },
       })
       .then((response) => {
-        console.log(response);
-        navigate('/convert', { state: { frameType } });
+        console.log(response.data);
+        navigate('/convert', {
+          state: { frameType, aiResponse: response.data, index },
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -48,21 +50,30 @@ function UploadImagePage() {
       formData.append('image', file);
       navigate('/loading');
 
-      return axios.post('http://localhost:8000/api/v1/frame/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      return axios
+        .post('http://localhost:8000/api/v1/frame/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((response) => {
+          // Add this part
+          console.log(response);
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     });
 
     Promise.all(promises)
       .then((results) => {
         console.log('All images uploaded');
         // handle the response of each promise
-        results.forEach((response) => {
+        results.forEach((response, index) => {
           // eslint-disable-next-line camelcase
           const { origin_img_id, url } = response.data;
-          uploadImagesToCharacterEndpoint(origin_img_id, url);
+          uploadImagesToCharacterEndpoint(origin_img_id, url, index);
         });
       })
       .catch((error) => {
@@ -129,6 +140,7 @@ const PageShiftWrap = styled.div`
 
 const ImageWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   ${({ frametype }) => {

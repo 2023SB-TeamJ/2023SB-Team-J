@@ -4,11 +4,14 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
-import Carousel from '../components/Carousel';
+import Carousel1 from '../components/Carousel1';
+import Carousel2 from '../components/Carousel2';
+import Carousel3 from '../components/Carousel3';
+import Carousel4 from '../components/Carousel4';
 
 function ConvertAIPage() {
   const location = useLocation();
-  const { frameType } = location.state.frameType;
+  const { frameType, aiResponse, index } = location.state;
   console.log(frameType);
   // const navigate = useNavigate();
 
@@ -26,10 +29,10 @@ function ConvertAIPage() {
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
           <CarouselWrap>
-            <Carousel />
-            <Carousel />
-            <Carousel />
-            <Carousel />
+            <Carousel1 aiData={aiResponse} index={index} />
+            <Carousel2 aiData={aiResponse} index={index} />
+            <Carousel3 aiData={aiResponse} index={index} />
+            <Carousel4 aiData={aiResponse} index={index} />
           </CarouselWrap>
           <PageShiftWrap>
             <PageShiftBtn path="/custom" />
