@@ -23,32 +23,52 @@ class SwaggerFrameGetSerializer(serializers.Serializer):
 SwaggerFramePost = [
             openapi.Parameter(
                 name='user_id',
-                in_=openapi.IN_QUERY,
+                in_=openapi.IN_FORM,
                 type=openapi.TYPE_INTEGER,
                 description='user_id 입력',
             ),
             openapi.Parameter(
-                name='url_1',
-                in_=openapi.IN_QUERY,
+                name='image1',
+                in_=openapi.IN_FORM,
                 type=openapi.TYPE_FILE,
-                description='원본 이미지1 입력'
+                description='원본 이미지 입력'
             ),
             openapi.Parameter(
-                name='url_2',
-                in_=openapi.IN_QUERY,
+                name='image2',
+                in_=openapi.IN_FORM,
                 type=openapi.TYPE_FILE,
-                description='원본 이미지2 입력'
+                description='원본 이미지 입력'
             ),
             openapi.Parameter(
-                name='url_3',
-                in_=openapi.IN_QUERY,
+                name='image3',
+                in_=openapi.IN_FORM,
                 type=openapi.TYPE_FILE,
-                description='원본 이미지3 입력'
+                description='원본 이미지 입력'
             ),
             openapi.Parameter(
-                name='url_4',
-                in_=openapi.IN_QUERY,
+                name='image4',
+                in_=openapi.IN_FORM,
                 type=openapi.TYPE_FILE,
-                description='원본 이미지4 입력'
+                description='원본 이미지 입력'
             ),
+
         ]
+
+SwaggerFrameAddPost = [
+            openapi.Parameter(
+                name='user_id',
+                in_=openapi.IN_FORM,
+                type=openapi.TYPE_INTEGER,
+                description='user_id 입력',
+            ),
+            openapi.Parameter(
+                name='result_image',
+                in_=openapi.IN_FORM,
+                type=openapi.TYPE_FILE,
+                description='결과 이미지 입력'
+            )
+        ]
+
+class SwaggerAiSelectPatchSerializer(serializers.Serializer):
+    select = serializers.ListField()
+    select_id = serializers.ListField()

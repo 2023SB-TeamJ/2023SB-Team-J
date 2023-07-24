@@ -10,7 +10,6 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from .serializers import UserSerializer, SwaggerLoginPostSerializer, SwaggerLogoutPostSerializer, SwaggerSignupPostSerializer
 from drf_yasg.utils import swagger_auto_schema
-from .serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
@@ -23,13 +22,15 @@ from django.utils.decorators import method_decorator
 
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
+from drf_yasg.utils import swagger_auto_schema
+
 User = get_user_model()
 
 # 회원가입
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
 
-    @swagger_auto_schema(query_serializer=SwaggerSignupPostSerializer, responses={"200": SwaggerSignupPostSerializer})
+    @swagger_auto_schema(request_body=SwaggerSignupPostSerializer, responses={"200": SwaggerSignupPostSerializer})
     def post(self, request):
         serializer = UserSerializer(data=request.data) #직렬화
 
@@ -45,7 +46,7 @@ class SignupAPIView(APIView):
 class LoginAPIView(APIView):
     permission_classes = [AllowAny]
 
-    @swagger_auto_schema(query_serializer=SwaggerLoginPostSerializer, responses={"200": SwaggerLoginPostSerializer})
+    @swagger_auto_schema(request_body=SwaggerLoginPostSerializer, responses={"200": SwaggerLoginPostSerializer})
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
@@ -69,7 +70,7 @@ class LoginAPIView(APIView):
 # 로그아웃
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    @swagger_auto_schema(query_serializer=SwaggerLogoutPostSerializer, responses={"200": SwaggerLogoutPostSerializer})
+    @swagger_auto_schema(request_body=SwaggerLogoutPostSerializer, responses={"200": SwaggerLogoutPostSerializer})
     def post(self, request):
         try:
             # Blacklist the refresh token to invalidate it

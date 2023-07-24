@@ -18,12 +18,14 @@ from .models import *
 from rest_framework.permissions import AllowAny
 
 from album.serializers import CollageImageSerializer
+from rest_framework.parsers import MultiPartParser
 
 
 
 class UploadImageView(APIView):
     permission_classes = [AllowAny]
-    
+    parser_classes = [MultiPartParser]
+    @swagger_auto_schema(manual_parameters=SwaggerFramePost)
     def post(self, request):
         image = request.data.get("image")
         user_id = request.data.get("id")
@@ -52,7 +54,6 @@ class UploadImageView(APIView):
 class AiExecute(APIView):
     permission_classes = [AllowAny]
 
-    @swagger_auto_schema(manual_parameters=SwaggerFramePost)
     def post(self, request):
         url = request.data.get("image")
         id = request.data.get("image_origin_id")
@@ -78,6 +79,8 @@ class AiExecute(APIView):
 class ResultImageView(APIView):
     permission_classes = [AllowAny]
 
+    parser_classes = [MultiPartParser]
+    @swagger_auto_schema(manual_parameters=SwaggerFrameAddPost)
     def post(self, request):
         serializer = CollageImageSerializer(data=request.data)
         if serializer.is_valid():
@@ -104,6 +107,7 @@ class ResultImageView(APIView):
 
 class SelectImage(APIView):
     permission_classes = [AllowAny]
+    @swagger_auto_schema(request_body=SwaggerAiSelectPatchSerializer, responses={"200":SwaggerAiSelectPatchSerializer})
     def post(self, request):
         select = request.data.getlist("select", [])
         return Response(select, status=status.HTTP_201_CREATED)

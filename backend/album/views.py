@@ -9,8 +9,12 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from .serializers import *
 
+from drf_yasg.utils import swagger_auto_schema
+
 class AlbumView(APIView):
     permission_classes = [AllowAny]
+
+    @swagger_auto_schema(request_body=SwaggerAlbumPostSerializer, responses={"200":SwaggerAlbumPostSerializer})
     def post(self, request):
         try:
             user_id = request.data.get('user_id')
@@ -57,7 +61,7 @@ class AlbumDetailView(APIView): #album/detail
 
         return Response(status=status.HTTP_200_OK)
 
-
+    @swagger_auto_schema(query_serializer=SwaggerAlbumDetailGetSerializer, responses={"200":SwaggerAlbumDetailGetSerializer})
     def get(self, request): #앨범 상세 조회 None
         result_image_id = request.GET.get('result_image_id')
         if result_image_id is None:  # request 형식에 맞지 않는 경우

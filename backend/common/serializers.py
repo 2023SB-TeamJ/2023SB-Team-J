@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from drf_yasg import openapi
 
 # from image.serializers import UploadedImageSerializer
 
