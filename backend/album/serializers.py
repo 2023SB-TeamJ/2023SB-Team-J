@@ -14,4 +14,4 @@ class CollageImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image_collage
-        fields = ('user_id', 'result_image_id', 'img_origin_id', 'result_url', 'created_at', 'state')
+        fields = ('user_id', 'result_image_id', 'result_url', 'created_at', 'state')
