@@ -123,6 +123,7 @@ services:
       ports:
         - 9999:9999
       volumes:
+        - ./grafana/grafana-volume/datasource:/var/lib/grafana/datasource
         - ./grafana/grafana-volume:/var/lib/grafana
       restart: always
       depends_on:
@@ -134,4 +135,5 @@ networks:
   t4y:
     driver: bridge
 
-
+volumes:
+  grafana-data:
