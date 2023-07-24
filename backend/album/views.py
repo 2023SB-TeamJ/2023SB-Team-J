@@ -58,14 +58,17 @@ class AlbumDetailView(APIView): #album/detail
 
 
     def get(self, request): #앨범 상세 조회 None
-
         result_image_id = request.GET.get('result_image_id')
-        print(result_image_id)
+        if result_image_id is None:  # request 형식에 맞지 않는 경우
+            return Response({"error": "request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            image_collage = Image_collage.objects.get(id=result_image_id, state=True)
-        except:
+            image_collage = Image_collage.objects.get(id=result_image_id, state=1)
+        except Image_collage.DoesNotExist:
             # 찾지 못한 경우
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         serializer = AlbumDetailSerializer(image_collage)
 
         # 날짜만 추출. 시간 데이터는 반환하지 않음
