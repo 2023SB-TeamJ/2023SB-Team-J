@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
@@ -6,6 +7,8 @@ import PageShiftBtn from '../components/PageShiftBtn';
 import CustomCarousel from '../components/Custom/CustomCarousel';
 
 function FramePage() {
+  const [colImg, setColImg] = useState('');
+
   return (
     <div>
       <Container>
@@ -19,11 +22,11 @@ function FramePage() {
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
           <CarouselWrap>
-            <CustomCarousel />
-            <PageShiftWrap>
-              <PageShiftBtn path="/custom" />
-            </PageShiftWrap>
+            <CustomCarousel setColImg={setColImg} />
           </CarouselWrap>
+          <PageShiftWrap>
+            <PageShiftBtn path="/custom" state={{ colImg }} />
+          </PageShiftWrap>
         </MainWrap>
       </Container>
     </div>
@@ -60,7 +63,6 @@ const ProgressBar = styled.div`
 `;
 
 const CarouselWrap = styled.div`
-  border: solid 3px yellow;
   position: relative;
 `;
 
@@ -69,5 +71,4 @@ const PageShiftWrap = styled.div`
   top: 50%; /* 세로 가운데 정렬을 위해 50% */
   right: 0; /* 가로 오른쪽 정렬을 위해 right: 0 */
   transform: translateY(-50%); /* 세로 가운데 정렬을 위한 추가적인 변형 */
-  border: 3px solid pink;
 `;

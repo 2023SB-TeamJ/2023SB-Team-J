@@ -19,7 +19,8 @@ import image3 from '../../assets/images/image3.png';
 import image4 from '../../assets/images/image4.png';
 import addphoto from '../../assets/images/addphoto.png';
 
-function Carousel() {
+function Carousel({ setColImg }) {
+  // FramePage에서 구조 분해 할당으로 setColImg 받아옴
   const [activeIndex, setActiveIndex] = useState(0);
 
   // 이전 버튼 클릭 시 activeIndex 값 업데이트
@@ -35,7 +36,6 @@ function Carousel() {
   const navigate = useNavigate();
 
   const captureArea = () => {
-    const [colImg, SetColImg] = useState('');
     const captureDiv = document.getElementById('captureArea');
 
     html2canvas(captureDiv).then((canvas) => {
@@ -43,7 +43,7 @@ function Carousel() {
       // 예를 들어, 이미지로 저장하거나 다른 작업을 수행할 수 있습니다.
       // 아래는 이미지로 저장하는 예제입니다.
       const imgData = canvas.toDataURL('image/png');
-      SetColImg = imgData;
+      setColImg(imgData); // 이미 값이 있는 매개변수에 값을 할당 시 에러 발생 setColImg = imgData-> 앞의 코드처럼 작성
       console.log(imgData);
     });
     // .then(() => {
@@ -104,8 +104,8 @@ const Container = styled.div`
 
 // 전체 이미지 스타일
 const ImageWrap = styled.div`
-  width: 800px;
-  height: 600px;
+  width: 29rem;
+  height: 35rem;
   margin: 3rem;
   position: relative;
 `;
@@ -131,36 +131,42 @@ const Image = styled.img`
 // const BottomLeftWrap = styled.div``;
 // const BottomRightWrap = styled.div``;
 
+// object-fit: cover; 이미지 크기가 유지되도록 설정
+// top, left, right, bottom : 가장자리부터 얼마 떨어지는
 const TopLeftImage = styled.img`
   position: absolute;
-  top: 20px;
-  left: 25px;
+  top: 15px;
+  left: 15px;
   width: 45%;
   height: 45%;
+  object-fit: fill;
 `;
 
 const TopRightImage = styled.img`
   position: absolute;
-  top: 20px;
-  right: 25px;
+  top: 15px;
+  right: 15px;
   width: 45%;
   height: 45%;
+  object-fit: fill;
 `;
 
 const BottomLeftImage = styled.img`
   position: absolute;
-  bottom: 20px;
-  left: 25px;
+  bottom: 15px;
+  left: 15px;
   width: 45%;
   height: 45%;
+  object-fit: fill;
 `;
 
 const BottomRightImage = styled.img`
   position: absolute;
-  bottom: 20px;
-  right: 25px;
+  bottom: 15px;
+  right: 15px;
   width: 45%;
   height: 45%;
+  object-fit: fill;
 `;
 
 const ButtonWrap = styled.div`
@@ -168,6 +174,7 @@ const ButtonWrap = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const AddPhotoBtn = styled(motion.div)`
   margin-left: 30px;
   width: 79.5px;

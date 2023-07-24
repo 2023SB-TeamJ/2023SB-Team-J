@@ -29,7 +29,7 @@ function ConvertAIPage() {
             <Carousel />
           </CarouselWrap>
           <PageShiftWrap>
-            <PageShiftBtn path="/custom" />
+            <PageShiftBtn path="/frame" />
           </PageShiftWrap>
         </MainWrap>
       </Container>
