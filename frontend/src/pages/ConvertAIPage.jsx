@@ -1,16 +1,45 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
-import Carousel from '../components/Carousel';
+import Carousel1 from '../components/Carousel1';
+import Carousel2 from '../components/Carousel2';
+import Carousel3 from '../components/Carousel3';
+import Carousel4 from '../components/Carousel4';
 
 function ConvertAIPage() {
   const location = useLocation();
-  const { frameType } = location.state.frameType;
+  const { frameType, aiResponse } = location.state;
   console.log(frameType);
-  // const navigate = useNavigate();
+  const [selectedData, setSelectedData] = useState({
+    carousel1: {},
+    carousel2: {},
+    carousel3: {},
+    carousel4: {},
+  });
+  const navigate = useNavigate();
+
+  const handlePageShift = async () => {
+    try {
+      const requestData = {
+        select_id: Object.values(selectedData).map((data) => data.id),
+        select: Object.values(selectedData).map((data) => data.select),
+      };
+
+      console.log(requestData); // 보내는 데이터를 콘솔에 출력
+
+      await axios.patch('http://localhost:8000/api/v1/frame/ai/', requestData);
+
+      // 응답이 성공적으로 완료되면 '/custom' 페이지로 이동
+      navigate('/custom', { state: { frameType } });
+    } catch (error) {
+      // 요청이 실패하면 에러를 콘솔에 출력
+      console.error(error);
+    }
+  };
 
   // const frameComponents = Array(4).fill(<Carousel />);
   return (
@@ -26,13 +55,33 @@ function ConvertAIPage() {
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
           <CarouselWrap>
-            <Carousel />
-            <Carousel />
-            <Carousel />
-            <Carousel />
+            <Carousel1
+              aiData={aiResponse[0]}
+              setSelectedData={(data) =>
+                setSelectedData((prev) => ({ ...prev, carousel1: data }))
+              }
+            />
+            <Carousel2
+              aiData={aiResponse[1]}
+              setSelectedData={(data) =>
+                setSelectedData((prev) => ({ ...prev, carousel2: data }))
+              }
+            />
+            <Carousel3
+              aiData={aiResponse[2]}
+              setSelectedData={(data) =>
+                setSelectedData((prev) => ({ ...prev, carousel3: data }))
+              }
+            />
+            <Carousel4
+              aiData={aiResponse[3]}
+              setSelectedData={(data) =>
+                setSelectedData((prev) => ({ ...prev, carousel4: data }))
+              }
+            />
           </CarouselWrap>
-          <PageShiftWrap>
-            <PageShiftBtn path="/custom" />
+          <PageShiftWrap onClick={handlePageShift}>
+            <PageShiftBtn />
           </PageShiftWrap>
         </MainWrap>
       </Container>

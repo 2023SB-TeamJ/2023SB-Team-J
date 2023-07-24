@@ -51,7 +51,7 @@ function LoginModal({ isOpen, onClose }) {
         setIsLoggedIn(true);
         console.log(response);
         alert('로그인 성공!');
-        navigate('/test');
+        navigate('/');
       }
     } catch (error) {
       console.error(error);

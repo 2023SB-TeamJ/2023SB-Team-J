@@ -1,13 +1,13 @@
 version: '3.9'
 
-services:  
+services:
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: t4y-frontend
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - ./frontend:/frontend
       - ./frontend/node_modules/:/frontend/node_modules
@@ -41,12 +41,7 @@ services:
       - DB_NAME=mydatabase
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
-    command: "python manage.py runserver 0.0.0.0:8000"
-#    command: sh -c "/wait &  python manage.py makemigrations common
-#      && python manage.py makemigrations image
-#      && python manage.py makemigrations album
-#      && python manage.py migrate
-#      && python manage.py runserver 0.0.0.0:8000"
+    command: 'python manage.py runserver 0.0.0.0:8000'
     tty: true
     networks:
       - t4y
@@ -68,7 +63,6 @@ services:
       - backend
     networks:
       - t4y
-
 
   celery_worker:
     container_name: celery_worker
@@ -97,9 +91,6 @@ services:
     # networks:
     #   - t4y
 
-
 networks:
   t4y:
     driver: bridge
-
-
