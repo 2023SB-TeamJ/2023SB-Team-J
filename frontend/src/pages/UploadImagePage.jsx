@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable consistent-return */
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -20,35 +21,13 @@ function UploadImagePage() {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
 
-  const uploadImagesToCharacterEndpoint = (imgOriginId, imageUrl, index) => {
-    const formData = new FormData();
-    formData.append('image_origin_id', imgOriginId);
-    formData.append('image', imageUrl);
-    console.log([...formData.entries()]);
-    axios
-      .post('http://localhost:8000/api/v1/frame/ai/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        navigate('/convert', {
-          state: { frameType, aiResponse: response.data, index },
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const uploadAllImages = () => {
+  const uploadAllImages = async () => {
     const userId = 1;
-    const promises = files.map((file) => {
+
+    const promises = files.map((file, index) => {
       const formData = new FormData();
       formData.append('id', userId);
       formData.append('image', file);
-      navigate('/loading');
 
       return axios
         .post('http://localhost:8000/api/v1/frame/', formData, {
@@ -57,27 +36,46 @@ function UploadImagePage() {
           },
         })
         .then((response) => {
-          // Add this part
-          console.log(response);
-          return response;
-        })
-        .catch((error) => {
-          console.error(error);
+          console.log(response.data);
+          const originImgId = response.data.origin_img_id;
+          const imageUrl = response.data.url;
+          return uploadImageToCharacterEndpoint(originImgId, imageUrl, index);
         });
     });
 
-    Promise.all(promises)
-      .then((results) => {
-        console.log('All images uploaded');
-        // handle the response of each promise
-        results.forEach((response, index) => {
-          // eslint-disable-next-line camelcase
-          const { origin_img_id, url } = response.data;
-          uploadImagesToCharacterEndpoint(origin_img_id, url, index);
-        });
+    const results = await Promise.all(promises);
+
+    // Sort results based on original index
+    results.sort((a, b) => a.index - b.index);
+
+    // Move navigation here with sorted results
+    navigate('/convert', { state: { frameType, aiResponse: results } });
+  };
+
+  const uploadImageToCharacterEndpoint = (originImgId, imageUrl, index) => {
+    const formData = new FormData();
+    formData.append('image_origin_id', originImgId);
+    formData.append('image', imageUrl);
+
+    return axios
+      .post('http://localhost:8000/api/v1/frame/ai/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       })
-      .catch((error) => {
-        console.log(error);
+      .then((response) => {
+        console.log(response.data);
+        return {
+          index, // Include index in return
+          origin_img_id: originImgId,
+          origin_img_url: imageUrl,
+          model1_id: response.data.model1_id,
+          model1_url: response.data.model1_url,
+          model2_id: response.data.model2_id,
+          model2_url: response.data.model2_url,
+          model3_id: response.data.model3_id,
+          model3_url: response.data.model3_url,
+        };
       });
   };
 

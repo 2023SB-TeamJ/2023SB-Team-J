@@ -1,20 +1,26 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import LeftAIShift from './LeftAIShift';
 import RightAIShift from './RightAIShift';
 
-function Carousel2({ aiData = {}, index }) {
-  const [activeIndex, setActiveIndex] = useState(0);
+function Carousel2({ aiData, setActiveIndex, activeIndex }) {
+  const data = aiData || {};
 
-  // 이전 버튼 클릭 시 activeIndex 값 업데이트
   const handlePrev = () => {
-    setActiveIndex((prevIndex) => (prevIndex === 0 ? 3 : prevIndex - 1));
+    setActiveIndex((prevIndex) => {
+      const newIndex = prevIndex === 0 ? 3 : prevIndex - 1;
+      console.log('Prev button clicked. New activeIndex:', newIndex);
+      return newIndex;
+    });
   };
 
-  // 다음 버튼 클릭 시 activeIndex 값 업데이트
   const handleNext = () => {
-    setActiveIndex((nextIndex) => (nextIndex === 3 ? 0 : nextIndex + 1));
+    setActiveIndex((nextIndex) => {
+      const newIndex = nextIndex === 3 ? 0 : nextIndex + 1;
+      console.log('Next button clicked. New activeIndex:', newIndex);
+      return newIndex;
+    });
   };
 
   return (
@@ -46,16 +52,21 @@ function Carousel2({ aiData = {}, index }) {
 
       <ImageWrap>
         <CarouselImage active={activeIndex === 0}>
-          {activeIndex === 0 && <img src={aiData?.origin_img_url[index]} />}
+          {activeIndex === 0 && (
+            <img
+              src={data.origin_img_url}
+              style={{ width: '240px', height: '160px', objectFit: 'cover' }}
+            />
+          )}
         </CarouselImage>
         <CarouselImage active={activeIndex === 1}>
-          {activeIndex === 1 && <img src={aiData?.model1_url} />}
+          {activeIndex === 1 && <img src={data.model1_url} />}
         </CarouselImage>
         <CarouselImage active={activeIndex === 2}>
-          {activeIndex === 2 && <img src={aiData?.model2_url} />}
+          {activeIndex === 2 && <img src={data.model2_url} />}
         </CarouselImage>
         <CarouselImage active={activeIndex === 3}>
-          {activeIndex === 3 && <img src={aiData?.model3_url} />}
+          {activeIndex === 3 && <img src={data.model3_url} />}
         </CarouselImage>
       </ImageWrap>
       <ButtonWrap onClick={handleNext}>

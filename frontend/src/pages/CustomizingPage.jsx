@@ -6,7 +6,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import Header from '../components/Header';
 import Title from '../components/Title';
@@ -32,6 +32,8 @@ import CustomMenuBar from '../components/Custom/CustomMenuBar';
 // `;
 function CustomizingPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { frameType } = location.state;
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
 
