@@ -20,11 +20,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     nickname = models.CharField(max_length=255, default='', null=False)
     password = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
-    deleted_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # is_active = models.BooleanField(default=True)
-    # is_staff = models.BooleanField(default=False)
-
+    state = models.BooleanField(default=True, null=False)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
