@@ -98,8 +98,8 @@ class ResultImageView(APIView):
     permission_classes = [AllowAny]
     def post(self, request):
         user_id = request.data.get("user_id")
-        img_file = request.data.get("img_file")
-        im = Image.open(img_file)
+        result_image = request.data.get("result_image")
+        im = Image.open(result_image)
         im = im.convert("RGB")
         im_jpeg = BytesIO()
         im.save(im_jpeg, 'JPEG')
