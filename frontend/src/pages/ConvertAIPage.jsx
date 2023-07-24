@@ -13,49 +13,33 @@ import Carousel4 from '../components/Carousel4';
 function ConvertAIPage() {
   const location = useLocation();
   const { frameType, aiResponse } = location.state;
-  const [activeIndices, setActiveIndices] = useState([0, 0, 0, 0]);
+  console.log(frameType);
+  const [selectedData, setSelectedData] = useState({
+    carousel1: {},
+    carousel2: {},
+    carousel3: {},
+    carousel4: {},
+  });
   const navigate = useNavigate();
 
   const handlePageShift = async () => {
-    const selectedData = aiResponse.map((data, i) => {
-      const activeIndex = activeIndices[i];
-      let selectedId;
-
-      switch (activeIndex) {
-        case 0:
-          selectedId = data.origin_img_id;
-          break;
-        case 1:
-          selectedId = data.model1_id;
-          break;
-        case 2:
-          selectedId = data.model2_id;
-          break;
-        case 3:
-          selectedId = data.model3_id;
-          break;
-        default:
-          selectedId = data.origin_img_id;
-      }
-
-      return { id: selectedId, select: activeIndex === 0 ? 1 : 0 };
-    });
-
-    const requestData = {
-      select_id: selectedData.map((data) => data.id),
-      select: selectedData.map((data) => data.select),
-    };
-
-    console.log(requestData);
-
     try {
+      const requestData = {
+        select_id: Object.values(selectedData).map((data) => data.id),
+        select: Object.values(selectedData).map((data) => data.select),
+      };
+
+      console.log(requestData); // 보내는 데이터를 콘솔에 출력
+
       await axios.post(
         'http://localhost:8000/api/v1/frame/ai/select/',
         requestData,
       );
 
+      // 응답이 성공적으로 완료되면 '/custom' 페이지로 이동
       navigate('/custom', { state: { frameType } });
     } catch (error) {
+      // 요청이 실패하면 에러를 콘솔에 출력
       console.error(error);
     }
   };
@@ -76,47 +60,27 @@ function ConvertAIPage() {
           <CarouselWrap>
             <Carousel1
               aiData={aiResponse[0]}
-              setActiveIndex={(index) =>
-                setActiveIndices((prevIndices) =>
-                  prevIndices.map((prevIndex, i) =>
-                    i === 0 ? index : prevIndex,
-                  ),
-                )
+              setSelectedData={(data) =>
+                setSelectedData((prev) => ({ ...prev, carousel1: data }))
               }
-              activeIndex={activeIndices[0]}
             />
             <Carousel2
               aiData={aiResponse[1]}
-              setActiveIndex={(index) =>
-                setActiveIndices((prevIndices) =>
-                  prevIndices.map((prevIndex, i) =>
-                    i === 1 ? index : prevIndex,
-                  ),
-                )
+              setSelectedData={(data) =>
+                setSelectedData((prev) => ({ ...prev, carousel2: data }))
               }
-              activeIndex={activeIndices[1]}
             />
             <Carousel3
               aiData={aiResponse[2]}
-              setActiveIndex={(index) =>
-                setActiveIndices((prevIndices) =>
-                  prevIndices.map((prevIndex, i) =>
-                    i === 2 ? index : prevIndex,
-                  ),
-                )
+              setSelectedData={(data) =>
+                setSelectedData((prev) => ({ ...prev, carousel3: data }))
               }
-              activeIndex={activeIndices[2]}
             />
             <Carousel4
               aiData={aiResponse[3]}
-              setActiveIndex={(index) =>
-                setActiveIndices((prevIndices) =>
-                  prevIndices.map((prevIndex, i) =>
-                    i === 3 ? index : prevIndex,
-                  ),
-                )
+              setSelectedData={(data) =>
+                setSelectedData((prev) => ({ ...prev, carousel4: data }))
               }
-              activeIndex={activeIndices[3]}
             />
           </CarouselWrap>
           <PageShiftWrap onClick={handlePageShift}>

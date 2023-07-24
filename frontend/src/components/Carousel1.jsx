@@ -1,26 +1,46 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import LeftAIShift from './LeftAIShift';
 import RightAIShift from './RightAIShift';
 
-function Carousel1({ aiData, setActiveIndex, activeIndex }) {
+function Carousel1({ aiData, setSelectedData }) {
+  console.log(aiData);
+  const [activeIndex, setActiveIndex] = useState(0);
   const data = aiData || {};
 
+  // Carousel이 넘어갈 때마다 선택된 데이터를 부모 컴포넌트에게 전달
+  useEffect(() => {
+    let selectedId;
+
+    switch (activeIndex) {
+      case 0:
+        selectedId = data.origin_img_id;
+        break;
+      case 1:
+        selectedId = data.model1_id;
+        break;
+      case 2:
+        selectedId = data.model2_id;
+        break;
+      case 3:
+        selectedId = data.model3_id;
+        break;
+      default:
+        selectedId = data.origin_img_id;
+    }
+
+    setSelectedData({ id: selectedId, select: activeIndex === 0 ? 1 : 0 });
+  }, [activeIndex]);
+
+  // 이전 버튼 클릭 시 activeIndex 값 업데이트
   const handlePrev = () => {
-    setActiveIndex((prevIndex) => {
-      const newIndex = prevIndex === 0 ? 3 : prevIndex - 1;
-      console.log('Prev button clicked. New activeIndex:', newIndex);
-      return newIndex;
-    });
+    setActiveIndex((prevIndex) => (prevIndex === 0 ? 3 : prevIndex - 1));
   };
 
+  // 다음 버튼 클릭 시 activeIndex 값 업데이트
   const handleNext = () => {
-    setActiveIndex((nextIndex) => {
-      const newIndex = nextIndex === 3 ? 0 : nextIndex + 1;
-      console.log('Next button clicked. New activeIndex:', newIndex);
-      return newIndex;
-    });
+    setActiveIndex((nextIndex) => (nextIndex === 3 ? 0 : nextIndex + 1));
   };
 
   return (
@@ -52,39 +72,21 @@ function Carousel1({ aiData, setActiveIndex, activeIndex }) {
 
       <ImageWrap>
         <CarouselImage active={activeIndex === 0}>
-          <img
-            src={data.origin_img_url}
-            style={{
-              display: activeIndex === 0 ? 'block' : 'none',
-              width: '240px',
-              height: '160px',
-              objectFit: 'cover',
-            }}
-          />
+          {activeIndex === 0 && (
+            <img
+              src={data.origin_img_url}
+              style={{ width: '240px', height: '160px', objectFit: 'cover' }}
+            />
+          )}
         </CarouselImage>
         <CarouselImage active={activeIndex === 1}>
-          <img
-            src={data.model1_url}
-            style={{
-              display: activeIndex === 1 ? 'block' : 'none',
-            }}
-          />
+          {activeIndex === 1 && <img src={data.model1_url} />}
         </CarouselImage>
         <CarouselImage active={activeIndex === 2}>
-          <img
-            src={data.model2_url}
-            style={{
-              display: activeIndex === 2 ? 'block' : 'none',
-            }}
-          />
+          {activeIndex === 2 && <img src={data.model2_url} />}
         </CarouselImage>
         <CarouselImage active={activeIndex === 3}>
-          <img
-            src={data.model3_url}
-            style={{
-              display: activeIndex === 3 ? 'block' : 'none',
-            }}
-          />
+          {activeIndex === 3 && <img src={data.model3_url} />}
         </CarouselImage>
       </ImageWrap>
       <ButtonWrap onClick={handleNext}>
