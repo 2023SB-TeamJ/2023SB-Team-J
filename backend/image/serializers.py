@@ -72,3 +72,7 @@ SwaggerFrameAddPost = [
 class SwaggerAiSelectPatchSerializer(serializers.Serializer):
     select = serializers.ListField()
     select_id = serializers.ListField()
+
+class SwaggerFrameAiPostSerializer(serializers.Serializer):
+    image_origin_ids = serializers.ListField()
+    image = serializers.ListField()

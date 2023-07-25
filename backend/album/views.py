@@ -40,6 +40,7 @@ class AlbumView(APIView):
 class AlbumDetailView(APIView): #album/detail
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(request_body=SwaggerAlbumDetailPutSerializer, responses={"200":SwaggerAlbumDetailPutSerializer})
     def put(self, request, format=None): #결과 이미지 삭제
         raw_data = request.body.decode('utf-8')
         try:

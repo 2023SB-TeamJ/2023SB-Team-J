@@ -54,6 +54,7 @@ class UploadImageView(APIView):
 class AiExecute(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(request_body=SwaggerFrameAiPostSerializer, responses={"200":SwaggerFrameAiPostSerializer})
     def post(self, request):
         url = request.data.get("image")
         id = request.data.get("image_origin_id")
@@ -112,27 +113,3 @@ class SelectImage(APIView):
         select = request.data.getlist("select", [])
         return Response(select, status=status.HTTP_201_CREATED)
 
-    @swagger_auto_schema(query_serializer=SwaggerFrameGetSerializer, responses={"200":SwaggerFrameGetSerializer})
-    def get(self, request, format=None):
-        try:
-            raw_data = request.body.decode('utf-8')
-            try:
-                data = json.loads(raw_data)
-                user_id = data.get('user_id')
-                source = data.get('source')
-                if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-                    return Response(status=status.HTTP_400_BAD_REQUEST)
-                image_origin = Image_origin.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
-                serializer = UploadedImageSerializer(image_origin)
-                picture = {
-                    'picture1': serializer.data.get('url_1'),
-                    'picture2': serializer.data.get('url_2'),
-                    'picture3': serializer.data.get('url_3'),
-                    'picture4': serializer.data.get('url_4'),
-                }
-                return Response(picture, status=status.HTTP_200_OK)
-            except:
-                # 찾지 못한 경우 HTTP_400
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return JsonResponse({"error message": str(e)}, status=500)
