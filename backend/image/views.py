@@ -122,7 +122,7 @@ class AiExecute(APIView):
                 "url3": urls[2],
                 "url4": urls[3],
             }
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(data, status=status.HTTP_201_CREATED)
            
 class ResultImageView(APIView):
     permission_classes = [AllowAny]
