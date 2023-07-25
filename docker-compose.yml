@@ -20,7 +20,7 @@ services:
     ports:
       - 3306:3306
     networks:
-      - t4y
+      - t4yd
 
   backend:
     build:

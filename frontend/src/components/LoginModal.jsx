@@ -174,16 +174,6 @@ function LoginModal({ isOpen, onClose }) {
               />
             </EyeIcon>
           </AuthInputField>
-          <AuthInputField>
-            <input
-              type="password"
-              placeholder="비밀번호 확인"
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
-              maxLength={MAX_PASSWORD_LENGTH}
-              onChange={handlePasswordLength}
-            />
-          </AuthInputField>
           <AuthBtn onClick={handleLogin}>로그인</AuthBtn>
           <RowDiv>
             <AuthQuestion>아직 회원이 아니신가요?</AuthQuestion>
@@ -243,7 +233,7 @@ const ModalOverlay = styled.div`
 
 const ModalWindow = styled.div`
   width: 420px;
-  height: 500px;
+  height: 460px;
   border-radius: 25px;
   background: white;
   position: relative;
