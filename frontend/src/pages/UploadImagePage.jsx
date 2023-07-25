@@ -105,7 +105,9 @@ function UploadImagePage() {
           <PageShiftWrap onClick={uploadAllImages}>
             <PageShiftBtn />
           </PageShiftWrap>
-          <ImageWrapper>{uploadImageComponents}</ImageWrapper>
+          <ImageWrapper frameType={frameType}>
+            {uploadImageComponents}
+          </ImageWrapper>
         </MainWrap>
       </Container>
     </div>
@@ -148,20 +150,18 @@ const ImageWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  /* ${(props) => {
-    // frameType props을 사용하여 스타일링 변경
-    if (props.frametype === '1X4') {
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
       return `
         flex-direction: column;
-        gap: 2px;
-        height: 2rem;
+        gap: 40px;
       `;
-    } else if (props.frametype === '2X2') {
+    } else if (frameType === '2X2') {
       return `
         display: grid;
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 0.2fr);
       `;
     }
-  }} */
+  }}
 `;

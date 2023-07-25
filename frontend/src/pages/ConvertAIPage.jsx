@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-const-assign */
 import React, { useState } from 'react';
@@ -67,7 +68,7 @@ function ConvertAIPage() {
             프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
-          <CarouselWrap>
+          <CarouselWrap frameType={frameType2}>
             <Carousel1
               aiData={aiResponse2[0]}
               setSelectedData={(data) =>
@@ -136,4 +137,22 @@ const PageShiftWrap = styled.div`
   justify-content: center;
 `;
 
-const CarouselWrap = styled.div``;
+const CarouselWrap = styled.div`
+  justify-content: center;
+  align-items: center;
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
+      return `
+        flex-direction: column;
+        gap: 30px;
+      `;
+    }
+    if (frameType === '2X2') {
+      return `
+        display: grid;
+        grid-template-rows: repeat(2, 200px);
+        grid-template-columns: repeat(2, 0.2fr);
+      `;
+    }
+  }}
+`;

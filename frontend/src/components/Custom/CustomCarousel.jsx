@@ -19,7 +19,7 @@ import Gray from '../../assets/images/Solid_gray.png';
 // import image4 from '../../assets/images/image4.png';
 import addphoto from '../../assets/images/addphoto.png';
 
-function CustomCarousel({ setColImg, sendData }) {
+function CustomCarousel({ setColImg, sendData, frameType }) {
   // FramePage에서 구조 분해 할당으로 setColImg 받아옴
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -41,9 +41,6 @@ function CustomCarousel({ setColImg, sendData }) {
       console.log(imgData);
       setColImg(imgData);
     });
-    // .then(() => {
-    //   navigate('/custom');
-    // });
   };
 
   return (
@@ -118,14 +115,6 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
 `;
-
-// const TopLeftWrap = styled.div`
-//   object-fit: cover;
-// `;
-// const TopRightWrap = styled.div``;
-// const BottomLeftWrap = styled.div``;
-// const BottomRightWrap = styled.div``;
-
 // object-fit: cover; 이미지 크기가 유지되도록 설정
 // top, left, right, bottom : 가장자리부터 얼마 떨어지는
 const TopLeftImage = styled.img`

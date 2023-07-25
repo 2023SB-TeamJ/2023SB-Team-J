@@ -30,7 +30,11 @@ function FramePage() {
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
           <CarouselWrap>
-            <CustomCarousel setColImg={setColImg} sendData={sendData2} />
+            <CustomCarousel
+              setColImg={setColImg}
+              sendData={sendData2}
+              frameType={frameType3}
+            />
           </CarouselWrap>
           <PageShiftWrap>
             <PageShiftBtn path="/custom" state={{ colImg }} />
