@@ -95,24 +95,33 @@ class AiExecute(APIView):
     def patch(self, request):
         select = request.data.get("select", [])
         select_id = request.data.get("select_id", [])
-        data ={
+        change ={
             "is_selected": True
         }
+        urls =[]
         for i, id in zip(select, select_id):  # zip 함수를 사용하여 두 리스트를 병렬로 묶음
             if i == 1:
                 model = Image_upload.objects.get(id=id)
-                serializer = UploadedImageSerializer(model, data=data, partial=True)
+                serializer = UploadedImageSerializer(model, data=change, partial=True)
                 if serializer.is_valid():
                     serializer.save()
+                    urls.append(serializer.data.get("url"))
                 else:
                     return Response(status=status.HTTP_400_BAD_REQUEST)
             else:
                 model = Ai_model.objects.get(id=id)
-                serializer = Ai_modelSerializer(model, data=data, partial=True)
+                serializer = Ai_modelSerializer(model, data=change, partial=True)
                 if serializer.is_valid():
                     serializer.save()
+                    urls.append(serializer.data.get("url"))
                 else:
                     return Response(status=status.HTTP_400_BAD_REQUEST)
+            data = {
+                "url1": urls[0],
+                "url2": urls[1],
+                "url3": urls[2],
+                "url4": urls[3],
+            }
         return Response(status=status.HTTP_201_CREATED)
            
 class ResultImageView(APIView):
