@@ -13,11 +13,11 @@ function ChooseFramePage() {
 
   const handleImageClick1 = () => {
     // upload 경로로 이동하면서 state 값을 함께 전달한다.
-    navigate('/upload', { state: { frameType: '1X4' } });
+    navigate('/upload', { state: '1X4' });
   };
 
   const handleImageClick2 = () => {
-    navigate('/upload', { state: { frameType: '2X2' } });
+    navigate('/upload', { state: '2X2' });
   };
 
   return (

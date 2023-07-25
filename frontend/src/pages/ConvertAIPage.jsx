@@ -16,8 +16,10 @@ function ConvertAIPage() {
   const location = useLocation();
   console.log(location.state);
   // const { frameType, aiResponse } = location.state;
-  const { frameType } = location.state.frameType;
-  const { aiResponse } = location.state.aiResponse;
+  const frameType2 = location.state ? location.state.frameType : null;
+  const aiResponse2 = location.state ? location.state.aiResponse : [];
+  console.log(frameType2);
+  console.log(aiResponse2);
 
   const [selectedData, setSelectedData] = useState({
     carousel1: {},
@@ -25,11 +27,9 @@ function ConvertAIPage() {
     carousel3: {},
     carousel4: {},
   });
-
-  const [sendData, setSendData] = useState({});
   const navigate = useNavigate();
 
-  console.log(aiResponse);
+  // console.log(aiResponse2);
 
   const handlePageShift = async () => {
     try {
@@ -38,14 +38,15 @@ function ConvertAIPage() {
         select: Object.values(selectedData).map((data) => data.select),
       };
 
-      // console.log(requestData); // 보내는 데이터를 콘솔에 출력
+      console.log(requestData); // 보내는 데이터를 콘솔에 출력
       await axios
         .patch('http://localhost:8000/api/v1/frame/ai/', requestData)
         .then((response) => {
-          console.log(response.data);
-          setSendData = response.data;
+          console.log('Response:', response.data);
+          const sendData = response.data;
+          console.log('sendData:', sendData);
           // 응답이 성공적으로 완료되면 '/frame' 페이지로 이동
-          navigate('/frame', { state: { frameType, sendData } });
+          navigate('/frame', { state: { frameType2, sendData } });
         });
     } catch (error) {
       // 요청이 실패하면 에러를 콘솔에 출력
@@ -68,25 +69,25 @@ function ConvertAIPage() {
           </ProgressBar>
           <CarouselWrap>
             <Carousel1
-              aiData={aiResponse[0]}
+              aiData={aiResponse2[0]}
               setSelectedData={(data) =>
                 setSelectedData((prev) => ({ ...prev, carousel1: data }))
               }
             />
             <Carousel2
-              aiData={aiResponse[1]}
+              aiData={aiResponse2[1]}
               setSelectedData={(data) =>
                 setSelectedData((prev) => ({ ...prev, carousel2: data }))
               }
             />
             <Carousel3
-              aiData={aiResponse[2]}
+              aiData={aiResponse2[2]}
               setSelectedData={(data) =>
                 setSelectedData((prev) => ({ ...prev, carousel3: data }))
               }
             />
             <Carousel4
-              aiData={aiResponse[3]}
+              aiData={aiResponse2[3]}
               setSelectedData={(data) =>
                 setSelectedData((prev) => ({ ...prev, carousel4: data }))
               }

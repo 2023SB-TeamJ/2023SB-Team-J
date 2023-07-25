@@ -12,10 +12,10 @@ function FramePage() {
   const location = useLocation();
   console.log(location.state);
   // const { frameType, aiResponse } = location.state;
-  const { frameType } = location.state;
-  const { sendData } = location.state;
-  console.log(frameType);
-  console.log(sendData);
+  const frameType3 = location.state.frameType2;
+  const sendData2 = location.state.sendData;
+  console.log(frameType3);
+  console.log(sendData2);
 
   return (
     <div>
@@ -30,7 +30,7 @@ function FramePage() {
             바/프로그레스 바/프로그레스 바
           </ProgressBar>
           <CarouselWrap>
-            <CustomCarousel setColImg={setColImg} />
+            <CustomCarousel setColImg={setColImg} sendData={sendData2} />
           </CarouselWrap>
           <PageShiftWrap>
             <PageShiftBtn path="/custom" state={{ colImg }} />
