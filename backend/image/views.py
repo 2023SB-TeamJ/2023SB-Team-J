@@ -42,32 +42,31 @@ class UploadImageView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-#     def get(self, request, format=None):
-#         raw_data = request.body.decode('utf-8')
-#         try:
-#             data = json.loads(raw_data)
-#             user_id = data.get('user_id')
-#             source = data.get('source')
+    def put(self, request, format = None): #원본 이미지 삭제
+        upload_images = [] # 해당되는 이미지를 리스트로 잠시 받을 예정
+        raw_data = request.body.decode('utf-8')
+        try:
+            data = json.loads(raw_data)
+            user_id = data.get('user_id')
+            upload_image_ids = data.get('uploaded_image_id', [])
 
-#             if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-#                 return Response(status=status.HTTP_400_BAD_REQUEST)
+            if user_id is None or upload_image_ids is None:  # request 형식에 맞지 않는 경우
+                return Response({"error": "request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+            for upload_image_id in upload_image_ids:
+                try:
+                    image_collage = Image_upload.objects.get(id=upload_image_id, user_id=user_id, state=1)
+                    upload_images.append(image_collage)
+                except: # 해당되는 객체가 없는 경우
+                    return Response({"error": "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            # request 관련 문제
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        for upload_image in upload_images:
+            upload_image.state = 0
+            upload_image.save()
 
-#             image_origin = Image_upload.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
+        return Response(status=status.HTTP_200_OK)
 
-#         except:
-#             # 찾지 못한 경우 HTTP_400
-#             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-#         serializer = UploadedImageSerializer(image_origin)
-
-#         picture = {
-#             'url_1': serializer.data.get('url_1'),
-#             'url_2': serializer.data.get('url_2'),
-#             'url_3': serializer.data.get('url_3'),
-#             'url_4': serializer.data.get('url_4'),
-#         }
-#         return Response(picture, status=status.HTTP_200_OK)
 
 class AiExecute(APIView):
     permission_classes = [AllowAny]
