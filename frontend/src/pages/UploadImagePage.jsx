@@ -21,6 +21,8 @@ function UploadImagePage() {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
 
+  console.log(files);
+
   const uploadAllImages = async () => {
     const userId = 1;
 
@@ -28,6 +30,9 @@ function UploadImagePage() {
       const formData = new FormData();
       formData.append('id', userId);
       formData.append('image', file);
+      Array.from(formData.entries()).forEach((pair) => {
+        console.log(`${pair[0]}, ${pair[1]}`);
+      });
 
       return axios
         .post('http://localhost:8000/api/v1/frame/', formData, {
