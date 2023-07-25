@@ -14,8 +14,11 @@ import Carousel4 from '../components/Carousel4';
 
 function ConvertAIPage() {
   const location = useLocation();
-  const { frameType, aiResponse } = location.state;
-  // console.log(frameType);
+  console.log(location.state);
+  // const { frameType, aiResponse } = location.state;
+  const { frameType } = location.state.frameType;
+  const { aiResponse } = location.state.aiResponse;
+
   const [selectedData, setSelectedData] = useState({
     carousel1: {},
     carousel2: {},
@@ -23,6 +26,7 @@ function ConvertAIPage() {
     carousel4: {},
   });
 
+  const [sendData, setSendData] = useState({});
   const navigate = useNavigate();
 
   console.log(aiResponse);
@@ -35,10 +39,14 @@ function ConvertAIPage() {
       };
 
       // console.log(requestData); // 보내는 데이터를 콘솔에 출력
-      await axios.patch('http://localhost:8000/api/v1/frame/ai/', requestData);
-
-      // 응답이 성공적으로 완료되면 '/frame' 페이지로 이동
-      navigate('/frame', { state: { frameType } });
+      await axios
+        .patch('http://localhost:8000/api/v1/frame/ai/', requestData)
+        .then((response) => {
+          console.log(response.data);
+          setSendData = response.data;
+          // 응답이 성공적으로 완료되면 '/frame' 페이지로 이동
+          navigate('/frame', { state: { frameType, sendData } });
+        });
     } catch (error) {
       // 요청이 실패하면 에러를 콘솔에 출력
       console.error(error);

@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
@@ -8,6 +9,13 @@ import CustomCarousel from '../components/Custom/CustomCarousel';
 
 function FramePage() {
   const [colImg, setColImg] = useState('');
+  const location = useLocation();
+  console.log(location.state);
+  // const { frameType, aiResponse } = location.state;
+  const { frameType } = location.state;
+  const { sendData } = location.state;
+  console.log(frameType);
+  console.log(sendData);
 
   return (
     <div>

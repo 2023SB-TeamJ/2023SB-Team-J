@@ -13,7 +13,9 @@ function UploadImagePage() {
   // location 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
   const location = useLocation();
   // location 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
+  console.log(location.state);
   const frameType = location.state;
+  console.log(frameType);
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
 
