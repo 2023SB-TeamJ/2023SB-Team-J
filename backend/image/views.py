@@ -17,9 +17,10 @@ from .s3_utils import *
 from .models import *
 from rest_framework.permissions import AllowAny
 
-from album.serializers import CollageImageSerializer
+
 from rest_framework.parsers import MultiPartParser
 
+from album.serializers import *
 
 
 class UploadImageView(APIView):
@@ -75,7 +76,28 @@ class AiExecute(APIView):
 
 #sudo celery -A backend_project.celery multi start 4 --loglevel=info --pool=threads
 #sudo celery multi stop 4 -A backend_project.celery --all
-
+    def patch(self, request):
+        select = request.data.get("select", [])
+        select_id = request.data.get("select_id", [])
+        data ={
+            "is_selected": True
+        }
+        for i, id in zip(select, select_id):  # zip 함수를 사용하여 두 리스트를 병렬로 묶음
+            if i == 1:
+                model = Image_upload.objects.get(id=id)
+                serializer = UploadedImageSerializer(model, data=data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                else:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+            else:
+                model = Ai_model.objects.get(id=id)
+                serializer = Ai_modelSerializer(model, data=data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                else:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_201_CREATED)
            
 class ResultImageView(APIView):
     permission_classes = [AllowAny]
@@ -105,11 +127,4 @@ class ResultImageView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class SelectImage(APIView):
-    permission_classes = [AllowAny]
-    @swagger_auto_schema(request_body=SwaggerAiSelectPatchSerializer, responses={"200":SwaggerAiSelectPatchSerializer})
-    def post(self, request):
-        select = request.data.getlist("select", [])
-        return Response(select, status=status.HTTP_201_CREATED)
 

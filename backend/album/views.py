@@ -34,7 +34,6 @@ class AlbumView(APIView):
             else:
                 return Response({"error": "No images found for the user."}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            print(">>>> error >>> ", e)
             return Response({"error": e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class AlbumDetailView(APIView): #album/detail
@@ -77,9 +76,13 @@ class AlbumDetailView(APIView): #album/detail
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         serializer = AlbumDetailSerializer(image_collage)
 
+        # 날짜만 추출. 시간 데이터는 반환하지 않음
+        date_customed = serializer.data.get('created_at').split('T')
+        date_customed = date_customed[0]
+
         response = {
             "result_image": serializer.data.get('result_url'),
-            "create_date": serializer.data.get('created_at')
+            "create_date": date_customed
         }
 
         return Response(response, status=status.HTTP_200_OK)
