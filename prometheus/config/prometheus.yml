@@ -21,3 +21,7 @@ scrape_configs:
     static_configs:
       - targets: [ 'localhost:8000', '127.0.0.1:8000', 'host.docker.internal:8000', 'docker.for.mac.localhost:8000']
 #    metrics_path: 'monitor/'
+  - job_name: 't4y-mysql'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['localhost:3306', 'host.docker.internal:3306', 'docker.for.mac.localhost:3306']

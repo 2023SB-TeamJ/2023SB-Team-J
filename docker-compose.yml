@@ -41,11 +41,7 @@ services:
       - DB_NAME=mydatabase
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
-    command: sh -c "/wait &  python manage.py makemigrations common
-      && python manage.py makemigrations image
-      && python manage.py makemigrations album
-      && python manage.py migrate
-      && python manage.py runserver 0.0.0.0:8000"
+    command: sh -c "/wait & python manage.py runserver 0.0.0.0:8000"
     tty: true
     networks:
       - t4y
@@ -121,7 +117,7 @@ services:
       environment:
         GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
       ports:
-        - 9999:9999
+        - 3300:3000
       volumes:
         - ./grafana/grafana-volume/datasource:/var/lib/grafana/datasource
         - ./grafana/grafana-volume:/var/lib/grafana
