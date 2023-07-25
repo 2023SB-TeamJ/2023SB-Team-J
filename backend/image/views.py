@@ -95,11 +95,12 @@ class AiExecute(APIView):
     def patch(self, request):
         select = request.data.get("select", [])
         select_id = request.data.get("select_id", [])
-        change ={
+        change = {
             "is_selected": True
         }
-        urls =[]
-        for i, id in zip(select, select_id):  # zip 함수를 사용하여 두 리스트를 병렬로 묶음
+        urls = []
+
+        for i, id in zip(select, select_id):
             if i == 1:
                 model = Image_upload.objects.get(id=id)
                 serializer = UploadedImageSerializer(model, data=change, partial=True)
@@ -113,17 +114,18 @@ class AiExecute(APIView):
                 serializer = Ai_modelSerializer(model, data=change, partial=True)
                 if serializer.is_valid():
                     serializer.save()
-                    urls.append(serializer.data.get("url"))
+                    urls.append(serializer.data.get("model_result_url"))
                 else:
                     return Response(status=status.HTTP_400_BAD_REQUEST)
-            data = {
-                "url1": urls[0],
-                "url2": urls[1],
-                "url3": urls[2],
-                "url4": urls[3],
-            }
+
+        # 모든 업데이트된 URL을 사용하여 urls 리스트를 data 딕셔너리로 생성
+        data = {}
+        for i, url in enumerate(urls, start=1):
+            data[f"url{i}"] = url
+
         return Response(data, status=status.HTTP_201_CREATED)
-           
+
+
 class ResultImageView(APIView):
     permission_classes = [AllowAny]
 
