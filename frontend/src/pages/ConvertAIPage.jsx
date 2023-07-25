@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-const-assign */
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -20,7 +22,10 @@ function ConvertAIPage() {
     carousel3: {},
     carousel4: {},
   });
+
   const navigate = useNavigate();
+
+  console.log(aiResponse);
 
   const handlePageShift = async () => {
     try {
@@ -29,12 +34,11 @@ function ConvertAIPage() {
         select: Object.values(selectedData).map((data) => data.select),
       };
 
-      console.log(requestData); // 보내는 데이터를 콘솔에 출력
-
+      // console.log(requestData); // 보내는 데이터를 콘솔에 출력
       await axios.patch('http://localhost:8000/api/v1/frame/ai/', requestData);
 
-      // 응답이 성공적으로 완료되면 '/custom' 페이지로 이동
-      navigate('/custom', { state: { frameType } });
+      // 응답이 성공적으로 완료되면 '/frame' 페이지로 이동
+      navigate('/frame', { state: { frameType } });
     } catch (error) {
       // 요청이 실패하면 에러를 콘솔에 출력
       console.error(error);

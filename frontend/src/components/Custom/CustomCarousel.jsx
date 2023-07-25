@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import LeftAIShift from '../LeftAIShift';
 import RightAIShift from '../RightAIShift';
@@ -20,6 +20,8 @@ import image4 from '../../assets/images/image4.png';
 import addphoto from '../../assets/images/addphoto.png';
 
 function CustomCarousel({ setColImg }) {
+  const location = useLocation();
+
   // FramePage에서 구조 분해 할당으로 setColImg 받아옴
   const [activeIndex, setActiveIndex] = useState(0);
 
