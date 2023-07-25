@@ -14,7 +14,7 @@ from drf_yasg.utils import swagger_auto_schema
 class AlbumView(APIView):
     permission_classes = [AllowAny]
 
-    @swagger_auto_schema(request_body=SwaggerAlbumPostSerializer, responses={"200":SwaggerAlbumPostSerializer})
+    @swagger_auto_schema(request_body=SwaggerAlbumPostSerializer, responses={"200":SwaggerResponseAlbumPostSerializer})
     def post(self, request):
         try:
             user_id = request.data.get('user_id')
@@ -39,7 +39,7 @@ class AlbumView(APIView):
 class AlbumDetailView(APIView): #album/detail
     permission_classes = [AllowAny]
 
-    @swagger_auto_schema(request_body=SwaggerAlbumDetailPutSerializer, responses={"200":SwaggerAlbumDetailPutSerializer})
+    @swagger_auto_schema(request_body=SwaggerAlbumDetailPutSerializer, responses={'200':""})
     def put(self, request, format=None): #결과 이미지 삭제
         raw_data = request.body.decode('utf-8')
         try:
@@ -61,7 +61,7 @@ class AlbumDetailView(APIView): #album/detail
 
         return Response(status=status.HTTP_200_OK)
 
-    @swagger_auto_schema(query_serializer=SwaggerAlbumDetailGetSerializer, responses={"200":SwaggerAlbumDetailGetSerializer})
+    @swagger_auto_schema(query_serializer=SwaggerAlbumDetailGetSerializer, responses={"200":SwaggerResponseAlbumDetailGetSerializer})
     def get(self, request): #앨범 상세 조회 None
         result_image_id = request.GET.get('result_image_id')
         if result_image_id is None:  # request 형식에 맞지 않는 경우

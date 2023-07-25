@@ -25,8 +25,16 @@ class ResultImageSerializer(serializers.ModelSerializer):
 class SwaggerAlbumDetailGetSerializer(serializers.Serializer):
     result_image_id = serializers.IntegerField()
 
+class SwaggerResponseAlbumDetailGetSerializer(serializers.Serializer):
+    result_image = serializers.CharField()
+    create_date = serializers.DateTimeField()
+
 class SwaggerAlbumPostSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
+
+class SwaggerResponseAlbumPostSerializer(serializers.Serializer):
+    result_url = serializers.CharField()
+    result_img_id = serializers.IntegerField()
 
 class SwaggerAlbumDetailPutSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()

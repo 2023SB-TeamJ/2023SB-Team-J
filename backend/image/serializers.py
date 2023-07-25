@@ -51,28 +51,42 @@ SwaggerFramePost = [
                 type=openapi.TYPE_FILE,
                 description='원본 이미지 입력'
             ),
-
         ]
 
-SwaggerFrameAddPost = [
-            openapi.Parameter(
-                name='user_id',
-                in_=openapi.IN_FORM,
-                type=openapi.TYPE_INTEGER,
-                description='user_id 입력',
-            ),
-            openapi.Parameter(
-                name='result_image',
-                in_=openapi.IN_FORM,
-                type=openapi.TYPE_FILE,
-                description='결과 이미지 입력'
-            )
-        ]
+class SwaggerResponseFramePost(serializers.Serializer):
+    origin_img_id1=serializers.IntegerField()
+    url1=serializers.CharField()
+    origin_img_id2 = serializers.IntegerField()
+    url2 = serializers.CharField()
+    origin_img_id3 = serializers.IntegerField()
+    url3 = serializers.CharField()
+    origin_img_id4 = serializers.IntegerField()
+    url4 = serializers.CharField()
+
+class SwaggerFrameAddPostSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField()
+    result_image = serializers.FileField()
 
 class SwaggerAiSelectPatchSerializer(serializers.Serializer):
-    select = serializers.ListField()
-    select_id = serializers.ListField()
+    select = serializers.ListField(child=serializers.IntegerField())
+    select_id = serializers.ListField(child=serializers.IntegerField())
+
+class SwaggerResponseAiSelectPatchSerializer(serializers.Serializer):
+    url1 = serializers.CharField()
+    url2 = serializers.CharField()
+    url3 = serializers.CharField()
+    url4 = serializers.CharField()
 
 class SwaggerFrameAiPostSerializer(serializers.Serializer):
-    image_origin_ids = serializers.ListField()
-    image = serializers.ListField()
+    image_origin_ids = serializers.CharField()
+    image = serializers.CharField()
+
+class SwaggerResponseFrameAiPostSerializer(serializers.Serializer):
+    model1_id = serializers.IntegerField()
+    model1_url = serializers.CharField()
+    model2_id = serializers.IntegerField()
+    model2_url = serializers.CharField()
+    model3_id = serializers.IntegerField()
+    model3_url = serializers.CharField()
+    model4_id = serializers.IntegerField()
+    model4_url = serializers.CharField()

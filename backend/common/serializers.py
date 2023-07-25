@@ -29,10 +29,24 @@ class SwaggerLoginPostSerializer(serializers.Serializer):
     email = serializers.CharField()
     password = serializers.CharField()
 
+class SwaggerResponseLoginPostSerializer(serializers.Serializer):
+    nickname = serializers.CharField()
+    user_id = serializers.IntegerField()
+
 class SwaggerLogoutPostSerializer(serializers.Serializer):
     refresh = serializers.CharField()
+
+class SwaggerHeaderLogoutPostSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    required = serializers.BooleanField()
+    in_location = serializers.ChoiceField(choices=["header", "query", "path", "formData", "cookie"])
+    type = serializers.CharField()
+    description = serializers.CharField()
 
 class SwaggerSignupPostSerializer(serializers.Serializer):
     email = serializers.CharField()
     nickname = serializers.CharField()
     password = serializers.CharField()
+
+class SwaggerBadResponseSignupPostSerializer(serializers.Serializer):
+    detail = serializers.CharField(default="invalid credentials")
