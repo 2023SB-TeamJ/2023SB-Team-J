@@ -91,6 +91,23 @@ services:
       - frontend
     # networks:
     #   - t4y
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    expose:
+      - 9100
+    networks:
+      - t4y
 
   prometheus:
     image: prom/prometheus
@@ -140,11 +157,12 @@ services:
         - '--collect.info_schema.processlist'
         - '--collect.info_schema.tables'
         - '--collect.info_schema.query_response_time'
-        - '--web.listen-address=:9104'
+#        - '--web.listen-address=:9104'
         - '--web.telemetry-path=/metrics'
         - '--config.my-cnf=/etc/.my.cnf'
+        - '--web.listen-address=:8000'
       environment:
-        - DATA_SOURCE_NAME=exporter:@(bdd:3306)/database
+        - DATA_SOURCE_NAME=exporter1:exporter@(t4y-database:3306)/t4yDB
       restart: always
       ports:
         - 9104:9104
