@@ -4,6 +4,7 @@ import AlbumPage from './pages/AlbumPage';
 import ChoseeFramePage from './pages/ChooseFramePage';
 import UploadImagePage from './pages/UploadImagePage';
 import ConvertAIPage from './pages/ConvertAIPage';
+import FramePage from './pages/FramePage';
 import CustomizingPage from './pages/CustomizingPage';
 import TestPage from './pages/TestPage';
 import LoadingPage from './pages/LoadingPage';
@@ -17,6 +18,7 @@ function Router() {
         <Route path="choose" element={<ChoseeFramePage />} />
         <Route path="upload" element={<UploadImagePage />} />
         <Route path="convert" element={<ConvertAIPage />} />
+        <Route path="frame" element={<FramePage />} />
         <Route path="custom" element={<CustomizingPage />} />
         <Route path="test" element={<TestPage />} />
         <Route path="loading" element={<LoadingPage />} />

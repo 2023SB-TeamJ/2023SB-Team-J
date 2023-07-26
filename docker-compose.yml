@@ -1,6 +1,6 @@
-version: '3.9'
+version: "3.9"
 
-services:  
+services:
   frontend:
     build:
       context: ./frontend
@@ -41,7 +41,7 @@ services:
       - DB_NAME=mydatabase
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
-    command: sh -c "/wait & python manage.py runserver 0.0.0.0:8000"
+    command: "python manage.py runserver 0.0.0.0:8000"
     tty: true
     networks:
       - t4y
@@ -64,14 +64,13 @@ services:
     networks:
       - t4y
 
-
   celery_worker:
     container_name: celery_worker
     restart: always
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: 'celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12'
+    command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
     depends_on:
       - rabbitmq
       - backend

@@ -76,7 +76,7 @@ function AlbumPage() {
 
     try {
       const response = await axios.post('http://localhost:8000/api/v1/album/', {
-        user_id: '2',
+        user_id: '1',
       });
 
       // 서버 응답 처리
