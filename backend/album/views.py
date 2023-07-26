@@ -41,15 +41,24 @@ class AlbumDetailView(APIView): #album/detail
             data = json.loads(raw_data)
             user_id = data.get('user_id')
             result_image_id = data.get('result_image_id')
+            print(user_id, result_image_id)
 
             if user_id is None or result_image_id is None:  # request 형식에 맞지 않는 경우
                 return Response({"error" : "request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
             image_collage = Image_collage.objects.get(id=result_image_id, user_id=user_id, state=1)
+<<<<<<< HEAD
         except:
             # 해당 객체를 찾지 못한 경우 HTTP_400
             return Response({"error" : "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
         # serializer = AlbumDetailSerializer(image_collage)
+=======
+        except Image_collage.DoesNotExist:
+            # 찾지 못한 경우
+            return Response({"error": "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+>>>>>>> d377157 (feat : 결과 이미지 삭제 api 연동 views.py)
 
         image_collage.state = 0
         image_collage.save()
