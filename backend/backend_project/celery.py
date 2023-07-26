@@ -13,4 +13,3 @@ app = Celery('config',
 # app.config_from_object('django.config:settings', namespace='CELERY')
 
 app.autodiscover_tasks()
-

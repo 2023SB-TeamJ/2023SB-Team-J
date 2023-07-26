@@ -1,4 +1,3 @@
-
 from django.contrib.auth import get_user_model, logout, login
 # from django.middleware.csrf import get_token
 from django.views.decorators.cache import cache_page
@@ -23,6 +22,9 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 
 User = get_user_model()
 
+User = get_user_model()
+
+
 # 회원가입
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
@@ -36,7 +38,6 @@ class SignupAPIView(APIView):
             user = serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class LoginAPIView(APIView):
     permission_classes = [AllowAny]

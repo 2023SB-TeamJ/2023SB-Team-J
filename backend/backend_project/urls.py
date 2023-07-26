@@ -6,4 +6,5 @@ urlpatterns = [
     path('api/v1/frame/', include('image.urls')),
     path('api/v1/', include('common.urls')),
     path('api/v1/album/', include('album.urls')),
+    path('', include('django_prometheus.urls')),
 ]

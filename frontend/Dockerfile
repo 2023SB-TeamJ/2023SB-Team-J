@@ -13,8 +13,8 @@ COPY package-lock.json .
 RUN npm install
 
 # 빌드
-COPY . ./
-RUN npm run build
+COPY . .
+#RUN npm run build
 
 # 실행
 CMD ["npm", "start"]

@@ -7,6 +7,7 @@ import django
 from django.utils.encoding import smart_str
 django.utils.encoding.smart_text = smart_str
 
+# os.environ['DJANGO_SETTINGS_MODULE'] = 'backend_project.settings'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 secret_file = os.path.join(BASE_DIR, "secrets.json")
@@ -31,12 +32,14 @@ SECRET_KEY = get_secret("django_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
+# ALLOWED_HOSTS = ["0.0.0.0", "localhost", "host.docker.internal", 'docker.for.mac.localhost']
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'docker.for.mac.localhost', 'host.docker.internal']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django_prometheus',
     'corsheaders',
     'django.contrib.sites',
     'allauth',
@@ -55,6 +58,7 @@ INSTALLED_APPS = [
     'storages',
     'common',
     'image',
+
     'django_celery_results',
     'album',
 ]
@@ -76,6 +80,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 # Celery
