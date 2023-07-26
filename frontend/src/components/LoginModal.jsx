@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { styled, css, keyframes } from 'styled-components';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
 import {
   AuthLogo,
   AuthTitle,
@@ -19,7 +17,6 @@ import { useAuth } from '../contexts/AuthContext';
 
 // eslint-disable-next-line react/prop-types
 function LoginModal({ isOpen, onClose }) {
-  const navigate = useNavigate();
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
   const [showPassword, setShowPassword] = useState(false); //  눈 아이콘 패스워드 보이기
@@ -51,7 +48,7 @@ function LoginModal({ isOpen, onClose }) {
         setIsLoggedIn(true);
         console.log(response);
         alert('로그인 성공!');
-        navigate('/');
+        onClose();
       }
     } catch (error) {
       console.error(error);
