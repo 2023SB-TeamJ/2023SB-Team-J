@@ -1,0 +1,136 @@
+version: "3.9"
+
+# docker-compose -f docker-compose.prod.yml up -d
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: t4y-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend
+      - ./frontend/node_modules/:/frontend/node_modules
+
+  database:
+    image: mysql:8.0
+    container_name: t4y-database
+    env_file:
+      - ./backend/.env
+    ports:
+      - 3306:3306
+    networks:
+      - t4y
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: t4y-backend
+    volumes:
+      - ./backend:/app # 컴파일시 자동으로 빌드 설정
+    restart: on-failure
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    depends_on:
+      - database
+    environment:
+      - DB_HOST=t4y-database
+      - DB_NAME=mydatabase
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+    command: "python manage.py runserver 0.0.0.0:8000"
+    tty: true
+    networks:
+      - t4y
+
+  rabbitmq:
+    hostname: t4yhost
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    command: rabbitmq-server
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+    ports:
+      - 5672:5672 # Default Port
+      - 15672:15672 # For UI=
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      - backend
+    networks:
+      - t4y
+
+  celery_worker:
+    container_name: celery_worker
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
+    depends_on:
+      - rabbitmq
+      - backend
+    volumes:
+      - ./backend:/backend
+    networks:
+      - t4y
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend
+      - frontend
+    # networks:
+    #   - t4y
+
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: prometheus
+#    user: root
+#    volumes:
+#      - ./prometheus/config/:/etc/prometheus/
+#      - ./prometheus/prometheus-volume:/prometheus
+#    ports:
+#      - 9090:9090
+#    command: # web.enalbe-lifecycle은 api 재시작없이 설정파일들을 reload 할 수 있게 해줌
+#      - '--web.enable-lifecycle'
+#      - '--config.file=/etc/prometheus/prometheus.yml'
+#    restart: always
+#    depends_on:
+#      - backend
+#    networks:
+#      - t4y
+
+#  grafana:
+#      image: grafana/grafana-oss:latest
+#      container_name: grafana
+#      user: root
+#      environment:
+#        GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
+#      ports:
+#        - 3300:3000
+#      volumes:
+#        - ./grafana/grafana-volume/datasource:/var/lib/grafana/datasource
+#        - ./grafana/grafana-volume:/var/lib/grafana
+#      restart: always
+#      depends_on:
+#        - prometheus
+#      networks:
+#        - t4y
+
+#volumes:
+#  grafana-data:
+
+networks:
+  t4y:
+    driver: bridge
