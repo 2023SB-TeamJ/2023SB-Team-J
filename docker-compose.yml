@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   frontend:
@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: t4y-frontend
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - ./frontend:/frontend
       - ./frontend/node_modules/:/frontend/node_modules
@@ -42,7 +42,7 @@ services:
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
 
-    command: 'python manage.py runserver 0.0.0.0:8000'
+    command: "python manage.py runserver 0.0.0.0:8000"
     tty: true
     networks:
       - t4y
@@ -71,7 +71,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: 'celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12'
+    command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
     depends_on:
       - rabbitmq
       - backend

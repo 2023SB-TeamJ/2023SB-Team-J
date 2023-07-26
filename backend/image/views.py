@@ -119,27 +119,24 @@ class AiExecute(APIView):
            
 class ResultImageView(APIView):
     permission_classes = [AllowAny]
-
     def post(self, request):
-        serializer = CollageImageSerializer(data=request.data)
-        if serializer.is_valid():
-            user_id = request.data.get('user_id')
-            img_file = request.FILES.get('img_file')
-            im = Image.open(img_file)
-            im.convert("RGB")
-            im_jpeg = BytesIO()
-            im.save(im_jpeg, 'JPEG')
-            im_jpeg.seek(0)
-            key = request.data.get("user_id") + str(datetime.now()).replace('.', '').replace(' ', '') + "." + "jpeg"
-            img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
+        user_id = request.data.get("user_id")
+        result_image = request.data.get("result_image")
+        im = Image.open(result_image)
+        im = im.convert("RGB")
+        im_jpeg = BytesIO()
+        im.save(im_jpeg, 'JPEG')
+        im_jpeg.seek(0)
+        key = "Result_image/" + generate_unique_filename(im_jpeg.getvalue()) + ".jpeg"
+        img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
 
-            data = {
-                'user_id': user_id,
-                "img_origin_id" : request.data.get('img_origin_id'),
-                'result_url': img_url
-            }
-            serializer = CollageImageSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        data = {
+            "user_id": user_id,
+            "result_url": img_url
+        }
+
+        serializer = ResultImageSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
