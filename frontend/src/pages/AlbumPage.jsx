@@ -133,7 +133,11 @@ function AlbumPage() {
               })
             )}
             {isOpen && (
-              <AlbumDetailModal imgId={resultImgId} setIsOpen={setIsOpen} />
+              <AlbumDetailModal
+                imgId={resultImgId}
+                setIsOpen={setIsOpen}
+                setImages={setImages} // 삭제된 이미지가 모달창을 닫은 후에 자동으로 렌더링되도록 수정하기 위해 images 상태를 업데이트하는 함수를 정의
+              />
             )}
           </MyMasonryGrid>
           {/* <CenteredButton>

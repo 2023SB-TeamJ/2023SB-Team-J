@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 // import image from '../assets/images/photo1.png';
 
-function AlbumDetailModal({ userId, setIsOpen, imgId }) {
+function AlbumDetailModal({ setIsOpen, imgId, setImages }) {
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -36,24 +36,32 @@ function AlbumDetailModal({ userId, setIsOpen, imgId }) {
     }
   }
 
-  const deleteImage = () => {
-    axios
-      .put(`http://localhost:8000/api/v1/album/detail/`, {
-        user_id: '1',
-        result_image_id: imgId,
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          console.log('Image deleted successfully');
-          closeModal(); // 삭제 후 모달 닫기
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        if (error.response && error.response.status === 400) {
-          console.log('Bad request, image could not be deleted');
-        }
-      });
+  const deleteImage = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8000/api/v1/album/detail/`,
+        {
+          user_id: '1',
+          result_image_id: imgId,
+        },
+      );
+      if (response.status === 200) {
+        console.log('이미지 삭제 성공');
+        closeModal(); // 삭제 후 모달 닫기
+
+        // 이전 이미지 목록을 받아와서 위에서 설명한 필터링 작업을 수행하여 새로운 이미지 목록을 생성합니다.
+        setImages((prevImages) =>
+          // result_image_id가 imgId와 같지 않은 경우에만 true를 반환
+          // 즉, imgId와 다른 이미지만 필터링하여 새로운 배열을 생성합니다.
+          prevImages.filter((img) => img.result_image_id !== imgId),
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.status === 400) {
+        console.log('이미지 삭제 실패');
+      }
+    }
   };
 
   useEffect(() => {
