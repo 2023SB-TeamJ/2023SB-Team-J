@@ -3,6 +3,9 @@
 .DS_Store
 backend/secrets.json
 
+.github/*
+.github
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
