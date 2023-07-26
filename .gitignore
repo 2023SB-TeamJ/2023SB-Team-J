@@ -5,6 +5,8 @@ backend/secrets.json
 
 .github/*
 .github
+prometheus/prometheus-volume/*
+prometheus/prometheus-volume
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
