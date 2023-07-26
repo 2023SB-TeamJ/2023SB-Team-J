@@ -7,6 +7,7 @@ backend/secrets.json
 .github
 prometheus/prometheus-volume/*
 prometheus/prometheus-volume
+grafana/grafana-volume/grafana.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
