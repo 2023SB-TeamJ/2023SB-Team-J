@@ -126,13 +126,32 @@ services:
         - prometheus
       networks:
         - t4y
+
   mysqld_exporter:
-    container_name: mysqld_exporter
-    image: prom/mysqld-exporter
-    ports:
-      - 9104:9104
-    depends_on:
-      - database
+      container_name: mysqld_exporter
+      image: prom/mysqld-exporter
+      volumes:
+        - ./.my.cnf:/etc/.my.cnf
+      command:
+        - '--collect.global_status'
+        - '--collect.engine_innodb_status'
+        - '--collect.global_variables'
+        - '--collect.info_schema.innodb_metrics'
+        - '--collect.info_schema.processlist'
+        - '--collect.info_schema.tables'
+        - '--collect.info_schema.query_response_time'
+        - '--web.listen-address=:9104'
+        - '--web.telemetry-path=/metrics'
+        - '--config.my-cnf=/etc/.my.cnf'
+      environment:
+        - DATA_SOURCE_NAME=exporter:@(bdd:3306)/database
+      restart: always
+      ports:
+        - 9104:9104
+      depends_on:
+        - database
+      networks:
+        - t4y
 
 networks:
   t4y:

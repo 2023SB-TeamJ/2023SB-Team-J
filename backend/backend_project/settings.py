@@ -176,7 +176,7 @@ WSGI_APPLICATION = 'backend_project.wsgi.application'
 pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # engine: mysql
+        'ENGINE': 'django_prometheus.db.backends.mysql',  # engine: mysql
         'NAME': "t4yDB",  # DB Name
         'USER': "admin",  # DB User
         'PASSWORD': get_secret("mysql_pwd"),  # Password

@@ -39,7 +39,12 @@ MANIFEST
 
 #mysqlexporter
 .my.cnf
-start.sh
+
+#prometheus
+prometheus/prometheus-volume/
+prometheus/prometheus-volume
+grafana/grafana-volume
+grafana/grafana-volume/
 
 # Installer logs
 pip-log.txt

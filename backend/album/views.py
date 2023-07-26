@@ -45,7 +45,7 @@ class AlbumDetailView(APIView): #album/detail
             if user_id is None or result_image_id is None:  # request 형식에 맞지 않는 경우
                 return Response({"error" : "request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
-            image_collage = Image_collage.objects.get(id=result_image_id, user_id=user_id, state=1)
+            image_collage = Image_collage.objects.get(id=result_image_id, user_id=user_id)
         except:
             # 해당 객체를 찾지 못한 경우 HTTP_400
             return Response({"error" : "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
