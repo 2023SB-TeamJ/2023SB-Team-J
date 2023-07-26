@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-const-assign */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
@@ -7,7 +8,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 // import image from '../assets/images/photo1.png';
 
-function AlbumDetailModal({ setIsOpen, imgId }) {
+function AlbumDetailModal({ userId, setIsOpen, imgId }) {
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -34,6 +35,26 @@ function AlbumDetailModal({ setIsOpen, imgId }) {
       console.log('에러 발생');
     }
   }
+
+  const deleteImage = () => {
+    axios
+      .put(`http://localhost:8000/api/v1/album/detail/`, {
+        user_id: '1',
+        result_image_id: imgId,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('Image deleted successfully');
+          closeModal(); // 삭제 후 모달 닫기
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        if (error.response && error.response.status === 400) {
+          console.log('Bad request, image could not be deleted');
+        }
+      });
+  };
 
   useEffect(() => {
     InquireAlbumDetail();
@@ -132,7 +153,7 @@ function AlbumDetailModal({ setIsOpen, imgId }) {
                 </defs>
               </svg>
             </BookmarkBtn>
-            <DeleteBtn>
+            <DeleteBtn onClick={deleteImage}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="50"
