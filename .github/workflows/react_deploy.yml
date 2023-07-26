@@ -1,9 +1,10 @@
-name: front_deploy
+name: react_deploy
 
 on:
   push:
     branches:
-      - 'frontend/*/*'
+      - [ main ]
+      - [ develop ]
 
 jobs:
   deploy:
