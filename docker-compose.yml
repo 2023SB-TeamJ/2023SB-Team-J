@@ -126,6 +126,13 @@ services:
         - prometheus
       networks:
         - t4y
+  mysqld_exporter:
+    container_name: mysqld_exporter
+    image: prom/mysqld-exporter
+    ports:
+      - 9104:9104
+    depends_on:
+      - database
 
 networks:
   t4y:
@@ -133,3 +140,4 @@ networks:
 
 volumes:
   grafana-data:
+

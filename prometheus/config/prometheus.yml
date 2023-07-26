@@ -24,4 +24,4 @@ scrape_configs:
   - job_name: 't4y-mysql'
     scrape_interval: 5s
     static_configs:
-      - targets: ['localhost:3306', 'host.docker.internal:3306', 'docker.for.mac.localhost:3306']
+      - targets: ['localhost:9104', 'host.docker.internal:9104', 'docker.for.mac.localhost:9104']

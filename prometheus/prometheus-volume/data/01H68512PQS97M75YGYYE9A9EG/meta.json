@@ -1,0 +1,17 @@
+{
+	"ulid": "01H68512PQS97M75YGYYE9A9EG",
+	"minTime": 1690298797183,
+	"maxTime": 1690300800000,
+	"stats": {
+		"numSamples": 93098,
+		"numSeries": 1016,
+		"numChunks": 1056
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01H68512PQS97M75YGYYE9A9EG"
+		]
+	},
+	"version": 1
+}
