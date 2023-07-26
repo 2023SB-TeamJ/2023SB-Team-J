@@ -58,6 +58,7 @@ export const AuthInputField = styled.div`
     }
     &::placeholder {
       color: #d3d3d3;
+      font-family: 'Do Hyeon';
     }
   }
 `;
