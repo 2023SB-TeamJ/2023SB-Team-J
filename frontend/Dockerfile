@@ -11,8 +11,6 @@ COPY package-lock.json .
 
 # 패키지 설치
 RUN npm install
-RUN npm cache clean --force
-RUN npm install react-scripts
 
 # 빌드
 RUN npm run build
