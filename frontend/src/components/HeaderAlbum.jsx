@@ -10,7 +10,7 @@ import { useAuth } from '../contexts/AuthContext';
 function HeaderAlbum() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
-
+  const nickname = localStorage.getItem('nickname');
   // 로그아웃 API 요청
   const handleLogout = async () => {
     try {
@@ -26,6 +26,7 @@ function HeaderAlbum() {
       if (response.status === 200) {
         localStorage.removeItem('refresh');
         localStorage.removeItem('access');
+        localStorage.removeItem('nickname');
         setIsLoggedIn(false);
         alert('로그아웃 성공!');
         navigate('/');
@@ -43,7 +44,7 @@ function HeaderAlbum() {
           <Name />
         </LogoWrap>
         <BtnWrap>
-          <AlbumUserName>Andrew Park님의 앨범</AlbumUserName>
+          <AlbumUserName>{nickname}님의 앨범</AlbumUserName>
           <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
         </BtnWrap>
       </Container>
