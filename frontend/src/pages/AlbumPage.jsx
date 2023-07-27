@@ -36,39 +36,6 @@ function AlbumPage() {
     900: 2, // 창 너비 900px 이하일 때 2열
     600: 1, // 창 너비 600px 이하일 때 1열
   };
-
-  // userId 가 노출됌...
-  // // state로 이미지 관리
-  // const [images, setImages] = useState([]);
-
-  // const [userId] = useState('2');
-  // async function inquireAlbum(userId) {
-  //   try {
-  //     const response = await axios.get(
-  //       // get 말고 post로 바꿔야
-  //       `http://localhost:8000/api/v1/album/?user_id=${userId}`,
-  //     );
-
-  //     // 서버 응답 처리
-  //     const albumData = response.data; // 응답 데이터
-
-  //     // 이미지 배열에 추가
-  //     const newImages = albumData.map((item) => item.result_url);
-  //     setImages((prevImages) => [...prevImages, ...newImages]);
-  //   } catch (error) {
-  //     console.log('에러 발생');
-  //   }
-  // }
-
-  // // 앨범 조회 요청 보내기
-  // useEffect(() => {
-  //   // 요청을 1번만 보내게 설정
-  //   if (images.length === 0) {
-  //     inquireAlbum(userId);
-  //   }
-  // }, [images, userId]);
-
-  // state로 이미지 관리
   const [images, setImages] = useState([]);
 
   async function inquireAlbum() {

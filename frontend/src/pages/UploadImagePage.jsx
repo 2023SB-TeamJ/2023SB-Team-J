@@ -1,3 +1,6 @@
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-else-return */
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-use-before-define */
 /* eslint-disable consistent-return */
 import React, { useState } from 'react';
@@ -13,7 +16,9 @@ function UploadImagePage() {
   // location 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
   const location = useLocation();
   // location 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
+  console.log(location.state);
   const frameType = location.state;
+
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
 
@@ -54,7 +59,9 @@ function UploadImagePage() {
     results.sort((a, b) => a.index - b.index);
 
     // Move navigation here with sorted results
-    navigate('/convert', { state: { frameType, aiResponse: results } });
+    navigate('/convert', {
+      state: { frameType, aiResponse: results },
+    });
   };
 
   const uploadImageToCharacterEndpoint = (originImgId, imageUrl, index) => {
@@ -103,7 +110,9 @@ function UploadImagePage() {
           <PageShiftWrap onClick={uploadAllImages}>
             <PageShiftBtn />
           </PageShiftWrap>
-          <ImageWrapper>{uploadImageComponents}</ImageWrapper>
+          <ImageWrapper frameType={frameType}>
+            {uploadImageComponents}
+          </ImageWrapper>
         </MainWrap>
       </Container>
     </div>
@@ -146,22 +155,18 @@ const ImageWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  ${({ frametype }) => {
-    // frameType prop을 사용하여 스타일링 변경
-    if (frametype === '1X4') {
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
       return `
         flex-direction: column;
-        gap: 20px;
-        height: 2rem;
+        gap: 40px;
       `;
-    }
-    if (frametype === '2X2') {
+    } else if (frameType === '2X2') {
       return `
         display: grid;
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 0.2fr);
       `;
     }
-    // frameType에 따라 다른 스타일링을 적용하거나, 기본 스타일링을 반환할 수 있습니다.
   }}
 `;
