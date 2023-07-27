@@ -176,7 +176,7 @@ pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # engine: mysql
-        'NAME': "t4yDB",  # DB Name
+        'NAME': get_secret("db_name"),  # DB Name
         'USER': "admin",  # DB User
         'PASSWORD': get_secret("mysql_pwd"),  # Password
         'HOST': get_secret("db_host"),
@@ -229,7 +229,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # AWS Setting
 
 AWS_REGION = 'ap-northeast-2'
-AWS_STORAGE_BUCKET_NAME = 't4y-bucket'
+AWS_STORAGE_BUCKET_NAME = "bucketkubit"
 AWS_ACCESS_KEY_ID = get_secret("aws_access_key_id")
 AWS_SECRET_ACCESS_KEY = get_secret("aws_secret_access_key")
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)

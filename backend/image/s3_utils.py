@@ -16,7 +16,7 @@ def upload_image_to_s3(img_file, key, ExtraArgs):
             aws_access_key_id=AWS_ACCESS_KEY_ID,
             aws_secret_access_key=AWS_SECRET_ACCESS_KEY
         )
-    bucket_name = "t4y-bucket"
+    bucket_name = "bucketkubit"
     s3.upload_fileobj(img_file, bucket_name, key, ExtraArgs)
     img_url = f"https://{bucket_name}.s3.amazonaws.com/{key}"
     return img_url
