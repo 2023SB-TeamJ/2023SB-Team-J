@@ -42,9 +42,13 @@ function AlbumPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/album/', {
-        user_id: '1',
-      });
+      const access = localStorage.getItem('access');
+
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/album/',
+        {},
+        { headers: { Authorization: `Bearer ${access}` } },
+      );
 
       // 서버 응답 처리
       const albumData = response.data; // 응답 데이터

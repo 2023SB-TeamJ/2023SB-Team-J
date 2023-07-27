@@ -29,11 +29,9 @@ function UploadImagePage() {
   console.log(files);
 
   const uploadAllImages = async () => {
-    const userId = 1;
-
     const promises = files.map((file, index) => {
       const formData = new FormData();
-      formData.append('id', userId);
+      const access = localStorage.getItem('access');
       formData.append('image', file);
       Array.from(formData.entries()).forEach((pair) => {
         console.log(`${pair[0]}, ${pair[1]}`);
@@ -43,6 +41,7 @@ function UploadImagePage() {
         .post('http://localhost:8000/api/v1/frame/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${access}`
           },
         })
         .then((response) => {
@@ -68,11 +67,13 @@ function UploadImagePage() {
     const formData = new FormData();
     formData.append('image_origin_id', originImgId);
     formData.append('image', imageUrl);
+    const access = localStorage.getItem('access');
 
     return axios
       .post('http://localhost:8000/api/v1/frame/ai/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${access}`
         },
       })
       .then((response) => {
