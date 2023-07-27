@@ -4,13 +4,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
-from .serializers import UserSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+# from .serializers import UserSerializer, MyTokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from backend_project.settings import SECRET_KEY
 
-User = get_user_model()
+# from .utils import user_generate_access_token
 
+User = get_user_model()
+# class MyTokenObtainPairView(TokenObtainPairView):
+#     serializer_class = MyTokenObtainPairSerializeㅋ
 
 
 # 회원가입
@@ -34,6 +39,9 @@ class LoginAPIView(APIView):
         email = request.data.get('email')
         password = request.data.get('password')
 
+        # access_token = None
+        # refresh_token = None
+
         if email is None or password is None:
             return Response({'error': 'Please provide both email and password.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -41,12 +49,13 @@ class LoginAPIView(APIView):
 
         if user and user.check_password(password):
             refresh = RefreshToken.for_user(user)
-            access_toekn = str(refresh.access_token)
+            # access_token = AccessToken.for_user(user)
+
             return Response({
                 'message': 'success',
                 'nickname': user.nickname,
                 'refresh': str(refresh),  # Refresh 토큰을 응답 본문에 추가합니다.
-                'access': access_toekn,  # Access 토큰을 응답 본문에 추가합니다.
+                'access': str(refresh.access_token),  # Access 토큰을 응답 본문에 추가합니다.
             }, status=status.HTTP_200_OK)
 
         return Response({'message': 'Invalid email or password.'}, status=status.HTTP_400_BAD_REQUEST)

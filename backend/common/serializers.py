@@ -23,17 +23,14 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def validate(cls, attrs):
-        data = super().validate(attrs)
-
-        user = cls.user
-        # Add custom claims to the token's payload
-        data['user_id'] = user.id
-        data['nickname'] = user.nickname
-
-        return data
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     @classmethod
+#     def validate(cls, attrs):
+#         token = super().get_token(user)
+#
+#         user = attrs['users']
+#         # Add custom claims to the token's payload
+#         token['user_id'] = user.id
+#         token['nickname'] = user.nickname
+#
+#         return token

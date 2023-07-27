@@ -11,7 +11,7 @@ from .s3_utils import *
 from .models import *
 
 from album.serializers import *
-from common.util import user_token_to_data
+from common.utils import user_token_to_data
 
 class UploadImageView(APIView):
     permission_classes = [IsAuthenticated]
