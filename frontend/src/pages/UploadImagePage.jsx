@@ -109,10 +109,7 @@ function UploadImagePage() {
           <TitleWrap>
             <Title>이미지 업로드</Title>
           </TitleWrap>
-          <ProgressBar>
-            프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
-            바/프로그레스 바/프로그레스 바
-          </ProgressBar>
+          <ProgressBar />
           <PageShiftWrap onClick={uploadAllImages}>
             <PageShiftBtn />
           </PageShiftWrap>

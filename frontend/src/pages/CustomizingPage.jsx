@@ -75,10 +75,7 @@ function CustomizingPage() {
           <TitleWrap>
             <Title>커스터마이징</Title>
           </TitleWrap>
-          <ProgressBar>
-            프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
-            바/프로그레스 바/프로그레스 바
-          </ProgressBar>
+          <ProgressBar />
           {/* <CustomWrap> */}
           {/* <MenuWrap>
               <CustomMenuBar />

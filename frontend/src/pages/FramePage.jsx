@@ -25,10 +25,7 @@ function FramePage() {
           <TitleWrap>
             <Title>프레임/색상 선택</Title>
           </TitleWrap>
-          <ProgressBar>
-            프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
-            바/프로그레스 바/프로그레스 바
-          </ProgressBar>
+          <ProgressBar />
           <CarouselWrap>
             <CustomCarousel
               setColImg={setColImg}

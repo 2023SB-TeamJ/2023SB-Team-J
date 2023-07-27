@@ -70,10 +70,7 @@ function ConvertAIPage() {
           <TitleWrap>
             <Title>AI 변환</Title>
           </TitleWrap>
-          <ProgressBar>
-            프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
-            바/프로그레스 바/프로그레스 바
-          </ProgressBar>
+          <ProgressBar />
           {isLoading ? (
             <LoadingWrap>
               <Loading />
