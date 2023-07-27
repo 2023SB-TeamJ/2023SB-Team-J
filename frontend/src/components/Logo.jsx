@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import logoImage from '../assets/images/logoImage.png';
 
 const LogoStyle = styled.div`
-  width: 55px;
-  height: 54px;
+  width: 2.8rem;
+  height: 2.8rem;
   flex-shrink: 0;
   border-radius: 10px;
   background:

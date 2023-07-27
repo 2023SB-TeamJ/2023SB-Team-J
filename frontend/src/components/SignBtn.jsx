@@ -10,15 +10,15 @@ export default styled.button`
   height: 35px;
   flex-shrink: 0;
   border-radius: 30px;
-  background: #fff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  background: #f7f7f7;
+  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
   border: none;
 
-  color: #000;
-  font-size: 16px;
+  font-family: 'Noto Sans', '맑은 고딕', 'Malgun Gothic', verdana, sans-serif;
+  font-weight: 600;
   font-style: normal;
-  font-weight: 400;
   line-height: normal;
+  font-size: 1.1rem;
 
   cursor: pointer;
 

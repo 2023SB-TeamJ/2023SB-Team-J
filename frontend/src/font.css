@@ -5,6 +5,11 @@
     url('../src/assets/font/BMDOHYEON_ttf.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Cormorant';
+  src: url('./assets/font/Cormorant-MediumItalic.ttf') format('truetype');
+}
+
 body {
   font-family: 'Do Hyeon', sans-serif;
 }
