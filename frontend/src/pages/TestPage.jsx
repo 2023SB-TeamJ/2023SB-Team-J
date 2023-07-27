@@ -1,25 +1,34 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable camelcase */
-import React, { useState } from 'react';
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable react/button-has-type */
+import React from 'react';
+// import { Image } from 'react-konva';
 import { styled } from 'styled-components';
-import { useAuth } from '../contexts/AuthContext';
-import Header from '../components/Header';
-import HeaderMain from '../components/HeaderMain';
 
 function TestPage() {
-  const { isLoggedIn } = useAuth();
+  const url = 'https://konvajs.github.io/assets/yoda.jpg';
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'image.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div>
       <Container>
-        <MainWrap>{isLoggedIn ? <Header /> : <HeaderMain />}</MainWrap>
+        <MainWrap>
+          <img src={url} alt="Image" />
+          <button onClick={handleDownload}>이미지 다운로드</button>
+        </MainWrap>
       </Container>
     </div>
   );
 }
 
 export default TestPage;
-
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;

@@ -11,6 +11,10 @@ COPY package-lock.json ./
 # 패키지 설치
 RUN npm install
 
+# 빌드
+RUN npm run build
+
+
 # 불필요한 파일 제외한 애플리케이션 파일 복사 (dockerignore 파일 필요)
 COPY . .
 
