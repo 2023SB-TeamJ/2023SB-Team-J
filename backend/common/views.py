@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-# from .serializers import UserSerializer, MyTokenObtainPairSerializer
+from .serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from backend_project.settings import SECRET_KEY
