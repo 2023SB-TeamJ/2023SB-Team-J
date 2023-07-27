@@ -11,6 +11,7 @@ import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
+import Loading from '../components/Loading';
 
 function UploadImagePage() {
   // location 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
@@ -22,6 +23,8 @@ function UploadImagePage() {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onImageUpload = (file) => {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
@@ -29,6 +32,7 @@ function UploadImagePage() {
   console.log(files);
 
   const uploadAllImages = async () => {
+    setIsLoading(true);
     const userId = 1;
 
     const promises = files.map((file, index) => {
@@ -57,6 +61,8 @@ function UploadImagePage() {
 
     // Sort results based on original index
     results.sort((a, b) => a.index - b.index);
+
+    setIsLoading(false);
 
     // Move navigation here with sorted results
     navigate('/convert', {
@@ -110,9 +116,15 @@ function UploadImagePage() {
           <PageShiftWrap onClick={uploadAllImages}>
             <PageShiftBtn />
           </PageShiftWrap>
-          <ImageWrapper frameType={frameType}>
-            {uploadImageComponents}
-          </ImageWrapper>
+          {isLoading ? (
+            <LoadingWrap>
+              <Loading />
+            </LoadingWrap>
+          ) : (
+            <ImageWrapper frameType={frameType}>
+              {uploadImageComponents}
+            </ImageWrapper>
+          )}
         </MainWrap>
       </Container>
     </div>
@@ -169,4 +181,17 @@ const ImageWrapper = styled.div`
       `;
     }
   }}
+`;
+
+const LoadingWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
