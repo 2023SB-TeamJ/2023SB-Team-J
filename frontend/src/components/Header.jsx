@@ -38,7 +38,12 @@ function Header() {
   return (
     <div>
       <Container>
-        <LogoWrap onClick={() => navigate('/')}>
+        <LogoWrap
+          onClick={() => {
+            navigate('/');
+            window.location.reload();
+          }}
+        >
           <Logo />
           <Name />
         </LogoWrap>
@@ -53,7 +58,9 @@ function Header() {
 export default Header;
 const Container = styled.div`
   display: flex;
-  margin-top: 3rem;
+  padding-top: 1.2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   align-items: center;
   justify-content: space-between;
 `;

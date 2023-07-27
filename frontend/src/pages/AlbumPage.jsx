@@ -121,7 +121,7 @@ export default AlbumPage;
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  background: ${(props) => props.theme.backgroundColor};
+  background: #f6f6f6;
 `;
 
 const MainWrap = styled.div`
@@ -131,13 +131,12 @@ const MainWrap = styled.div`
   height: 100%;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
-  background-color: white;
+  background-color: #f6f6f6;
 `;
 
 const AddBtn = styled(motion.div)`
   position: absolute;
-  top: 10vh;
+  top: -9rem;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -175,6 +174,7 @@ const MyMasonryGridColumn = styled.div`
 
 const ImageWithShadow = styled.img`
   box-shadow: 10px 10px 6px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
 `;
 
 const LoadingWrap = styled.div``;

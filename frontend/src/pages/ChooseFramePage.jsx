@@ -70,7 +70,7 @@ export default ChooseFramePage;
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  background: ${(props) => props.theme.backgroundColor};
+  background: #f6f6f6;
 `;
 const MainWrap = styled.div`
   max-width: 1440px;
