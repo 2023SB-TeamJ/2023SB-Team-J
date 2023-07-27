@@ -40,3 +40,4 @@ django-prometheus-metrics==0.0.1
 prometheus-client>=0.12.0
 
 gevent
+gunicorn

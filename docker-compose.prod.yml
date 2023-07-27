@@ -14,15 +14,15 @@ services:
       - ./frontend:/frontend
       - ./frontend/node_modules/:/frontend/node_modules
 
-  database:
-    image: mysql:8.0
-    container_name: t4y-database
-    env_file:
-      - ./backend/.env
-    ports:
-      - 3306:3306
-    networks:
-      - t4y
+#  database:
+#    image: mysql:8.0
+#    container_name: t4y-database
+#    env_file:
+#      - ./backend/.env
+#    ports:
+#      - 3306:3306
+#    networks:
+#      - t4y
 
   backend:
     build:
@@ -36,14 +36,7 @@ services:
       - 8000:8000
     expose:
       - 8000
-    depends_on:
-      - database
-    environment:
-      - DB_HOST=t4y-database
-      - DB_NAME=mydatabase
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-    command: "python manage.py runserver 0.0.0.0:8000"
+    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
     tty: true
     networks:
       - t4y
@@ -90,8 +83,8 @@ services:
     depends_on:
       - backend
       - frontend
-    # networks:
-    #   - t4y
+    networks:
+      - t4y
 
 #  prometheus:
 #    image: prom/prometheus
