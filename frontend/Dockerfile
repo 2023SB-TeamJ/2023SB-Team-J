@@ -19,4 +19,4 @@ RUN npm install
 COPY . .
 
 # 웹 서버 실행 (실제 배포 시에는 nginx 등을 사용하는 것이 좋음)
-CMD ["npm", "start"]
+#CMD ["npm", "start"]
