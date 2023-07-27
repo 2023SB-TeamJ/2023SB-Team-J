@@ -1,28 +1,14 @@
-from django.contrib.auth import get_user_model, logout, login
-# from django.middleware.csrf import get_token
-from django.views.decorators.cache import cache_page
-# from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
-from django.utils.decorators import method_decorator
+from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 from .serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
-from rest_framework_simplejwt.exceptions import TokenError
-from rest_framework_simplejwt.tokens import UntypedToken
-# from django.middleware.csrf import CsrfViewMiddleware
 
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 User = get_user_model()
 
-User = get_user_model()
 
 
 # 회원가입

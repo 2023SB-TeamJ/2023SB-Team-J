@@ -1,9 +1,7 @@
-import pickle
 import time
 
-import json
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
@@ -11,17 +9,20 @@ from .serializers import *
 from .AiTask import *
 from .s3_utils import *
 from .models import *
-from rest_framework.permissions import AllowAny
 
 from album.serializers import *
-
+from common.util import user_token_to_data
 
 class UploadImageView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     
     def post(self, request):
+        authorization_header = request.META.get('HTTP_AUTHORIZATION')
+        if authorization_header and authorization_header.startswith('Bearer '):
+            token = authorization_header.split(' ')[1]
+            user_id=user_token_to_data(token)
+
         image = request.data.get("image")
-        user_id = request.data.get("id")
         with Image.open(image) as im:
             im = im.convert("RGB")
             im_jpeg = BytesIO()
@@ -44,35 +45,8 @@ class UploadImageView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-#     def get(self, request, format=None):
-#         raw_data = request.body.decode('utf-8')
-#         try:
-#             data = json.loads(raw_data)
-#             user_id = data.get('user_id')
-#             source = data.get('source')
-
-#             if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-#                 return Response(status=status.HTTP_400_BAD_REQUEST)
-
-#             image_origin = Image_upload.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
-
-#         except:
-#             # 찾지 못한 경우 HTTP_400
-#             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-#         serializer = UploadedImageSerializer(image_origin)
-
-#         picture = {
-#             'url_1': serializer.data.get('url_1'),
-#             'url_2': serializer.data.get('url_2'),
-#             'url_3': serializer.data.get('url_3'),
-#             'url_4': serializer.data.get('url_4'),
-#         }
-#         return Response(picture, status=status.HTTP_200_OK)
-
 class AiExecute(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         url = request.data.get("image")
@@ -129,9 +103,13 @@ class AiExecute(APIView):
 
 
 class ResultImageView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
-        user_id = request.data.get("user_id")
+        authorization_header = request.META.get('HTTP_AUTHORIZATION')
+        if authorization_header and authorization_header.startswith('Bearer '):
+            token = authorization_header.split(' ')[1]
+            user_id=user_token_to_data(token)
+
         result_image = request.data.get("result_image")
         im = Image.open(result_image)
         im = im.convert("RGB")
