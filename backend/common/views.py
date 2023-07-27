@@ -1,3 +1,4 @@
+import jwt
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -6,6 +7,7 @@ from rest_framework import status
 from .serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from backend_project.settings import SECRET_KEY
 
 User = get_user_model()
 
@@ -39,11 +41,12 @@ class LoginAPIView(APIView):
 
         if user and user.check_password(password):
             refresh = RefreshToken.for_user(user)
+            access_toekn = str(refresh.access_token)
             return Response({
                 'message': 'success',
                 'nickname': user.nickname,
                 'refresh': str(refresh),  # Refresh 토큰을 응답 본문에 추가합니다.
-                'access': str(refresh.access_token),  # Access 토큰을 응답 본문에 추가합니다.
+                'access': access_toekn,  # Access 토큰을 응답 본문에 추가합니다.
             }, status=status.HTTP_200_OK)
 
         return Response({'message': 'Invalid email or password.'}, status=status.HTTP_400_BAD_REQUEST)

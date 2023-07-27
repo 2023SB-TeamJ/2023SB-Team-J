@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 User = get_user_model()
 
@@ -19,3 +21,19 @@ class UserSerializer(serializers.ModelSerializer):
         nickname = validated_data.pop('nickname', "이름없음")
         user = User.objects.create_user(nickname=nickname, state=True, **validated_data)
         return user
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def validate(cls, attrs):
+        data = super().validate(attrs)
+
+        user = cls.user
+        # Add custom claims to the token's payload
+        data['user_id'] = user.id
+        data['nickname'] = user.nickname
+
+        return data
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer

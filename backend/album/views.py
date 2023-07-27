@@ -14,6 +14,8 @@ class AlbumView(APIView):
             if authorization_header and authorization_header.startswith('Bearer '):
                 token = authorization_header.split(' ')[1]
                 user_id = user_token_to_data(token)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
             if not user_id:  # user_id가 제공되지 않았을 경우에 대한 처리
                 return Response({"error": "User ID is required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -43,6 +45,8 @@ class AlbumDetailView(APIView): #album/detail
             if authorization_header and authorization_header.startswith('Bearer '):
                 token = authorization_header.split(' ')[1]
                 user_id = user_token_to_data(token)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
             data = json.loads(raw_data)
             result_image_id = data.get('result_image_id')

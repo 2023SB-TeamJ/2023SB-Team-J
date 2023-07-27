@@ -21,6 +21,8 @@ class UploadImageView(APIView):
         if authorization_header and authorization_header.startswith('Bearer '):
             token = authorization_header.split(' ')[1]
             user_id=user_token_to_data(token)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         image = request.data.get("image")
         with Image.open(image) as im:
@@ -109,6 +111,8 @@ class ResultImageView(APIView):
         if authorization_header and authorization_header.startswith('Bearer '):
             token = authorization_header.split(' ')[1]
             user_id=user_token_to_data(token)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         result_image = request.data.get("result_image")
         im = Image.open(result_image)
