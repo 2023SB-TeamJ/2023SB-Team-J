@@ -48,38 +48,38 @@ services:
 #    networks:
 #      - t4y
 
-#  rabbitmq:
-#    hostname: t4yhost
-#    container_name: rabbitmq
-#    image: rabbitmq:3-management
-#    command: rabbitmq-server
-#    restart: unless-stopped
-#    env_file:
-#      - backend/.env
-#    ports:
-#      - 5672:5672 # Default Port
-#      - 15672:15672 # For UI=
-#    volumes:
-#      - ./backend:/backend
-#    depends_on:
-#      - backend
-#    networks:
-#      - t4y
+  rabbitmq:
+    hostname: t4yhost
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    command: rabbitmq-server
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+    ports:
+      - 5672:5672 # Default Port
+      - 15672:15672 # For UI=
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      - backend
+    networks:
+      - t4y
 
-#  celery_worker:
-#    container_name: celery_worker
-#    restart: always
-#    build:
-#      context: ./backend
-#      dockerfile: Dockerfile
-#    command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
-#    depends_on:
-#      - rabbitmq
-#      - backend
-#    volumes:
-#      - ./backend:/backend
-#    networks:
-#      - t4y
+  celery_worker:
+    container_name: celery_worker
+    restart: always
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
+    depends_on:
+      - rabbitmq
+      - backend
+    volumes:
+      - ./backend:/backend
+    networks:
+      - t4y
 
 #  nginx:
 #    image: nginx

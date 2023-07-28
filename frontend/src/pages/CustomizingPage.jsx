@@ -39,12 +39,12 @@ function CustomizingPage() {
       const userDummy = '1';
       const formData = new FormData();
       formData.append('result_image', blob, 'capture.png');
-      formData.append('user_id', userDummy);
-
+      const access = localStorage.getItem('access');
       // console.log(blob);
       // console.log(formData);
       fetch('http://localhost:8000/api/v1/frame/add/', {
         method: 'POST',
+        headers: { Authorization: `Bearer ${access}` },
         body: formData, // 이미지 데이터를 FormData로 전송
       })
         .then((data) => {

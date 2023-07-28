@@ -12,6 +12,7 @@ function AlbumDetailModal({ setIsOpen, imgId, setImages }) {
   const closeModal = () => {
     setIsOpen(false);
   };
+  const access = localStorage.getItem('access');
 
   const [url, setUrl] = useState('');
   const [date, setDate] = useState('');
@@ -24,6 +25,7 @@ function AlbumDetailModal({ setIsOpen, imgId, setImages }) {
           params: {
             result_image_id: imgId,
           },
+          headers: { Authorization: `Bearer ${access}` },
         },
       );
       const albumDetailData = response.data; // 응답 데이터
@@ -37,13 +39,13 @@ function AlbumDetailModal({ setIsOpen, imgId, setImages }) {
   }
 
   const deleteImage = async () => {
+    const access = localStorage.getItem('access');
+
     try {
       const response = await axios.put(
         `http://localhost:8000/api/v1/album/detail/`,
-        {
-          user_id: '1',
-          result_image_id: imgId,
-        },
+        { result_image_id: imgId },
+        { headers: { Authorization: `Bearer ${access}` } },
       );
       if (response.status === 200) {
         console.log('이미지 삭제 성공');
