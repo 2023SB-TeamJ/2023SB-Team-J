@@ -28,8 +28,8 @@ function CustomizingPage() {
   // FramePage.jsx에서 받아온 colImg를 가져와 colImg에 저장
   // location.state가 객체이고 그 객체의 colImg 프로퍼티도 객체인 것을 가정하고 있습니다.
   // 그러나 실제로는 colImg가 문자열이어서 아래 코드처럼 작성
-  const { colImg } = location.state;
-
+  const { colImg, frameType3 } = location.state;
+  console.log(location.state);
   // const { frameType } = location.state;
 
   const captureArea = () => {
@@ -80,7 +80,7 @@ function CustomizingPage() {
           {/* <MenuWrap>
               <CustomMenuBar />
             </MenuWrap> */}
-          <CaptureWrap>
+          <CaptureWrap frameType3={frameType3}>
             <DivArea id="captureArea" aiimage={colImg}>
               <CustomPhoto />
               <TextBoxWrap>
@@ -153,8 +153,24 @@ const CaptureWrap = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 33%;
-  width: 38rem;
-  height: 38rem;
+  width: ${({ frameType3 }) => {
+    if (frameType3 === '1X4') {
+      return '25rem';
+    }
+    if (frameType3 === '2X2') {
+      return '40rem';
+    }
+    return '25rem';
+  }};
+  height: ${({ frameType3 }) => {
+    if (frameType3 === '1X4') {
+      return '53rem';
+    }
+    if (frameType3 === '2X2') {
+      return '45rem';
+    }
+    return '53rem';
+  }};
 `;
 
 const DivArea = styled.div`
