@@ -94,9 +94,9 @@ MIDDLEWARE = [
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 
-# CORS 설정 - whitelist 에 추가된 주소 접근 허용
 CORS_ALLOW_CREDENTIALS = True
 
+# CORS 설정 - whitelist 에 추가된 주소 접근 허용
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
     'http://127.0.0.1:8000',
@@ -104,6 +104,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'https://bucketkubit.s3.amazonaws.com'
 )
+
+# CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'backend_project.urls'
 

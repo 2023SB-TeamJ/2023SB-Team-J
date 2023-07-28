@@ -123,7 +123,6 @@ class ResultImageView(APIView):
         im_jpeg.seek(0)
         key = "Result_image/" + generate_unique_filename(im_jpeg.getvalue()) + ".jpeg"
         img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
-
         data = {
             "user_id": user_id,
             "result_url": img_url
