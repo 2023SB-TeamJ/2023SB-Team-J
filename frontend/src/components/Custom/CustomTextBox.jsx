@@ -76,7 +76,7 @@ function CustomText() {
         >
           <img
             src={img}
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '90%', height: '90%' }}
             alt="Uploaded"
           />
         </AddTextboxButton>
@@ -116,8 +116,8 @@ function CustomText() {
 
 const BtnWrap = styled.div`
   position: absolute;
-  top: 35%;
-  left: 21%;
+  top: 45%;
+  left: 20.5%;
 `;
 const AddTextboxButton = styled(motion.div)`
   width: 100px;

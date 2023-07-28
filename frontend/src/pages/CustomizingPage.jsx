@@ -13,6 +13,7 @@ import Header from '../components/Header';
 import Title from '../components/Title';
 // import CustomMenuBar from '../components/Custom/CustomMenuBar';
 import addphoto from '../assets/images/addphoto.png';
+import addlocal from '../assets/images/save.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
 import cut4 from '../assets/images/4cut_test.png';
@@ -67,6 +68,21 @@ function CustomizingPage() {
       });
   };
 
+  const captureLocal = () => {
+    const captureDiv = document.getElementById('captureArea');
+
+    html2canvas(captureDiv).then((canvas) => {
+      // 캡처된 canvas 객체를 사용할 수 있습니다.
+      // 예를 들어, 이미지로 저장하거나 다른 작업을 수행할 수 있습니다.
+      // 아래는 이미지로 저장하는 예제입니다.
+      const imgData = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = imgData;
+      link.download = 'capture.png';
+      link.click();
+    });
+  };
+
   return (
     <div>
       <Container>
@@ -80,19 +96,29 @@ function CustomizingPage() {
           {/* <MenuWrap>
               <CustomMenuBar />
             </MenuWrap> */}
-          <CaptureWrap>
-            <DivArea id="captureArea" aiimage={colImg}>
-              <CustomPhoto />
-              <TextBoxWrap>
+          <CustomWrap>
+            <MenuWrap>
+              <div />
+            </MenuWrap>
+            <CaptureWrap>
+              <DivArea id="captureArea" aiimage={colImg}>
                 <CustomTextBox />
-              </TextBoxWrap>
-            </DivArea>
-            <AddPhotoBtn
-              onClick={captureArea}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ borderRadius: '50%' }}
-            />
-          </CaptureWrap>
+                <CustomPhoto />
+              </DivArea>
+            </CaptureWrap>
+            <BtnWrap>
+              <AddPhotoBtn
+                onClick={captureArea}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ borderRadius: '50%' }}
+              />
+              <AddLocalBtn
+                onClick={captureLocal}
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ borderRadius: '50%' }}
+              />
+            </BtnWrap>
+          </CustomWrap>
           {/* </CustomWrap> */}
         </MainWrap>
       </Container>
@@ -118,7 +144,7 @@ const MainWrap = styled.div`
 `;
 
 const TitleWrap = styled.div`
-  margin-top: 3rem;
+  margin: 3rem;
   display: flex;
   justify-content: center;
 `;
@@ -126,45 +152,54 @@ const TitleWrap = styled.div`
 const ProgressBar = styled.div`
   display: flex;
   justify-content: center;
-  margin: 3rem;
 `;
-// const CustomWrap = styled.div`
-//   display: flex;
-//   align-items: center;
-// `;
+const CustomWrap = styled.div`
+  display: flex;
+`;
 
-// const MenuWrap = styled.div`
-//   display: flex;
-// `;
+const MenuWrap = styled.div`
+  flex: 1;
+`;
+const CaptureWrap = styled.div`
+  flex: 2;
+  margin: 0 auto;
+`;
+
+const DivArea = styled.div`
+  margin: 0 auto;
+  width: 36.5rem;
+  height: 44rem;
+
+  background: url(${(props) => props.aiimage}) lightgray 50% / cover no-repeat;
+`;
+
+const BtnWrap = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30%;
+  justify-content: center;
+  align-items: center;
+`;
 
 const AddPhotoBtn = styled(motion.div)`
   margin-left: 30px;
-  width: 79.5px;
-  height: 66px;
+  width: 80px;
+  height: 80px;
   flex-shrink: 0;
   background: url(${addphoto}) lightgray 50% / cover no-repeat;
   background-color: ${(props) => props.theme.backgroundColor};
   cursor: pointer;
 `;
 
-const TextBoxWrap = styled.div``;
-
-const CaptureWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 33%;
-  width: 38rem;
-  height: 38rem;
-`;
-
-const DivArea = styled.div`
-  width: 100%;
-  height: 100%;
-  background: url(${(props) => props.aiimage}) lightgray 50% / cover no-repeat;
-  /* background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background: #ffffff; */
+const AddLocalBtn = styled(motion.div)`
+  margin-left: 30px;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  background: url(${addlocal}) lightgray 50% / cover no-repeat;
+  background-color: ${(props) => props.theme.backgroundColor};
+  cursor: pointer;
 `;
 
 // const TestWrap = styled.div`

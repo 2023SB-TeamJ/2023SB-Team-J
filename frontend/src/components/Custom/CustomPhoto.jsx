@@ -47,7 +47,11 @@ function CustomPhoto() {
             whileHover={{ scale: 1.2 }}
             whileTap={{ borderRadius: '50%' }}
           >
-            <img src={imageButton} alt="Upload" />
+            <img
+              src={imageButton}
+              alt="Upload"
+              style={{ width: '90%', height: '90%' }}
+            />
           </ImageButtonContainer>
         </div>
       </BtnWrap>
@@ -84,7 +88,7 @@ const ImageContainer = styled.div``;
 
 const BtnWrap = styled.div`
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 20%;
 `;
 const ImgWrap = styled.div`
