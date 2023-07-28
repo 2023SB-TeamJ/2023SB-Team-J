@@ -40,17 +40,13 @@ function CustomizingPage() {
       const formData = new FormData();
       formData.append('result_image', blob, 'capture.png');
       const access = localStorage.getItem('access');
-
       // console.log(blob);
       // console.log(formData);
-      fetch(
-        'http://localhost:8000/api/v1/frame/add/',
-        {
-          method: 'POST',
-          body: formData, // 이미지 데이터를 FormData로 전송
-        },
-        { headers: { Authorization: `Bearer ${access}` } },
-      )
+      fetch('http://localhost:8000/api/v1/frame/add/', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${access}` },
+        body: formData, // 이미지 데이터를 FormData로 전송
+      })
         .then((data) => {
           console.log('서버 응답:', data); // 서버로부터의 응답을 확인합니다.
           navigate('/album'); // 작업이 완료되면 원하는 페이지로 이동합니다.
