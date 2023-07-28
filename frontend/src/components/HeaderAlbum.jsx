@@ -47,7 +47,7 @@ function HeaderAlbum() {
         <Name />
       </LogoWrap>
       <BtnWrap>
-        <AlbumUserName>Andrew Park님의 앨범</AlbumUserName>
+        <AlbumUserName>폰트바꿀예정님의 앨범</AlbumUserName>
         <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
       </BtnWrap>
     </Container>

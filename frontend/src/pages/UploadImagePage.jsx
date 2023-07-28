@@ -11,26 +11,22 @@ import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
+import LoadingAnimation from '../components/LoadingAnimation';
 
 function UploadImagePage() {
-  // location 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
   const location = useLocation();
-  // location 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
-  console.log(location.state);
   const frameType = location.state;
-
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수를 추가합니다.
 
   const onImageUpload = (file) => {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
 
-  console.log(files);
-
   const uploadAllImages = async () => {
+    setIsLoading(true); // 이미지 업로드를 시작하면 로딩 애니메이션을 표시합니다.
     const userId = 1;
-
     const promises = files.map((file, index) => {
       const formData = new FormData();
       formData.append('id', userId);
@@ -54,11 +50,8 @@ function UploadImagePage() {
     });
 
     const results = await Promise.all(promises);
-
-    // Sort results based on original index
+    setIsLoading(false); // 모든 이미지 업로드가 완료되면 로딩 애니메이션을 숨깁니다.
     results.sort((a, b) => a.index - b.index);
-
-    // Move navigation here with sorted results
     navigate('/convert', {
       state: { frameType, aiResponse: results },
     });
@@ -91,10 +84,10 @@ function UploadImagePage() {
       });
   };
 
-  // UploadImage 컴포넌트 4개로 이루어진 배열을 생성한다.
   const uploadImageComponents = Array(4).fill(
     <UploadImage onImageUpload={onImageUpload} />,
   );
+
   return (
     <div>
       <Container>
@@ -113,6 +106,7 @@ function UploadImagePage() {
           <ImageWrapper frameType={frameType}>
             {uploadImageComponents}
           </ImageWrapper>
+          {isLoading && <LoadingAnimation />}
         </MainWrap>
       </Container>
     </div>

@@ -47,7 +47,6 @@ function LoginModal({ isOpen, onClose }) {
         localStorage.setItem('access', response.data.access);
         setIsLoggedIn(true);
         console.log(response);
-        alert('로그인 성공!');
         onClose();
       }
     } catch (error) {

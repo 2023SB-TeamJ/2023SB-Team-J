@@ -14,9 +14,11 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 // import UploadBtn from '../components/UploadBtn';
+import AOS from 'aos';
 import Header from '../components/HeaderAlbum';
 import AlbumDetailModal from '../components/AlbumDetailModal';
 import Loading from '../components/Loading';
+import 'aos/dist/aos.css';
 
 function AlbumPage() {
   const navigate = useNavigate();
@@ -65,6 +67,16 @@ function AlbumPage() {
     inquireAlbum();
   }, []);
 
+  useEffect(() => {
+    AOS.init({
+      // 여기에 원하는 설정을 추가할 수 있습니다.
+    });
+  }, []);
+
+  useEffect(() => {
+    AOS.refresh();
+  }, [images]);
+
   return (
     <div>
       <Container>
@@ -74,7 +86,7 @@ function AlbumPage() {
             onClick={() => navigate('/choose')}
             whileHover={{ scale: 1.2 }}
           >
-            START
+            버튼바꿀예정
           </AddBtn>
           <MyMasonryGrid
             breakpointCols={breakpointColumnObj}
@@ -92,9 +104,10 @@ function AlbumPage() {
                     <ImageWithShadow
                       src={img.result_url}
                       alt="photo"
-                      onClick={() => openModalHandler(img.result_image_id)} // 보내는 값에 따라 다름
+                      onClick={() => openModalHandler(img.result_image_id)}
+                      data-aos="fade-up"
+                      data-aos-delay={i * 10} // i * 100을 사용하여 각 이미지에 대해 다른 딜레이를 설정합니다.
                     />
-                    {/* id값을 모달창에 보내야됨 */}
                   </MyMasonryGridColumn>
                 );
               })
@@ -136,7 +149,7 @@ const MainWrap = styled.div`
 
 const AddBtn = styled(motion.button)`
   position: absolute;
-  top: -9rem;
+  top: -18rem;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -155,8 +168,8 @@ const AddBtn = styled(motion.button)`
 `;
 const MyMasonryGrid = styled(Masonry)`
   display: flex;
-  margin-top: 30vh;
-  margin-left: -30px; /* 컬럼 간격을 조절하기 위해 음수 마진을 적용 */
+  margin: 0 auto;
+  margin-top: 30rem;
   width: auto;
 
   &::after {
@@ -167,19 +180,14 @@ const MyMasonryGrid = styled(Masonry)`
 `;
 
 const MyMasonryGridColumn = styled.div`
-  padding-left: 30px; /* 컬럼 간격을 조절하기 위해 패딩을 적용 */
   background-clip: padding-box;
-
-  img {
-    width: 100%;
-    display: block;
-    margin-bottom: 20px;
-  }
 `;
 
 const ImageWithShadow = styled.img`
   box-shadow: 10px 10px 6px 0px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
+  width: 85%;
+  margin: 0 auto;
+  margin-bottom: 3rem;
 `;
 
 const LoadingWrap = styled.div``;

@@ -4,9 +4,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
-import Title from '../components/Title';
-import oneFourImage from '../assets/images/1x4sampleImage.png';
-import twoTwoImage from '../assets/images/2x2sampleImage.jpg';
+import oneFourImage from '../assets/images/imageSample2.jpg';
+import twoTwoImage from '../assets/images/imageSample1.jpg';
 
 function ChooseFramePage() {
   const navigate = useNavigate();
@@ -25,9 +24,6 @@ function ChooseFramePage() {
       <Container>
         <Header />
         <MainWrap>
-          <TitleWrap>
-            <Title>프레임 선택</Title>
-          </TitleWrap>
           <ProgressBar>
             프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
             바/프로그레스 바/프로그레스 바
@@ -40,6 +36,7 @@ function ChooseFramePage() {
               }}
             >
               <motion.img
+                className="oneFour"
                 src={oneFourImage}
                 alt="1x4이미지"
                 whileHover={{ scale: 1.1 }}
@@ -53,6 +50,7 @@ function ChooseFramePage() {
               }}
             >
               <motion.img
+                className="twoTwo"
                 src={twoTwoImage}
                 alt="2x2이미지"
                 whileHover={{ scale: 1.1 }}
@@ -100,12 +98,25 @@ const ImgWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  img {
-    width: 60%;
-    height: 25rem;
-    display: block;
-    margin-bottom: 20px;
-    margin-left: 60px;
+
+  .oneFour {
+    width: 10rem;
+    margin: 0 5rem;
+    margin-top: 3rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .twoTwo {
+    width: 20rem;
+    margin: 0 5rem;
+    margin-top: 3rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
