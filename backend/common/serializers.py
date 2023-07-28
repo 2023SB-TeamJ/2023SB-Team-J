@@ -41,7 +41,7 @@ class SwaggerResponseLoginPostSerializer(serializers.Serializer):
 class SwaggerLogoutPostSerializer(serializers.Serializer):
     refresh = serializers.CharField()
 
-SwaggerHeaderLogoutPost = [
+SwaggerHeader = [
         openapi.Parameter(
           name='Authorization',
           in_=openapi.IN_HEADER,

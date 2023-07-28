@@ -17,15 +17,15 @@ class Ai_modelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class SwaggerFrameGetSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
     source = serializers.IntegerField()
 
 SwaggerFramePost = [
             openapi.Parameter(
-                name='user_id',
-                in_=openapi.IN_FORM,
-                type=openapi.TYPE_INTEGER,
-                description='user_id 입력',
+                name='Authorization',
+                in_=openapi.IN_HEADER,
+                type=openapi.TYPE_STRING,
+                required=True,
+                description='Bearer {data}'
             ),
             openapi.Parameter(
                 name='image1',
@@ -64,7 +64,6 @@ class SwaggerResponseFramePost(serializers.Serializer):
     url4 = serializers.CharField()
 
 class SwaggerFrameAddPostSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
     result_image = serializers.FileField()
 
 class SwaggerAiSelectPatchSerializer(serializers.Serializer):

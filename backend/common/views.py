@@ -72,7 +72,7 @@ class LoginAPIView(APIView):
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
     @swagger_auto_schema( request_body=SwaggerLogoutPostSerializer,
-                          manual_parameters= SwaggerHeaderLogoutPost,
+                          manual_parameters= SwaggerHeader,
                           responses={"200": "", "400": ""})
     def post(self, request):
         try:

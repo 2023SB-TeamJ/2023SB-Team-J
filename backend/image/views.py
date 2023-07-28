@@ -22,6 +22,9 @@ from rest_framework.parsers import MultiPartParser
 from album.serializers import *
 from common.utils import user_token_to_data
 
+from common.serializers import SwaggerHeader
+
+
 class UploadImageView(APIView):
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser]
@@ -60,7 +63,7 @@ class UploadImageView(APIView):
 class AiExecute(APIView):
     permission_classes = [IsAuthenticated]
 
-    @swagger_auto_schema(request_body=SwaggerFrameAiPostSerializer, responses={"200":SwaggerResponseFrameAiPostSerializer})
+    @swagger_auto_schema(manual_parameters= SwaggerHeader, request_body=SwaggerFrameAiPostSerializer, responses={"200":SwaggerResponseFrameAiPostSerializer})
     def post(self, request):
         url = request.data.get("image")
         id = request.data.get("image_origin_id")
@@ -82,7 +85,7 @@ class AiExecute(APIView):
 #sudo celery -A backend_project.celery multi start 4 --loglevel=info --pool=threads
 #sudo celery multi stop 4 -A backend_project.celery --all
 
-    @swagger_auto_schema(request_body=SwaggerAiSelectPatchSerializer, responses={"201":SwaggerResponseAiSelectPatchSerializer })
+    @swagger_auto_schema(manual_parameters= SwaggerHeader, request_body=SwaggerAiSelectPatchSerializer, responses={"201":SwaggerResponseAiSelectPatchSerializer })
     def patch(self, request):
         select = request.data.get("select", [])
         select_id = request.data.get("select_id", [])
@@ -121,7 +124,7 @@ class ResultImageView(APIView):
     permission_classes = [IsAuthenticated]
 
     parser_classes = [MultiPartParser]
-    @swagger_auto_schema(request_body=SwaggerFrameAddPostSerializer, responses={"201" : SwaggerFrameAddPostSerializer})
+    @swagger_auto_schema(manual_parameters= SwaggerHeader, request_body=SwaggerFrameAddPostSerializer, responses={"201" : SwaggerFrameAddPostSerializer})
     def post(self, request):
         authorization_header = request.META.get('HTTP_AUTHORIZATION')
         if authorization_header and authorization_header.startswith('Bearer '):
