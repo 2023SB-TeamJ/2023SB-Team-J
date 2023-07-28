@@ -16,7 +16,6 @@ import { motion } from 'framer-motion';
 // import UploadBtn from '../components/UploadBtn';
 import Header from '../components/HeaderAlbum';
 import AlbumDetailModal from '../components/AlbumDetailModal';
-import PlusBtn from '../assets/images/plusBtn.png';
 import Loading from '../components/Loading';
 
 function AlbumPage() {
@@ -74,8 +73,9 @@ function AlbumPage() {
           <AddBtn
             onClick={() => navigate('/choose')}
             whileHover={{ scale: 1.2 }}
-            whileTap={{ borderRadius: '50%' }}
-          />
+          >
+            START
+          </AddBtn>
           <MyMasonryGrid
             breakpointCols={breakpointColumnObj}
             className="my-masonry-grid"
@@ -134,15 +134,20 @@ const MainWrap = styled.div`
   background-color: #f6f6f6;
 `;
 
-const AddBtn = styled(motion.div)`
+const AddBtn = styled(motion.button)`
   position: absolute;
   top: -9rem;
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: 60px; // width 추가
-  height: 60px; // height 추가
-  background: url(${PlusBtn}) no-repeat center/cover;
+  width: 10rem; // width 추가
+  height: 3.5rem; // height 추가
+  background-color: #f1f1f1;
+  border-radius: 30px;
+  color: #1f1f1f;
+  font-size: 1.2rem;
+  font-family: 'Pretendard-Regular';
+  border: 1.5px solid #1f1f1f;
 
   &:hover {
     cursor: pointer;

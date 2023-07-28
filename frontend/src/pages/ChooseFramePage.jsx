@@ -23,8 +23,8 @@ function ChooseFramePage() {
   return (
     <div>
       <Container>
+        <Header />
         <MainWrap>
-          <Header />
           <TitleWrap>
             <Title>프레임 선택</Title>
           </TitleWrap>
@@ -74,10 +74,9 @@ const Container = styled.div`
 `;
 const MainWrap = styled.div`
   max-width: 1440px;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
 `;
 const TitleWrap = styled.div`
@@ -103,6 +102,7 @@ const ImgWrap = styled.div`
   align-items: center;
   img {
     width: 60%;
+    height: 25rem;
     display: block;
     margin-bottom: 20px;
     margin-left: 60px;

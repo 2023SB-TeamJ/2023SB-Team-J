@@ -58,7 +58,7 @@ function Header() {
 export default Header;
 const Container = styled.div`
   display: flex;
-  padding-top: 1.2rem;
+  padding-top: 2rem;
   padding-left: 2rem;
   padding-right: 2rem;
   align-items: center;
