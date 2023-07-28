@@ -13,7 +13,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
-      - ./frontend/node_modules/:/frontend/node_modules
+    tty: true
 
 #  database:
 #    image: mysql:8.0
