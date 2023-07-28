@@ -88,7 +88,7 @@ const ImageContainer = styled.div``;
 
 const BtnWrap = styled.div`
   position: absolute;
-  top: 60%;
+  top: 58%;
   left: 20%;
 `;
 const ImgWrap = styled.div`

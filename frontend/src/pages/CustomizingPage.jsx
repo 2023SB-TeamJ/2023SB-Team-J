@@ -1,9 +1,10 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/button-has-type */
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -11,17 +12,12 @@ import html2canvas from 'html2canvas';
 import axios from 'axios';
 import Header from '../components/Header';
 import Title from '../components/Title';
-// import CustomMenuBar from '../components/Custom/CustomMenuBar';
 import addphoto from '../assets/images/addphoto.png';
 import addlocal from '../assets/images/save.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
-import cut4 from '../assets/images/4cut_test.png';
-// import CustomSticker from '../components/Custom/CustomSticker';
-import CustomMenuBar from '../components/Custom/CustomMenuBar';
-// import smile from '../../assets/images/sticker_smile.png';
-// import sunglass from '../../assets/images/sticker_sunglass.png';
-// import heart from '../../assets/images/sticker_heart.png';
+import CustomEmoji from '../components/Custom/CustomEmoji';
+
 function CustomizingPage() {
   const navigate = useNavigate();
 
@@ -102,8 +98,53 @@ function CustomizingPage() {
             </MenuWrap>
             <CaptureWrap>
               <DivArea id="captureArea" aiimage={colImg}>
+                {/* <div>
+                  <button onClick={handleOpenModal}>이모지 스티커 목록</button>
+                  <StickerModal isOpen={isModalOpen}>
+                    <StickerContent>
+                      <CloseButton onClick={handleCloseModal}>
+                        &times;
+                      </CloseButton>
+                      <div>
+                        {stickers.map((sticker, index) => (
+                          <Sticker
+                            key={index}
+                            onClick={() => handleStickerClick(sticker)}
+                          >
+                            {sticker}
+                          </Sticker>
+                        ))}
+                      </div>
+                    </StickerContent>
+                  </StickerModal>
+                  <DropArea>
+                    {droppedStickers.map((sticker, index) => (
+                      <Draggable
+                        key={index}
+                        defaultPosition={sticker.position}
+                        onDrag={(event, data) => handleDrag(event, data, index)}
+                        cancel=".react-resizable-handle"
+                      >
+                        <ResizableBox
+                          width={sticker.size.width}
+                          height={sticker.size.height}
+                          onResizeStop={(event, data) =>
+                            handleResize(event, data, index)
+                          }
+                          minConstraints={[20, 20]}
+                          maxConstraints={[200, 200]}
+                        >
+                          <DraggableSticker fontSize={sticker.fontSize}>
+                            {sticker.emoji}
+                          </DraggableSticker>
+                        </ResizableBox>
+                      </Draggable>
+                    ))}
+                  </DropArea>
+                </div> */}
                 <CustomTextBox />
                 <CustomPhoto />
+                <CustomEmoji />
               </DivArea>
             </CaptureWrap>
             <BtnWrap>
@@ -202,16 +243,59 @@ const AddLocalBtn = styled(motion.div)`
   cursor: pointer;
 `;
 
-// const TestWrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   margin-left: 2rem;
-// `;
-// const IMG = styled.div`
+// ----------------------
+// const StickerModal = styled.div`
+//   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+//   position: fixed;
+//   z-index: 1;
+//   left: 0;
+//   top: 0;
 //   width: 100%;
 //   height: 100%;
-//   /* background-image: url('https://t4y-bucket.s3.amazonaws.com/22023-07-1814:05:53105150.jpeg');
-//   background-position: center;
-//   background-repeat: no-repeat;
-//   background-size: cover; */
+//   overflow: auto;
+//   background-color: rgba(0, 0, 0, 0.7);
+// `;
+
+// const StickerContent = styled.div`
+//   background-color: white;
+//   margin: 15% auto;
+//   padding: 20px;
+//   border: 1px solid #888;
+//   max-width: 300px;
+// `;
+
+// const CloseButton = styled.span`
+//   color: #aaa;
+//   float: right;
+//   font-size: 28px;
+//   font-weight: bold;
+//   cursor: pointer;
+
+//   &:hover,
+//   &:focus {
+//     color: black;
+//   }
+// `;
+
+// const Sticker = styled.div`
+//   display: inline-block;
+//   font-size: 24px;
+//   margin: 5px;
+//   cursor: pointer;
+// `;
+
+// const DropArea = styled.div`
+//   width: 100%;
+//   height: 100%;
+// `;
+
+// const DraggableSticker = styled.div`
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: ${({ fontSize }) => fontSize || 30}px; /* 디폴트 값 24 설정 */
+//   cursor: move;
+//   user-select: none;
+//   position: relative;
+//   z-index: 1;
 // `;
