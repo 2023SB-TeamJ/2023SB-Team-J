@@ -4,14 +4,19 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
+
+from .serializers import *
+from drf_yasg.utils import swagger_auto_schema
+
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from backend_project.settings import SECRET_KEY
 
 # from .utils import user_generate_access_token
+
+from drf_yasg.utils import swagger_auto_schema
 
 User = get_user_model()
 # class MyTokenObtainPairView(TokenObtainPairView):
@@ -21,6 +26,8 @@ User = get_user_model()
 # 회원가입
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
+
+    @swagger_auto_schema(request_body=SwaggerSignupPostSerializer, responses={"201": "", "400": SwaggerBadResponseSignupPostSerializer})
     def post(self, request):
         serializer = UserSerializer(data=request.data) #직렬화
 
@@ -35,6 +42,7 @@ class SignupAPIView(APIView):
 class LoginAPIView(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(request_body=SwaggerLoginPostSerializer, responses={"200": SwaggerResponseLoginPostSerializer})
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
@@ -63,6 +71,9 @@ class LoginAPIView(APIView):
 # 로그아웃
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
+    @swagger_auto_schema( request_body=SwaggerLogoutPostSerializer,
+                          manual_parameters= SwaggerHeader,
+                          responses={"200": "", "400": ""})
     def post(self, request):
         try:
             # Blacklist the refresh token to invalidate it
