@@ -13,6 +13,9 @@ function CustomEmoji() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [droppedStickers, setDroppedStickers] = useState([]);
 
+  // 삭제 버튼의 기본적인 표시 여부 상태
+  const [show, setShow] = useState(false);
+
   const stickers = [
     '😀',
     '🎉',
@@ -68,6 +71,15 @@ function CustomEmoji() {
     };
     setDroppedStickers(updatedStickers);
   };
+
+  const handleDeleteSticker = (index) => {
+    setDroppedStickers((prevStickers) => {
+      const updatedStickers = [...prevStickers];
+      updatedStickers.splice(index, 1); // 해당 인덱스의 스티커를 배열에서 삭제
+      return updatedStickers;
+    });
+  };
+
   return (
     <div>
       <BtnWrap>
@@ -110,8 +122,20 @@ function CustomEmoji() {
               minConstraints={[40, 40]}
               maxConstraints={[200, 200]}
             >
-              <DraggableSticker fontSize={sticker.fontSize}>
+              <DraggableSticker
+                fontSize={sticker.fontSize}
+                onMouseEnter={() => setShow(true)}
+                onMouseLeave={() => setShow(false)}
+              >
                 {sticker.emoji}
+                <DeleteButton
+                  onClick={() => handleDeleteSticker(index)}
+                  show={show}
+                  onMouseEnter={() => setShow(true)}
+                  onMouseLeave={() => setShow(false)}
+                >
+                  X
+                </DeleteButton>
               </DraggableSticker>
             </ResizableBox>
           </Draggable>
@@ -189,4 +213,17 @@ const DraggableSticker = styled.div`
   user-select: none;
   position: relative;
   z-index: 1;
+`;
+
+const DeleteButton = styled.span`
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 14px;
+  border: none;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  display: ${({ show }) => (show ? 'block' : 'none')};
 `;

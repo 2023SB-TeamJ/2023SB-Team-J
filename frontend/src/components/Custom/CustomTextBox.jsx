@@ -11,6 +11,10 @@ import img from '../../assets/images/textbox.png';
 
 function CustomText() {
   const [textElements, setTextElements] = useState([]);
+
+  // 삭제 버튼의 기본적인 표시 여부 상태
+  const [show, setShow] = useState(false);
+
   const handleAddTextbox = () => {
     setTextElements((prevTextElements) => [
       ...prevTextElements,
@@ -19,7 +23,7 @@ function CustomText() {
         text: '',
         position: { x: 0, y: 0 },
         size: { width: 200, height: 100 },
-        fontSize: 16,
+        fontSize: 22,
       },
     ]);
   };
@@ -50,22 +54,30 @@ function CustomText() {
 
   const handleResize = (id, e, { size }) => {
     const { width, height } = size;
-    const fontSize = calculateFontSize(width, height);
     setTextElements((prevTextElements) =>
       prevTextElements.map((element) =>
-        element.id === id ? { ...element, size, fontSize } : element,
+        element.id === id ? { ...element, size } : element,
       ),
     );
   };
+  // 폰트 사이즈 조절
+  // const handleResize = (id, e, { size }) => {
+  //   const { width, height } = size;
+  //   const fontSize = calculateFontSize(width, height);
+  //   setTextElements((prevTextElements) =>
+  //     prevTextElements.map((element) =>
+  //       element.id === id ? { ...element, size, fontSize } : element,
+  //     ),
+  //   );
+  // };
 
-  const calculateFontSize = (width, height) => {
-    // 폰트 크기를 원하는 비율로 조절하는 로직을 작성하세요
-    // 예를 들어, 폭이 커질수록 폰트 크기도 커지도록 비율을 계산할 수 있습니다.
-    const ratio = width / 200; // 원하는 비율 계산
-    const fontSize = 16 * ratio; // 기본 폰트 크기에 비율을 곱하여 적용
-    return fontSize;
-  };
-
+  // const calculateFontSize = (width, height) => {
+  //   // 폰트 크기를 원하는 비율로 조절하는 로직을 작성하세요
+  //   // 예를 들어, 폭이 커질수록 폰트 크기도 커지도록 비율을 계산할 수 있습니다.
+  //   const ratio = width / 120; // 원하는 비율 계산
+  //   const fontSize = 14 * ratio; // 기본 폰트 크기에 비율을 곱하여 적용
+  //   return fontSize;
+  // };
   return (
     <div>
       <BtnWrap>
@@ -93,18 +105,27 @@ function CustomText() {
             width={element.size.width}
             height={element.size.height}
             onResize={(e, data) => handleResize(element.id, e, data)}
-            minConstraints={[100, 50]}
-            maxConstraints={[500, 300]}
+            minConstraints={[200, 100]}
+            maxConstraints={[200, 100]}
           >
             <TextboxContainer>
-              <DeleteButton onClick={() => handleDeleteTextbox(element.id)}>
+              {/* 삭제 버튼 */}
+              <DeleteButton
+                onClick={() => handleDeleteTextbox(element.id)}
+                show={show}
+                onMouseEnter={() => setShow(true)}
+                onMouseLeave={() => setShow(false)}
+              >
                 X
               </DeleteButton>
+              {/* 텍스트 박스 내용 */}
               <TextboxInput
                 type="text"
                 value={element.text}
                 onChange={(e) => handleTextChange(element.id, e.target.value)}
                 style={{ fontSize: `${element.fontSize}px` }}
+                onMouseEnter={() => setShow(true)}
+                onMouseLeave={() => setShow(false)}
               />
             </TextboxContainer>
           </ResizableBox>
@@ -126,21 +147,22 @@ const AddTextboxButton = styled(motion.div)`
 
 const TextboxContainer = styled.div`
   position: relative;
-  border: 1px solid #ccc;
   width: 100%;
   height: 100%;
 `;
 
+// 삭제 버튼 스타일 및 표시 여부에 따른 스타일 적용
 const DeleteButton = styled.button`
   position: absolute;
   top: 5px;
   right: 5px;
-  padding: 5px;
+  padding: 3px;
   border: none;
   background-color: red;
   color: white;
   font-weight: bold;
   cursor: pointer;
+  display: ${({ show }) => (show ? 'block' : 'none')};
 `;
 
 const TextboxInput = styled.input`
