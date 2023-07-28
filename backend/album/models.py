@@ -1,8 +1,6 @@
 from django.db import models
 
 
-# Create your models here.
-
 class Image_collage(models.Model):
     user_id = models.ForeignKey('common.User', on_delete=models.RESTRICT)
     result_url = models.URLField(null=False)

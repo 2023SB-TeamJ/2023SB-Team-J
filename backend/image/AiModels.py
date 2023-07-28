@@ -20,6 +20,7 @@ class Models:
         if channels == "RGBA":
             # 알파 채널 제거하고 RGB 형식으로 변환
             image = image.convert("RGB")
+
         image = image.resize((256, 256))
         result = Models.face2paint(Models.model1, image, size=256).resize((240, 160))
         with BytesIO() as file:
@@ -35,8 +36,9 @@ class Models:
         if channels == "RGBA":
             # 알파 채널 제거하고 RGB 형식으로 변환
             image = image.convert("RGB")
+
         image = image.resize((256, 256))
-        result = Models.face2paint(Models.model2, image, size=256).resize((260, 160))
+        result = Models.face2paint(Models.model2, image, size=256).resize((240, 160))
         with BytesIO() as file:
             result.save(file, format='JPEG')
             file.seek(0)
@@ -59,4 +61,3 @@ class Models:
             key = "ai_model/" + generate_unique_filename(file.getvalue()) + ".jpeg"
             img_url = upload_image_to_s3(file, key, ExtraArgs={'ContentType': 'image/jpeg'})
         return img_url
-

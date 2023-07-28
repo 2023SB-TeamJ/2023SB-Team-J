@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
@@ -8,6 +9,13 @@ import CustomCarousel from '../components/Custom/CustomCarousel';
 
 function FramePage() {
   const [colImg, setColImg] = useState('');
+  const location = useLocation();
+  console.log(location.state);
+  // const { frameType, aiResponse } = location.state;
+  const frameType3 = location.state.frameType2;
+  const sendData2 = location.state.sendData;
+  console.log(frameType3);
+  console.log(sendData2);
 
   return (
     <div>
@@ -17,12 +25,13 @@ function FramePage() {
           <TitleWrap>
             <Title>프레임/색상 선택</Title>
           </TitleWrap>
-          <ProgressBar>
-            프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
-            바/프로그레스 바/프로그레스 바
-          </ProgressBar>
+          <ProgressBar />
           <CarouselWrap>
-            <CustomCarousel setColImg={setColImg} />
+            <CustomCarousel
+              setColImg={setColImg}
+              sendData={sendData2}
+              frameType={frameType3}
+            />
           </CarouselWrap>
           <PageShiftWrap>
             <PageShiftBtn path="/custom" state={{ colImg }} />

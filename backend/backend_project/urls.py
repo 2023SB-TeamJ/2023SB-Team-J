@@ -36,5 +36,6 @@ urlpatterns = [
     path('api/v1/frame/', include('image.urls')),
     path('api/v1/', include('common.urls')),
     path('api/v1/album/', include('album.urls')),
+    path('', include('django_prometheus.urls')),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

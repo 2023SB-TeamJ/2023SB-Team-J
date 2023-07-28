@@ -6,13 +6,16 @@ from django.core.exceptions import ImproperlyConfigured
 import django
 from django.utils.encoding import smart_str
 
+<<<<<<< HEAD
 django.utils.encoding.smart_text = smart_str
+=======
+# os.environ['DJANGO_SETTINGS_MODULE'] = 'backend_project.settings'
+>>>>>>> develop
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 secret_file = os.path.join(BASE_DIR, "secrets.json")
 with open(secret_file) as f:
     secrets = json.loads(f.read())
-
 
 def get_secret(setting):
     """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
@@ -32,13 +35,18 @@ SECRET_KEY = get_secret("django_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
+# ALLOWED_HOSTS = ["0.0.0.0", "localhost", "host.docker.internal", 'docker.for.mac.localhost']
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'docker.for.mac.localhost', 'host.docker.internal']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+<<<<<<< HEAD
     'drf_yasg',
+=======
+    'django_prometheus',
+>>>>>>> develop
     'corsheaders',
     'django.contrib.sites',
     'allauth',
@@ -57,6 +65,7 @@ INSTALLED_APPS = [
     'storages',
     'common',
     'image',
+
     'django_celery_results',
     'album',
 ]
@@ -115,6 +124,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 # Celery
@@ -127,16 +138,23 @@ MIDDLEWARE = [
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 
+<<<<<<< HEAD
 # CORS 설정 - whitelist 에 추가된 주소 접근 허용
 CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000']
+=======
+>>>>>>> develop
 CORS_ALLOW_CREDENTIALS = True
 
+# CORS 설정 - whitelist 에 추가된 주소 접근 허용
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
     'http://127.0.0.1:8000',
     'http://0.0.0.0:8000',
     'http://localhost:3000',
+    'https://bucketkubit.s3.amazonaws.com'
 )
+
+# CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'backend_project.urls'
 
@@ -209,7 +227,7 @@ pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # engine: mysql
-        'NAME': "t4yDB",  # DB Name
+        'NAME': get_secret("db_name"),  # DB Name
         'USER': "admin",  # DB User
         'PASSWORD': get_secret("mysql_pwd"),  # Password
         'HOST': get_secret("db_host"),
@@ -263,7 +281,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # AWS Setting
 
 AWS_REGION = 'ap-northeast-2'
-AWS_STORAGE_BUCKET_NAME = 't4y-bucket'
+AWS_STORAGE_BUCKET_NAME = "bucketkubit"
 AWS_ACCESS_KEY_ID = get_secret("aws_access_key_id")
 AWS_SECRET_ACCESS_KEY = get_secret("aws_secret_access_key")
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
@@ -332,4 +350,9 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+<<<<<<< HEAD
 }
+=======
+    "TOKEN_OBTAIN_SERIALIZER": "common.serializers.MyTokenObtainPairSerializer",
+}
+>>>>>>> develop

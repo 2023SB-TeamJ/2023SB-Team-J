@@ -1,7 +1,5 @@
-import pickle
 import time
-import json
-from django.http import JsonResponse
+
 
 from rest_framework import status
 from rest_framework.decorators import action
@@ -12,24 +10,31 @@ from rest_framework.views import APIView
 
 from drf_yasg.utils import swagger_auto_schema
 from .serializers import *
+from album.serializers import ResultImageSerializer
+
 from .AiTask import *
 from .s3_utils import *
 from .models import *
-from rest_framework.permissions import AllowAny
 
 
 from rest_framework.parsers import MultiPartParser
 
 from album.serializers import *
-
+from common.utils import user_token_to_data
 
 class UploadImageView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser]
     @swagger_auto_schema(manual_parameters=SwaggerFramePost, responses={"201":SwaggerResponseFramePost})
     def post(self, request):
+        authorization_header = request.META.get('HTTP_AUTHORIZATION')
+        if authorization_header and authorization_header.startswith('Bearer '):
+            token = authorization_header.split(' ')[1]
+            user_id=user_token_to_data(token)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
         image = request.data.get("image")
-        user_id = request.data.get("id")
         with Image.open(image) as im:
             im = im.convert("RGB")
             im_jpeg = BytesIO()
@@ -53,7 +58,7 @@ class UploadImageView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class AiExecute(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(request_body=SwaggerFrameAiPostSerializer, responses={"200":SwaggerResponseFrameAiPostSerializer})
     def post(self, request):
@@ -81,33 +86,51 @@ class AiExecute(APIView):
     def patch(self, request):
         select = request.data.get("select", [])
         select_id = request.data.get("select_id", [])
-        data ={
+        change = {
             "is_selected": True
         }
-        for i, id in zip(select, select_id):  # zip 함수를 사용하여 두 리스트를 병렬로 묶음
+        urls = []
+
+        for i, id in zip(select, select_id):
             if i == 1:
                 model = Image_upload.objects.get(id=id)
-                serializer = UploadedImageSerializer(model, data=data, partial=True)
+                serializer = UploadedImageSerializer(model, data=change, partial=True)
                 if serializer.is_valid():
                     serializer.save()
+                    urls.append(serializer.data.get("url"))
                 else:
                     return Response(status=status.HTTP_400_BAD_REQUEST)
             else:
                 model = Ai_model.objects.get(id=id)
-                serializer = Ai_modelSerializer(model, data=data, partial=True)
+                serializer = Ai_modelSerializer(model, data=change, partial=True)
                 if serializer.is_valid():
                     serializer.save()
+                    urls.append(serializer.data.get("model_result_url"))
                 else:
                     return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_201_CREATED)
-           
+
+        # 모든 업데이트된 URL을 사용하여 urls 리스트를 data 딕셔너리로 생성
+        data = {}
+        for i, url in enumerate(urls, start=1):
+            data[f"url{i}"] = url
+
+        return Response(data, status=status.HTTP_201_CREATED)
+
+
 class ResultImageView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     parser_classes = [MultiPartParser]
     @swagger_auto_schema(request_body=SwaggerFrameAddPostSerializer, responses={"201" : SwaggerFrameAddPostSerializer})
     def post(self, request):
-        user_id = request.data.get("user_id")
+        authorization_header = request.META.get('HTTP_AUTHORIZATION')
+        if authorization_header and authorization_header.startswith('Bearer '):
+            token = authorization_header.split(' ')[1]
+            user_id=user_token_to_data(token)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
         result_image = request.data.get("result_image")
         im = Image.open(result_image)
         im = im.convert("RGB")
@@ -116,10 +139,11 @@ class ResultImageView(APIView):
         im_jpeg.seek(0)
         key = "Result_image/" + generate_unique_filename(im_jpeg.getvalue()) + ".jpeg"
         img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
-        data ={
+        data = {
             "user_id": user_id,
             "result_url": img_url
         }
+
         serializer = ResultImageSerializer(data=data)
         if serializer.is_valid():
             serializer.save()

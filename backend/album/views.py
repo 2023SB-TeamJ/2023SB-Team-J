@@ -1,23 +1,26 @@
 import json
-from django.utils import timezone
-from datetime import datetime
-from django.http import JsonResponse
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from common.utils import user_token_to_data
 from .serializers import *
 
 from drf_yasg.utils import swagger_auto_schema
 
 class AlbumView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(request_body=SwaggerAlbumPostSerializer, responses={"200":SwaggerResponseAlbumPostSerializer})
     def post(self, request):
         try:
-            user_id = request.data.get('user_id')
+            authorization_header = request.META.get('HTTP_AUTHORIZATION')
+            if authorization_header and authorization_header.startswith('Bearer '):
+                token = authorization_header.split(' ')[1]
+                user_id = user_token_to_data(token)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
             if not user_id:  # user_id가 제공되지 않았을 경우에 대한 처리
                 return Response({"error": "User ID is required."}, status=status.HTTP_400_BAD_REQUEST)
             image_collages = Image_collage.objects.filter(user_id=user_id, state=True).order_by('-created_at')
@@ -37,26 +40,33 @@ class AlbumView(APIView):
             return Response({"error": e}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class AlbumDetailView(APIView): #album/detail
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(request_body=SwaggerAlbumDetailPutSerializer, responses={'200':""})
     def put(self, request, format=None): #결과 이미지 삭제
         raw_data = request.body.decode('utf-8')
         try:
+            authorization_header = request.META.get('HTTP_AUTHORIZATION')
+            if authorization_header and authorization_header.startswith('Bearer '):
+                token = authorization_header.split(' ')[1]
+                user_id = user_token_to_data(token)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
             data = json.loads(raw_data)
-            user_id = data.get('user_id')
             result_image_id = data.get('result_image_id')
 
             if user_id is None or result_image_id is None:  # request 형식에 맞지 않는 경우
                 return Response({"error" : "request 형식에 맞지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
-            image_collage = Image_collage.objects.get(id=result_image_id, user_id=user_id, state=True)
+            image_collage = Image_collage.objects.get(id=result_image_id, user_id=user_id, state=1)
+
         except:
             # 해당 객체를 찾지 못한 경우 HTTP_400
             return Response({"error" : "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
         # serializer = AlbumDetailSerializer(image_collage)
 
-        image_collage.state = False
+        image_collage.state = 0
         image_collage.save()
 
         return Response(status=status.HTTP_200_OK)

@@ -13,11 +13,11 @@ function ChooseFramePage() {
 
   const handleImageClick1 = () => {
     // upload 경로로 이동하면서 state 값을 함께 전달한다.
-    navigate('/upload', { state: { frameType: '1X4' } });
+    navigate('/upload', { state: '1X4' });
   };
 
   const handleImageClick2 = () => {
-    navigate('/upload', { state: { frameType: '2X2' } });
+    navigate('/upload', { state: '2X2' });
   };
 
   return (
@@ -28,10 +28,7 @@ function ChooseFramePage() {
           <TitleWrap>
             <Title>프레임 선택</Title>
           </TitleWrap>
-          <ProgressBar>
-            프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
-            바/프로그레스 바/프로그레스 바
-          </ProgressBar>
+          <ProgressBar />
           <FrameWrap>
             <ImgWrap
               // 1X4 배열 형태의 컴포넌트로 이루어진 페이지로 이동한다.

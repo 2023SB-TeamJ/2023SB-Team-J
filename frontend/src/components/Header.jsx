@@ -29,7 +29,7 @@ function Header() {
         localStorage.removeItem('access');
         setIsLoggedIn(false);
         alert('로그아웃 성공!');
-        navigate('/test');
+        navigate('/');
       }
     } catch (error) {
       console.error(error);

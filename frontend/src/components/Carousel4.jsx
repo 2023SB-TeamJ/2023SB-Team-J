@@ -5,7 +5,7 @@ import LeftAIShift from './LeftAIShift';
 import RightAIShift from './RightAIShift';
 
 function Carousel4({ aiData, setSelectedData }) {
-  console.log(aiData);
+  // console.log(aiData);
   const [activeIndex, setActiveIndex] = useState(0);
   const data = aiData || {};
 

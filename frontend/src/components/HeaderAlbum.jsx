@@ -1,12 +1,40 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Logo from './Logo';
 import Name from './Name';
 import SignBtn from './SignBtn';
+import { useAuth } from '../contexts/AuthContext';
 
 function HeaderAlbum() {
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
+  const nickname = localStorage.getItem('nickname');
+  // 로그아웃 API 요청
+  const handleLogout = async () => {
+    try {
+      const refresh = localStorage.getItem('refresh');
+      const access = localStorage.getItem('access');
+
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/logout/',
+        { refresh },
+        { headers: { Authorization: `Bearer ${access}` } },
+      );
+
+      if (response.status === 200) {
+        localStorage.removeItem('refresh');
+        localStorage.removeItem('access');
+        localStorage.removeItem('nickname');
+        setIsLoggedIn(false);
+        alert('로그아웃 성공!');
+        navigate('/');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <HeaderWrapper>
@@ -16,8 +44,8 @@ function HeaderAlbum() {
           <Name />
         </LogoWrap>
         <BtnWrap>
-          <AlbumUserName>Andrew Park님의 앨범</AlbumUserName>
-          <SignBtn>로그아웃</SignBtn>
+          <AlbumUserName>{nickname}님의 앨범</AlbumUserName>
+          <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
         </BtnWrap>
       </Container>
     </HeaderWrapper>

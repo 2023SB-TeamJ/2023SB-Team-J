@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   frontend:
@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: t4y-frontend
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - ./frontend:/frontend
       - ./frontend/node_modules/:/frontend/node_modules
@@ -41,7 +41,7 @@ services:
       - DB_NAME=mydatabase
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
-    command: 'python manage.py runserver 0.0.0.0:8000'
+    command: "python manage.py runserver 0.0.0.0:8000"
     tty: true
     networks:
       - t4y
@@ -70,7 +70,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    command: 'celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12'
+    command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
     depends_on:
       - rabbitmq
       - backend
@@ -91,6 +91,44 @@ services:
     # networks:
     #   - t4y
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    user: root
+    volumes:
+      - ./prometheus/config/:/etc/prometheus/
+      - ./prometheus/prometheus-volume:/prometheus
+    ports:
+      - 9090:9090
+    command: # web.enalbe-lifecycle은 api 재시작없이 설정파일들을 reload 할 수 있게 해줌
+      - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+    depends_on:
+      - backend
+    networks:
+      - t4y
+
+  grafana:
+      image: grafana/grafana-oss:latest
+      container_name: grafana
+      user: root
+      environment:
+        GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
+      ports:
+        - 3300:3000
+      volumes:
+        - ./grafana/grafana-volume/datasource:/var/lib/grafana/datasource
+        - ./grafana/grafana-volume:/var/lib/grafana
+      restart: always
+      depends_on:
+        - prometheus
+      networks:
+        - t4y
+
 networks:
   t4y:
     driver: bridge
+
+volumes:
+  grafana-data:

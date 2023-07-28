@@ -1,9 +1,15 @@
 @font-face {
-  font-family: main;
-  src: url('./assets/font/BMDOHYEON_ttf.ttf'); /* 파일 경로와 형식을 수정하세요. */
+  font-family: 'Do Hyeon';
+  src:
+    url('../src/assets/font/BMDOHYEON_otf.otf') format('opentype'),
+    url('../src/assets/font/BMDOHYEON_ttf.ttf') format('truetype');
 }
-/* 다른 글꼴 스타일들을 추가할 수 있습니다. */
-/* @font-face {
-  font-family: Cafe24Ssurround;
-  src: URL('./assets/font/Cafe24Ssurround.ttf');
-} */
+
+@font-face {
+  font-family: 'Cormorant';
+  src: url('./assets/font/Cormorant-MediumItalic.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Do Hyeon', sans-serif;
+}

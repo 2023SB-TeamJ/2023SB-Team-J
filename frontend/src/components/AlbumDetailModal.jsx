@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-const-assign */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
@@ -7,10 +8,11 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 // import image from '../assets/images/photo1.png';
 
-function AlbumDetailModal({ setIsOpen, imgId }) {
+function AlbumDetailModal({ setIsOpen, imgId, setImages }) {
   const closeModal = () => {
     setIsOpen(false);
   };
+  const access = localStorage.getItem('access');
 
   const [url, setUrl] = useState('');
   const [date, setDate] = useState('');
@@ -23,6 +25,7 @@ function AlbumDetailModal({ setIsOpen, imgId }) {
           params: {
             result_image_id: imgId,
           },
+          headers: { Authorization: `Bearer ${access}` },
         },
       );
       const albumDetailData = response.data; // 응답 데이터
@@ -34,6 +37,34 @@ function AlbumDetailModal({ setIsOpen, imgId }) {
       console.log('에러 발생');
     }
   }
+
+  const deleteImage = async () => {
+    const access = localStorage.getItem('access');
+
+    try {
+      const response = await axios.put(
+        `http://localhost:8000/api/v1/album/detail/`,
+        { result_image_id: imgId },
+        { headers: { Authorization: `Bearer ${access}` } },
+      );
+      if (response.status === 200) {
+        console.log('이미지 삭제 성공');
+        closeModal(); // 삭제 후 모달 닫기
+
+        // 이전 이미지 목록을 받아와서 위에서 설명한 필터링 작업을 수행하여 새로운 이미지 목록을 생성합니다.
+        setImages((prevImages) =>
+          // result_image_id가 imgId와 같지 않은 경우에만 true를 반환
+          // 즉, imgId와 다른 이미지만 필터링하여 새로운 배열을 생성합니다.
+          prevImages.filter((img) => img.result_image_id !== imgId),
+        );
+      }
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.status === 400) {
+        console.log('이미지 삭제 실패');
+      }
+    }
+  };
 
   useEffect(() => {
     InquireAlbumDetail();
@@ -132,7 +163,7 @@ function AlbumDetailModal({ setIsOpen, imgId }) {
                 </defs>
               </svg>
             </BookmarkBtn>
-            <DeleteBtn>
+            <DeleteBtn onClick={deleteImage}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="50"

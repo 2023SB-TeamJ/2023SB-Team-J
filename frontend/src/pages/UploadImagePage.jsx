@@ -1,3 +1,6 @@
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-else-return */
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-use-before-define */
 /* eslint-disable consistent-return */
 import React, { useState } from 'react';
@@ -8,31 +11,41 @@ import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
+import Loading from '../components/Loading';
 
 function UploadImagePage() {
   // location 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
   const location = useLocation();
   // location 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
+  console.log(location.state);
   const frameType = location.state;
+
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const onImageUpload = (file) => {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
 
-  const uploadAllImages = async () => {
-    const userId = 1;
+  console.log(files);
 
+  const uploadAllImages = async () => {
+    setIsLoading(true);
     const promises = files.map((file, index) => {
       const formData = new FormData();
-      formData.append('id', userId);
+      const access = localStorage.getItem('access');
       formData.append('image', file);
+      Array.from(formData.entries()).forEach((pair) => {
+        console.log(`${pair[0]}, ${pair[1]}`);
+      });
 
       return axios
         .post('http://localhost:8000/api/v1/frame/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${access}`
           },
         })
         .then((response) => {
@@ -48,19 +61,25 @@ function UploadImagePage() {
     // Sort results based on original index
     results.sort((a, b) => a.index - b.index);
 
+    setIsLoading(false);
+
     // Move navigation here with sorted results
-    navigate('/convert', { state: { frameType, aiResponse: results } });
+    navigate('/convert', {
+      state: { frameType, aiResponse: results },
+    });
   };
 
   const uploadImageToCharacterEndpoint = (originImgId, imageUrl, index) => {
     const formData = new FormData();
     formData.append('image_origin_id', originImgId);
     formData.append('image', imageUrl);
+    const access = localStorage.getItem('access');
 
     return axios
       .post('http://localhost:8000/api/v1/frame/ai/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${access}`
         },
       })
       .then((response) => {
@@ -91,14 +110,19 @@ function UploadImagePage() {
           <TitleWrap>
             <Title>이미지 업로드</Title>
           </TitleWrap>
-          <ProgressBar>
-            프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
-            바/프로그레스 바/프로그레스 바
-          </ProgressBar>
+          <ProgressBar />
           <PageShiftWrap onClick={uploadAllImages}>
             <PageShiftBtn />
           </PageShiftWrap>
-          <ImageWrapper>{uploadImageComponents}</ImageWrapper>
+          {isLoading ? (
+            <LoadingWrap>
+              <Loading />
+            </LoadingWrap>
+          ) : (
+            <ImageWrapper frameType={frameType}>
+              {uploadImageComponents}
+            </ImageWrapper>
+          )}
         </MainWrap>
       </Container>
     </div>
@@ -141,22 +165,31 @@ const ImageWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  ${({ frametype }) => {
-    // frameType prop을 사용하여 스타일링 변경
-    if (frametype === '1X4') {
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
       return `
         flex-direction: column;
-        gap: 20px;
-        height: 2rem;
+        gap: 40px;
       `;
-    }
-    if (frametype === '2X2') {
+    } else if (frameType === '2X2') {
       return `
         display: grid;
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 0.2fr);
       `;
     }
-    // frameType에 따라 다른 스타일링을 적용하거나, 기본 스타일링을 반환할 수 있습니다.
   }}
+`;
+
+const LoadingWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
