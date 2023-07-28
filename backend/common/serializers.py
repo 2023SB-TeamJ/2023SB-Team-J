@@ -35,8 +35,10 @@ class SwaggerLoginPostSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 class SwaggerResponseLoginPostSerializer(serializers.Serializer):
+    message = serializers.CharField()
     nickname = serializers.CharField()
-    user_id = serializers.IntegerField()
+    refresh = serializers.CharField()
+    access = serializers.CharField()
 
 class SwaggerLogoutPostSerializer(serializers.Serializer):
     refresh = serializers.CharField()

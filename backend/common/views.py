@@ -27,7 +27,7 @@ User = get_user_model()
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
 
-    @swagger_auto_schema(request_body=SwaggerSignupPostSerializer, responses={"200": "", "400": SwaggerBadResponseSignupPostSerializer})
+    @swagger_auto_schema(request_body=SwaggerSignupPostSerializer, responses={"201": "", "400": SwaggerBadResponseSignupPostSerializer})
     def post(self, request):
         serializer = UserSerializer(data=request.data) #직렬화
 

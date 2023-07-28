@@ -77,7 +77,7 @@ class SwaggerResponseAiSelectPatchSerializer(serializers.Serializer):
     url4 = serializers.CharField()
 
 class SwaggerFrameAiPostSerializer(serializers.Serializer):
-    image_origin_ids = serializers.CharField()
+    image_origin_id = serializers.CharField()
     image = serializers.CharField()
 
 class SwaggerResponseFrameAiPostSerializer(serializers.Serializer):
