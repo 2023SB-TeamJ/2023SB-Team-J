@@ -4,6 +4,7 @@ version: "3.9"
 
 services:
   frontend:
+    command: sh -c "npm install && npm start"
     build:
       context: ./frontend
       dockerfile: Dockerfile
