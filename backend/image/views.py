@@ -1,27 +1,26 @@
+import pickle
 import time
 
-
 from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.parsers import FormParser
 from rest_framework.permissions import IsAuthenticated
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from drf_yasg.utils import swagger_auto_schema
 from .serializers import *
-from album.serializers import ResultImageSerializer
 
 from .AiTask import *
 from .s3_utils import *
 from .models import *
+from rest_framework.permissions import AllowAny
 
 
 from rest_framework.parsers import MultiPartParser
 
 from album.serializers import *
-from common.utils import user_token_to_data
 
+from common.utils import user_token_to_data
 from common.serializers import SwaggerHeader
 
 
@@ -30,14 +29,18 @@ class UploadImageView(APIView):
     parser_classes = [MultiPartParser]
     @swagger_auto_schema(manual_parameters=SwaggerFramePost, responses={"201":SwaggerResponseFramePost})
     def post(self, request):
+        print(">>> 1. in api v1 frame >>>")
+        image = request.data.get("image")
         authorization_header = request.META.get('HTTP_AUTHORIZATION')
         if authorization_header and authorization_header.startswith('Bearer '):
             token = authorization_header.split(' ')[1]
-            user_id=user_token_to_data(token)
+            user_id = user_token_to_data(token)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        image = request.data.get("image")
+        if not user_id:  # user_id가 제공되지 않았을 경우에 대한 처리
+            return Response({"error": "User ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
         with Image.open(image) as im:
             im = im.convert("RGB")
             im_jpeg = BytesIO()
@@ -49,7 +52,9 @@ class UploadImageView(APIView):
             "user_id": user_id,
             "url": img_url
         }
+        print(">>> 2. data >>> ", data)
         serializer = UploadedImageSerializer(data=data)
+        print(">>> 3. after serializer >>>", serializer)
         if serializer.is_valid():
             serializer.save()
             response = {
@@ -60,8 +65,35 @@ class UploadImageView(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+#     def get(self, request, format=None):
+#         raw_data = request.body.decode('utf-8')
+#         try:
+#             data = json.loads(raw_data)
+#             user_id = data.get('user_id')
+#             source = data.get('source')
+
+#             if user_id is None or source is None:  # request 형식에 맞지 않는 경우
+#                 return Response(status=status.HTTP_400_BAD_REQUEST)
+
+#             image_origin = Image_upload.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
+
+#         except:
+#             # 찾지 못한 경우 HTTP_400
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+#         serializer = UploadedImageSerializer(image_origin)
+
+#         picture = {
+#             'url_1': serializer.data.get('url_1'),
+#             'url_2': serializer.data.get('url_2'),
+#             'url_3': serializer.data.get('url_3'),
+#             'url_4': serializer.data.get('url_4'),
+#         }
+#         return Response(picture, status=status.HTTP_200_OK)
+
 class AiExecute(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     @swagger_auto_schema(manual_parameters= SwaggerHeader, request_body=SwaggerFrameAiPostSerializer, responses={"200":SwaggerResponseFrameAiPostSerializer})
     def post(self, request):
@@ -132,8 +164,6 @@ class ResultImageView(APIView):
             user_id=user_token_to_data(token)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
         result_image = request.data.get("result_image")
         im = Image.open(result_image)
         im = im.convert("RGB")
@@ -142,6 +172,7 @@ class ResultImageView(APIView):
         im_jpeg.seek(0)
         key = "Result_image/" + generate_unique_filename(im_jpeg.getvalue()) + ".jpeg"
         img_url = upload_image_to_s3(im_jpeg, key, ExtraArgs={'ContentType': "image/jpeg"})
+
         data = {
             "user_id": user_id,
             "result_url": img_url
