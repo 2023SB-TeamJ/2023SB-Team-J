@@ -71,7 +71,9 @@ class LoginAPIView(APIView):
 # 로그아웃
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    @swagger_auto_schema( request_body=SwaggerLogoutPostSerializer, responses={"200": "", "400": ""})
+    @swagger_auto_schema( request_body=SwaggerLogoutPostSerializer,
+                          manual_parameters= SwaggerHeaderLogoutPost,
+                          responses={"200": "", "400": ""})
     def post(self, request):
         try:
             # Blacklist the refresh token to invalidate it

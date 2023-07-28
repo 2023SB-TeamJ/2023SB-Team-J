@@ -41,12 +41,15 @@ class SwaggerResponseLoginPostSerializer(serializers.Serializer):
 class SwaggerLogoutPostSerializer(serializers.Serializer):
     refresh = serializers.CharField()
 
-class SwaggerHeaderLogoutPostSerializer(serializers.Serializer):
-    name = serializers.CharField()
-    required = serializers.BooleanField()
-    in_location = serializers.ChoiceField(choices=["header", "query", "path", "formData", "cookie"])
-    type = serializers.CharField()
-    description = serializers.CharField()
+SwaggerHeaderLogoutPost = [
+        openapi.Parameter(
+          name='Authorization',
+          in_=openapi.IN_HEADER,
+          type=openapi.TYPE_STRING,
+          required=True,
+          description='Bearer {data}'
+      )
+    ]
 
 class SwaggerSignupPostSerializer(serializers.Serializer):
     email = serializers.CharField()
@@ -55,6 +58,7 @@ class SwaggerSignupPostSerializer(serializers.Serializer):
 
 class SwaggerBadResponseSignupPostSerializer(serializers.Serializer):
     detail = serializers.CharField(default="invalid credentials")
+
 
 
 # class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

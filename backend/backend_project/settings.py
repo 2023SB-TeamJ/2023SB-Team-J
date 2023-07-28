@@ -5,12 +5,10 @@ import os, json
 from django.core.exceptions import ImproperlyConfigured
 import django
 from django.utils.encoding import smart_str
-
-<<<<<<< HEAD
 django.utils.encoding.smart_text = smart_str
-=======
+
 # os.environ['DJANGO_SETTINGS_MODULE'] = 'backend_project.settings'
->>>>>>> develop
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 secret_file = os.path.join(BASE_DIR, "secrets.json")
@@ -42,11 +40,9 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'docker.for.mac.localhost'
 # Application definition
 
 INSTALLED_APPS = [
-<<<<<<< HEAD
+
     'drf_yasg',
-=======
-    'django_prometheus',
->>>>>>> develop
+    # 'django_prometheus',
     'corsheaders',
     'django.contrib.sites',
     'allauth',
@@ -138,11 +134,10 @@ MIDDLEWARE = [
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 
-<<<<<<< HEAD
+
 # CORS 설정 - whitelist 에 추가된 주소 접근 허용
 CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000']
-=======
->>>>>>> develop
+
 CORS_ALLOW_CREDENTIALS = True
 
 # CORS 설정 - whitelist 에 추가된 주소 접근 허용
@@ -350,9 +345,5 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-<<<<<<< HEAD
-}
-=======
     "TOKEN_OBTAIN_SERIALIZER": "common.serializers.MyTokenObtainPairSerializer",
 }
->>>>>>> develop
