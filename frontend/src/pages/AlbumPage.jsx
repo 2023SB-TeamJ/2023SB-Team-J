@@ -89,12 +89,14 @@ function AlbumPage() {
       <Container>
         <Header />
         <MainWrap>
-          <AddBtn
-            onClick={() => navigate('/choose')}
-            whileHover={{ scale: 1.2 }}
-          >
-            버튼바꿀예정
-          </AddBtn>
+          <BtnWrap>
+            <AddBtn
+              onClick={() => navigate('/choose')}
+              whileHover={{ scale: 1.2 }}
+            >
+              버튼바꿀예정
+            </AddBtn>
+          </BtnWrap>
           <MyMasonryGrid
             breakpointCols={breakpointColumnObj}
             className="my-masonry-grid"
@@ -158,15 +160,18 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   background-color: #f6f6f6;
+  justify-content: center;
+`;
+
+const BtnWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 10rem;
 `;
 
 const AddBtn = styled(motion.button)`
-  position: absolute;
-  top: -18rem;
-  left: 0;
-  right: 0;
   margin: 0 auto;
-  width: 10rem; // width 추가
+  width: 8rem; // width 추가
   height: 3.5rem; // height 추가
   background-color: #f1f1f1;
   border-radius: 30px;
