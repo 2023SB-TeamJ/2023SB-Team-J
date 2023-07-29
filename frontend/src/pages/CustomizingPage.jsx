@@ -157,9 +157,30 @@ const CustomWrap = styled.div`
 const MenuWrap = styled.div`
   flex: 1;
 `;
+
 const CaptureWrap = styled.div`
+  display: flex;
+  flex-direction: row;
   flex: 2;
   margin: 0 auto;
+  width: ${({ frameType3 }) => {
+    if (frameType3 === '1X4') {
+      return '25rem';
+    }
+    if (frameType3 === '2X2') {
+      return '40rem';
+    }
+    return '25rem';
+  }};
+  height: ${({ frameType3 }) => {
+    if (frameType3 === '1X4') {
+      return '53rem';
+    }
+    if (frameType3 === '2X2') {
+      return '45rem';
+    }
+    return '53rem';
+  }};
 `;
 
 const DivArea = styled.div`
@@ -187,31 +208,6 @@ const AddPhotoBtn = styled(motion.div)`
   background: url(${addphoto}) lightgray 50% / cover no-repeat;
   background-color: ${(props) => props.theme.backgroundColor};
   cursor: pointer;
-`;
-
-
-const CaptureWrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 33%;
-  width: ${({ frameType3 }) => {
-    if (frameType3 === '1X4') {
-      return '25rem';
-    }
-    if (frameType3 === '2X2') {
-      return '40rem';
-    }
-    return '25rem';
-  }};
-  height: ${({ frameType3 }) => {
-    if (frameType3 === '1X4') {
-      return '53rem';
-    }
-    if (frameType3 === '2X2') {
-      return '45rem';
-    }
-    return '53rem';
-  }}
 `;
 
 const AddLocalBtn = styled(motion.div)`

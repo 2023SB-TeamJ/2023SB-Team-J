@@ -21,7 +21,6 @@ import Loading from '../components/Loading';
 import FloatingImage from '../components/FloatingImage';
 import 'aos/dist/aos.css';
 
-
 function AlbumPage() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -184,8 +183,9 @@ const MyMasonryGrid = styled(Masonry)`
   display: flex;
   margin: 0 auto;
   margin-top: 30rem;
+  justify-content: center;
+  align-items: center;
   width: auto;
-
   &::after {
     content: '';
     display: block;
@@ -217,7 +217,8 @@ const LoadingWrap = styled.div`
 `;
 
 const FloatingWrap = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 39rem;
+  margin: 0 auto;
 `;

@@ -121,17 +121,17 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
           <FrameImageWrap>
             <TopImage src={base64Images.image0} />
             <SecondImage src={base64Images.image1} />
-            <ThirdImage src={base64Images.image2]} />
-            <FourthImage src={base64Images.image3]} />
+            <ThirdImage src={base64Images.image} />
+            <FourthImage src={base64Images.image3} />
             <BottomLogoText src={logoText} alt="logoText" />
           </FrameImageWrap>
         ) : (
           <FrameImageWrap>
-             <UpperLogoText src={logoText} alt="logoText" />
-             <TopLeftImage src={base64Images.image0} />
-             <TopRightImage src={base64Images.image1} />
-             <BottomLeftImage src={base64Images.image2} />
-             <BottomRightImage src={base64Images.image3} />
+            <UpperLogoText src={logoText} alt="logoText" />
+            <TopLeftImage src={base64Images.image0} />
+            <TopRightImage src={base64Images.image1} />
+            <BottomLeftImage src={base64Images.image2} />
+            <BottomRightImage src={base64Images.image3} />
           </FrameImageWrap>
         )}
       </ImageWrap>
