@@ -18,6 +18,7 @@ import Header from '../components/HeaderAlbum';
 import AlbumDetailModal from '../components/AlbumDetailModal';
 import PlusBtn from '../assets/images/plusBtn.png';
 import Loading from '../components/Loading';
+import FloatingImage from '../components/FloatingImage';
 
 function AlbumPage() {
   const navigate = useNavigate();
@@ -57,6 +58,8 @@ function AlbumPage() {
     } catch (error) {
       console.log(error);
       console.log('에러 발생');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -81,11 +84,13 @@ function AlbumPage() {
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
-            {isLoading ? (
+            {isLoading && (
               <LoadingWrap>
                 <Loading />
               </LoadingWrap>
-            ) : (
+            )}
+            {!isLoading &&
+              images.length > 0 &&
               images.map((img, i) => {
                 return (
                   <MyMasonryGridColumn key={img.result_image_id}>
@@ -97,8 +102,13 @@ function AlbumPage() {
                     {/* id값을 모달창에 보내야됨 */}
                   </MyMasonryGridColumn>
                 );
-              })
+              })}
+            {!isLoading && images.length === 0 && (
+              <FloatingWrap>
+                <FloatingImage />
+              </FloatingWrap>
             )}
+
             {isOpen && (
               <AlbumDetailModal
                 imgId={resultImgId}
@@ -125,7 +135,6 @@ const Container = styled.div`
 `;
 
 const MainWrap = styled.div`
-  position: relative;
   max-width: 1440px;
   width: 76vw;
   height: 100%;
@@ -187,4 +196,10 @@ const LoadingWrap = styled.div`
   width: 100%;
   height: 100%;
   z-index: 1;
+`;
+
+const FloatingWrap = styled.div`
+  justify-content: center;
+  align-items: center;
+  padding-left: 39rem;
 `;
