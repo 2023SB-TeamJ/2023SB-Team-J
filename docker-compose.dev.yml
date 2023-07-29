@@ -1,10 +1,10 @@
 version: "3.9"
 
 # docker-compose -f docker-compose.dev.yml up
-
+# docker-compose -f docker-compose.dev.yml up --build
 services:
   frontend:
-    command: sh -c "npm install && npm start"
+#    command: sh -c "npm install && npm start"
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -13,40 +13,43 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
+      - build_folder:/frontend/build
+      - ./frontend/node_modules/:/frontend/node_modules
+    tty: true
 
-#  database:
-#    image: mysql:8.0
-#    container_name: t4y-database
-#    env_file:
-#      - ./backend/.env
-#    ports:
-#      - 3306:3306
-#    networks:
-#      - t4y
-#
-#  backend:
-#    build:
-#      context: ./backend
-#      dockerfile: Dockerfile
-#    container_name: t4y-backend
-#    volumes:
-#      - ./backend:/app # 컴파일시 자동으로 빌드 설정
-#    restart: on-failure
-#    ports:
-#      - 8000:8000
-#    expose:
-#      - 8000
-#    depends_on:
-#      - database
-#    environment:
-#      - DB_HOST=t4y-database
-#      - DB_NAME=mydatabase
-#      - DB_USER=myuser
-#      - DB_PASSWORD=mypassword
-#    command: "python manage.py runserver 0.0.0.0:8000"
-#    tty: true
-#    networks:
-#      - t4y
+  database:
+    image: mysql:8.0
+    container_name: t4y-database
+    env_file:
+      - ./backend/.env
+    ports:
+      - 3306:3306
+    networks:
+      - t4y
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: t4y-backend
+    volumes:
+      - ./backend:/app # 컴파일시 자동으로 빌드 설정
+    restart: on-failure
+    ports:
+      - "80:8000"
+    expose:
+      - 8000
+    depends_on:
+      - database
+    environment:
+      - DB_HOST=t4y-database
+      - DB_NAME=mydatabase
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+    command: "python manage.py runserver 0.0.0.0:8000"
+    tty: true
+    networks:
+      - t4y
 
   rabbitmq:
     hostname: t4yhost
@@ -81,19 +84,26 @@ services:
     networks:
       - t4y
 
-#  nginx:
-#    image: nginx
-#    ports:
-#      - 80:80
-#    volumes:
-#      - ./nginx.conf:/etc/nginx/nginx.conf
-#    depends_on:
-#      - backend
-#      - frontend
-#    # networks:
-#    #   - t4y
-#
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    ports:
+      - "8080:80"
+    expose:
+      - 80
+    volumes:
+      - build_folder:/var/www/frontend
+      - ./nginx/log:/var/log/nginx
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - t4y
+
 networks:
   t4y:
     driver: bridge
 
+volumes:
+  build_folder: null
