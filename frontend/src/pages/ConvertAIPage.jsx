@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import Header from '../components/Header';
-import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import Carousel1 from '../components/Carousel1';
 import Carousel2 from '../components/Carousel2';
@@ -73,9 +72,6 @@ function ConvertAIPage() {
       <Container>
         <MainWrap>
           <Header />
-          <TitleWrap>
-            <Title>AI 변환</Title>
-          </TitleWrap>
           <ProgressBar />
           {isLoading ? (
             <LoadingWrap>

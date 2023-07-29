@@ -28,8 +28,8 @@ function LeftAIShift() {
 export default LeftAIShift;
 
 const LeftContainer = styled.div`
-  width: 42px;
-  height: 76px;
+  width: 2rem;
+  height: 3rem;
   flex-shrink: 0;
   cursor: pointer;
 `;

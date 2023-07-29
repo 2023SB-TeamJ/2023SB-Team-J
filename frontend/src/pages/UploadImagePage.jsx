@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-else-return */
 /* eslint-disable prettier/prettier */
@@ -8,7 +9,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import Header from '../components/Header';
-import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
 import Loading from '../components/Loading';
@@ -25,6 +25,10 @@ function UploadImagePage() {
   };
 
   const uploadAllImages = async () => {
+    if (files.length < 4) {
+      alert('이미지 4개를 모두 업로드 해주세요.'); // 여기에 사용자에게 알릴 메시지를 적어주세요.
+      return; // Return early to prevent page navigation
+    }
     setIsLoading(true);
     const promises = files.map((file, index) => {
       const formData = new FormData();
@@ -88,22 +92,21 @@ function UploadImagePage() {
       });
   };
 
-  const uploadImageComponents = Array(4).fill(
-    <UploadImage onImageUpload={onImageUpload} />,
-  );
+  const uploadImageComponents = Array(4)
+    .fill(0)
+    .map((_, index) => (
+      <div key={index}>
+        <UploadImage onImageUpload={onImageUpload} />
+        <ImageText>{`${index + 1}번 이미지`}</ImageText>
+      </div>
+    ));
 
   return (
     <div>
       <Container>
         <MainWrap>
           <Header />
-          <TitleWrap>
-            <Title>이미지 업로드</Title>
-          </TitleWrap>
           <ProgressBar />
-          <PageShiftWrap onClick={uploadAllImages}>
-            <PageShiftBtn />
-          </PageShiftWrap>
           {isLoading ? (
             <LoadingWrap>
               <Loading />
@@ -113,6 +116,9 @@ function UploadImagePage() {
               {uploadImageComponents}
             </ImageWrapper>
           )}
+          <PageShiftWrap onClick={uploadAllImages}>
+            <PageShiftBtn />
+          </PageShiftWrap>
         </MainWrap>
       </Container>
     </div>
@@ -133,11 +139,7 @@ const MainWrap = styled.div`
   flex-shrink: 0;
   align-items: center;
 `;
-const TitleWrap = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-`;
+
 const ProgressBar = styled.div`
   display: flex;
   justify-content: center;
@@ -146,7 +148,8 @@ const ProgressBar = styled.div`
 
 const PageShiftWrap = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  margin-top: 10rem;
 `;
 
 const ImageWrapper = styled.div`
@@ -154,11 +157,11 @@ const ImageWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  margin-top: 11rem;
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        flex-direction: column;
-        gap: 40px;
+        gap: 20px;
       `;
     } else if (frameType === '2X2') {
       return `
@@ -168,6 +171,13 @@ const ImageWrapper = styled.div`
       `;
     }
   }}
+`;
+
+const ImageText = styled.p`
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+  font-family: 'Pretendar-Regular';
 `;
 
 const LoadingWrap = styled.div`
