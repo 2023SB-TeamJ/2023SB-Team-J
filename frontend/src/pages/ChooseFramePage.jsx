@@ -24,10 +24,6 @@ function ChooseFramePage() {
       <Container>
         <Header />
         <MainWrap>
-          <Header />
-          <TitleWrap>
-            <Title>프레임 선택</Title>
-          </TitleWrap>
           <ProgressBar />
           <FrameWrap>
             <ImgWrap

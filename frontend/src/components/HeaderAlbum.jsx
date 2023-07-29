@@ -37,18 +37,16 @@ function HeaderAlbum() {
   };
 
   return (
-    <HeaderWrapper>
-      <Container>
-        <LogoWrap onClick={() => navigate('/')}>
-          <Logo />
-          <Name />
-        </LogoWrap>
-        <BtnWrap>
-          <AlbumUserName>{nickname}님의 앨범</AlbumUserName>
-          <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
-        </BtnWrap>
-      </Container>
-    </HeaderWrapper>
+    <Container>
+      <LogoWrap onClick={() => navigate('/')}>
+        <Logo />
+        <Name />
+      </LogoWrap>
+      <BtnWrap>
+        <AlbumUserName>{nickname}님의 앨범</AlbumUserName>
+        <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
+      </BtnWrap>
+    </Container>
   );
 }
 

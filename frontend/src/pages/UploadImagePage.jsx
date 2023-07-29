@@ -11,7 +11,6 @@ import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
-import LoadingAnimation from '../components/LoadingAnimation';
 import Loading from '../components/Loading';
 
 function UploadImagePage() {
@@ -20,8 +19,6 @@ function UploadImagePage() {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수를 추가합니다.
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const onImageUpload = (file) => {
     setFiles((prevFiles) => [...prevFiles, file]);
@@ -41,7 +38,7 @@ function UploadImagePage() {
         .post('http://localhost:8000/api/v1/frame/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${access}`
+            Authorization: `Bearer ${access}`,
           },
         })
         .then((response) => {
@@ -55,8 +52,6 @@ function UploadImagePage() {
     const results = await Promise.all(promises);
     setIsLoading(false); // 모든 이미지 업로드가 완료되면 로딩 애니메이션을 숨깁니다.
     results.sort((a, b) => a.index - b.index);
-
-    setIsLoading(false);
 
     // Move navigation here with sorted results
     navigate('/convert', {
@@ -74,7 +69,7 @@ function UploadImagePage() {
       .post('http://localhost:8000/api/v1/frame/ai/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${access}`
+          Authorization: `Bearer ${access}`,
         },
       })
       .then((response) => {
