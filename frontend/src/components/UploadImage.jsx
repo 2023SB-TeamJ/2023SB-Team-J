@@ -64,7 +64,7 @@ const ColDiv = styled.div`
 const UploadImageFrame = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   width: 240px;
   height: 160px;

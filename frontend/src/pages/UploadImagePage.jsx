@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-else-return */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-use-before-define */
 /* eslint-disable consistent-return */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -12,6 +13,7 @@ import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
 import Loading from '../components/Loading';
+import ProgressBar from '../components/ProgressBar';
 
 function UploadImagePage() {
   const location = useLocation();
@@ -19,6 +21,30 @@ function UploadImagePage() {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수를 추가합니다.
+
+  const [progress, setProgress] = useState(20);
+
+  useEffect(() => {
+    // 0부터 50까지 프로그레스 증가 애니메이션
+    let currentProgress = 20;
+    const targetProgress = 40;
+    const increment = 1;
+
+    const animateProgress = () => {
+      if (currentProgress <= targetProgress) {
+        setProgress(currentProgress);
+        currentProgress += increment;
+        requestAnimationFrame(animateProgress);
+      }
+    };
+
+    animateProgress();
+
+    // 페이지 1 작업이 완료될 때까지 50%로 설정
+    setTimeout(() => {
+      setProgress(40);
+    }, 2000); // 2초로 변경
+  }, []);
 
   const onImageUpload = (file) => {
     setFiles((prevFiles) => [...prevFiles, file]);
@@ -100,7 +126,7 @@ function UploadImagePage() {
           <TitleWrap>
             <Title>이미지 업로드</Title>
           </TitleWrap>
-          <ProgressBar />
+          <ProgressBar progress={progress} number={`${progress}%`} />
           <PageShiftWrap onClick={uploadAllImages}>
             <PageShiftBtn />
           </PageShiftWrap>
@@ -138,12 +164,6 @@ const TitleWrap = styled.div`
   display: flex;
   justify-content: center;
 `;
-const ProgressBar = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 3rem;
-`;
-
 const PageShiftWrap = styled.div`
   display: flex;
   justify-content: flex-end;

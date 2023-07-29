@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { styled } from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import CustomCarousel from '../components/Custom/CustomCarousel';
+import ProgressBar from '../components/ProgressBar';
 
 function FramePage() {
   const [colImg, setColImg] = useState('');
@@ -17,6 +18,30 @@ function FramePage() {
   console.log(frameType3);
   console.log(sendData2);
 
+  const [progress, setProgress] = useState(60);
+
+  useEffect(() => {
+    // 0부터 50까지 프로그레스 증가 애니메이션
+    let currentProgress = 60;
+    const targetProgress = 80;
+    const increment = 1;
+
+    const animateProgress = () => {
+      if (currentProgress <= targetProgress) {
+        setProgress(currentProgress);
+        currentProgress += increment;
+        requestAnimationFrame(animateProgress);
+      }
+    };
+
+    animateProgress();
+
+    // 페이지 1 작업이 완료될 때까지 50%로 설정
+    setTimeout(() => {
+      setProgress(80);
+    }, 2000); // 2초로 변경
+  }, []);
+
   return (
     <div>
       <Container>
@@ -25,7 +50,7 @@ function FramePage() {
           <TitleWrap>
             <Title>프레임/색상 선택</Title>
           </TitleWrap>
-          <ProgressBar />
+          <ProgressBar progress={progress} number={`${progress}%`} />
           <CarouselWrap>
             <CustomCarousel
               setColImg={setColImg}
@@ -63,12 +88,6 @@ const TitleWrap = styled.div`
   margin-top: 3rem;
   display: flex;
   justify-content: center;
-`;
-
-const ProgressBar = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 3rem;
 `;
 
 const CarouselWrap = styled.div`

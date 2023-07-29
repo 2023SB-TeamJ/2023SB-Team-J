@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import oneFourImage from '../assets/images/imageSample2.jpg';
 import twoTwoImage from '../assets/images/imageSample1.jpg';
+import ProgressBar from '../components/ProgressBar';
 
 function ChooseFramePage() {
   const navigate = useNavigate();
@@ -19,12 +20,36 @@ function ChooseFramePage() {
     navigate('/upload', { state: '2X2' });
   };
 
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    // 0부터 50까지 프로그레스 증가 애니메이션
+    let currentProgress = 0;
+    const targetProgress = 20;
+    const increment = 1;
+
+    const animateProgress = () => {
+      if (currentProgress <= targetProgress) {
+        setProgress(currentProgress);
+        currentProgress += increment;
+        requestAnimationFrame(animateProgress);
+      }
+    };
+
+    animateProgress();
+
+    // 페이지 1 작업이 완료될 때까지 50%로 설정
+    setTimeout(() => {
+      setProgress(20);
+    }, 2000); // 2초로 변경
+  }, []);
+
   return (
     <div>
       <Container>
         <Header />
         <MainWrap>
-          <ProgressBar />
+          <ProgressBar progress={progress} number={`${progress}%`} />
           <FrameWrap>
             <ImgWrap
               // 1X4 배열 형태의 컴포넌트로 이루어진 페이지로 이동한다.
@@ -79,12 +104,6 @@ const TitleWrap = styled.div`
   display: flex;
   justify-content: center;
 `;
-const ProgressBar = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 3rem;
-`;
-
 const FrameWrap = styled.div`
   display: flex;
   justify-content: center;

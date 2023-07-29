@@ -17,6 +17,7 @@ import addlocal from '../assets/images/save.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
 import CustomEmoji from '../components/Custom/CustomEmoji';
+import ProgressBar from '../components/ProgressBar';
 
 function CustomizingPage() {
   const navigate = useNavigate();
@@ -31,6 +32,30 @@ function CustomizingPage() {
 
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
+
+    const [progress, setProgress] = useState(80);
+
+    useEffect(() => {
+      // 0부터 50까지 프로그레스 증가 애니메이션
+      let currentProgress = 80;
+      const targetProgress = 100;
+      const increment = 1;
+
+      const animateProgress = () => {
+        if (currentProgress <= targetProgress) {
+          setProgress(currentProgress);
+          currentProgress += increment;
+          requestAnimationFrame(animateProgress);
+        }
+      };
+
+      animateProgress();
+
+      // 페이지 1 작업이 완료될 때까지 50%로 설정
+      setTimeout(() => {
+        setProgress(80);
+      }, 2000); // 2초로 변경
+    }, []);
 
     function sendImageToServer(blob) {
       const userDummy = '1';
@@ -87,7 +112,7 @@ function CustomizingPage() {
           <TitleWrap>
             <Title>커스터마이징</Title>
           </TitleWrap>
-          <ProgressBar />
+          <ProgressBar progress={progress} number={`${progress}%`} />
           {/* <CustomWrap> */}
           {/* <MenuWrap>
               <CustomMenuBar />
@@ -98,50 +123,6 @@ function CustomizingPage() {
             </MenuWrap>
             <CaptureWrap>
               <DivArea id="captureArea" aiimage={colImg}>
-                {/* <div>
-                  <button onClick={handleOpenModal}>이모지 스티커 목록</button>
-                  <StickerModal isOpen={isModalOpen}>
-                    <StickerContent>
-                      <CloseButton onClick={handleCloseModal}>
-                        &times;
-                      </CloseButton>
-                      <div>
-                        {stickers.map((sticker, index) => (
-                          <Sticker
-                            key={index}
-                            onClick={() => handleStickerClick(sticker)}
-                          >
-                            {sticker}
-                          </Sticker>
-                        ))}
-                      </div>
-                    </StickerContent>
-                  </StickerModal>
-                  <DropArea>
-                    {droppedStickers.map((sticker, index) => (
-                      <Draggable
-                        key={index}
-                        defaultPosition={sticker.position}
-                        onDrag={(event, data) => handleDrag(event, data, index)}
-                        cancel=".react-resizable-handle"
-                      >
-                        <ResizableBox
-                          width={sticker.size.width}
-                          height={sticker.size.height}
-                          onResizeStop={(event, data) =>
-                            handleResize(event, data, index)
-                          }
-                          minConstraints={[20, 20]}
-                          maxConstraints={[200, 200]}
-                        >
-                          <DraggableSticker fontSize={sticker.fontSize}>
-                            {sticker.emoji}
-                          </DraggableSticker>
-                        </ResizableBox>
-                      </Draggable>
-                    ))}
-                  </DropArea>
-                </div> */}
                 <CustomTextBox />
                 <CustomPhoto />
                 <CustomEmoji />
@@ -190,10 +171,6 @@ const TitleWrap = styled.div`
   justify-content: center;
 `;
 
-const ProgressBar = styled.div`
-  display: flex;
-  justify-content: center;
-`;
 const CustomWrap = styled.div`
   display: flex;
 `;

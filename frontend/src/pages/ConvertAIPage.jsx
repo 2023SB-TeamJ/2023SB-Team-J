@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-const-assign */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import Carousel2 from '../components/Carousel2';
 import Carousel3 from '../components/Carousel3';
 import Carousel4 from '../components/Carousel4';
 import Loading from '../components/Loading';
+import ProgressBar from '../components/ProgressBar';
 
 function ConvertAIPage() {
   const location = useLocation();
@@ -33,6 +34,29 @@ function ConvertAIPage() {
   // console.log(aiResponse2);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(40);
+
+  useEffect(() => {
+    // 0부터 50까지 프로그레스 증가 애니메이션
+    let currentProgress = 40;
+    const targetProgress = 60;
+    const increment = 1;
+
+    const animateProgress = () => {
+      if (currentProgress <= targetProgress) {
+        setProgress(currentProgress);
+        currentProgress += increment;
+        requestAnimationFrame(animateProgress);
+      }
+    };
+
+    animateProgress();
+
+    // 페이지 1 작업이 완료될 때까지 50%로 설정
+    setTimeout(() => {
+      setProgress(60);
+    }, 2000); // 2초로 변경
+  }, []);
 
   const handlePageShift = async () => {
     setIsLoading(true);
@@ -76,7 +100,7 @@ function ConvertAIPage() {
           <TitleWrap>
             <Title>AI 변환</Title>
           </TitleWrap>
-          <ProgressBar />
+          <ProgressBar progress={progress} number={`${progress}%`} />
           {isLoading ? (
             <LoadingWrap>
               <Loading />
@@ -139,13 +163,6 @@ const TitleWrap = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-const ProgressBar = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 3rem;
-`;
-
 const PageShiftWrap = styled.div`
   display: flex;
   justify-content: center;
