@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-const-assign */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 // import { Image } from 'react-konva';
@@ -24,11 +25,18 @@ import addphoto from '../../assets/images/addphoto.png';
 import logoText from '../../assets/images/logoText.png';
 
 function CustomCarousel({ setColImg, sendData, frameType }) {
-  // base64 이미지를 담는 배열로 state를 초기화합니다.
-  const [base64Images, setBase64Images] = useState([]);
+  // // base64 이미지를 담는 배열로 state를 초기화합니다.
+  // const [base64Images, setBase64Images] = useState([]);
+
+  const [base64Images, setBase64Images] = useState({
+    image0: null,
+    image1: null,
+    image2: null,
+    image3: null,
+  });
 
   // 이미지를 Base64로 변환하는 함수
-  const convertToBase64 = (url) => {
+  const convertToBase64 = (url, index) => {
     const img = new Image();
     img.crossOrigin = 'Anonymous';
 
@@ -43,17 +51,28 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
       const dataURL = canvas.toDataURL('image/png'); // 형식을 변경하려면 'image/png' 대신 다른 형식 사용 가능
 
       // 새로운 이미지를 base64Images 배열에 추가합니다.
-      setBase64Images((prevImages) => [...prevImages, dataURL]);
+      // setBase64Images((prevImages) => [...prevImages, dataURL]);
+      setBase64Images((prevImages) => ({
+        ...prevImages,
+        [`image${index}`]: dataURL,
+      }));
     };
 
     img.src = url;
   };
 
-  // 4개 url 변환
-  convertToBase64(sendData.url1);
-  convertToBase64(sendData.url2);
-  convertToBase64(sendData.url3);
-  convertToBase64(sendData.url4);
+  // // 4개 url 변환
+  // convertToBase64(sendData.url1);
+  // convertToBase64(sendData.url2);
+  // convertToBase64(sendData.url3);
+  // convertToBase64(sendData.url4);
+
+  useEffect(() => {
+    convertToBase64(sendData.url1, 0);
+    convertToBase64(sendData.url2, 1);
+    convertToBase64(sendData.url3, 2);
+    convertToBase64(sendData.url4, 3);
+  }, [sendData]);
 
   // FramePage에서 구조 분해 할당으로 setColImg 받아옴
   const [activeIndex, setActiveIndex] = useState(0);
@@ -100,19 +119,19 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
         </CarouselImage>
         {frameType === '1X4' ? (
           <FrameImageWrap>
-            <TopImage src={base64Images[0]} />
-            <SecondImage src={base64Images[1]} />
-            <ThirdImage src={base64Images[2]} />
-            <FourthImage src={base64Images[3]} />
+            <TopImage src={base64Images.image0} />
+            <SecondImage src={base64Images.image1} />
+            <ThirdImage src={base64Images.image2]} />
+            <FourthImage src={base64Images.image3]} />
             <BottomLogoText src={logoText} alt="logoText" />
           </FrameImageWrap>
         ) : (
           <FrameImageWrap>
-            <UpperLogoText src={logoText} alt="logoText" />
-            <TopLeftImage src={base64Images[0]} />
-            <TopRightImage src={base64Images[1]} />
-            <BottomLeftImage src={base64Images[2]} />
-            <BottomRightImage src={base64Images[3]} />
+             <UpperLogoText src={logoText} alt="logoText" />
+             <TopLeftImage src={base64Images.image0} />
+             <TopRightImage src={base64Images.image1} />
+             <BottomLeftImage src={base64Images.image2} />
+             <BottomRightImage src={base64Images.image3} />
           </FrameImageWrap>
         )}
       </ImageWrap>

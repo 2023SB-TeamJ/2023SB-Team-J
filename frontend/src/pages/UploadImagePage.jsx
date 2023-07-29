@@ -14,30 +14,21 @@ import UploadImage from '../components/UploadImage';
 import Loading from '../components/Loading';
 
 function UploadImagePage() {
-  // location 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
   const location = useLocation();
-  // location 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
-  console.log(location.state);
   const frameType = location.state;
-
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수를 추가합니다.
 
   const onImageUpload = (file) => {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
 
-  console.log(files);
-
   const uploadAllImages = async () => {
     setIsLoading(true);
-    const userId = 1;
-
     const promises = files.map((file, index) => {
       const formData = new FormData();
-      formData.append('id', userId);
+      const access = localStorage.getItem('access');
       formData.append('image', file);
       Array.from(formData.entries()).forEach((pair) => {
         console.log(`${pair[0]}, ${pair[1]}`);
@@ -47,6 +38,7 @@ function UploadImagePage() {
         .post('http://localhost:8000/api/v1/frame/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${access}`,
           },
         })
         .then((response) => {
@@ -58,11 +50,8 @@ function UploadImagePage() {
     });
 
     const results = await Promise.all(promises);
-
-    // Sort results based on original index
+    setIsLoading(false); // 모든 이미지 업로드가 완료되면 로딩 애니메이션을 숨깁니다.
     results.sort((a, b) => a.index - b.index);
-
-    setIsLoading(false);
 
     // Move navigation here with sorted results
     navigate('/convert', {
@@ -74,11 +63,13 @@ function UploadImagePage() {
     const formData = new FormData();
     formData.append('image_origin_id', originImgId);
     formData.append('image', imageUrl);
+    const access = localStorage.getItem('access');
 
     return axios
       .post('http://localhost:8000/api/v1/frame/ai/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${access}`,
         },
       })
       .then((response) => {
@@ -97,10 +88,10 @@ function UploadImagePage() {
       });
   };
 
-  // UploadImage 컴포넌트 4개로 이루어진 배열을 생성한다.
   const uploadImageComponents = Array(4).fill(
     <UploadImage onImageUpload={onImageUpload} />,
   );
+
   return (
     <div>
       <Container>
@@ -133,14 +124,13 @@ export default UploadImagePage;
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  background: ${(props) => props.theme.backgroundColor};
+  background: #f6f6f6;
 `;
 const MainWrap = styled.div`
   max-width: 1440px;
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
 `;
 const TitleWrap = styled.div`

@@ -1,9 +1,18 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
+from drf_yasg import openapi
+
+# from image.serializers import UploadedImageSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
+    # 이미지 업로드 serializer -> 추후 결과물 뽑는 Serializer 로 변경 가능성 있음
+    # images = UploadedImageSerializer(many=True, read_only=True)
     class Meta:
         model = User
         fields = ("email", "nickname", "password", "created_at", "updated_at", "state")
@@ -19,3 +28,50 @@ class UserSerializer(serializers.ModelSerializer):
         nickname = validated_data.pop('nickname', "이름없음")
         user = User.objects.create_user(nickname=nickname, state=True, **validated_data)
         return user
+
+
+class SwaggerLoginPostSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    password = serializers.CharField()
+
+class SwaggerResponseLoginPostSerializer(serializers.Serializer):
+    message = serializers.CharField()
+    nickname = serializers.CharField()
+    refresh = serializers.CharField()
+    access = serializers.CharField()
+
+class SwaggerLogoutPostSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+SwaggerHeader = [
+        openapi.Parameter(
+          name='Authorization',
+          in_=openapi.IN_HEADER,
+          type=openapi.TYPE_STRING,
+          required=True,
+          description='Bearer {data}'
+      )
+    ]
+
+class SwaggerSignupPostSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    nickname = serializers.CharField()
+    password = serializers.CharField()
+
+class SwaggerBadResponseSignupPostSerializer(serializers.Serializer):
+    detail = serializers.CharField(default="invalid credentials")
+
+
+
+# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     @classmethod
+#     def validate(cls, attrs):
+#         token = super().get_token(user)
+#
+#         user = attrs['users']
+#         # Add custom claims to the token's payload
+#         token['user_id'] = user.id
+#         token['nickname'] = user.nickname
+#
+#         return token
+

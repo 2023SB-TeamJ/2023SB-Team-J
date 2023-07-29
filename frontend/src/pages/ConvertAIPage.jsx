@@ -37,6 +37,8 @@ function ConvertAIPage() {
   const handlePageShift = async () => {
     setIsLoading(true);
     try {
+      const access = localStorage.getItem('access');
+
       const requestData = {
         select_id: Object.values(selectedData).map((data) => data.id),
         select: Object.values(selectedData).map((data) => data.select),
@@ -44,7 +46,11 @@ function ConvertAIPage() {
 
       console.log(requestData); // 보내는 데이터를 콘솔에 출력
       await axios
-        .patch('http://localhost:8000/api/v1/frame/ai/', requestData)
+        .patch('http://localhost:8000/api/v1/frame/ai/', requestData, {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        })
         .then((response) => {
           console.log('Response:', response.data);
           const sendData = response.data;
@@ -117,7 +123,7 @@ export default ConvertAIPage;
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  background: ${(props) => props.theme.backgroundColor};
+  background: #f6f6f6;
 `;
 
 const MainWrap = styled.div`
@@ -125,7 +131,6 @@ const MainWrap = styled.div`
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
 `;
 

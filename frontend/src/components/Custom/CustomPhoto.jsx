@@ -18,6 +18,9 @@ function CustomPhoto() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [size, setSize] = useState({ width: 300, height: 200 });
 
+  // 삭제 버튼의 기본적인 표시 여부 상태
+  const [show, setShow] = useState(false);
+
   const onDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
     const reader = new FileReader();
@@ -47,7 +50,11 @@ function CustomPhoto() {
             whileHover={{ scale: 1.2 }}
             whileTap={{ borderRadius: '50%' }}
           >
-            <img src={imageButton} alt="Upload" />
+            <img
+              src={imageButton}
+              alt="Upload"
+              style={{ width: '90%', height: '90%' }}
+            />
           </ImageButtonContainer>
         </div>
       </BtnWrap>
@@ -65,11 +72,20 @@ function CustomPhoto() {
               onResize={handleResize}
             >
               <div style={{ width: '100%', height: '100%' }}>
-                <DeleteButton onClick={handleDelete}>X</DeleteButton>
+                <DeleteButton
+                  onClick={handleDelete}
+                  show={show}
+                  onMouseEnter={() => setShow(true)}
+                  onMouseLeave={() => setShow(false)}
+                >
+                  X
+                </DeleteButton>
                 <img
                   src={image}
                   style={{ width: '100%', height: '100%' }}
                   alt="Uploaded"
+                  onMouseEnter={() => setShow(true)}
+                  onMouseLeave={() => setShow(false)}
                 />
               </div>
             </ResizableBox>
@@ -84,7 +100,7 @@ const ImageContainer = styled.div``;
 
 const BtnWrap = styled.div`
   position: absolute;
-  top: 50%;
+  top: 58%;
   left: 20%;
 `;
 const ImgWrap = styled.div`
@@ -102,11 +118,12 @@ const DeleteButton = styled.button`
   position: absolute;
   top: 5px;
   right: 5px;
-  padding: 5px;
+  padding: 3px;
   border: none;
   background-color: red;
   color: white;
   font-weight: bold;
   cursor: pointer;
+  display: ${({ show }) => (show ? 'block' : 'none')};
 `;
 export default CustomPhoto;

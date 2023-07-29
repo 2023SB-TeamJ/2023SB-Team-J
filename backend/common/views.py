@@ -1,33 +1,33 @@
-from django.contrib.auth import get_user_model, logout, login
-# from django.middleware.csrf import get_token
-from django.views.decorators.cache import cache_page
-# from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
-from django.utils.decorators import method_decorator
+import jwt
+from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
-from .serializers import UserSerializer
+
+from .serializers import *
+from drf_yasg.utils import swagger_auto_schema
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
-from rest_framework_simplejwt.exceptions import TokenError
-from rest_framework_simplejwt.tokens import UntypedToken
-# from django.middleware.csrf import CsrfViewMiddleware
 
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+from backend_project.settings import SECRET_KEY
 
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+# from .utils import user_generate_access_token
+
+from drf_yasg.utils import swagger_auto_schema
 
 User = get_user_model()
-
-User = get_user_model()
+# class MyTokenObtainPairView(TokenObtainPairView):
+#     serializer_class = MyTokenObtainPairSerializeㅋ
 
 
 # 회원가입
 class SignupAPIView(APIView):
     permission_classes = [AllowAny]
+
+    @swagger_auto_schema(request_body=SwaggerSignupPostSerializer, responses={"201": "", "400": SwaggerBadResponseSignupPostSerializer})
     def post(self, request):
         serializer = UserSerializer(data=request.data) #직렬화
 
@@ -42,9 +42,13 @@ class SignupAPIView(APIView):
 class LoginAPIView(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(request_body=SwaggerLoginPostSerializer, responses={"200": SwaggerResponseLoginPostSerializer})
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
+
+        # access_token = None
+        # refresh_token = None
 
         if email is None or password is None:
             return Response({'error': 'Please provide both email and password.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -53,6 +57,8 @@ class LoginAPIView(APIView):
 
         if user and user.check_password(password):
             refresh = RefreshToken.for_user(user)
+            # access_token = AccessToken.for_user(user)
+
             return Response({
                 'message': 'success',
                 'nickname': user.nickname,
@@ -65,6 +71,9 @@ class LoginAPIView(APIView):
 # 로그아웃
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
+    @swagger_auto_schema( request_body=SwaggerLogoutPostSerializer,
+                          manual_parameters= SwaggerHeader,
+                          responses={"200": "", "400": ""})
     def post(self, request):
         try:
             # Blacklist the refresh token to invalidate it
