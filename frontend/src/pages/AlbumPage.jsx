@@ -43,9 +43,13 @@ function AlbumPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/album/', {
-        user_id: '1',
-      });
+      const access = localStorage.getItem('access');
+
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/album/',
+        {},
+        { headers: { Authorization: `Bearer ${access}` } },
+      );
 
       // 서버 응답 처리
       const albumData = response.data; // 응답 데이터
@@ -190,4 +194,14 @@ const ImageWithShadow = styled.img`
   margin-bottom: 3rem;
 `;
 
-const LoadingWrap = styled.div``;
+const LoadingWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+`;

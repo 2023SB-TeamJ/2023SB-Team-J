@@ -4,6 +4,7 @@ version: "3.9"
 
 services:
   frontend:
+    command: sh -c "npm install && npm start"
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -12,7 +13,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
-      - ./frontend/node_modules/:/frontend/node_modules
+    tty: true
 
   database:
     image: mysql:8.0
@@ -43,7 +44,8 @@ services:
       - DB_NAME=mydatabase
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
-    command: "python manage.py runserver 0.0.0.0:8000"
+#    command: "python manage.py runserver 0.0.0.0:8000"
+    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
     tty: true
     networks:
       - t4y

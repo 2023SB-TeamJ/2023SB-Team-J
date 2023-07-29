@@ -45,6 +45,7 @@ function LoginModal({ isOpen, onClose }) {
       if (response.status === 200) {
         localStorage.setItem('refresh', response.data.refresh);
         localStorage.setItem('access', response.data.access);
+        localStorage.setItem('nickname', response.data.nickname);
         setIsLoggedIn(true);
         console.log(response);
         onClose();

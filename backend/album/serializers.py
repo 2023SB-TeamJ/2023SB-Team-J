@@ -14,9 +14,25 @@ class CollageImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image_collage
+
         fields = ('user_id', 'result_image_id', 'result_url', 'created_at', 'state')
 
 class ResultImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image_collage
         fields = "__all__"
+
+class SwaggerAlbumDetailGetSerializer(serializers.Serializer):
+    result_image_id = serializers.IntegerField()
+
+class SwaggerResponseAlbumDetailGetSerializer(serializers.Serializer):
+    result_image = serializers.CharField()
+    create_date = serializers.DateTimeField()
+
+
+class SwaggerResponseAlbumPostSerializer(serializers.Serializer):
+    result_url = serializers.CharField()
+    result_img_id = serializers.IntegerField()
+
+class SwaggerAlbumDetailPutSerializer(serializers.Serializer):
+    result_image_id = serializers.IntegerField()

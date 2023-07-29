@@ -12,6 +12,7 @@ import Carousel1 from '../components/Carousel1';
 import Carousel2 from '../components/Carousel2';
 import Carousel3 from '../components/Carousel3';
 import Carousel4 from '../components/Carousel4';
+import Loading from '../components/Loading';
 
 function ConvertAIPage() {
   const location = useLocation();
@@ -29,11 +30,15 @@ function ConvertAIPage() {
     carousel4: {},
   });
   const navigate = useNavigate();
-
   // console.log(aiResponse2);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handlePageShift = async () => {
+    setIsLoading(true);
     try {
+      const access = localStorage.getItem('access');
+
       const requestData = {
         select_id: Object.values(selectedData).map((data) => data.id),
         select: Object.values(selectedData).map((data) => data.select),
@@ -41,12 +46,19 @@ function ConvertAIPage() {
 
       console.log(requestData); // 보내는 데이터를 콘솔에 출력
       await axios
-        .patch('http://localhost:8000/api/v1/frame/ai/', requestData)
+        .patch('http://localhost:8000/api/v1/frame/ai/', requestData, {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        })
         .then((response) => {
           console.log('Response:', response.data);
           const sendData = response.data;
           console.log('sendData:', sendData);
           // 응답이 성공적으로 완료되면 '/frame' 페이지로 이동
+
+          setIsLoading(false);
+
           navigate('/frame', { state: { frameType2, sendData } });
         });
     } catch (error) {
@@ -64,36 +76,39 @@ function ConvertAIPage() {
           <TitleWrap>
             <Title>AI 변환</Title>
           </TitleWrap>
-          <ProgressBar>
-            프로그레스 바/프로그레스 바/프로그레스 바/프로그레스 바/프로그레스
-            바/프로그레스 바/프로그레스 바
-          </ProgressBar>
-          <CarouselWrap frameType={frameType2}>
-            <Carousel1
-              aiData={aiResponse2[0]}
-              setSelectedData={(data) =>
-                setSelectedData((prev) => ({ ...prev, carousel1: data }))
-              }
-            />
-            <Carousel2
-              aiData={aiResponse2[1]}
-              setSelectedData={(data) =>
-                setSelectedData((prev) => ({ ...prev, carousel2: data }))
-              }
-            />
-            <Carousel3
-              aiData={aiResponse2[2]}
-              setSelectedData={(data) =>
-                setSelectedData((prev) => ({ ...prev, carousel3: data }))
-              }
-            />
-            <Carousel4
-              aiData={aiResponse2[3]}
-              setSelectedData={(data) =>
-                setSelectedData((prev) => ({ ...prev, carousel4: data }))
-              }
-            />
-          </CarouselWrap>
+          <ProgressBar />
+          {isLoading ? (
+            <LoadingWrap>
+              <Loading />
+            </LoadingWrap>
+          ) : (
+            <CarouselWrap frameType={frameType2}>
+              <Carousel1
+                aiData={aiResponse2[0]}
+                setSelectedData={(data) =>
+                  setSelectedData((prev) => ({ ...prev, carousel1: data }))
+                }
+              />
+              <Carousel2
+                aiData={aiResponse2[1]}
+                setSelectedData={(data) =>
+                  setSelectedData((prev) => ({ ...prev, carousel2: data }))
+                }
+              />
+              <Carousel3
+                aiData={aiResponse2[2]}
+                setSelectedData={(data) =>
+                  setSelectedData((prev) => ({ ...prev, carousel3: data }))
+                }
+              />
+              <Carousel4
+                aiData={aiResponse2[3]}
+                setSelectedData={(data) =>
+                  setSelectedData((prev) => ({ ...prev, carousel4: data }))
+                }
+              />
+            </CarouselWrap>
+          )}
           <PageShiftWrap onClick={handlePageShift}>
             <PageShiftBtn />
           </PageShiftWrap>
@@ -154,4 +169,17 @@ const CarouselWrap = styled.div`
       `;
     }
   }}
+`;
+
+const LoadingWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.2);
 `;

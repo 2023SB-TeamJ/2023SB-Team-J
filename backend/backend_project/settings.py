@@ -9,6 +9,7 @@ django.utils.encoding.smart_text = smart_str
 
 # os.environ['DJANGO_SETTINGS_MODULE'] = 'backend_project.settings'
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 secret_file = os.path.join(BASE_DIR, "secrets.json")
 with open(secret_file) as f:
@@ -39,7 +40,9 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'docker.for.mac.localhost'
 # Application definition
 
 INSTALLED_APPS = [
-    'django_prometheus',
+
+    'drf_yasg',
+    # 'django_prometheus',
     'corsheaders',
     'django.contrib.sites',
     'allauth',
@@ -48,7 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-  
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,8 +65,45 @@ INSTALLED_APPS = [
     'django_celery_results',
     'album',
 ]
-SITE_ID = 1
+SWAGGER_SETTINGS = {
+    'exclude_url_names': [],
+    'exclude_namespaces': [],
+    'api_version': '0.1',
+    'api_path': '/',
+    'relative_paths': False,
+    'enabled_methods': [
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
+    ],
+    'api_key': '',
+    'is_authenticated': True,#
+    'is_superuser': True, #
+    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+    'permission_denied_handler': None,
+    'resource_access_handler': None,
+    'base_path':'helloreverb.com/docs',
+    'info': {
+        'contact': 'apiteam@wordnik.com',
+        'description': 'This is a sample server Petstore server. '
+                       'You can find out more about Swagger at '
+                       '<a href="http://swagger.wordnik.com">'
+                       'http://swagger.wordnik.com</a> '
+                       'or on irc.freenode.net, #swagger. '
+                       'For this sample, you can use the api key '
+                       '"special-key" to test '
+                       'the authorization filters',
+        'license': 'Apache 2.0',
+        'licenseUrl': 'http://www.apache.org/licenses/LICENSE-2.0.html',
+        'termsOfServiceUrl': 'http://helloreverb.com/terms/',
+        'title': 'Swagger Sample App',
+    },
+    'doc_expansion': 'none',
+}
 
+SITE_ID = 1
 
 ACCOUNT_EMAIL_REQUIRED = False
 
@@ -94,16 +134,22 @@ MIDDLEWARE = [
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 
+
 # CORS 설정 - whitelist 에 추가된 주소 접근 허용
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000' ,'http://localhost:3000']
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000']
+
 CORS_ALLOW_CREDENTIALS = True
 
+# CORS 설정 - whitelist 에 추가된 주소 접근 허용
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
     'http://127.0.0.1:8000',
     'http://0.0.0.0:8000',
     'http://localhost:3000',
+    'https://bucketkubit.s3.amazonaws.com'
 )
+
+# CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'backend_project.urls'
 
@@ -220,6 +266,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -238,9 +285,6 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = "http://%s/media/" % AWS_S3_CUSTOM_DOMAIN
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-
-
 
 CORS_ALLOW_HEADERS = (
     'access-control-allow-credentials',
@@ -301,4 +345,5 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    "TOKEN_OBTAIN_SERIALIZER": "common.serializers.MyTokenObtainPairSerializer",
 }
