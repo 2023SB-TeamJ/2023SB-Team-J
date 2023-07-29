@@ -5,7 +5,7 @@ const LogoStyle = styled.div`
   width: 2.8rem;
   height: 2.8rem;
   flex-shrink: 0;
-  border-radius: 10px;
+  border-radius: 5px;
   background:
     url(${logoImage}),
     lightgray 50% / cover no-repeat;

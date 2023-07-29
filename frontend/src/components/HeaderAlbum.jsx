@@ -54,15 +54,11 @@ function HeaderAlbum() {
 
 export default HeaderAlbum;
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const Container = styled.div`
   display: flex;
-  width: 76vw;
-  margin: 0 auto;
+  padding-top: 2rem; // 이 크기만큼 MainPage MainWrap 높이 설정해야함
+  padding-left: 2rem;
+  padding-right: 2rem;
   align-items: center;
   justify-content: space-between;
 `;
@@ -87,7 +83,8 @@ const AlbumUserName = styled.div`
   height: 29px;
   margin-right: 5px;
   color: ${(props) => props.theme.deepGrayColor};
-  font-size: 24px;
+  font-size: 1.5rem;
+  font-family: 'Pretendard-Regular';
   font-style: normal;
   font-weight: 400;
   line-height: normal;

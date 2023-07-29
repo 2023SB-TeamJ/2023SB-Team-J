@@ -123,7 +123,7 @@ export default ConvertAIPage;
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  background: ${(props) => props.theme.backgroundColor};
+  background: #f6f6f6;
 `;
 
 const MainWrap = styled.div`
@@ -131,7 +131,6 @@ const MainWrap = styled.div`
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
 `;
 

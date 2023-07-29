@@ -2,6 +2,7 @@ import { keyframes, styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 // import SampleImage1 from '../assets/images/1x4sampleImage.png';
 // import SampleImage2 from '../assets/images/2x2sampleImage.jpg';
+// import { useState, useEffect } from 'react';
 import ImageSample1 from '../assets/images/imageSample1.jpg';
 import ImageSample2 from '../assets/images/imageSample2.jpg';
 import { useAuth } from '../contexts/AuthContext';
@@ -11,18 +12,27 @@ import HeaderMain from '../components/HeaderMain';
 function MainPage() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  // const [userId, setUserId] = useStat`e('');
-  // const [nickName, setNickName] = useState('');
-  // api~~~
+  // const [scrollPos, setScrollPos] = useState(0);
+
+  // useEffect(() => {
+  //   function updateScrollPos() {
+  //     setScrollPos(window.scrollY);
+  //   }
+  //   window.addEventListener('scroll', updateScrollPos);
+  //   return () => window.removeEventListener('scroll', updateScrollPos);
+  // }, []);
+
+  // const diameter = 500 + 2 * scrollPos;
+
   return (
     <div>
       <Container>
+        {isLoggedIn ? <Header /> : <HeaderMain />}
         <MainWrap>
-          {isLoggedIn ? <Header /> : <HeaderMain />}
           <Slogan1>인생의 한장을 그림으로</Slogan1>
           <Slogan2>당신의 추억을 간직합니다</Slogan2>
           <Slogan3>당신의 추억을 특별하게 만들어줄</Slogan3>
-          <Slogan4>네장의 사진으로 만들어보세요</Slogan4>
+          <Slogan4>네장의 사진을 만들어보세요</Slogan4>
           {/* useLocation */}
           <StartBtn1
             onClick={() =>
@@ -46,7 +56,12 @@ function MainPage() {
             <OneTimesFourSampleImage />
             <TwoTimesTwoSampleImage />
           </SampleImageWrapper>
+          <Circle1 />
+          <Circle2 />
         </MainWrap>
+        {/* <MainPageComponent>
+          <SpreadCircle diameter={diameter} />
+        </MainPageComponent> */}
       </Container>
     </div>
   );
@@ -55,45 +70,45 @@ export default MainPage;
 
 const textSlide1 = keyframes`
   0% {
-    top: 17rem;
+    top: 14rem;
     opacity: 0;
   }
 
   100% {
-      top: 15rem;
+      top: 12rem;
       opacity: 1;
   }
 `;
 
 const textSlide2 = keyframes`
   0% {
-    top: 26rem;
+    top: 19rem;
     opacity: 0;
   }
   100% {
-    top: 24rem;
+    top: 17rem;
     opacity: 1;
   }
 `;
 
 const textSlide3 = keyframes`
   0% {
-    top: 31rem;
+    top: 24.8rem;
     opacity: 0;
   }
   100% {
-    top: 29rem;
+    top: 22.8rem;
     opacity: 1;
   }
 `;
 
 const textSlide4 = keyframes`
   0% {
-    top: 33.5rem;
+    top: 27.5rem;
     opacity: 0;
   }
   100% {
-    top: 31.5rem;
+    top: 25.5rem;
     opacity: 1;
   }
 `;
@@ -109,11 +124,11 @@ const opacity = keyframes`
 
 const startBtnOpacity = keyframes`
   0% {
-    top: 39rem;
+    top: 33rem;
     opacity: 0;
   }
   100% {
-    top: 37rem;
+    top: 31rem;
     opacity: 1;
   }
 `;
@@ -140,12 +155,13 @@ const Container = styled.div`
   width: 100vw;
   min-height: 100vh;
   background: #f6f6f6;
+  overflow: hidden;
 `;
 
 const MainWrap = styled.div`
   position: relative;
   max-width: 1440px;
-  height: 100vh;
+  height: calc(100vh - 5.4rem);
   margin: 0 auto;
   flex-shrink: 0;
 `;
@@ -153,7 +169,7 @@ const MainWrap = styled.div`
 const Slogan1 = styled.div`
   position: absolute;
   z-index: 3;
-  left: 10px;
+  left: 3.5rem;
   color: #1f1f1f;
   width: 60rem;
   height: 5rem;
@@ -161,7 +177,8 @@ const Slogan1 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: 1rem;
+  letter-spacing: 0.8rem;
+  word-spacing: -1rem;
   font-family: 'Noto Sans', '맑은 고딕', 'Malgun Gothic', verdana, sans-serif;
   font-weight: 800;
   opacity: 0;
@@ -179,7 +196,7 @@ const Slogan1 = styled.div`
 const Slogan2 = styled.div`
   position: absolute;
   z-index: 3;
-  left: 10px;
+  left: 3.5rem;
   top: 50vh;
   color: #1f1f1f;
   width: 45rem;
@@ -188,7 +205,8 @@ const Slogan2 = styled.div`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
-  letter-spacing: 1rem;
+  letter-spacing: 0.8rem;
+  word-spacing: -1rem;
   opacity: 0;
   font-family: 'Noto Sans', '맑은 고딕', 'Malgun Gothic', verdana, sans-serif;
 
@@ -200,21 +218,23 @@ const Slogan2 = styled.div`
     display: none;
   }
 `;
+
 const Slogan3 = styled.div`
   position: absolute;
   z-index: 3;
-  left: 10px;
+  left: 3.5rem;
   top: 50vh;
-  color: #1f1f1f;
+  color: #5f5f5f;
   width: 45rem;
   height: 5rem;
   font-size: 1.5rem;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 400;
   line-height: normal;
-  letter-spacing: 0.6rem;
+  letter-spacing: 0.7rem;
+  word-spacing: -0.4rem;
   opacity: 0;
-  font-family: 'Noto Sans', '맑은 고딕', 'Malgun Gothic', verdana, sans-serif;
+  font-family: 'Pretendard-Regular';
 
   animation: ${textSlide3} 1s ease-out;
   animation-delay: 1.6s;
@@ -228,18 +248,17 @@ const Slogan3 = styled.div`
 const Slogan4 = styled.div`
   position: absolute;
   z-index: 3;
-  left: 10px;
+  left: 3.5rem;
   top: 50vh;
-  color: #1f1f1f;
+  color: #5f5f5f;
   width: 45rem;
   height: 5rem;
   font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
-  letter-spacing: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.7rem;
+  word-spacing: -0.4rem;
   opacity: 0;
-  font-family: 'Noto Sans', '맑은 고딕', 'Malgun Gothic', verdana, sans-serif;
+  font-family: 'Pretendard-Regular';
 
   animation: ${textSlide4} 1s ease-out;
   animation-delay: 1.8s;
@@ -254,7 +273,7 @@ const StartBtn1 = styled.button`
   display: flex;
   position: absolute;
   z-index: 3;
-  left: 10rem;
+  left: 15rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -262,8 +281,8 @@ const StartBtn1 = styled.button`
   height: 3.7rem;
   flex-shrink: 0;
   border-radius: 50px;
-  background: #fff;
-  border: 1px solid black;
+  background: #f6f6f6;
+  border: 1.3px solid black;
   opacity: 0;
 
   animation: ${startBtnOpacity} 1s ease-out;
@@ -275,6 +294,9 @@ const StartBtn1 = styled.button`
   font-style: normal;
   line-height: normal;
   font-size: 1.5rem;
+  color: #1f1f1f;
+  letter-spacing: 0.3rem;
+  padding-left: 0.3rem;
 
   cursor: pointer;
 
@@ -342,10 +364,10 @@ const StartBtn1 = styled.button`
 
 const SampleImageWrapper = styled.div`
   position: absolute;
-  top: 10%;
-  right: 3%;
-  width: 700px;
-  height: 700px;
+  top: 2rem;
+  right: 3rem;
+  width: 650px;
+  height: 650px;
 
   @media screen and (max-width: 980px) {
     width: 500px;
@@ -359,10 +381,10 @@ const SampleImageWrapper = styled.div`
 const OneTimesFourSampleImage = styled.div`
   position: absolute;
   z-index: 2;
-  top: 1%;
-  right: 60%;
-  width: 220px;
-  height: 680px;
+  top: 0;
+  right: 26rem;
+  width: 13rem;
+  height: 39.5rem;
   flex-shrink: 0;
   background:
     url(${ImageSample2}),
@@ -389,10 +411,10 @@ const OneTimesFourSampleImage = styled.div`
 const TwoTimesTwoSampleImage = styled.div`
   position: absolute;
   z-index: 1;
-  top: 3vh;
-  right: 7%;
-  width: 480px;
-  height: 645px;
+  top: 2rem;
+  right: 3rem;
+  width: 25rem;
+  height: 37.5rem;
   background:
     url(${ImageSample1}),
     lightgray 50% / cover no-repeat;
@@ -413,4 +435,54 @@ const TwoTimesTwoSampleImage = styled.div`
     top: 3vh;
     right: 7%;
   }
+`;
+
+// const MainPageComponent = styled.div`
+//   position: relative;
+//   width: 100vw;
+//   height: 100vh;
+//   background-color: black;
+//   overflow: hidden;
+// `;
+
+// const SpreadCircle = styled.div`
+//   position: absolute;
+//   top: calc(50% - ${(props) => props.diameter / 2}px);
+//   left: calc(50% - ${(props) => props.diameter / 2}px);
+//   width: ${(props) => props.diameter}px;
+//   height: ${(props) => props.diameter}px;
+//   background: #f4d3d7;
+//   border-radius: 50%;
+//   transform-origin: center;
+//   transition: all 0.5s;
+// `;
+
+const Circle1 = styled.div`
+  position: absolute;
+  top: 35rem;
+  left: -15rem;
+  width: 25rem;
+  height: 25rem;
+  background-color: #f4d3d7;
+  border-radius: 50%;
+  opacity: 0;
+
+  animation: ${opacity} 1s ease-out 1s forwards;
+  animation-delay: 2.2s;
+  animation-fill-mode: forwards;
+`;
+
+const Circle2 = styled.div`
+  position: absolute;
+  top: 4rem;
+  left: 17rem;
+  width: 20rem;
+  height: 20rem;
+  background-color: #f4d3d7;
+  border-radius: 50%;
+  opacity: 0;
+
+  animation: ${opacity} 1s ease-out 1s forwards;
+  animation-delay: 1.5s;
+  animation-fill-mode: forwards;
 `;
