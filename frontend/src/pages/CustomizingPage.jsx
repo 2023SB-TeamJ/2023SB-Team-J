@@ -25,8 +25,8 @@ function CustomizingPage() {
   // FramePage.jsx에서 받아온 colImg를 가져와 colImg에 저장
   // location.state가 객체이고 그 객체의 colImg 프로퍼티도 객체인 것을 가정하고 있습니다.
   // 그러나 실제로는 colImg가 문자열이어서 아래 코드처럼 작성
-  const { colImg } = location.state;
-
+  const { colImg, frameType3 } = location.state;
+  console.log(location.state);
   // const { frameType } = location.state;
 
   const captureArea = () => {
@@ -96,52 +96,8 @@ function CustomizingPage() {
             <MenuWrap>
               <div />
             </MenuWrap>
-            <CaptureWrap>
+            <CaptureWrap frameType3={frameType3}>
               <DivArea id="captureArea" aiimage={colImg}>
-                {/* <div>
-                  <button onClick={handleOpenModal}>이모지 스티커 목록</button>
-                  <StickerModal isOpen={isModalOpen}>
-                    <StickerContent>
-                      <CloseButton onClick={handleCloseModal}>
-                        &times;
-                      </CloseButton>
-                      <div>
-                        {stickers.map((sticker, index) => (
-                          <Sticker
-                            key={index}
-                            onClick={() => handleStickerClick(sticker)}
-                          >
-                            {sticker}
-                          </Sticker>
-                        ))}
-                      </div>
-                    </StickerContent>
-                  </StickerModal>
-                  <DropArea>
-                    {droppedStickers.map((sticker, index) => (
-                      <Draggable
-                        key={index}
-                        defaultPosition={sticker.position}
-                        onDrag={(event, data) => handleDrag(event, data, index)}
-                        cancel=".react-resizable-handle"
-                      >
-                        <ResizableBox
-                          width={sticker.size.width}
-                          height={sticker.size.height}
-                          onResizeStop={(event, data) =>
-                            handleResize(event, data, index)
-                          }
-                          minConstraints={[20, 20]}
-                          maxConstraints={[200, 200]}
-                        >
-                          <DraggableSticker fontSize={sticker.fontSize}>
-                            {sticker.emoji}
-                          </DraggableSticker>
-                        </ResizableBox>
-                      </Draggable>
-                    ))}
-                  </DropArea>
-                </div> */}
                 <CustomTextBox />
                 <CustomPhoto />
                 <CustomEmoji />
@@ -231,6 +187,31 @@ const AddPhotoBtn = styled(motion.div)`
   background: url(${addphoto}) lightgray 50% / cover no-repeat;
   background-color: ${(props) => props.theme.backgroundColor};
   cursor: pointer;
+`;
+
+
+const CaptureWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-left: 33%;
+  width: ${({ frameType3 }) => {
+    if (frameType3 === '1X4') {
+      return '25rem';
+    }
+    if (frameType3 === '2X2') {
+      return '40rem';
+    }
+    return '25rem';
+  }};
+  height: ${({ frameType3 }) => {
+    if (frameType3 === '1X4') {
+      return '53rem';
+    }
+    if (frameType3 === '2X2') {
+      return '45rem';
+    }
+    return '53rem';
+  }}
 `;
 
 const AddLocalBtn = styled(motion.div)`
