@@ -69,7 +69,7 @@ const UploadImageFrame = styled.div`
   box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);
   opacity: ${(props) => (props.isDragActive ? 0.5 : 1)};
   border: ${(props) =>
-    props.isDragActive ? '3px dashed #666' : '0.1px solid #e9dddd'};
+    props.isDragActive ? '3px dashed #666' : '0.1px solid #d8cccc'};
 
   &:hover {
     cursor: pointer;

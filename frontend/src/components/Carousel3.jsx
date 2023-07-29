@@ -44,8 +44,9 @@ function Carousel3({ aiData, setSelectedData }) {
   };
 
   return (
-    <CarouselWrap id="carouselExampleIndicators">
-      {/* <CarouselIndicators>
+    <>
+      <CarouselWrap id="carouselExampleIndicators">
+        {/* <CarouselIndicators>
         <IndicatorButton
           type="button"
           active={activeIndex === 0}
@@ -63,39 +64,41 @@ function Carousel3({ aiData, setSelectedData }) {
         />
       </CarouselIndicators> */}
 
-      <ButtonWrap onClick={handlePrev}>
-        <LeftAIShift
-          className="carousel-control-prev-icon"
-          aria-hidden="true"
-        />
-      </ButtonWrap>
+        <ButtonWrap onClick={handlePrev}>
+          <LeftAIShift
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          />
+        </ButtonWrap>
 
-      <ImageWrap>
-        <CarouselImage active={activeIndex === 0}>
-          {activeIndex === 0 && (
-            <img
-              src={data.origin_img_url}
-              style={{ width: '240px', height: '160px', objectFit: 'cover' }}
-            />
-          )}
-        </CarouselImage>
-        <CarouselImage active={activeIndex === 1}>
-          {activeIndex === 1 && <img src={data.model1_url} />}
-        </CarouselImage>
-        <CarouselImage active={activeIndex === 2}>
-          {activeIndex === 2 && <img src={data.model2_url} />}
-        </CarouselImage>
-        <CarouselImage active={activeIndex === 3}>
-          {activeIndex === 3 && <img src={data.model3_url} />}
-        </CarouselImage>
-      </ImageWrap>
-      <ButtonWrap onClick={handleNext}>
-        <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
-          className="carousel-control-next-icon"
-          aria-hidden="true"
-        />
-      </ButtonWrap>
-    </CarouselWrap>
+        <ImageWrap>
+          <CarouselImage active={activeIndex === 0}>
+            {activeIndex === 0 && (
+              <img
+                src={data.origin_img_url}
+                style={{ width: '240px', height: '160px', objectFit: 'cover' }}
+              />
+            )}
+          </CarouselImage>
+          <CarouselImage active={activeIndex === 1}>
+            {activeIndex === 1 && <img src={data.model1_url} />}
+          </CarouselImage>
+          <CarouselImage active={activeIndex === 2}>
+            {activeIndex === 2 && <img src={data.model2_url} />}
+          </CarouselImage>
+          <CarouselImage active={activeIndex === 3}>
+            {activeIndex === 3 && <img src={data.model3_url} />}
+          </CarouselImage>
+        </ImageWrap>
+        <ButtonWrap onClick={handleNext}>
+          <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          />
+        </ButtonWrap>
+      </CarouselWrap>
+      <ImageText>세번째 이미지</ImageText>
+    </>
   );
 }
 
@@ -107,6 +110,7 @@ const CarouselWrap = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  height: 12rem;
 `;
 
 // Indicator 버튼 컨테이너 스타일
@@ -126,3 +130,9 @@ const ImageWrap = styled.div`
 const CarouselImage = styled.div``;
 
 const ButtonWrap = styled.div``;
+
+const ImageText = styled.p`
+  font-size: 1.2rem;
+  text-align: center;
+  font-family: 'Pretendar-Regular';
+`;

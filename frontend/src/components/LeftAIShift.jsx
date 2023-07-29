@@ -9,7 +9,7 @@ function LeftAIShift() {
           x2="56.6392"
           y2="-5"
           transform="matrix(-0.741536 0.670913 -0.960966 -0.276668 42 0)"
-          stroke="#3F3D3F"
+          stroke="#1f1f1f"
           strokeWidth="10"
         />
         <line
@@ -17,7 +17,7 @@ function LeftAIShift() {
           x2="56.6392"
           y2="-5"
           transform="matrix(-0.741536 -0.670913 -0.960966 0.276668 42 76)"
-          stroke="#3F3D3F"
+          stroke="#1f1f1f"
           strokeWidth="10"
         />
       </svg>

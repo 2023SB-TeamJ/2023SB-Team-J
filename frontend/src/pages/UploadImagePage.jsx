@@ -11,7 +11,7 @@ import axios from 'axios';
 import Header from '../components/Header';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
-import Loading from '../components/Loading';
+import Loading from '../components/LoadingAnimation';
 
 function UploadImagePage() {
   const location = useLocation();
@@ -116,10 +116,10 @@ function UploadImagePage() {
               {uploadImageComponents}
             </ImageWrapper>
           )}
-          <PageShiftWrap onClick={uploadAllImages}>
-            <PageShiftBtn />
-          </PageShiftWrap>
         </MainWrap>
+        <PageShiftWrap onClick={uploadAllImages}>
+          <PageShiftBtn />
+        </PageShiftWrap>
       </Container>
     </div>
   );
@@ -147,9 +147,9 @@ const ProgressBar = styled.div`
 `;
 
 const PageShiftWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 10rem;
+  position: absolute;
+  bottom: 5rem;
+  right: 5rem;
 `;
 
 const ImageWrapper = styled.div`
@@ -157,10 +157,10 @@ const ImageWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 11rem;
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
+        margin-top: 11rem;
         gap: 20px;
       `;
     } else if (frameType === '2X2') {
@@ -168,6 +168,8 @@ const ImageWrapper = styled.div`
         display: grid;
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 0.2fr);
+        grid-gap: 3rem;
+        margin-top: 4rem;
       `;
     }
   }}
