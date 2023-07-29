@@ -110,7 +110,7 @@ function AlbumPage() {
                       alt="photo"
                       onClick={() => openModalHandler(img.result_image_id)}
                       data-aos="fade-up"
-                      data-aos-delay={i * 10} // i * 100을 사용하여 각 이미지에 대해 다른 딜레이를 설정합니다.
+                      data-aos-delay={i * 20} // i * 100을 사용하여 각 이미지에 대해 다른 딜레이를 설정합니다.
                     />
                   </MyMasonryGridColumn>
                 );
