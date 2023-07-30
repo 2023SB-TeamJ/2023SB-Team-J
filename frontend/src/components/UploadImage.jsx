@@ -32,33 +32,29 @@ function UploadImage({ onImageUpload }) {
   });
 
   return (
-    <ColDiv {...getRootProps()}>
+    <RowWrap {...getRootProps()}>
       <input {...getInputProps()} />
-      <UploadImageFrame>
+      <UploadImageFrame isDragActive={isDragActive}>
         {uploadedImage ? (
           <UploadedImg src={uploadedImage} alt="Uploaded Image" />
         ) : (
           <>
             <SampleUploadImage />
-            <UploadGuideText>
-              {isDragActive
-                ? 'Drop image here'
-                : 'Click here or drag and drop image'}
-            </UploadGuideText>
+            <UploadGuideText>클릭하거나 이미지를 드래그하세요</UploadGuideText>
           </>
         )}
         {fileError && <ErrorMessage>{fileError}</ErrorMessage>}
       </UploadImageFrame>
-    </ColDiv>
+    </RowWrap>
   );
 }
 
 export default UploadImage;
 
-const ColDiv = styled.div`
+const RowWrap = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
+  margin: 0 1rem;
 `;
 
 const UploadImageFrame = styled.div`
@@ -66,13 +62,19 @@ const UploadImageFrame = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 240px;
-  height: 160px;
+  width: 15rem;
+  height: 10rem;
   flex-shrink: 0;
-  border-radius: 10px;
   background: #fff;
-`;
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);
+  opacity: ${(props) => (props.isDragActive ? 0.5 : 1)};
+  border: ${(props) =>
+    props.isDragActive ? '3px dashed #666' : '0.1px solid #d8cccc'};
 
+  &:hover {
+    cursor: pointer;
+  }
+`;
 const SampleUploadImage = styled.div`
   width: 120px;
   height: 100px;
@@ -83,14 +85,13 @@ const SampleUploadImage = styled.div`
 `;
 
 const UploadGuideText = styled.div`
-  font-family: 'Do Hyeon';
+  font-family: 'Pretendard-Regular';
 `;
 
 const UploadedImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px;
 `;
 
 const ErrorMessage = styled.div`

@@ -34,11 +34,12 @@ function AlbumPage() {
   };
 
   const breakpointColumnObj = {
-    default: 4, // 기본 레이아웃에서 4열
-    1200: 3, // 창 너비 1200px 이하일 때 3열
-    900: 2, // 창 너비 900px 이하일 때 2열
-    600: 1, // 창 너비 600px 이하일 때 1열
+    default: 4,
+    1200: 3,
+    900: 2,
+    600: 1,
   };
+
   const [images, setImages] = useState([]);
 
   async function inquireAlbum() {
@@ -46,6 +47,7 @@ function AlbumPage() {
 
     try {
       const access = localStorage.getItem('access');
+
 
       const response = await axios.post(
         `${apiUrl}album/`,
@@ -61,24 +63,21 @@ function AlbumPage() {
       setImages((prevImages) => [...prevImages, ...albumData]);
 
       setIsLoading(false);
+      
+          AOS.init({
+            // Add AOS settings if needed
+          });
+        });
     } catch (error) {
       console.log(error);
-      console.log('에러 발생');
-    } finally {
-      setIsLoading(false);
+//       console.log('에러 발생');
+//     } finally {
+//       setIsLoading(false);
     }
   }
 
-  // 앨범 조회 요청 보내기
   useEffect(() => {
-    // 요청을 1번만 보내게 설정
     inquireAlbum();
-  }, []);
-
-  useEffect(() => {
-    AOS.init({
-      // 여기에 원하는 설정을 추가할 수 있습니다.
-    });
   }, []);
 
   useEffect(() => {
@@ -118,7 +117,7 @@ function AlbumPage() {
                       alt="photo"
                       onClick={() => openModalHandler(img.result_image_id)}
                       data-aos="fade-up"
-                      data-aos-delay={i * 10} // i * 100을 사용하여 각 이미지에 대해 다른 딜레이를 설정합니다.
+                      data-aos-delay={i * 20} // i * 100을 사용하여 각 이미지에 대해 다른 딜레이를 설정합니다.
                     />
                   </MyMasonryGridColumn>
                 );
