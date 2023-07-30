@@ -84,10 +84,6 @@ function CustomizingPage() {
       <Container>
         <MainWrap>
           <Header />
-          <TitleWrap>
-            <Title>커스터마이징</Title>
-          </TitleWrap>
-          <ProgressBar />
           {/* <CustomWrap> */}
           {/* <MenuWrap>
               <CustomMenuBar />
@@ -180,20 +176,9 @@ const MainWrap = styled.div`
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
 `;
 
-const TitleWrap = styled.div`
-  margin: 3rem;
-  display: flex;
-  justify-content: center;
-`;
-
-const ProgressBar = styled.div`
-  display: flex;
-  justify-content: center;
-`;
 const CustomWrap = styled.div`
   display: flex;
 `;
@@ -208,10 +193,11 @@ const CaptureWrap = styled.div`
 
 const DivArea = styled.div`
   margin: 0 auto;
-  width: 36.5rem;
-  height: 44rem;
+  width: 28rem;
+  height: 42rem;
 
   background: url(${(props) => props.aiimage}) lightgray 50% / cover no-repeat;
+  background-size: cover;
 `;
 
 const BtnWrap = styled.div`

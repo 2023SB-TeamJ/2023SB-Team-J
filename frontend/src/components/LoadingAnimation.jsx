@@ -45,12 +45,13 @@ const Character = styled.span`
   display: inline-block;
   margin: 0 2px;
   font-size: 2em; //텍스트 크기를 더 크게 만듭니다.
+  font-family: 'NeoDunggeunmoPro-Regular';
 `;
 
 // TextWrapper를 추가하여 텍스트를 화면 중앙에 위치시킵니다.
 const TextWrapper = styled.div`
   position: absolute;
-  bottom: 10rem;
+  bottom: 6rem;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -58,7 +59,7 @@ const TextWrapper = styled.div`
 
 const Ring = styled.div`
   position: fixed; // absolute에서 fixed로 변경
-  top: -10rem;
+  top: 0;
   left: 0;
   width: 100vw; // 화면 전체를 덮도록 변경
   height: 100vh; // 화면 전체를 덮도록 변경

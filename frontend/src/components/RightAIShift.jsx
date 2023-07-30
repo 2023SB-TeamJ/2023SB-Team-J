@@ -10,7 +10,7 @@ function RightAIShift() {
           y2="-5"
           transform="matrix(0.741536 0.670913 0.960966 -0.276668 10 0)"
           stroke="#3F3D3F"
-          strokeWidth="10"
+          strokeWidth="7"
         />
         <line
           y1="-5"
@@ -18,7 +18,7 @@ function RightAIShift() {
           y2="-5"
           transform="matrix(0.741536 -0.670913 0.960966 0.276668 10 76)"
           stroke="#3F3D3F"
-          strokeWidth="10"
+          strokeWidth="7"
         />
       </svg>
     </RightContainer>

@@ -44,7 +44,7 @@ function Carousel4({ aiData, setSelectedData }) {
   };
 
   return (
-    <>
+    <ColWrap>
       <CarouselWrap id="carouselExampleIndicators">
         {/* <CarouselIndicators>
         <IndicatorButton
@@ -98,16 +98,20 @@ function Carousel4({ aiData, setSelectedData }) {
         </ButtonWrap>
       </CarouselWrap>
       <ImageText>네번째 이미지</ImageText>
-    </>
+    </ColWrap>
   );
 }
 
 export default Carousel4;
 
+const ColWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 // Carousel 컨테이너 스타일
 const CarouselWrap = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   height: 12rem;
