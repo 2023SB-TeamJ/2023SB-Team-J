@@ -15,7 +15,7 @@ import Loading from '../components/LoadingAnimation';
 
 function UploadImagePage() {
   const location = useLocation();
-  const frameType = location.state;
+  const [frameType] = useState(location.state);
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수를 추가합니다.
