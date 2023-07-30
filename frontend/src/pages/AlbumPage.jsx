@@ -18,6 +18,7 @@ import AOS from 'aos';
 import Header from '../components/HeaderAlbum';
 import AlbumDetailModal from '../components/AlbumDetailModal';
 import Loading from '../components/Loading';
+import FloatingImage from '../components/FloatingImage';
 import 'aos/dist/aos.css';
 
 function AlbumPage() {
@@ -65,7 +66,9 @@ function AlbumPage() {
         });
     } catch (error) {
       console.log(error);
-      console.log('An error occurred');
+//       console.log('에러 발생');
+//     } finally {
+//       setIsLoading(false);
     }
   }
 
@@ -82,22 +85,26 @@ function AlbumPage() {
       <Container>
         <Header />
         <MainWrap>
-          <AddBtn
-            onClick={() => navigate('/choose')}
-            whileHover={{ scale: 1.2 }}
-          >
-            버튼바꿀예정
-          </AddBtn>
+          <BtnWrap>
+            <AddBtn
+              onClick={() => navigate('/choose')}
+              whileHover={{ scale: 1.2 }}
+            >
+              버튼바꿀예정
+            </AddBtn>
+          </BtnWrap>
           <MyMasonryGrid
             breakpointCols={breakpointColumnObj}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
-            {isLoading ? (
+            {isLoading && (
               <LoadingWrap>
                 <Loading />
               </LoadingWrap>
-            ) : (
+            )}
+            {!isLoading &&
+              images.length > 0 &&
               images.map((img, i) => {
                 return (
                   <MyMasonryGridColumn key={img.result_image_id}>
@@ -110,8 +117,13 @@ function AlbumPage() {
                     />
                   </MyMasonryGridColumn>
                 );
-              })
+              })}
+            {!isLoading && images.length === 0 && (
+              <FloatingWrap>
+                <FloatingImage />
+              </FloatingWrap>
             )}
+
             {isOpen && (
               <AlbumDetailModal
                 imgId={resultImgId}
@@ -138,22 +150,24 @@ const Container = styled.div`
 `;
 
 const MainWrap = styled.div`
-  position: relative;
   max-width: 1440px;
   width: 76vw;
   height: 100%;
   margin: 0 auto;
   flex-shrink: 0;
   background-color: #f6f6f6;
+  justify-content: center;
+`;
+
+const BtnWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 10rem;
 `;
 
 const AddBtn = styled(motion.button)`
-  position: absolute;
-  top: -18rem;
-  left: 0;
-  right: 0;
   margin: 0 auto;
-  width: 10rem; // width 추가
+  width: 8rem; // width 추가
   height: 3.5rem; // height 추가
   background-color: #f1f1f1;
   border-radius: 30px;
@@ -170,8 +184,9 @@ const MyMasonryGrid = styled(Masonry)`
   display: flex;
   margin: 0 auto;
   margin-top: 30rem;
+  justify-content: center;
+  align-items: center;
   width: auto;
-
   &::after {
     content: '';
     display: block;
@@ -200,4 +215,11 @@ const LoadingWrap = styled.div`
   width: 100%;
   height: 100%;
   z-index: 1;
+`;
+
+const FloatingWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 `;

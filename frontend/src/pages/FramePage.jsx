@@ -30,7 +30,7 @@ function FramePage() {
             />
           </CarouselWrap>
           <PageShiftWrap>
-            <PageShiftBtn path="/custom" state={{ colImg }} />
+            <PageShiftBtn path="/custom" state={{ colImg, frameType3 }} />
           </PageShiftWrap>
         </MainWrap>
       </Container>

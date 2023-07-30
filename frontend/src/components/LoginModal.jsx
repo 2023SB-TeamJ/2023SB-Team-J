@@ -31,6 +31,7 @@ function LoginModal({ isOpen, onClose }) {
   const [animation, setAnimation] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [failMessage, setFailMessage] = useState('');
 
   const { setIsLoggedIn } = useAuth();
 
@@ -52,6 +53,7 @@ function LoginModal({ isOpen, onClose }) {
       }
     } catch (error) {
       console.error(error);
+      setFailMessage('로그인 실패. 이메일이나 비밀번호를 확인해주세요'); // 로그인 실패 시 실패 메세지 state 업데이트
     }
   };
 
@@ -111,7 +113,10 @@ function LoginModal({ isOpen, onClose }) {
             height="14"
             viewBox="0 0 12 12"
             fill="none"
-            onClick={onClose}
+            onClick={() => {
+              setFailMessage(''); // 닫을 때 실패 메세지 초기화
+              onClose();
+            }}
           >
             <path
               fillRule="evenodd"
@@ -122,6 +127,8 @@ function LoginModal({ isOpen, onClose }) {
           </XIcon>
           <AuthLogo />
           <AuthTitle>로그인</AuthTitle>
+          {/* 로그인 실패 시 에러 메시지를 보여주는 코드 */}
+          {failMessage && <FailText>{failMessage}</FailText>}
           <AuthInputField>
             <input
               type="text"
@@ -244,6 +251,12 @@ const LoginModalFrame = styled.div`
   flex-shrink: 0;
   border-radius: 25px;
   background: #ffffff;
+`;
+
+const FailText = styled.p`
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
 `;
 
 const XIcon = styled.svg`
