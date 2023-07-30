@@ -1,5 +1,25 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+
+function LoadingAnimation() {
+  const text = 'AI 변환중입니다';
+  return (
+    <Ring>
+      Loading
+      <Span />
+      <TextWrapper>
+        {[...text].map((char, i) => (
+          <Character key={i} delay={`${i * 0.1}s`}>
+            {char}
+          </Character>
+        ))}
+      </TextWrapper>
+    </Ring>
+  );
+}
+
+export default LoadingAnimation;
 
 const rotate = keyframes`
   0% {
@@ -10,12 +30,38 @@ const rotate = keyframes`
   }
 `;
 
+const bounce = keyframes`
+  0%, 100% { 
+    transform: translateY(0);
+  }
+  50% { 
+    transform: translateY(-20px);
+  }
+`;
+
+// 대신, Character 컴포넌트에서 animation 속성을 정의할 때 delay 매개변수를 사용합니다.
+const Character = styled.span`
+  animation: ${bounce} 1s ${(props) => props.delay} ease-in-out infinite;
+  display: inline-block;
+  margin: 0 2px;
+  font-size: 2em; //텍스트 크기를 더 크게 만듭니다.
+`;
+
+// TextWrapper를 추가하여 텍스트를 화면 중앙에 위치시킵니다.
+const TextWrapper = styled.div`
+  position: absolute;
+  bottom: 10rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+`;
+
 const Ring = styled.div`
   position: fixed; // absolute에서 fixed로 변경
-  top: 0;
+  top: -10rem;
   left: 0;
-  width: 100%; // 화면 전체를 덮도록 변경
-  height: 100%; // 화면 전체를 덮도록 변경
+  width: 100vw; // 화면 전체를 덮도록 변경
+  height: 100vh; // 화면 전체를 덮도록 변경
   display: flex; // 로딩 애니메이션을 화면 중앙에 위치시키기 위해 추가
   justify-content: center; // 로딩 애니메이션을 화면 중앙에 위치시키기 위해 추가
   align-items: center; // 로딩 애니메이션을 화면 중앙에 위치시키기 위해 추가
@@ -49,14 +95,3 @@ const Span = styled.span`
   transform: rotate(0deg) translateX(75px); // 회전 전에 이동
   animation: ${rotate} 2s linear infinite;
 `;
-
-function LoadingAnimation() {
-  return (
-    <Ring>
-      Loading
-      <Span />
-    </Ring>
-  );
-}
-
-export default LoadingAnimation;
