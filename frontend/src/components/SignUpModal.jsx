@@ -10,7 +10,7 @@ import {
   AuthLink,
   RowDiv,
 } from './AuthModalStyle';
-
+const apiUrl = process.env.REACT_APP_API_URL;
 // eslint-disable-next-line react/prop-types
 function SignUpModal({ isOpen, onClose }) {
   const MAX_NICKNAME_LENGTH = 10; // 최대 닉네임 길이
@@ -52,7 +52,7 @@ function SignUpModal({ isOpen, onClose }) {
       };
       console.log(data);
       const response = await axios.post(
-        'http://localhost:8000/api/v1/signup/',
+        `${apiUrl}signup/`,
         data,
       );
       console.log(response.status); // 실제 반환되는 상태 코드 확인

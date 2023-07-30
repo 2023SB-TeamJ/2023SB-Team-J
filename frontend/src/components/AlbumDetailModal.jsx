@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 // import image from '../assets/images/photo1.png';
-
+const apiUrl = process.env.REACT_APP_API_URL;
 function AlbumDetailModal({ setIsOpen, imgId, setImages }) {
   const closeModal = () => {
     setIsOpen(false);
@@ -19,15 +19,12 @@ function AlbumDetailModal({ setIsOpen, imgId, setImages }) {
 
   async function InquireAlbumDetail() {
     try {
-      const response = await axios.get(
-        'http://localhost:8000/api/v1/album/detail',
-        {
-          params: {
-            result_image_id: imgId,
-          },
-          headers: { Authorization: `Bearer ${access}` },
+      const response = await axios.get(`${apiUrl}album/detail/`, {
+        params: {
+          result_image_id: imgId,
         },
-      );
+        headers: { Authorization: `Bearer ${access}` },
+      });
       const albumDetailData = response.data; // 응답 데이터
       // console.log('앨범 상세 데이터: ', albumDetailData);
       setUrl(albumDetailData.result_image);
@@ -43,7 +40,7 @@ function AlbumDetailModal({ setIsOpen, imgId, setImages }) {
 
     try {
       const response = await axios.put(
-        `http://localhost:8000/api/v1/album/detail/`,
+        `${apiUrl}album/detail/`,
         { result_image_id: imgId },
         { headers: { Authorization: `Bearer ${access}` } },
       );
