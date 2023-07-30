@@ -38,7 +38,7 @@ function LoginModal({ isOpen, onClose }) {
   // 로그인 API 요청
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/login/', {
+      const response = await axios.post('http://localhost/api/v1/login/', {
         email,
         password,
       });
