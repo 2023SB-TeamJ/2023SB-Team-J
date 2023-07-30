@@ -4,10 +4,8 @@ services:
 
   fronted:
     build: ./frontend
-    command: ["npm", "start"]
-
+    command: sh -c "npm install && npm start"
     container_name: fronted
-
     ports:
       - 3000:3000
     volumes:
