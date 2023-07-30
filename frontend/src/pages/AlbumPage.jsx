@@ -20,6 +20,7 @@ import AlbumDetailModal from '../components/AlbumDetailModal';
 import Loading from '../components/Loading';
 import FloatingImage from '../components/FloatingImage';
 import 'aos/dist/aos.css';
+
 const apiUrl = process.env.REACT_APP_API_URL;
 function AlbumPage() {
   const navigate = useNavigate();

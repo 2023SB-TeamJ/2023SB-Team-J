@@ -6,6 +6,7 @@ import Logo from './Logo';
 import Name from './Name';
 import SignBtn from './SignBtn';
 import { useAuth } from '../contexts/AuthContext';
+
 const apiUrl = process.env.REACT_APP_API_URL;
 function HeaderAlbum() {
   const navigate = useNavigate();

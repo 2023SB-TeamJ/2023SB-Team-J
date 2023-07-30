@@ -12,6 +12,7 @@ import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
 import Loading from '../components/Loading';
+
 const apiUrl = process.env.REACT_APP_API_URL;
 function UploadImagePage() {
   const location = useLocation();

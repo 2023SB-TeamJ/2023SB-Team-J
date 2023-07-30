@@ -17,6 +17,7 @@ import addlocal from '../assets/images/save.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
 import CustomEmoji from '../components/Custom/CustomEmoji';
+
 const apiUrl = process.env.REACT_APP_API_URL;
 function CustomizingPage() {
   const navigate = useNavigate();
