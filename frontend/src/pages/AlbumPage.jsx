@@ -66,9 +66,6 @@ function AlbumPage() {
         });
     } catch (error) {
       console.log(error);
-//       console.log('에러 발생');
-//     } finally {
-//       setIsLoading(false);
     }
   }
 
