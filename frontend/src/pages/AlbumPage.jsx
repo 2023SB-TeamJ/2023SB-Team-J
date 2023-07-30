@@ -46,39 +46,33 @@ function AlbumPage() {
 
     try {
       const access = localStorage.getItem('access');
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/album/',
+        {},
+        { headers: { Authorization: `Bearer ${access}` } },
+      );
 
-      await axios
-        .post(
-          'http://localhost:8000/api/v1/album/',
-          {},
-          { headers: { Authorization: `Bearer ${access}` } },
-        )
-        .then((response) => {
-          const albumData = response.data;
-          console.log(albumData);
-          setImages((prevImages) => [...prevImages, ...albumData]);
+      const albumData = response.data;
+      console.log(albumData);
+      setImages((prevImages) => [...prevImages, ...albumData]);
 
-          setIsLoading(false);
+      setIsLoading(false);
 
-          AOS.init({
-            // Add AOS settings if needed
-          });
-        });
+      AOS.init({
+        // Add AOS settings if needed
+      });
     } catch (error) {
       console.log(error);
-//       console.log('에러 발생');
-//     } finally {
-//       setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    inquireAlbum();
+    inquireAlbum().then(() => {
+      setTimeout(() => {
+        AOS.refresh();
+      }, 300); // 500ms 뒤에 AOS.refresh()를 호출
+    });
   }, []);
-
-  useEffect(() => {
-    AOS.refresh();
-  }, [images]);
 
   return (
     <div>
@@ -183,7 +177,7 @@ const AddBtn = styled(motion.button)`
 const MyMasonryGrid = styled(Masonry)`
   display: flex;
   margin: 0 auto;
-  margin-top: 30rem;
+  margin-top: 20rem;
   justify-content: center;
   align-items: center;
   width: auto;
