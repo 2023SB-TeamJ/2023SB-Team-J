@@ -97,7 +97,7 @@ const ImgWrap = styled.div`
   align-items: center;
 
   .oneFour {
-    width: 10rem;
+    width: 11rem;
     margin: 0 5rem;
     margin-top: 3rem;
 
@@ -107,7 +107,7 @@ const ImgWrap = styled.div`
   }
 
   .twoTwo {
-    width: 20rem;
+    width: 22rem;
     margin: 0 5rem;
     margin-top: 3rem;
 
