@@ -4,6 +4,7 @@ from .s3_utils import *
 import torch
 from PIL import Image
 from django import db
+torch.hub.set_dir("image/torch")
 class Models:
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model1 = torch.hub.load("bryandlee/animegan2-pytorch:main", "generator", device=device,
