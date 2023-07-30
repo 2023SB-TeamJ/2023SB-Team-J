@@ -32,11 +32,12 @@ function AlbumPage() {
   };
 
   const breakpointColumnObj = {
-    default: 4, // 기본 레이아웃에서 4열
-    1200: 3, // 창 너비 1200px 이하일 때 3열
-    900: 2, // 창 너비 900px 이하일 때 2열
-    600: 1, // 창 너비 600px 이하일 때 1열
+    default: 4,
+    1200: 3,
+    900: 2,
+    600: 1,
   };
+
   const [images, setImages] = useState([]);
 
   async function inquireAlbum() {
@@ -45,36 +46,31 @@ function AlbumPage() {
     try {
       const access = localStorage.getItem('access');
 
-      const response = await axios.post(
-        'http://localhost:8000/api/v1/album/',
-        {},
-        { headers: { Authorization: `Bearer ${access}` } },
-      );
+      await axios
+        .post(
+          'http://localhost:8000/api/v1/album/',
+          {},
+          { headers: { Authorization: `Bearer ${access}` } },
+        )
+        .then((response) => {
+          const albumData = response.data;
+          console.log(albumData);
+          setImages((prevImages) => [...prevImages, ...albumData]);
 
-      // 서버 응답 처리
-      const albumData = response.data; // 응답 데이터
-      console.log(albumData);
-      // 이미지 배열에 추가
+          setIsLoading(false);
 
-      setImages((prevImages) => [...prevImages, ...albumData]);
-
-      setIsLoading(false);
+          AOS.init({
+            // Add AOS settings if needed
+          });
+        });
     } catch (error) {
       console.log(error);
-      console.log('에러 발생');
+      console.log('An error occurred');
     }
   }
 
-  // 앨범 조회 요청 보내기
   useEffect(() => {
-    // 요청을 1번만 보내게 설정
     inquireAlbum();
-  }, []);
-
-  useEffect(() => {
-    AOS.init({
-      // 여기에 원하는 설정을 추가할 수 있습니다.
-    });
   }, []);
 
   useEffect(() => {
