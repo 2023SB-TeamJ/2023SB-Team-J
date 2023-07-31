@@ -4,9 +4,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
-import Title from '../components/Title';
-import oneFourImage from '../assets/images/1x4sampleImage.png';
-import twoTwoImage from '../assets/images/2x2sampleImage.jpg';
+import oneFourImage from '../assets/images/imageSample2.jpg';
+import twoTwoImage from '../assets/images/imageSample1.jpg';
 
 function ChooseFramePage() {
   const navigate = useNavigate();
@@ -23,11 +22,8 @@ function ChooseFramePage() {
   return (
     <div>
       <Container>
+        <Header />
         <MainWrap>
-          <Header />
-          <TitleWrap>
-            <Title>프레임 선택</Title>
-          </TitleWrap>
           <ProgressBar />
           <FrameWrap>
             <ImgWrap
@@ -37,6 +33,7 @@ function ChooseFramePage() {
               }}
             >
               <motion.img
+                className="oneFour"
                 src={oneFourImage}
                 alt="1x4이미지"
                 whileHover={{ scale: 1.1 }}
@@ -50,6 +47,7 @@ function ChooseFramePage() {
               }}
             >
               <motion.img
+                className="twoTwo"
                 src={twoTwoImage}
                 alt="2x2이미지"
                 whileHover={{ scale: 1.1 }}
@@ -67,14 +65,13 @@ export default ChooseFramePage;
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  background: ${(props) => props.theme.backgroundColor};
+  background: #f6f6f6;
 `;
 const MainWrap = styled.div`
   max-width: 1440px;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
 `;
 const TitleWrap = styled.div`
@@ -98,11 +95,25 @@ const ImgWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  img {
-    width: 60%;
-    display: block;
-    margin-bottom: 20px;
-    margin-left: 60px;
+
+  .oneFour {
+    width: 11rem;
+    margin: 0 5rem;
+    margin-top: 3rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .twoTwo {
+    width: 22rem;
+    margin: 0 5rem;
+    margin-top: 3rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 

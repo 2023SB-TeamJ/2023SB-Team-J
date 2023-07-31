@@ -8,6 +8,8 @@ import Name from './Name';
 import SignBtn from './SignBtn';
 import { useAuth } from '../contexts/AuthContext';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function Header() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
@@ -19,7 +21,7 @@ function Header() {
       const access = localStorage.getItem('access');
 
       const response = await axios.post(
-        'http://localhost:8000/api/v1/logout/',
+        `${apiUrl}logout/`,
         { refresh },
         { headers: { Authorization: `Bearer ${access}` } },
       );
@@ -38,7 +40,12 @@ function Header() {
   return (
     <div>
       <Container>
-        <LogoWrap onClick={() => navigate('/')}>
+        <LogoWrap
+          onClick={() => {
+            navigate('/');
+            window.location.reload();
+          }}
+        >
           <Logo />
           <Name />
         </LogoWrap>
@@ -53,7 +60,9 @@ function Header() {
 export default Header;
 const Container = styled.div`
   display: flex;
-  margin-top: 3rem;
+  padding-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   align-items: center;
   justify-content: space-between;
 `;

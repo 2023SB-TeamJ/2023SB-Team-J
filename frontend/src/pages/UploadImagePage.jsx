@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-else-return */
 /* eslint-disable prettier/prettier */
@@ -8,30 +9,26 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import Header from '../components/Header';
-import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
-import Loading from '../components/Loading';
+import Loading from '../components/LoadingAnimation';
 
 function UploadImagePage() {
-  // location 객체를 사용하기 위해 useLocation() 훅을 사용해야 한다.
   const location = useLocation();
-  // location 객체 속성인 state 값(이전 페이지에 전달된 상태값)을 가지고 와서 frameType에 저장한다.
-  console.log(location.state);
-  const frameType = location.state;
-
+  const [frameType] = useState(location.state);
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수를 추가합니다.
 
   const onImageUpload = (file) => {
     setFiles((prevFiles) => [...prevFiles, file]);
   };
 
-  console.log(files);
-
   const uploadAllImages = async () => {
+    if (files.length < 4) {
+      alert('이미지 4개를 모두 업로드 해주세요.'); // 여기에 사용자에게 알릴 메시지를 적어주세요.
+      return; // Return early to prevent page navigation
+    }
     setIsLoading(true);
     const promises = files.map((file, index) => {
       const formData = new FormData();
@@ -45,7 +42,7 @@ function UploadImagePage() {
         .post('http://localhost:8000/api/v1/frame/', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${access}`
+            Authorization: `Bearer ${access}`,
           },
         })
         .then((response) => {
@@ -57,11 +54,8 @@ function UploadImagePage() {
     });
 
     const results = await Promise.all(promises);
-
-    // Sort results based on original index
+    setIsLoading(false); // 모든 이미지 업로드가 완료되면 로딩 애니메이션을 숨깁니다.
     results.sort((a, b) => a.index - b.index);
-
-    setIsLoading(false);
 
     // Move navigation here with sorted results
     navigate('/convert', {
@@ -79,7 +73,7 @@ function UploadImagePage() {
       .post('http://localhost:8000/api/v1/frame/ai/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${access}`
+          Authorization: `Bearer ${access}`,
         },
       })
       .then((response) => {
@@ -98,22 +92,21 @@ function UploadImagePage() {
       });
   };
 
-  // UploadImage 컴포넌트 4개로 이루어진 배열을 생성한다.
-  const uploadImageComponents = Array(4).fill(
-    <UploadImage onImageUpload={onImageUpload} />,
-  );
+  const uploadImageComponents = Array(4)
+    .fill(0)
+    .map((_, index) => (
+      <div key={index}>
+        <UploadImage onImageUpload={onImageUpload} />
+        <ImageText>{`${index + 1}번 이미지`}</ImageText>
+      </div>
+    ));
+
   return (
     <div>
       <Container>
         <MainWrap>
           <Header />
-          <TitleWrap>
-            <Title>이미지 업로드</Title>
-          </TitleWrap>
           <ProgressBar />
-          <PageShiftWrap onClick={uploadAllImages}>
-            <PageShiftBtn />
-          </PageShiftWrap>
           {isLoading ? (
             <LoadingWrap>
               <Loading />
@@ -124,6 +117,9 @@ function UploadImagePage() {
             </ImageWrapper>
           )}
         </MainWrap>
+        <PageShiftWrap onClick={uploadAllImages}>
+          <PageShiftBtn />
+        </PageShiftWrap>
       </Container>
     </div>
   );
@@ -134,21 +130,16 @@ export default UploadImagePage;
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  background: ${(props) => props.theme.backgroundColor};
+  background: #f6f6f6;
 `;
 const MainWrap = styled.div`
   max-width: 1440px;
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
 `;
-const TitleWrap = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-`;
+
 const ProgressBar = styled.div`
   display: flex;
   justify-content: center;
@@ -156,8 +147,9 @@ const ProgressBar = styled.div`
 `;
 
 const PageShiftWrap = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  bottom: 5rem;
+  right: 5rem;
 `;
 
 const ImageWrapper = styled.div`
@@ -168,17 +160,26 @@ const ImageWrapper = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        flex-direction: column;
-        gap: 40px;
+        margin-top: 11rem;
+        gap: 20px;
       `;
     } else if (frameType === '2X2') {
       return `
         display: grid;
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 0.2fr);
+        grid-gap: 3rem;
+        margin-top: 4rem;
       `;
     }
   }}
+`;
+
+const ImageText = styled.p`
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+  font-family: 'Pretendar-Regular';
 `;
 
 const LoadingWrap = styled.div`

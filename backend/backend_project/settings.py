@@ -33,7 +33,7 @@ SECRET_KEY = get_secret("django_secret_key")
 DEBUG = True
 
 # ALLOWED_HOSTS = ["0.0.0.0", "localhost", "host.docker.internal", 'docker.for.mac.localhost']
-ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'docker.for.mac.localhost', 'host.docker.internal']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

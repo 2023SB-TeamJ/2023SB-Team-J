@@ -26,7 +26,12 @@ function HeaderMain() {
   return (
     <div>
       <Container>
-        <LogoWrap onClick={() => navigate('/')}>
+        <LogoWrap
+          onClick={() => {
+            navigate('/');
+            window.location.reload();
+          }}
+        >
           <Logo />
           <Name />
         </LogoWrap>
@@ -49,7 +54,9 @@ function HeaderMain() {
 export default HeaderMain;
 const Container = styled.div`
   display: flex;
-  padding-top: 1.2rem;
+  padding-top: 2rem; // 이 크기만큼 MainPage MainWrap 높이 설정해야함
+  padding-left: 2rem;
+  padding-right: 2rem;
   align-items: center;
   justify-content: space-between;
 `;

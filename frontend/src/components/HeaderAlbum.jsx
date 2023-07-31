@@ -7,6 +7,8 @@ import Name from './Name';
 import SignBtn from './SignBtn';
 import { useAuth } from '../contexts/AuthContext';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function HeaderAlbum() {
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
@@ -18,7 +20,7 @@ function HeaderAlbum() {
       const access = localStorage.getItem('access');
 
       const response = await axios.post(
-        'http://localhost:8000/api/v1/logout/',
+        `${apiUrl}logout/`,
         { refresh },
         { headers: { Authorization: `Bearer ${access}` } },
       );
@@ -37,32 +39,26 @@ function HeaderAlbum() {
   };
 
   return (
-    <HeaderWrapper>
-      <Container>
-        <LogoWrap onClick={() => navigate('/')}>
-          <Logo />
-          <Name />
-        </LogoWrap>
-        <BtnWrap>
-          <AlbumUserName>{nickname}님의 앨범</AlbumUserName>
-          <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
-        </BtnWrap>
-      </Container>
-    </HeaderWrapper>
+    <Container>
+      <LogoWrap onClick={() => navigate('/')}>
+        <Logo />
+        <Name />
+      </LogoWrap>
+      <BtnWrap>
+        <AlbumUserName>{nickname}님의 앨범</AlbumUserName>
+        <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
+      </BtnWrap>
+    </Container>
   );
 }
 
 export default HeaderAlbum;
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const Container = styled.div`
   display: flex;
-  width: 76vw;
-  margin: 0 auto;
+  padding-top: 2rem; // 이 크기만큼 MainPage MainWrap 높이 설정해야함
+  padding-left: 2rem;
+  padding-right: 2rem;
   align-items: center;
   justify-content: space-between;
 `;
@@ -87,7 +83,8 @@ const AlbumUserName = styled.div`
   height: 29px;
   margin-right: 5px;
   color: ${(props) => props.theme.deepGrayColor};
-  font-size: 24px;
+  font-size: 1.5rem;
+  font-family: 'Pretendard-Regular';
   font-style: normal;
   font-weight: 400;
   line-height: normal;

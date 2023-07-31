@@ -13,40 +13,42 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
+    tty: true
 
-#  database:
-#    image: mysql:8.0
-#    container_name: t4y-database
-#    env_file:
-#      - ./backend/.env
-#    ports:
-#      - 3306:3306
-#    networks:
-#      - t4y
-#
-#  backend:
-#    build:
-#      context: ./backend
-#      dockerfile: Dockerfile
-#    container_name: t4y-backend
-#    volumes:
-#      - ./backend:/app # 컴파일시 자동으로 빌드 설정
-#    restart: on-failure
-#    ports:
-#      - 8000:8000
-#    expose:
-#      - 8000
-#    depends_on:
-#      - database
-#    environment:
-#      - DB_HOST=t4y-database
-#      - DB_NAME=mydatabase
-#      - DB_USER=myuser
-#      - DB_PASSWORD=mypassword
-#    command: "python manage.py runserver 0.0.0.0:8000"
-#    tty: true
-#    networks:
-#      - t4y
+  database:
+    image: mysql:8.0
+    container_name: t4y-database
+    env_file:
+      - ./backend/.env
+    ports:
+      - 3306:3306
+    networks:
+      - t4y
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: t4y-backend
+    volumes:
+      - ./backend:/app # 컴파일시 자동으로 빌드 설정
+    restart: on-failure
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+    depends_on:
+      - database
+    environment:
+      - DB_HOST=t4y-database
+      - DB_NAME=mydatabase
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+    # command: "python manage.py runserver 0.0.0.0:8000"
+    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
+    tty: true
+    networks:
+      - t4y
 
   rabbitmq:
     hostname: t4yhost
@@ -58,7 +60,7 @@ services:
       - backend/.env
     ports:
       - 5672:5672 # Default Port
-      - 15672:15672 # For UI=
+      - 15672:15672 # For UI
     volumes:
       - ./backend:/backend
     depends_on:
@@ -96,4 +98,3 @@ services:
 networks:
   t4y:
     driver: bridge
-
