@@ -23,7 +23,6 @@ def get_secret(setting):
         error_msg = "Set the {} environment variable".format(setting)
         raise ImproperlyConfigured(error_msg)
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -219,17 +218,27 @@ WSGI_APPLICATION = 'backend_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 pymysql.install_as_MySQLdb()
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  # engine: mysql
+#         'NAME': get_secret("db_name"),  # DB Name
+#         'USER': "admin",  # DB User
+#         'PASSWORD': get_secret("mysql_pwd"),  # Password
+#         'HOST': get_secret("db_host"),
+#         'PORT': "3306",  # 데이터베이스 포트
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+#         }
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # engine: mysql
-        'NAME': get_secret("db_name"),  # DB Name
-        'USER': "admin",  # DB User
-        'PASSWORD': get_secret("mysql_pwd"),  # Password
-        'HOST': get_secret("db_host"),
-        'PORT': "3306",  # 데이터베이스 포트
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-        }
+        'ENGINE': 'django_prometheus.db.backends.mysql',
+        'NAME': 't4ydb_monitoring',
+        'USER': 'root',
+        'PASSWORD': get_secret("mysql_pwd_monitor"),
+        'HOST': 't4y-database',  # MySQL 컨테이너가 실행 중인 호스트 주소
+        'PORT': '3306',       # MySQL 컨테이너가 사용하는 포트
     }
 }
 

@@ -4,6 +4,7 @@ version: "3.9"
 
 services:
   frontend:
+    command: sh -c "npm install && npm build && npm start"
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -18,7 +19,7 @@ services:
     image: mysql:8.0
     container_name: t4y-database
     env_file:
-      - ./backend/.env
+      - ./backend/.env_monitor
     ports:
       - 3306:3306
     networks:
@@ -127,6 +128,29 @@ services:
         - prometheus
       networks:
         - t4y
+  mysqld_exporter:
+    container_name: mysqld_exporter
+    image: prom/mysqld-exporter
+    volumes:
+      - ./.my.cnf:/etc/.my.cnf
+    command:
+      - '--collect.global_status'
+      - '--collect.engine_innodb_status'
+      - '--collect.global_variables'
+      - '--collect.info_schema.innodb_metrics'
+      - '--collect.info_schema.processlist'
+      - '--collect.info_schema.tables'
+      - '--collect.info_schema.query_response_time'
+      - '--web.listen-address=0.0.0.0:9104'
+      - '--web.telemetry-path=/metrics'
+      - '--config.my-cnf=/etc/.my.cnf'
+    restart: always
+    ports:
+      - 9104:9104
+    depends_on:
+      - database
+    networks:
+      - t4y
 
 networks:
   t4y:

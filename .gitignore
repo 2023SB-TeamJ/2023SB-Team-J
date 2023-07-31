@@ -176,3 +176,5 @@ prometheus/prometheus-volume/*
 prometheus/prometheus-volume
 grafana/grafana-volume/grafana.db
 grafana/grafana-volume/*
+k6_scripts
+.env_monitor
