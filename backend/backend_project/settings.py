@@ -40,7 +40,6 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'docker.for.mac.localhost'
 # Application definition
 
 INSTALLED_APPS = [
-
     'drf_yasg',
     'django_prometheus',
     'corsheaders',
@@ -61,7 +60,6 @@ INSTALLED_APPS = [
     'storages',
     'common',
     'image',
-
     'django_celery_results',
     'album',
 ]
@@ -219,17 +217,28 @@ WSGI_APPLICATION = 'backend_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 pymysql.install_as_MySQLdb()
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  # engine: mysql
+#         'NAME': get_secret("db_name"),  # DB Name
+#         'USER': "admin",  # DB User
+#         'PASSWORD': get_secret("mysql_pwd"),  # Password
+#         'HOST': get_secret("db_host"),
+#         'PORT': "3306",  # 데이터베이스 포트
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+#         }
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # engine: mysql
-        'NAME': get_secret("db_name"),  # DB Name
-        'USER': "admin",  # DB User
-        'PASSWORD': get_secret("mysql_pwd"),  # Password
-        'HOST': get_secret("db_host"),
+        'NAME': 't4yDB',  # DB Name
+        'USER': "root",  # DB User
+        'PASSWORD': "0000",  # Password
+        'HOST': 't4y-database',
         'PORT': "3306",  # 데이터베이스 포트
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-        }
     }
 }
 

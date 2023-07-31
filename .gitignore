@@ -43,6 +43,15 @@ MANIFEST
 *.manifest
 *.spec
 
+#mysqlexporter
+.my.cnf
+
+#prometheus
+prometheus/prometheus-volume/
+prometheus/prometheus-volume
+grafana/grafana-volume
+grafana/grafana-volume/
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt

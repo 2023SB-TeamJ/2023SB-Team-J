@@ -13,5 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 소스 코드 복사
 COPY . .
 
+
 # 컨테이너 내에서 실행할 명령어 설정
 #CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]

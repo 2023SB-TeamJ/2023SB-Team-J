@@ -18,10 +18,12 @@ services:
   database:
     image: mysql:8.0
     container_name: t4y-database
-    env_file:
-      - ./backend/.env
+    environment:
+      MYSQL_DATABASE: 't4yDB'
+      MYSQL_PASSWORD: '0000'
+      MYSQL_ROOT_PASSWORD: '0000'
     ports:
-      - 3306:3306
+      - "3306:3306"
     networks:
       - t4y
 
@@ -45,7 +47,6 @@ services:
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
     command: "python manage.py runserver 0.0.0.0:8000"
-#    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
     tty: true
     networks:
       - t4y
@@ -148,8 +149,6 @@ services:
     #      - /etc/machine-id:/etc/machine-id:ro
       - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
 #      - /var/lib/dbus:/var/lib/dbus:ro
-    depends_on:
-      - prometheus
     devices:
       - /dev/kmsg:/dev/kmsg
     deploy:
@@ -167,6 +166,8 @@ services:
       - 8080
     restart: always
     privileged: true
+    depends_on:
+      - prometheus
 
 networks:
   t4y:
