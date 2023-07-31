@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-const-assign */
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { frame, motion } from 'framer-motion';
 import styled from 'styled-components';
 // import { Image } from 'react-konva';
 // import useImage from 'use-image';
@@ -22,7 +22,7 @@ import image1 from '../../assets/images/image1.png';
 // import image3 from '../../assets/images/image3.png';
 // import image4 from '../../assets/images/image4.png';
 import addphoto from '../../assets/images/addphoto.png';
-import logoText from '../../assets/images/logoText.png';
+// import logoText from '../../assets/images/logoText.png';
 
 function CustomCarousel({ setColImg, sendData, frameType }) {
   // // base64 이미지를 담는 배열로 state를 초기화합니다.
@@ -118,16 +118,14 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
           {activeIndex === 3 && <Images src={Brown} alt="..." />}
         </CarouselImage>
         {frameType === '1X4' ? (
-          <FrameImageWrap>
+          <FrameImageWrap frameType={frameType}>
             <TopImage src={base64Images.image0} />
             <SecondImage src={base64Images.image1} />
             <ThirdImage src={base64Images.image2} />
             <FourthImage src={base64Images.image3} />
-            <BottomLogoText src={logoText} alt="logoText" />
           </FrameImageWrap>
         ) : (
-          <FrameImageWrap>
-            <UpperLogoText src={logoText} alt="logoText" />
+          <FrameImageWrap frameType={frameType}>
             <TopLeftImage src={base64Images.image0} />
             <TopRightImage src={base64Images.image1} />
             <BottomLeftImage src={base64Images.image2} />
@@ -165,20 +163,19 @@ const ImageWrap = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        width: 17rem;
-        height: 50rem;
-        
+        width: 14rem;
+        aspect-ratio: 1 / 3;
       `;
     }
     if (frameType === '2X2') {
       return `
-        width: 30rem;
-        height: 40rem;
+        width: 25rem;
+        aspect-ratio: 2 / 3;
       `;
     }
     return `
-      width: 17rem;
-      height: 50rem;
+      width: 14rem;
+      aspect-ratio: 1 / 3;
     `;
   }}
   margin: 3rem;
@@ -199,81 +196,93 @@ const Images = styled.img`
   height: 100%;
 `;
 
-const UpperLogoText = styled.img`
-  width: 60%;
-  height: 15%;
+// 4개 이미지를 감싸는 wrap인데, 삼항연산자를 쓰기위해 만들었다.
+const FrameImageWrap = styled.div`
+  width: 100%;
+  height: 100%;
   position: absolute;
-  bottom: 35.3rem;
-  left: 6rem;
-`;
-// top, left, right, bottom : 가장자리부터 얼마 떨어지는
-const TopLeftImage = styled.img`
-  position: absolute;
-  top: 58px;
-  left: 20px;
-  width: 43%;
-  height: 43%;
-  object-fit: fill;
-`;
-
-const TopRightImage = styled.img`
-  position: absolute;
-  top: 58px;
-  right: 20px;
-  width: 43%;
-  height: 43%;
-  object-fit: fill;
-`;
-
-const BottomLeftImage = styled.img`
-  position: absolute;
-  bottom: 12px;
-  left: 20px;
-  width: 43%;
-  height: 43%;
-  object-fit: fill;
-`;
-
-const BottomRightImage = styled.img`
-  position: absolute;
-  bottom: 12px;
-  right: 20px;
-  width: 43%;
-  height: 43%;
-  object-fit: fill;
+  top: 0%;
+  left: 0%;
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
+      return `
+        padding: 20px;
+      `;
+    }
+    if (frameType === '2X2') {
+      return `
+        padding: 50px 20px 10px 20px;
+      `;
+    }
+    return `
+      padding: 20px;
+    `;
+  }}
 `;
 
 const TopImage = styled.img`
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
+  margin-bottom: 1px;
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
 `;
 
 const SecondImage = styled.img`
-  position: absolute;
-  top: 12rem;
-  left: 1rem;
+  margin: 1px 0 1px 0;
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
 `;
 
 const ThirdImage = styled.img`
-  position: absolute;
-  top: 23rem;
-  left: 1rem;
+  margin: 1px 0 1px 0;
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
 `;
 
 const FourthImage = styled.img`
-  position: absolute;
-  top: 34rem;
-  left: 1rem;
+  margin-top: 1px;
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
 `;
 
-const BottomLogoText = styled.img`
-  width: 80%;
-  height: 10%;
-  position: absolute;
-  bottom: 1rem;
-  left: 2rem;
+// const UpperLogoText = styled.img`
+//   width: 60%;
+//   height: 15%;
+//   position: absolute;
+//   bottom: 35.3rem;
+//   left: 6rem;
+// `;
+
+const TopLeftImage = styled.img`
+  aspect-ratio: 2 / 3;
+  width: 50%;
+  padding: 20px 5px 0 0;
 `;
+
+const TopRightImage = styled.img`
+  aspect-ratio: 2 / 3;
+  width: 50%;
+  padding: 20px 0 0 5px;
+`;
+
+const BottomLeftImage = styled.img`
+  aspect-ratio: 2 / 3;
+  width: 50%;
+  padding: 5px 5px 10px 0;
+`;
+
+const BottomRightImage = styled.img`
+  aspect-ratio: 2 / 3;
+  width: 50%;
+  padding: 5px 0 10px 5px;
+`;
+
+// const BottomLogoText = styled.img`
+//   width: 80%;
+//   height: 10%;
+//   position: absolute;
+//   bottom: 1rem;
+//   left: 2rem;
+// `;
 
 const ButtonWrap = styled.div`
   display: flex;
@@ -289,13 +298,4 @@ const AddPhotoBtn = styled(motion.div)`
   background: url(${addphoto}) lightgray 50% / cover no-repeat;
   background-color: ${(props) => props.theme.backgroundColor};
   cursor: pointer;
-`;
-
-// 4개 이미지를 감싸는 wrap인데, 삼항연산자를 쓰기위해 만들었다.
-const FrameImageWrap = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0%;
-  left: 0%;
 `;
