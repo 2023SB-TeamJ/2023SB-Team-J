@@ -9,16 +9,16 @@ function LeftAIShift() {
           x2="56.6392"
           y2="-5"
           transform="matrix(-0.741536 0.670913 -0.960966 -0.276668 42 0)"
-          stroke="#3F3D3F"
-          strokeWidth="10"
+          stroke="#1f1f1f"
+          strokeWidth="7"
         />
         <line
           y1="-5"
           x2="56.6392"
           y2="-5"
           transform="matrix(-0.741536 -0.670913 -0.960966 0.276668 42 76)"
-          stroke="#3F3D3F"
-          strokeWidth="10"
+          stroke="#1f1f1f"
+          strokeWidth="7"
         />
       </svg>
     </LeftContainer>
@@ -28,8 +28,8 @@ function LeftAIShift() {
 export default LeftAIShift;
 
 const LeftContainer = styled.div`
-  width: 42px;
-  height: 76px;
+  width: 2rem;
+  height: 3rem;
   flex-shrink: 0;
   cursor: pointer;
 `;

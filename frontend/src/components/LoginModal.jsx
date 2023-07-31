@@ -15,6 +15,8 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 // import getCsrfToken from './getCsrfToken';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 // eslint-disable-next-line react/prop-types
 function LoginModal({ isOpen, onClose }) {
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
@@ -38,7 +40,7 @@ function LoginModal({ isOpen, onClose }) {
   // 로그인 API 요청
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/login/', {
+      const response = await axios.post(`${apiUrl}login/`, {
         email,
         password,
       });

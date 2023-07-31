@@ -18,6 +18,8 @@ import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
 import CustomEmoji from '../components/Custom/CustomEmoji';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function CustomizingPage() {
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ function CustomizingPage() {
       const access = localStorage.getItem('access');
       // console.log(blob);
       // console.log(formData);
-      fetch('http://localhost:8000/api/v1/frame/add/', {
+      fetch(`${apiUrl}frame/add/`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${access}` },
         body: formData, // 이미지 데이터를 FormData로 전송
@@ -84,10 +86,6 @@ function CustomizingPage() {
       <Container>
         <MainWrap>
           <Header />
-          <TitleWrap>
-            <Title>커스터마이징</Title>
-          </TitleWrap>
-          <ProgressBar />
           {/* <CustomWrap> */}
           {/* <MenuWrap>
               <CustomMenuBar />
@@ -140,20 +138,9 @@ const MainWrap = styled.div`
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
 `;
 
-const TitleWrap = styled.div`
-  margin: 3rem;
-  display: flex;
-  justify-content: center;
-`;
-
-const ProgressBar = styled.div`
-  display: flex;
-  justify-content: center;
-`;
 const CustomWrap = styled.div`
   display: flex;
 `;
@@ -190,6 +177,7 @@ const DivArea = styled.div`
   }};
   margin: 0 auto;
   background: url(${(props) => props.aiimage}) lightgray 50% / cover no-repeat;
+  background-size: cover;
 `;
 
 const BtnWrap = styled.div`
