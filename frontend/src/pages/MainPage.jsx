@@ -163,7 +163,6 @@ const MainWrap = styled.div`
   max-width: 1440px;
   height: calc(100vh - 5.4rem);
   margin: 0 auto;
-  flex-shrink: 0;
 `;
 
 const Slogan1 = styled.div`
@@ -188,7 +187,7 @@ const Slogan1 = styled.div`
   animation-fill-mode: forwards;
   position: relative;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1033px) {
     display: none;
   }
 `;
@@ -214,7 +213,7 @@ const Slogan2 = styled.div`
   animation-delay: 1.4s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1033px) {
     display: none;
   }
 `;
@@ -240,7 +239,7 @@ const Slogan3 = styled.div`
   animation-delay: 1.6s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1033px) {
     display: none;
   }
 `;
@@ -264,7 +263,7 @@ const Slogan4 = styled.div`
   animation-delay: 1.8s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1033px) {
     display: none;
   }
 `;
@@ -284,7 +283,6 @@ const StartBtn1 = styled.button`
   background: #f6f6f6;
   border: 1.3px solid black;
   opacity: 0;
-
   animation: ${startBtnOpacity} 1s ease-out;
   animation-delay: 2s;
   animation-fill-mode: forwards;
@@ -306,14 +304,10 @@ const StartBtn1 = styled.button`
     transition: all 0.4s;
   }
 
-  @media screen and (max-width: 980px) {
-    top: 83%;
+  @media screen and (max-width: 1033px) {
     left: 0;
     right: 0;
     margin: auto;
-    width: 11rem;
-    height: 3rem;
-    font-size: 1.5rem;
   }
 `;
 
@@ -351,7 +345,7 @@ const StartBtn1 = styled.button`
 //     transition: all 0.4s;
 //   }
 
-//   @media screen and (max-width: 980px) {
+//   @media screen and (max-width: 1033px) {
 //     top: 83%;
 //     left: 0;
 //     right: 0;
@@ -366,12 +360,12 @@ const SampleImageWrapper = styled.div`
   position: absolute;
   top: 2rem;
   right: 3rem;
-  width: 650px;
-  height: 650px;
+  width: 41rem;
+  height: 41rem;
 
-  @media screen and (max-width: 980px) {
-    width: 500px;
-    top: 15%;
+  @media screen and (max-width: 1033px) {
+    width: 40rem;
+    top: 2rem;
     left: 0;
     right: 0;
     margin: auto;
@@ -399,7 +393,7 @@ const OneTimesFourSampleImage = styled.div`
   animation-delay: 1.2s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1033px) {
     position: absolute;
     width: 160px;
     height: 500px;
@@ -428,7 +422,7 @@ const TwoTimesTwoSampleImage = styled.div`
   animation-delay: 1s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1033px) {
     position: absolute;
     width: 350px;
     height: 470px;
@@ -459,7 +453,7 @@ const TwoTimesTwoSampleImage = styled.div`
 
 const Circle1 = styled.div`
   position: absolute;
-  top: 35rem;
+  bottom: -15rem;
   left: -15rem;
   width: 25rem;
   height: 25rem;

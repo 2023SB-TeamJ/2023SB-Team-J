@@ -13,6 +13,16 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
+  html {
+    @media screen and (max-width: 1024px) {
+      font-size: 80%;
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 62.5%;
+    }
+  }
+
   li {
     list-style: none;
   }
