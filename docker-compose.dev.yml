@@ -36,7 +36,7 @@ services:
       - ./backend:/app # 컴파일시 자동으로 빌드 설정
     restart: on-failure
     ports:
-      - "80:8000"
+      - "8000:8000"
     expose:
       - 8000
     depends_on:
@@ -89,7 +89,7 @@ services:
     build:
       context: ./nginx
     ports:
-      - "8080:80"
+      - "80:80"
     expose:
       - 80
     volumes:
