@@ -9,11 +9,9 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
-import axios from 'axios';
 import Header from '../components/Header';
-import Title from '../components/Title';
-import addphoto from '../assets/images/addphoto.png';
-import addlocal from '../assets/images/save.png';
+import addphoto from '../assets/images/saveAlbum.png';
+import addlocal from '../assets/images/download.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
 import CustomEmoji from '../components/Custom/CustomEmoji';
@@ -105,18 +103,24 @@ function CustomizingPage() {
                 <CustomEmoji />
               </DivArea>
             </CaptureWrap>
-            <BtnWrap>
-              <AddPhotoBtn
+            <SaveWrap>
+              <BtnWrap
                 onClick={captureArea}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ borderRadius: '50%' }}
-              />
-              <AddLocalBtn
+              >
+                <AddPhotoBtn />
+                <SaveText>앨범저장</SaveText>
+              </BtnWrap>
+              <BtnWrap
                 onClick={captureLocal}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ borderRadius: '50%' }}
-              />
-            </BtnWrap>
+              >
+                <AddLocalBtn />
+                <SaveText>다운로드</SaveText>
+              </BtnWrap>
+            </SaveWrap>
           </CustomWrap>
           {/* </CustomWrap> */}
         </MainWrap>
@@ -180,33 +184,52 @@ const DivArea = styled.div`
   background-size: cover;
 `;
 
-const BtnWrap = styled.div`
-  flex: 1;
+const SaveWrap = styled.div`
   display: flex;
+  position: absolute;
   flex-direction: column;
-  margin-top: 30%;
+  right: 4rem;
+  bottom: 4rem;
+`;
+
+const BtnWrap = styled(motion.div)`
+  display: flex;
   justify-content: center;
   align-items: center;
+  width: 8rem;
+  height: 3rem;
+  margin-top: 1rem;
+  border-radius: 5px;
+  background: #eacfd5;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
-const AddPhotoBtn = styled(motion.div)`
-  margin-left: 30px;
-  width: 80px;
-  height: 80px;
-  flex-shrink: 0;
-  background: url(${addphoto}) lightgray 50% / cover no-repeat;
-  background-color: ${(props) => props.theme.backgroundColor};
-  cursor: pointer;
+const AddPhotoBtn = styled.div`
+  width: 1.9rem;
+  height: 1.9rem;
+  background: url(${addphoto}) no-repeat;
+  background-size: cover;
+  color: #ffffff !important;
+  margin-right: 0.3rem;
 `;
 
-const AddLocalBtn = styled(motion.div)`
-  margin-left: 30px;
-  width: 80px;
-  height: 80px;
-  flex-shrink: 0;
-  background: url(${addlocal}) lightgray 50% / cover no-repeat;
-  background-color: ${(props) => props.theme.backgroundColor};
-  cursor: pointer;
+const AddLocalBtn = styled.div`
+  width: 1.9rem;
+  height: 1.9rem;
+  background: url(${addlocal}) no-repeat;
+  background-size: cover;
+  color: #ffffff !important;
+  margin-right: 0.6rem;
+`;
+
+const SaveText = styled.span`
+  display: flex;
+  font-size: 1rem;
+  font-family: 'Pretendard-Regular';
+  font-weight: 800;
 `;
 
 // ----------------------
