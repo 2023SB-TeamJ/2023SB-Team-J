@@ -44,8 +44,8 @@ services:
       - DB_NAME=mydatabase
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
-#    command: "python manage.py runserver 0.0.0.0:8000"
-    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
+    command: "python manage.py runserver 0.0.0.0:8000"
+#    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
     tty: true
     networks:
       - t4y
@@ -110,6 +110,8 @@ services:
     restart: always
     depends_on:
       - backend
+#    links:
+#      - cadvisor
     networks:
       - t4y
 
@@ -131,19 +133,41 @@ services:
         - t4y
   cadvisor:
 #    image: gcr.io/cadvisor/cadvisor:latest #ec2 환경
-    image: zcube/cadvisor:latest # m1 칩 환경 : 호환성 문제
+#    image: zcube/cadvisor:latest # m1 칩 환경 : 호환성 문제
+    image: gcr.io/cadvisor/cadvisor:v0.46.0
     container_name: cadvisor
     ports:
       - 8080:8080
     volumes:
       - /:/rootfs:ro
-      - /var/run:/var/run:rw
+      - /var/run:/var/run
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /dev/disk/:/dev/disk:ro
+    #      - /etc/machine-id:/etc/machine-id:ro
+      - /var/lib/dbus/machine-id:/var/lib/dbus/machine-id:ro
+#      - /var/lib/dbus:/var/lib/dbus:ro
     depends_on:
       - prometheus
     devices:
       - /dev/kmsg:/dev/kmsg
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+    expose:
+      - 8080
+    restart: always
+    privileged: true
+
 networks:
   t4y:
     driver: bridge
