@@ -94,8 +94,12 @@ function CustomizingPage() {
             <MenuWrap>
               <div />
             </MenuWrap>
-            <CaptureWrap frameType3={frameType3}>
-              <DivArea id="captureArea" aiimage={colImg}>
+            <CaptureWrap>
+              <DivArea
+                id="captureArea"
+                aiimage={colImg}
+                frameType3={frameType3}
+              >
                 <CustomTextBox />
                 <CustomPhoto />
                 <CustomEmoji />
@@ -150,31 +154,28 @@ const CaptureWrap = styled.div`
   flex-direction: row;
   flex: 2;
   margin: 0 auto;
-  width: ${({ frameType3 }) => {
-    if (frameType3 === '1X4') {
-      return '25rem';
-    }
-    if (frameType3 === '2X2') {
-      return '40rem';
-    }
-    return '25rem';
-  }};
-  height: ${({ frameType3 }) => {
-    if (frameType3 === '1X4') {
-      return '53rem';
-    }
-    if (frameType3 === '2X2') {
-      return '45rem';
-    }
-    return '53rem';
-  }};
 `;
 
 const DivArea = styled.div`
+  ${({ frameType3 }) => {
+    if (frameType3 === '1X4') {
+      return `
+      width: 14rem;
+      aspect-ratio: 1 / 3;
+      `;
+    }
+    if (frameType3 === '2X2') {
+      return `
+      width: 25rem;
+      aspect-ratio: auto 2 / 3;
+      `;
+    }
+    return `
+      width: 14rem;
+      aspect-ratio: 1 / 3;
+    `;
+  }};
   margin: 0 auto;
-  width: 28rem;
-  height: 42rem;
-
   background: url(${(props) => props.aiimage}) lightgray 50% / cover no-repeat;
   background-size: cover;
 `;
