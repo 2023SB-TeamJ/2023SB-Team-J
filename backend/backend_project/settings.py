@@ -42,7 +42,7 @@ ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'docker.for.mac.localhost'
 INSTALLED_APPS = [
 
     'drf_yasg',
-    # 'django_prometheus',
+    'django_prometheus',
     'corsheaders',
     'django.contrib.sites',
     'allauth',

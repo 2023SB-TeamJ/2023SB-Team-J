@@ -129,7 +129,21 @@ services:
         - prometheus
       networks:
         - t4y
-
+  cadvisor:
+#    image: gcr.io/cadvisor/cadvisor:latest #ec2 환경
+    image: zcube/cadvisor:latest # m1 칩 환경 : 호환성 문제
+    container_name: cadvisor
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+      - prometheus
+    devices:
+      - /dev/kmsg:/dev/kmsg
 networks:
   t4y:
     driver: bridge
