@@ -4,7 +4,7 @@ version: "3.9"
 # docker-compose -f docker-compose.dev.yml up --build
 services:
   frontend:
-#    command: sh -c "npm install && npm start"
+    command: sh -c "npm install && npm run build && npm start"
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -89,11 +89,12 @@ services:
     build:
       context: ./nginx
     ports:
-      - "80:80"
+      - "80:8080"
     expose:
       - 80
     volumes:
       - build_folder:/var/www/frontend
+      - ./nginx:/nginx
       - ./nginx/log:/var/log/nginx
     depends_on:
       - frontend
