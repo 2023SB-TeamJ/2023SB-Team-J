@@ -17,7 +17,7 @@ import Black from '../../assets/images/BlackImg.png';
 import Brown from '../../assets/images/Brown.png';
 import Green from '../../assets/images/Green.png';
 import Gray from '../../assets/images/Solid_gray.png';
-import image1 from '../../assets/images/image1.png';
+// import image1 from '../../assets/images/image1.png';
 // import image2 from '../../assets/images/image2.png';
 // import image3 from '../../assets/images/image3.png';
 // import image4 from '../../assets/images/image4.png';
@@ -104,35 +104,50 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
           aria-hidden="true"
         />
       </ButtonWrap>
-      <ImageWrap id="captureArea" frameType={frameType}>
-        <CarouselImage>
-          {activeIndex === 0 && <Images src={Black} alt="..." />}
-        </CarouselImage>
-        <CarouselImage>
-          {activeIndex === 1 && <Images src={Green} alt="..." />}
-        </CarouselImage>
-        <CarouselImage>
-          {activeIndex === 2 && <Images src={Gray} alt="..." />}
-        </CarouselImage>
-        <CarouselImage>
-          {activeIndex === 3 && <Images src={Brown} alt="..." />}
-        </CarouselImage>
-        {frameType === '1X4' ? (
+      {frameType === '1X4' ? (
+        <ImageWrap id="captureArea" frameType={frameType}>
+          <CarouselImage>
+            {activeIndex === 0 && <Images src={Black} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 1 && <Images src={Green} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 2 && <Images src={Gray} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 3 && <Images src={Brown} alt="..." />}
+          </CarouselImage>
           <FrameImageWrap frameType={frameType}>
             <TopImage src={base64Images.image0} />
             <SecondImage src={base64Images.image1} />
             <ThirdImage src={base64Images.image2} />
             <FourthImage src={base64Images.image3} />
           </FrameImageWrap>
-        ) : (
+        </ImageWrap>
+      ) : (
+        <ImageWrap id="captureArea" frameType={frameType}>
+          <CarouselImage>
+            {activeIndex === 0 && <Images src={Black} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 1 && <Images src={Green} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 2 && <Images src={Gray} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 3 && <Images src={Brown} alt="..." />}
+          </CarouselImage>
           <FrameImageWrap frameType={frameType}>
             <TopLeftImage src={base64Images.image0} />
             <TopRightImage src={base64Images.image1} />
             <BottomLeftImage src={base64Images.image2} />
             <BottomRightImage src={base64Images.image3} />
           </FrameImageWrap>
-        )}
-      </ImageWrap>
+        </ImageWrap>
+      )}
+
       <ButtonWrap onClick={handleNext}>
         <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
           className="carousel-control-next-icon"
@@ -221,25 +236,21 @@ const FrameImageWrap = styled.div`
 `;
 
 const TopImage = styled.img`
-  margin-bottom: 1px;
   width: 100%;
   aspect-ratio: 1.5 / 1;
 `;
 
 const SecondImage = styled.img`
-  margin: 1px 0 1px 0;
   width: 100%;
   aspect-ratio: 1.5 / 1;
 `;
 
 const ThirdImage = styled.img`
-  margin: 1px 0 1px 0;
   width: 100%;
   aspect-ratio: 1.5 / 1;
 `;
 
 const FourthImage = styled.img`
-  margin-top: 1px;
   width: 100%;
   aspect-ratio: 1.5 / 1;
 `;
@@ -255,25 +266,25 @@ const FourthImage = styled.img`
 const TopLeftImage = styled.img`
   aspect-ratio: 2 / 3;
   width: 50%;
-  padding: 20px 5px 0 0;
+  padding: 5px 7px 2px 0;
 `;
 
 const TopRightImage = styled.img`
   aspect-ratio: 2 / 3;
   width: 50%;
-  padding: 20px 0 0 5px;
+  padding: 5px 0 2px 7px;
 `;
 
 const BottomLeftImage = styled.img`
   aspect-ratio: 2 / 3;
   width: 50%;
-  padding: 5px 5px 10px 0;
+  padding: 0 7px 8px 0;
 `;
 
 const BottomRightImage = styled.img`
   aspect-ratio: 2 / 3;
   width: 50%;
-  padding: 5px 0 10px 5px;
+  padding: 0 0 8px 7px;
 `;
 
 // const BottomLogoText = styled.img`
