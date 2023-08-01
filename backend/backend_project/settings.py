@@ -133,20 +133,33 @@ MIDDLEWARE = [
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 
-
-# CORS 설정 - whitelist 에 추가된 주소 접근 허용
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000']
-
+# Allow CORS from all hosts
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
 # CORS 설정 - whitelist 에 추가된 주소 접근 허용
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-    'http://0.0.0.0:8000',
-    'http://localhost:3000',
-    'https://bucketkubit.s3.amazonaws.com'
-)
+# CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000', 'http://localhost:3000']
+#
+# CORS_ALLOW_CREDENTIALS = True
+#
+# # CORS 설정 - whitelist 에 추가된 주소 접근 허용
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8000',
+#     'http://127.0.0.1:8000',
+#     'http://0.0.0.0:8000',
+#     'http://localhost:3000',
+#     'https://bucketkubit.s3.amazonaws.com'
+# )
 
 # CORS_ORIGIN_ALLOW_ALL = True
 
@@ -202,10 +215,6 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
