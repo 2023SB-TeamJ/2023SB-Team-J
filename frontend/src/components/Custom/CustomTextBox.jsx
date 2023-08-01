@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { ResizableBox } from 'react-resizable';
 import Draggable from 'react-draggable';
 import { motion } from 'framer-motion';
-import img from '../../assets/images/textbox.png';
+import img from '../../assets/images/addText.png';
 
 function CustomText() {
   const [textElements, setTextElements] = useState([]);
