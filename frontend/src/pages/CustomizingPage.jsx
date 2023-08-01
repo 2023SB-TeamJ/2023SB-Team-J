@@ -17,6 +17,7 @@ import addlocal from '../assets/images/save.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
 import CustomEmoji from '../components/Custom/CustomEmoji';
+import ProgressBar from '../components/ProgressBar';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -33,6 +34,30 @@ function CustomizingPage() {
 
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
+
+    const [progress, setProgress] = useState(80);
+
+    useEffect(() => {
+      // 0부터 50까지 프로그레스 증가 애니메이션
+      let currentProgress = 80;
+      const targetProgress = 100;
+      const increment = 1;
+
+      const animateProgress = () => {
+        if (currentProgress <= targetProgress) {
+          setProgress(currentProgress);
+          currentProgress += increment;
+          requestAnimationFrame(animateProgress);
+        }
+      };
+
+      animateProgress();
+
+      // 페이지 1 작업이 완료될 때까지 50%로 설정
+      setTimeout(() => {
+        setProgress(80);
+      }, 2000); // 2초로 변경
+    }, []);
 
     function sendImageToServer(blob) {
       const userDummy = '1';
@@ -86,6 +111,7 @@ function CustomizingPage() {
       <Container>
         <MainWrap>
           <Header />
+          <ProgressBar progress={progress} number={`${progress}%`} />
           {/* <CustomWrap> */}
           {/* <MenuWrap>
               <CustomMenuBar />
