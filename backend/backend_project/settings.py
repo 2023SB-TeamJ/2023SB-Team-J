@@ -39,9 +39,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-
     'drf_yasg',
-    # 'django_prometheus',
+    'django_prometheus',
     'corsheaders',
     'django.contrib.sites',
     'allauth',
@@ -60,7 +59,6 @@ INSTALLED_APPS = [
     'storages',
     'common',
     'image',
-
     'django_celery_results',
     'album',
 ]
@@ -248,6 +246,7 @@ DATABASES = {
         'PASSWORD': get_secret("mysql_pwd_monitor"),
         'HOST': 't4y-database',  # MySQL 컨테이너가 실행 중인 호스트 주소
         'PORT': '3306',       # MySQL 컨테이너가 사용하는 포트
+
     }
 }
 
