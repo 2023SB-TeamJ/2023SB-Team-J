@@ -13,6 +13,8 @@ import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
 import Loading from '../components/LoadingAnimation';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function UploadImagePage() {
   const location = useLocation();
   const [frameType] = useState(location.state);
@@ -39,7 +41,7 @@ function UploadImagePage() {
       });
 
       return axios
-        .post('http://localhost:8000/api/v1/frame/', formData, {
+        .post(`${apiUrl}frame/`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${access}`,
@@ -70,7 +72,7 @@ function UploadImagePage() {
     const access = localStorage.getItem('access');
 
     return axios
-      .post('http://localhost:8000/api/v1/frame/ai/', formData, {
+      .post(`${apiUrl}frame/ai/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${access}`,
