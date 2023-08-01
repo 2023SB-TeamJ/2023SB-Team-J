@@ -47,9 +47,6 @@ function FramePage() {
       <Container>
         <MainWrap>
           <Header />
-          <TitleWrap>
-            <Title>프레임/색상 선택</Title>
-          </TitleWrap>
           <ProgressBar progress={progress} number={`${progress}%`} />
           <CarouselWrap>
             <CustomCarousel
@@ -59,7 +56,7 @@ function FramePage() {
             />
           </CarouselWrap>
           <PageShiftWrap>
-            <PageShiftBtn path="/custom" state={{ colImg }} />
+            <PageShiftBtn path="/custom" state={{ colImg, frameType3 }} />
           </PageShiftWrap>
         </MainWrap>
       </Container>
@@ -80,23 +77,17 @@ const MainWrap = styled.div`
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
-`;
-
-const TitleWrap = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
 `;
 
 const CarouselWrap = styled.div`
   position: relative;
+  margin-top: 4rem;
 `;
 
 const PageShiftWrap = styled.div`
   position: absolute;
   top: 50%; /* 세로 가운데 정렬을 위해 50% */
-  right: 0; /* 가로 오른쪽 정렬을 위해 right: 0 */
+  right: 4rem; /* 가로 오른쪽 정렬을 위해 right: 0 */
   transform: translateY(-50%); /* 세로 가운데 정렬을 위한 추가적인 변형 */
 `;

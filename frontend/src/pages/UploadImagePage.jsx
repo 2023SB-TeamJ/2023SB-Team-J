@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-curly-brace-presence */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-else-return */
 /* eslint-disable prettier/prettier */
@@ -9,15 +10,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import Header from '../components/Header';
-import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
-import Loading from '../components/Loading';
 import ProgressBar from '../components/ProgressBar';
+import Loading from '../components/LoadingAnimation';
 
 function UploadImagePage() {
   const location = useLocation();
-  const frameType = location.state;
+  const [frameType] = useState(location.state);
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수를 추가합니다.
@@ -51,6 +51,10 @@ function UploadImagePage() {
   };
 
   const uploadAllImages = async () => {
+    if (files.length < 4) {
+      alert('이미지 4개를 모두 업로드 해주세요.'); // 여기에 사용자에게 알릴 메시지를 적어주세요.
+      return; // Return early to prevent page navigation
+    }
     setIsLoading(true);
     const promises = files.map((file, index) => {
       const formData = new FormData();
@@ -114,22 +118,21 @@ function UploadImagePage() {
       });
   };
 
-  const uploadImageComponents = Array(4).fill(
-    <UploadImage onImageUpload={onImageUpload} />,
-  );
+  const uploadImageComponents = Array(4)
+    .fill(0)
+    .map((_, index) => (
+      <div key={index}>
+        <UploadImage onImageUpload={onImageUpload} />
+        <ImageText>{`${index + 1}번 이미지`}</ImageText>
+      </div>
+    ));
 
   return (
     <div>
       <Container>
         <MainWrap>
           <Header />
-          <TitleWrap>
-            <Title>이미지 업로드</Title>
-          </TitleWrap>
           <ProgressBar progress={progress} number={`${progress}%`} />
-          <PageShiftWrap onClick={uploadAllImages}>
-            <PageShiftBtn />
-          </PageShiftWrap>
           {isLoading ? (
             <LoadingWrap>
               <Loading />
@@ -140,6 +143,9 @@ function UploadImagePage() {
             </ImageWrapper>
           )}
         </MainWrap>
+        <PageShiftWrap onClick={uploadAllImages}>
+          <PageShiftBtn />
+        </PageShiftWrap>
       </Container>
     </div>
   );
@@ -159,14 +165,11 @@ const MainWrap = styled.div`
   flex-shrink: 0;
   align-items: center;
 `;
-const TitleWrap = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-`;
+
 const PageShiftWrap = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  bottom: 5rem;
+  right: 5rem;
 `;
 
 const ImageWrapper = styled.div`
@@ -177,17 +180,26 @@ const ImageWrapper = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        flex-direction: column;
-        gap: 40px;
+        margin-top: 11rem;
+        gap: 20px;
       `;
     } else if (frameType === '2X2') {
       return `
         display: grid;
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 0.2fr);
+        grid-gap: 3rem;
+        margin-top: 4rem;
       `;
     }
   }}
+`;
+
+const ImageText = styled.p`
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+  font-family: 'Pretendar-Regular';
 `;
 
 const LoadingWrap = styled.div`

@@ -11,6 +11,8 @@ import {
   RowDiv,
 } from './AuthModalStyle';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 // eslint-disable-next-line react/prop-types
 function SignUpModal({ isOpen, onClose }) {
   const MAX_NICKNAME_LENGTH = 10; // 최대 닉네임 길이
@@ -25,9 +27,25 @@ function SignUpModal({ isOpen, onClose }) {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [nicknameError, setNicknameError] = useState('');
+  // 모르고 emailError를 닉네임 입력 부분에 집어넣었는데 됐는데 nicknameError를 집어넣었는데 안됐다? 이건 state 업데이트가 안되는 거 같다...
 
   // 회원가입 API 요청
   const handleSignUp = async () => {
+    setEmailError('');
+    setNicknameError('');
+
+    // 이메일이나 닉네임이 비어있는지 확인
+    if (!email) {
+      setEmailError('이메일을 입력해주세요.');
+      return;
+    }
+    if (!nickname) {
+      setNicknameError('닉네임을 입력해주세요.');
+      return;
+    }
+
     try {
       const data = {
         email,
@@ -35,10 +53,7 @@ function SignUpModal({ isOpen, onClose }) {
         password,
       };
       console.log(data);
-      const response = await axios.post(
-        'http://localhost:8000/api/v1/signup/',
-        data,
-      );
+      const response = await axios.post(`${apiUrl}signup/`, data);
       console.log(response.status); // 실제 반환되는 상태 코드 확인
       // 응답 확인
       if (response.status === 201) {
@@ -48,6 +63,13 @@ function SignUpModal({ isOpen, onClose }) {
     } catch (error) {
       console.error(error);
       console.log(error.response.data);
+      if (error.response) {
+        if (error.response.data.email) {
+          setEmailError(error.response.data.email); // 이메일 에러 메세지 state 업데이트
+        } else if (error.response.data.nickname) {
+          setNicknameError(error.response.data.nickname); // 닉네임 에러 메세지 state 업데이트
+        }
+      }
     }
   };
 
@@ -111,7 +133,11 @@ function SignUpModal({ isOpen, onClose }) {
             height="14"
             viewBox="0 0 12 12"
             fill="none"
-            onClick={onClose}
+            onClick={() => {
+              setEmailError(''); // 모달 닫을 때 에러 메시지 초기화
+              setNicknameError(''); // 모달 닫을 때 에러 메시지 초기화
+              onClose();
+            }}
           >
             <path
               fillRule="evenodd"
@@ -134,6 +160,7 @@ function SignUpModal({ isOpen, onClose }) {
                 setNickname(e.target.value);
               }}
             />
+            {nicknameError && <p style={{ color: 'red' }}>{nicknameError}</p>}
           </AuthInputField>
           <AuthInputField>
             <input
@@ -147,6 +174,7 @@ function SignUpModal({ isOpen, onClose }) {
                 setEmail(e.target.value);
               }}
             />
+            {emailError && <EmailMessage>{emailError}</EmailMessage>}
           </AuthInputField>
           <AuthInputField>
             <input
@@ -285,4 +313,12 @@ const EyeIcon = styled.svg`
   &:hover {
     cursor: pointer; /* pointer 커서 스타일로 변경 */
   }
+`;
+
+const EmailMessage = styled.p`
+  position: absolute;
+  bottom: 15rem; // 조절하여 위치 변경 가능
+  left: 70px;
+  color: red;
+  font-size: 5px;
 `;

@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-const-assign */
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { frame, motion } from 'framer-motion';
 import styled from 'styled-components';
 // import { Image } from 'react-konva';
 // import useImage from 'use-image';
@@ -17,11 +17,12 @@ import Black from '../../assets/images/BlackImg.png';
 import Brown from '../../assets/images/Brown.png';
 import Green from '../../assets/images/Green.png';
 import Gray from '../../assets/images/Solid_gray.png';
-import image1 from '../../assets/images/image1.png';
+// import image1 from '../../assets/images/image1.png';
 // import image2 from '../../assets/images/image2.png';
 // import image3 from '../../assets/images/image3.png';
 // import image4 from '../../assets/images/image4.png';
 import addphoto from '../../assets/images/addphoto.png';
+// import logoText from '../../assets/images/logoText.png';
 
 function CustomCarousel({ setColImg, sendData, frameType }) {
   // // base64 이미지를 담는 배열로 state를 초기화합니다.
@@ -103,25 +104,50 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
           aria-hidden="true"
         />
       </ButtonWrap>
+      {frameType === '1X4' ? (
+        <ImageWrap id="captureArea" frameType={frameType}>
+          <CarouselImage>
+            {activeIndex === 0 && <Images src={Black} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 1 && <Images src={Green} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 2 && <Images src={Gray} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 3 && <Images src={Brown} alt="..." />}
+          </CarouselImage>
+          <FrameImageWrap frameType={frameType}>
+            <TopImage src={base64Images.image0} />
+            <SecondImage src={base64Images.image1} />
+            <ThirdImage src={base64Images.image2} />
+            <FourthImage src={base64Images.image3} />
+          </FrameImageWrap>
+        </ImageWrap>
+      ) : (
+        <ImageWrap id="captureArea" frameType={frameType}>
+          <CarouselImage>
+            {activeIndex === 0 && <Images src={Black} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 1 && <Images src={Green} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 2 && <Images src={Gray} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 3 && <Images src={Brown} alt="..." />}
+          </CarouselImage>
+          <FrameImageWrap frameType={frameType}>
+            <TopLeftImage src={base64Images.image0} />
+            <TopRightImage src={base64Images.image1} />
+            <BottomLeftImage src={base64Images.image2} />
+            <BottomRightImage src={base64Images.image3} />
+          </FrameImageWrap>
+        </ImageWrap>
+      )}
 
-      <ImageWrap id="captureArea">
-        <CarouselImage>
-          {activeIndex === 0 && <Images src={Black} alt="..." />}
-        </CarouselImage>
-        <CarouselImage>
-          {activeIndex === 1 && <Images src={Green} alt="..." />}
-        </CarouselImage>
-        <CarouselImage>
-          {activeIndex === 2 && <Images src={Gray} alt="..." />}
-        </CarouselImage>
-        <CarouselImage>
-          {activeIndex === 3 && <Images src={Brown} alt="..." />}
-        </CarouselImage>
-        <TopLeftImage src={base64Images.image0} />
-        <TopRightImage src={base64Images.image1} />
-        <BottomLeftImage src={base64Images.image2} />
-        <BottomRightImage src={base64Images.image3} />
-      </ImageWrap>
       <ButtonWrap onClick={handleNext}>
         <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
           className="carousel-control-next-icon"
@@ -149,8 +175,24 @@ const Container = styled.div`
 
 // 전체 이미지 스타일
 const ImageWrap = styled.div`
-  width: 29rem;
-  height: 35rem;
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
+      return `
+        width: 14rem;
+        aspect-ratio: 1 / 3;
+      `;
+    }
+    if (frameType === '2X2') {
+      return `
+        width: 25rem;
+        aspect-ratio: 2 / 3;
+      `;
+    }
+    return `
+      width: 14rem;
+      aspect-ratio: 1 / 3;
+    `;
+  }}
   margin: 3rem;
   position: relative;
 `;
@@ -168,43 +210,90 @@ const Images = styled.img`
   width: 100%;
   height: 100%;
 `;
-// object-fit: cover; 이미지 크기가 유지되도록 설정
-// top, left, right, bottom : 가장자리부터 얼마 떨어지는
-const TopLeftImage = styled.img`
+
+// 4개 이미지를 감싸는 wrap인데, 삼항연산자를 쓰기위해 만들었다.
+const FrameImageWrap = styled.div`
+  width: 100%;
+  height: 100%;
   position: absolute;
-  top: 15px;
-  left: 15px;
-  width: 45%;
-  height: 45%;
-  object-fit: fill;
+  top: 0%;
+  left: 0%;
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
+      return `
+        padding: 20px;
+      `;
+    }
+    if (frameType === '2X2') {
+      return `
+        padding: 50px 20px 10px 20px;
+      `;
+    }
+    return `
+      padding: 20px;
+    `;
+  }}
+`;
+
+const TopImage = styled.img`
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
+`;
+
+const SecondImage = styled.img`
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
+`;
+
+const ThirdImage = styled.img`
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
+`;
+
+const FourthImage = styled.img`
+  width: 100%;
+  aspect-ratio: 1.5 / 1;
+`;
+
+// const UpperLogoText = styled.img`
+//   width: 60%;
+//   height: 15%;
+//   position: absolute;
+//   bottom: 35.3rem;
+//   left: 6rem;
+// `;
+
+const TopLeftImage = styled.img`
+  aspect-ratio: 2 / 3;
+  width: 50%;
+  padding: 5px 7px 2px 0;
 `;
 
 const TopRightImage = styled.img`
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 45%;
-  height: 45%;
-  object-fit: fill;
+  aspect-ratio: 2 / 3;
+  width: 50%;
+  padding: 5px 0 2px 7px;
 `;
 
 const BottomLeftImage = styled.img`
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  width: 45%;
-  height: 45%;
-  object-fit: fill;
+  aspect-ratio: 2 / 3;
+  width: 50%;
+  padding: 0 7px 8px 0;
 `;
 
 const BottomRightImage = styled.img`
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
-  width: 45%;
-  height: 45%;
-  object-fit: fill;
+  aspect-ratio: 2 / 3;
+  width: 50%;
+  padding: 0 0 8px 7px;
 `;
+
+// const BottomLogoText = styled.img`
+//   width: 80%;
+//   height: 10%;
+//   position: absolute;
+//   bottom: 1rem;
+//   left: 2rem;
+// `;
 
 const ButtonWrap = styled.div`
   display: flex;

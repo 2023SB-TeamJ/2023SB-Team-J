@@ -19,6 +19,8 @@ import CustomTextBox from '../components/Custom/CustomTextBox';
 import CustomEmoji from '../components/Custom/CustomEmoji';
 import ProgressBar from '../components/ProgressBar';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 function CustomizingPage() {
   const navigate = useNavigate();
 
@@ -26,8 +28,8 @@ function CustomizingPage() {
   // FramePage.jsx에서 받아온 colImg를 가져와 colImg에 저장
   // location.state가 객체이고 그 객체의 colImg 프로퍼티도 객체인 것을 가정하고 있습니다.
   // 그러나 실제로는 colImg가 문자열이어서 아래 코드처럼 작성
-  const { colImg } = location.state;
-
+  const { colImg, frameType3 } = location.state;
+  console.log(location.state);
   // const { frameType } = location.state;
 
   const captureArea = () => {
@@ -64,7 +66,7 @@ function CustomizingPage() {
       const access = localStorage.getItem('access');
       // console.log(blob);
       // console.log(formData);
-      fetch('http://localhost:8000/api/v1/frame/add/', {
+      fetch(`${apiUrl}frame/add/`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${access}` },
         body: formData, // 이미지 데이터를 FormData로 전송
@@ -109,9 +111,6 @@ function CustomizingPage() {
       <Container>
         <MainWrap>
           <Header />
-          <TitleWrap>
-            <Title>커스터마이징</Title>
-          </TitleWrap>
           <ProgressBar progress={progress} number={`${progress}%`} />
           {/* <CustomWrap> */}
           {/* <MenuWrap>
@@ -122,7 +121,11 @@ function CustomizingPage() {
               <div />
             </MenuWrap>
             <CaptureWrap>
-              <DivArea id="captureArea" aiimage={colImg}>
+              <DivArea
+                id="captureArea"
+                aiimage={colImg}
+                frameType3={frameType3}
+              >
                 <CustomTextBox />
                 <CustomPhoto />
                 <CustomEmoji />
@@ -161,14 +164,7 @@ const MainWrap = styled.div`
   height: 100vh;
   margin: 0 auto;
   flex-shrink: 0;
-  border: 3px solid black;
   align-items: center;
-`;
-
-const TitleWrap = styled.div`
-  margin: 3rem;
-  display: flex;
-  justify-content: center;
 `;
 
 const CustomWrap = styled.div`
@@ -178,17 +174,36 @@ const CustomWrap = styled.div`
 const MenuWrap = styled.div`
   flex: 1;
 `;
+
 const CaptureWrap = styled.div`
+  display: flex;
+  flex-direction: row;
   flex: 2;
   margin: 0 auto;
 `;
 
 const DivArea = styled.div`
+  ${({ frameType3 }) => {
+    if (frameType3 === '1X4') {
+      return `
+      width: 14rem;
+      aspect-ratio: 1 / 3;
+      `;
+    }
+    if (frameType3 === '2X2') {
+      return `
+      width: 25rem;
+      aspect-ratio: auto 2 / 3;
+      `;
+    }
+    return `
+      width: 14rem;
+      aspect-ratio: 1 / 3;
+    `;
+  }};
   margin: 0 auto;
-  width: 36.5rem;
-  height: 44rem;
-
   background: url(${(props) => props.aiimage}) lightgray 50% / cover no-repeat;
+  background-size: cover;
 `;
 
 const BtnWrap = styled.div`

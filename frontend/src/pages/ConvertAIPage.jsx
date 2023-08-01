@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import Header from '../components/Header';
-import Title from '../components/Title';
 import PageShiftBtn from '../components/PageShiftBtn';
 import Carousel1 from '../components/Carousel1';
 import Carousel2 from '../components/Carousel2';
@@ -97,9 +96,6 @@ function ConvertAIPage() {
       <Container>
         <MainWrap>
           <Header />
-          <TitleWrap>
-            <Title>AI 변환</Title>
-          </TitleWrap>
           <ProgressBar progress={progress} number={`${progress}%`} />
           {isLoading ? (
             <LoadingWrap>
@@ -158,11 +154,6 @@ const MainWrap = styled.div`
   align-items: center;
 `;
 
-const TitleWrap = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-`;
 const PageShiftWrap = styled.div`
   display: flex;
   justify-content: center;
@@ -174,8 +165,10 @@ const CarouselWrap = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        flex-direction: column;
-        gap: 30px;
+        display: grid;
+        grid-template-rows: repeat(2, 200px);
+        grid-template-columns: repeat(2, 0.2fr);
+        grid-gap: 6rem;
       `;
     }
     if (frameType === '2X2') {
@@ -183,6 +176,7 @@ const CarouselWrap = styled.div`
         display: grid;
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 0.2fr);
+        grid-gap: 6rem;
       `;
     }
   }}
@@ -192,7 +186,6 @@ const LoadingWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
