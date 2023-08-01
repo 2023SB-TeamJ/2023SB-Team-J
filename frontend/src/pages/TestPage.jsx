@@ -3,25 +3,22 @@
 import React from 'react';
 // import { Image } from 'react-konva';
 import { styled } from 'styled-components';
+// import ImageCropper from '../components/ImageCropper';
+import ImageAspectRatioConverter from '../components/ImageAspectRatioConverter';
 
 function TestPage() {
-  const url = 'https://konvajs.github.io/assets/yoda.jpg';
-
-  const handleDownload = () => {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'image.jpg';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  const imageUrl =
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2GKJzlQWwDbdHkkkfpqyJwDsqFPVdWQ_txQ&usqp=CAU';
 
   return (
     <div>
       <Container>
         <MainWrap>
-          <img src={url} alt="Image" />
-          <button onClick={handleDownload}>이미지 다운로드</button>
+          <Wrapper>
+            <h1>Image Cropper</h1>
+            {/* <ImageCropper imageUrl={imageUrl} /> */}
+            <ImageAspectRatioConverter url={imageUrl} />
+          </Wrapper>
         </MainWrap>
       </Container>
     </div>
@@ -42,4 +39,9 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   border: 3px solid black;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
