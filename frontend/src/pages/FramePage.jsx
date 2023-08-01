@@ -18,12 +18,12 @@ function FramePage() {
   console.log(frameType3);
   console.log(sendData2);
 
-  const [progress, setProgress] = useState(60);
+  const [progress, setProgress] = useState(42);
 
   useEffect(() => {
     // 0부터 50까지 프로그레스 증가 애니메이션
-    let currentProgress = 60;
-    const targetProgress = 80;
+    let currentProgress = 42;
+    const targetProgress = 62;
     const increment = 1;
 
     const animateProgress = () => {
@@ -38,7 +38,7 @@ function FramePage() {
 
     // 페이지 1 작업이 완료될 때까지 50%로 설정
     setTimeout(() => {
-      setProgress(80);
+      setProgress(62);
     }, 2000); // 2초로 변경
   }, []);
 
@@ -47,7 +47,6 @@ function FramePage() {
       <Container>
         <MainWrap>
           <Header />
-          <ProgressBar progress={progress} number={`${progress}%`} />
           <CarouselWrap>
             <CustomCarousel
               setColImg={setColImg}
@@ -58,6 +57,9 @@ function FramePage() {
           <PageShiftWrap>
             <PageShiftBtn path="/custom" state={{ colImg, frameType3 }} />
           </PageShiftWrap>
+          <ProgressWrap>
+            <ProgressBar progress={progress} number={`${progress}%`} />
+          </ProgressWrap>
         </MainWrap>
       </Container>
     </div>
@@ -90,4 +92,11 @@ const PageShiftWrap = styled.div`
   top: 50%; /* 세로 가운데 정렬을 위해 50% */
   right: 4rem; /* 가로 오른쪽 정렬을 위해 right: 0 */
   transform: translateY(-50%); /* 세로 가운데 정렬을 위한 추가적인 변형 */
+`;
+
+const ProgressWrap = styled.div`
+  margin-top: 5rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  padding-bottom: 2rem;
 `;

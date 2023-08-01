@@ -35,12 +35,12 @@ function ConvertAIPage() {
   // console.log(aiResponse2);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [progress, setProgress] = useState(40);
+  const [progress, setProgress] = useState(21);
 
   useEffect(() => {
     // 0부터 50까지 프로그레스 증가 애니메이션
-    let currentProgress = 40;
-    const targetProgress = 60;
+    let currentProgress = 22;
+    const targetProgress = 42;
     const increment = 1;
 
     const animateProgress = () => {
@@ -55,7 +55,7 @@ function ConvertAIPage() {
 
     // 페이지 1 작업이 완료될 때까지 50%로 설정
     setTimeout(() => {
-      setProgress(60);
+      setProgress(42);
     }, 2000); // 2초로 변경
   }, []);
 
@@ -98,7 +98,6 @@ function ConvertAIPage() {
       <Container>
         <MainWrap>
           <Header />
-          <ProgressBar progress={progress} number={`${progress}%`} />
           {isLoading ? (
             <LoadingWrap>
               <Loading />
@@ -134,6 +133,9 @@ function ConvertAIPage() {
           <PageShiftWrap onClick={handlePageShift}>
             <PageShiftBtn />
           </PageShiftWrap>
+          <ProgressWrap>
+            <ProgressBar progress={progress} number={`${progress}%`} />
+          </ProgressWrap>
         </MainWrap>
       </Container>
     </div>
@@ -194,4 +196,11 @@ const LoadingWrap = styled.div`
   height: 100%;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.2);
+`;
+
+const ProgressWrap = styled.div`
+  margin-top: 5rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  padding-bottom: 2rem;
 `;
