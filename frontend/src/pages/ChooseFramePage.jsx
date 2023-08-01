@@ -89,6 +89,7 @@ const FrameWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 5rem;
 `;
 
 const ImgWrap = styled.div`
@@ -98,7 +99,6 @@ const ImgWrap = styled.div`
 
   .oneFour {
     width: 11rem;
-    margin: 0 5rem;
     margin-top: 3rem;
 
     &:hover {
@@ -108,11 +108,20 @@ const ImgWrap = styled.div`
 
   .twoTwo {
     width: 22rem;
-    margin: 0 5rem;
     margin-top: 3rem;
 
     &:hover {
       cursor: pointer;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .oneFour {
+      width: 6rem;
+    }
+
+    .twoTwo {
+      width: 12rem;
     }
   }
 `;

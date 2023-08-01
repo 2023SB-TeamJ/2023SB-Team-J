@@ -8,6 +8,10 @@ const NameStyle = styled.div`
   flex-shrink: 0;
   background: url(${logoText}) no-repeat center/cover;
   background-size: cover;
+
+  @media screen and (max-width: 500px) {
+    width: 8rem;
+  }
 `;
 
 function Name() {

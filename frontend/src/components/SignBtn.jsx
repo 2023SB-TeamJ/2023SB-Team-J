@@ -6,7 +6,7 @@ export default styled.button`
   justify-content: center;
   align-items: center;
 
-  width: 120px;
+  width: 7.5rem;
   height: 35px;
   flex-shrink: 0;
   border-radius: 30px;
