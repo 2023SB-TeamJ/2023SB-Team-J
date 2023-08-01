@@ -20,10 +20,10 @@ function CustomText({ color, fontFamily }) {
       ...prevTextElements,
       {
         id: Date.now().toString(),
-        text: '',
-        position: { x: 0, y: 0 },
+        text: '텍스트 입력 후 드래그하세요',
+        position: { x: -270, y: 100 },
         size: { width: 200, height: 100 },
-        fontSize: 22,
+        fontSize: 16,
       },
     ]);
   };
@@ -54,30 +54,19 @@ function CustomText({ color, fontFamily }) {
 
   const handleResize = (id, e, { size }) => {
     const { width, height } = size;
+    const fontSize = calculateFontSize(width, height);
     setTextElements((prevTextElements) =>
       prevTextElements.map((element) =>
-        element.id === id ? { ...element, size } : element,
+        element.id === id ? { ...element, size, fontSize } : element,
       ),
     );
   };
-  // 폰트 사이즈 조절
-  // const handleResize = (id, e, { size }) => {
-  //   const { width, height } = size;
-  //   const fontSize = calculateFontSize(width, height);
-  //   setTextElements((prevTextElements) =>
-  //     prevTextElements.map((element) =>
-  //       element.id === id ? { ...element, size, fontSize } : element,
-  //     ),
-  //   );
-  // };
 
-  // const calculateFontSize = (width, height) => {
-  //   // 폰트 크기를 원하는 비율로 조절하는 로직을 작성하세요
-  //   // 예를 들어, 폭이 커질수록 폰트 크기도 커지도록 비율을 계산할 수 있습니다.
-  //   const ratio = width / 120; // 원하는 비율 계산
-  //   const fontSize = 14 * ratio; // 기본 폰트 크기에 비율을 곱하여 적용
-  //   return fontSize;
-  // };
+  const calculateFontSize = (width, height) => {
+    const ratio = width / 120;
+    const fontSize = 14 * ratio;
+    return fontSize;
+  };
   return (
     <div>
       <BtnWrap>
@@ -109,8 +98,8 @@ function CustomText({ color, fontFamily }) {
             width={element.size.width}
             height={element.size.height}
             onResize={(e, data) => handleResize(element.id, e, data)}
-            minConstraints={[200, 100]}
-            maxConstraints={[200, 100]}
+            minConstraints={[100, 50]}
+            maxConstraints={[300, 150]}
           >
             <TextboxContainer>
               {/* 삭제 버튼 */}

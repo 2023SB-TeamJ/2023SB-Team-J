@@ -41,7 +41,7 @@ function CustomEmoji() {
   const handleStickerClick = (emoji) => {
     setDroppedStickers((prevStickers) => [
       ...prevStickers,
-      { emoji, position: { x: 0, y: 0 }, size: { width: 80, height: 80 } },
+      { emoji, position: { x: 480, y: 100 }, size: { width: 80, height: 80 } },
     ]);
     handleCloseModal();
   };
@@ -192,12 +192,13 @@ const StickerModal = styled.div`
 `;
 
 const StickerContent = styled.div`
-  background-color: white;
+  background-color: #f6f6f6;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  max-width: 800px;
-  max-height: 500px;
+  border-radius: 10px;
+  max-width: 50rem;
+  max-height: 32rem;
 `;
 
 const CloseButton = styled.span`

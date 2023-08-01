@@ -34,6 +34,8 @@ function CustomizingPage() {
   const [color, setColor] = useState('#000000');
   const [fontFamily, setFontFamily] = useState('Pretendar-Regular');
 
+  const [isTextDivVisible, setIsTextDivVisible] = useState(true);
+
   const handleChangeComplete = (newColor) => {
     setColor(newColor.hex);
   };
@@ -95,61 +97,67 @@ function CustomizingPage() {
         <Header />
         <CustomWrap>
           <MenuWrap>
-            <TextDiv>
-              <SketchPicker
-                color={color}
-                onChangeComplete={handleChangeComplete}
-                styles={{
-                  default: {
-                    picker: {
-                      background: '#f6f6f6',
+            {isTextDivVisible && (
+              <TextDiv>
+                <SketchPicker
+                  color={color}
+                  onChangeComplete={handleChangeComplete}
+                  styles={{
+                    default: {
+                      picker: {
+                        background: '#f6f6f6',
+                      },
                     },
-                  },
-                }}
-              />
-              <FontCol>
-                <FontPicker
-                  style={{ fontFamily: 'iceSotong-Rg', fontSize: '2.5rem' }}
-                  onClick={() => setFontFamily('iceSotong-Rg')} // 클릭 시 폰트 패밀리 변경
-                >
-                  인천교육소통체
-                </FontPicker>
-                <FontPicker
-                  style={{
-                    fontFamily: 'Hangeuljaemin4-Regular',
-                    fontSize: '1.8rem',
                   }}
-                  onClick={() => setFontFamily('Hangeuljaemin4-Regular')} // 클릭 시 폰트 패밀리 변경
-                >
-                  한글재민체3.0
-                </FontPicker>
-                <FontPicker
-                  style={{
-                    fontFamily: 'WandohopeR',
-                    fontSize: '1.8rem',
-                  }}
-                  onClick={() => setFontFamily('WandohopeR')} // 클릭 시 폰트 패밀리 변경
-                >
-                  완도희망체
-                </FontPicker>
-                <FontPicker
-                  style={{
-                    fontFamily: 'Pretendard-Regular',
-                    fontSize: '1.8rem',
-                  }}
-                  onClick={() => setFontFamily('Pretendard-Regular')} // 클릭 시 폰트 패밀리 변경
-                >
-                  프리텐다드
-                </FontPicker>
-              </FontCol>
-            </TextDiv>
+                />
+                <FontCol>
+                  <FontPicker
+                    style={{ fontFamily: 'iceSotong-Rg', fontSize: '2.5rem' }}
+                    onClick={() => setFontFamily('iceSotong-Rg')} // 클릭 시 폰트 패밀리 변경
+                  >
+                    인천교육소통체
+                  </FontPicker>
+                  <FontPicker
+                    style={{
+                      fontFamily: 'Hangeuljaemin4-Regular',
+                      fontSize: '1.8rem',
+                    }}
+                    onClick={() => setFontFamily('Hangeuljaemin4-Regular')} // 클릭 시 폰트 패밀리 변경
+                  >
+                    한글재민체3.0
+                  </FontPicker>
+                  <FontPicker
+                    style={{
+                      fontFamily: 'WandohopeR',
+                      fontSize: '1.8rem',
+                    }}
+                    onClick={() => setFontFamily('WandohopeR')} // 클릭 시 폰트 패밀리 변경
+                  >
+                    완도희망체
+                  </FontPicker>
+                  <FontPicker
+                    style={{
+                      fontFamily: 'Pretendard-Regular',
+                      fontSize: '1.8rem',
+                    }}
+                    onClick={() => setFontFamily('Pretendard-Regular')} // 클릭 시 폰트 패밀리 변경
+                  >
+                    프리텐다드
+                  </FontPicker>
+                </FontCol>
+              </TextDiv>
+            )}
             <Divider />
           </MenuWrap>
           <CaptureWrap>
             <DivArea id="captureArea" aiimage={colImg} frameType3={frameType3}>
-              <CustomTextBox color={color} fontFamily={fontFamily} />
+              <CustomTextBox
+                color={color}
+                fontFamily={fontFamily}
+                onClick={() => setIsTextDivVisible(true)}
+              />
               <CustomPhoto />
-              <CustomEmoji />
+              <CustomEmoji whileHover={() => setIsTextDivVisible(false)} />
             </DivArea>
             <SaveWrap>
               <BtnWrap
@@ -257,10 +265,20 @@ const FontPicker = styled.span`
 
 const Divider = styled.div`
   position: absolute; // absolute positioning 사용
-  left: 5rem; // 왼쪽에서 25% 위치
+  left: 5rem;
   top: 0;
   bottom: 0;
   border-left: 1px solid rgba(37, 40, 47, 0.1); // border를 사용하여 세로 구분선 생성
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 3rem;
+    left: -0.94rem; // adjust as needed
+    border-top: 0.9rem solid transparent;
+    border-bottom: 0.9rem solid transparent;
+    border-right: 0.9rem solid rgba(37, 40, 47, 0.1); // 삼각형 색상을 조절하세요
+  }
 `;
 
 const CaptureWrap = styled.div`
