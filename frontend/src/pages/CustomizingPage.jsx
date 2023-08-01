@@ -82,6 +82,7 @@ function CustomizingPage() {
   return (
     <div>
       <Container>
+        <IconWrap />
         <MainWrap>
           <Header />
           {/* <CustomWrap> */}
@@ -106,7 +107,7 @@ function CustomizingPage() {
             <SaveWrap>
               <BtnWrap
                 onClick={captureArea}
-                whileHover={{ scale: 1.2 }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ borderRadius: '50%' }}
               >
                 <AddPhotoBtn />
@@ -114,7 +115,7 @@ function CustomizingPage() {
               </BtnWrap>
               <BtnWrap
                 onClick={captureLocal}
-                whileHover={{ scale: 1.2 }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ borderRadius: '50%' }}
               >
                 <AddLocalBtn />
@@ -143,6 +144,32 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
+`;
+
+const IconWrap = styled.div`
+  position: absolute;
+  top: 13rem;
+  left: -0.2rem;
+  width: 7rem;
+  height: 20.7rem;
+  border: 2px solid black;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 33%,
+    black 33%,
+    black 33.7%,
+    transparent 33.7%,
+    transparent 66%,
+    black 66%,
+    black 66.7%,
+    transparent 66.7%
+  );
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const CustomWrap = styled.div`
@@ -186,10 +213,9 @@ const DivArea = styled.div`
 
 const SaveWrap = styled.div`
   display: flex;
-  position: absolute;
+  flex: 1;
   flex-direction: column;
-  right: 4rem;
-  bottom: 4rem;
+  justify-content: flex-end;
 `;
 
 const BtnWrap = styled(motion.div)`
@@ -198,9 +224,9 @@ const BtnWrap = styled(motion.div)`
   align-items: center;
   width: 8rem;
   height: 3rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
   border-radius: 5px;
-  background: #eacfd5;
+  background: #f4d3d7;
 
   &:hover {
     cursor: pointer;

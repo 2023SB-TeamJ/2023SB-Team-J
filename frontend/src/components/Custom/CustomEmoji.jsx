@@ -150,12 +150,17 @@ const EmojiButtonContainer = styled(motion.div)`
   border: none;
   background: none;
   padding: 0;
-  cursor: pointer;
 `;
 const BtnWrap = styled.div`
   position: absolute;
-  top: 72%;
-  left: 20.2%;
+  top: 28.75rem;
+  left: 1.7rem;
+  width: 3.7rem;
+  height: 3.7rem;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StickerModal = styled.div`
@@ -194,8 +199,8 @@ const CloseButton = styled.span`
 
 const Sticker = styled.div`
   display: inline-block;
-  font-size: 100px;
-  margin: 10px;
+  font-size: 3rem;
+  margin: 0.6rem;
   cursor: pointer;
 `;
 

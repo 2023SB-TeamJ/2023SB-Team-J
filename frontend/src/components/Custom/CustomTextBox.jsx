@@ -137,13 +137,16 @@ function CustomText() {
 
 const BtnWrap = styled.div`
   position: absolute;
-  top: 45%;
-  left: 20.5%;
+  top: 14.75rem;
+  left: 1.7rem;
+  width: 3.7rem;
+  height: 3.7rem;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
-const AddTextboxButton = styled(motion.div)`
-  width: 100px;
-  height: 100px;
-`;
+const AddTextboxButton = styled(motion.div)``;
 
 const TextboxContainer = styled.div`
   position: relative;

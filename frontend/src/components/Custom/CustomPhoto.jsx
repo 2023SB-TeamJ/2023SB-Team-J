@@ -100,8 +100,14 @@ const ImageContainer = styled.div``;
 
 const BtnWrap = styled.div`
   position: absolute;
-  top: 58%;
-  left: 20%;
+  top: 21.75rem;
+  left: 1.7rem;
+  width: 3.7rem;
+  height: 3.7rem;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const ImgWrap = styled.div`
   z-index: -1;
@@ -111,7 +117,6 @@ const ImageButtonContainer = styled(motion.div)`
   border: none;
   background: none;
   padding: 0;
-  cursor: pointer;
 `;
 
 const DeleteButton = styled.button`
