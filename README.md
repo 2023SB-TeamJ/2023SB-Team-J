@@ -4,7 +4,7 @@
 > 친구와 함께한 추억을 어디에 넣지?<br/>
 > 오늘을 그림처럼 기억하고 싶을 땐 어떡하지?
 
-<br/><br/>
+<br/>
 
 
 <div display="justify" align="center">
