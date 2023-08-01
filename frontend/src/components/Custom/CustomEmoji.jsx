@@ -161,7 +161,7 @@ const BtnWrap = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: 28.75rem;
+  top: 22rem;
   left: 0.7rem;
   width: 3.7rem;
   height: 3.7rem;

@@ -9,7 +9,7 @@ import Draggable from 'react-draggable';
 import { motion } from 'framer-motion';
 import img from '../../assets/images/textSvg.svg';
 
-function CustomText() {
+function CustomText({ color, fontFamily }) {
   const [textElements, setTextElements] = useState([]);
 
   // 삭제 버튼의 기본적인 표시 여부 상태
@@ -127,7 +127,7 @@ function CustomText() {
                 type="text"
                 value={element.text}
                 onChange={(e) => handleTextChange(element.id, e.target.value)}
-                style={{ fontSize: `${element.fontSize}px` }}
+                style={{ color, fontFamily, fontSize: `${element.fontSize}px` }}
                 onMouseEnter={() => setShow(true)}
                 onMouseLeave={() => setShow(false)}
               />
@@ -144,7 +144,7 @@ const BtnWrap = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: 14.75rem;
+  top: 8rem;
   left: 0.7rem;
   width: 3.7rem;
   height: 3.7rem;

@@ -9,12 +9,14 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
+import { SketchPicker } from 'react-color';
 import Header from '../components/Header';
 import addphoto from '../assets/images/saveAlbum.png';
 import addlocal from '../assets/images/download.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
 import CustomEmoji from '../components/Custom/CustomEmoji';
+import FoldSvg from '../assets/images/foldSvg.svg';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -28,6 +30,13 @@ function CustomizingPage() {
   const { colImg, frameType3 } = location.state;
   console.log(location.state);
   // const { frameType } = location.state;
+
+  const [color, setColor] = useState('#000000');
+  const [fontFamily, setFontFamily] = useState('Pretendar-Regular');
+
+  const handleChangeComplete = (newColor) => {
+    setColor(newColor.hex);
+  };
 
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
@@ -86,11 +95,59 @@ function CustomizingPage() {
         <Header />
         <CustomWrap>
           <MenuWrap>
+            <TextDiv>
+              <SketchPicker
+                color={color}
+                onChangeComplete={handleChangeComplete}
+                styles={{
+                  default: {
+                    picker: {
+                      background: '#f6f6f6',
+                    },
+                  },
+                }}
+              />
+              <FontCol>
+                <FontPicker
+                  style={{ fontFamily: 'iceSotong-Rg', fontSize: '2.5rem' }}
+                  onClick={() => setFontFamily('iceSotong-Rg')} // 클릭 시 폰트 패밀리 변경
+                >
+                  인천교육소통체
+                </FontPicker>
+                <FontPicker
+                  style={{
+                    fontFamily: 'Hangeuljaemin4-Regular',
+                    fontSize: '1.8rem',
+                  }}
+                  onClick={() => setFontFamily('Hangeuljaemin4-Regular')} // 클릭 시 폰트 패밀리 변경
+                >
+                  한글재민체3.0
+                </FontPicker>
+                <FontPicker
+                  style={{
+                    fontFamily: 'WandohopeR',
+                    fontSize: '1.8rem',
+                  }}
+                  onClick={() => setFontFamily('WandohopeR')} // 클릭 시 폰트 패밀리 변경
+                >
+                  완도희망체
+                </FontPicker>
+                <FontPicker
+                  style={{
+                    fontFamily: 'Pretendard-Regular',
+                    fontSize: '1.8rem',
+                  }}
+                  onClick={() => setFontFamily('Pretendard-Regular')} // 클릭 시 폰트 패밀리 변경
+                >
+                  프리텐다드
+                </FontPicker>
+              </FontCol>
+            </TextDiv>
             <Divider />
           </MenuWrap>
           <CaptureWrap>
             <DivArea id="captureArea" aiimage={colImg} frameType3={frameType3}>
-              <CustomTextBox />
+              <CustomTextBox color={color} fontFamily={fontFamily} />
               <CustomPhoto />
               <CustomEmoji />
             </DivArea>
@@ -113,6 +170,7 @@ function CustomizingPage() {
               </BtnWrap>
             </SaveWrap>
           </CaptureWrap>
+          <Fold />
         </CustomWrap>
       </Container>
     </div>
@@ -174,6 +232,29 @@ const MenuWrap = styled.div`
   position: relative;
 `;
 
+const TextDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  top: 1rem;
+  right: 3.3rem;
+`;
+
+const FontCol = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const FontPicker = styled.span`
+  margin-top: 2rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const Divider = styled.div`
   position: absolute; // absolute positioning 사용
   left: 5rem; // 왼쪽에서 25% 위치
@@ -186,9 +267,11 @@ const CaptureWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 2;
+  flex: 2.5;
   margin: 0 auto;
-  background-color: rgba(37, 40, 47, 0.05);
+  background-color: #f1f1f2;
+  border-top: 1px solid rgba(37, 40, 47, 0.1);
+  border-bottom: 1px solid rgba(37, 40, 47, 0.1);
 `;
 
 const DivArea = styled.div`
@@ -231,7 +314,7 @@ const BtnWrap = styled(motion.div)`
   margin-right: 0.5rem;
   margin-left: 0.5rem;
   border-radius: 5px;
-  background: #f4d3d7;
+  background: rgba(37, 40, 47, 0.05);
 
   &:hover {
     cursor: pointer;
@@ -261,6 +344,21 @@ const SaveText = styled.span`
   font-size: 1rem;
   font-family: 'Pretendard-Regular';
   font-weight: 800;
+  color: #1f1f1f;
+`;
+
+const Fold = styled.div`
+  position: absolute;
+  bottom: 8rem;
+  left: 1.3rem;
+  width: 2.3rem; // 필요한 크기로 지정
+  height: 2.3rem; // 필요한 크기로 지정
+  background: url(${FoldSvg}) no-repeat;
+  background-size: cover;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 // ----------------------
