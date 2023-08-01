@@ -82,28 +82,18 @@ function CustomizingPage() {
   return (
     <div>
       <Container>
-        <IconWrap />
-        <MainWrap>
-          <Header />
-          {/* <CustomWrap> */}
-          {/* <MenuWrap>
-              <CustomMenuBar />
-            </MenuWrap> */}
-          <CustomWrap>
-            <MenuWrap>
-              <div />
-            </MenuWrap>
-            <CaptureWrap>
-              <DivArea
-                id="captureArea"
-                aiimage={colImg}
-                frameType3={frameType3}
-              >
-                <CustomTextBox />
-                <CustomPhoto />
-                <CustomEmoji />
-              </DivArea>
-            </CaptureWrap>
+        {/* <IconWrap /> */}
+        <Header />
+        <CustomWrap>
+          <MenuWrap>
+            <Divider />
+          </MenuWrap>
+          <CaptureWrap>
+            <DivArea id="captureArea" aiimage={colImg} frameType3={frameType3}>
+              <CustomTextBox />
+              <CustomPhoto />
+              <CustomEmoji />
+            </DivArea>
             <SaveWrap>
               <BtnWrap
                 onClick={captureArea}
@@ -122,9 +112,8 @@ function CustomizingPage() {
                 <SaveText>다운로드</SaveText>
               </BtnWrap>
             </SaveWrap>
-          </CustomWrap>
-          {/* </CustomWrap> */}
-        </MainWrap>
+          </CaptureWrap>
+        </CustomWrap>
       </Container>
     </div>
   );
@@ -174,17 +163,32 @@ const IconWrap = styled.div`
 
 const CustomWrap = styled.div`
   display: flex;
+  margin-top: 1rem;
 `;
 
 const MenuWrap = styled.div`
   flex: 1;
+  border-top: 1px solid rgba(37, 40, 47, 0.1);
+  border-right: 1px solid rgba(37, 40, 47, 0.1);
+  border-bottom: 1px solid rgba(37, 40, 47, 0.1);
+  position: relative;
+`;
+
+const Divider = styled.div`
+  position: absolute; // absolute positioning 사용
+  left: 5rem; // 왼쪽에서 25% 위치
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid rgba(37, 40, 47, 0.1); // border를 사용하여 세로 구분선 생성
 `;
 
 const CaptureWrap = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
   flex: 2;
   margin: 0 auto;
+  background-color: rgba(37, 40, 47, 0.05);
 `;
 
 const DivArea = styled.div`
@@ -197,7 +201,7 @@ const DivArea = styled.div`
     }
     if (frameType3 === '2X2') {
       return `
-      width: 25rem;
+      width: 22rem;
       aspect-ratio: auto 2 / 3;
       `;
     }
@@ -207,15 +211,15 @@ const DivArea = styled.div`
     `;
   }};
   margin: 0 auto;
+  margin-top: 1rem;
   background: url(${(props) => props.aiimage}) lightgray 50% / cover no-repeat;
   background-size: cover;
 `;
 
 const SaveWrap = styled.div`
   display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-end;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 
 const BtnWrap = styled(motion.div)`
@@ -224,7 +228,8 @@ const BtnWrap = styled(motion.div)`
   align-items: center;
   width: 8rem;
   height: 3rem;
-  margin-top: 2rem;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
   border-radius: 5px;
   background: #f4d3d7;
 

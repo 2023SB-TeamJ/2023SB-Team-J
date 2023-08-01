@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { ResizableBox } from 'react-resizable';
 import Draggable from 'react-draggable';
 import { motion } from 'framer-motion';
-import img from '../../assets/images/addText.png';
+import img from '../../assets/images/textSvg.svg';
 
 function CustomText() {
   const [textElements, setTextElements] = useState([]);
@@ -88,10 +88,14 @@ function CustomText() {
         >
           <img
             src={img}
-            style={{ width: '90%', height: '90%' }}
+            style={{
+              width: '90%',
+              height: '90%',
+            }}
             alt="Uploaded"
           />
         </AddTextboxButton>
+        <GuideText>텍스트</GuideText>
       </BtnWrap>
       {textElements.map((element) => (
         <Draggable
@@ -136,9 +140,12 @@ function CustomText() {
 }
 
 const BtnWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
   top: 14.75rem;
-  left: 1.7rem;
+  left: 0.7rem;
   width: 3.7rem;
   height: 3.7rem;
 
@@ -146,7 +153,20 @@ const BtnWrap = styled.div`
     cursor: pointer;
   }
 `;
-const AddTextboxButton = styled(motion.div)``;
+
+const GuideText = styled.div`
+  font-size: 0.75rem;
+  font-family: 'Pretendard-Regular';
+  text-align: center;
+  margin-top: 0.2rem;
+  color: rgba(157, 158, 163, 1);
+`;
+
+const AddTextboxButton = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const TextboxContainer = styled.div`
   position: relative;

@@ -7,7 +7,7 @@ import Draggable from 'react-draggable';
 import { ResizableBox } from 'react-resizable';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import imojiButton from '../../assets/images/emoji.png';
+import imojiButton from '../../assets/images/emojiSvg.svg';
 
 function CustomEmoji() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -90,10 +90,11 @@ function CustomEmoji() {
           <img
             src={imojiButton}
             alt="Upload"
-            style={{ width: '80%', height: '80%' }}
+            style={{ width: '90%', height: '90%' }}
             onClick={handleOpenModal}
           />
         </EmojiButtonContainer>
+        <GuideText>스티커</GuideText>
       </BtnWrap>
       <StickerModal isOpen={isModalOpen}>
         <StickerContent>
@@ -147,20 +148,35 @@ function CustomEmoji() {
 export default CustomEmoji;
 
 const EmojiButtonContainer = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
   border: none;
   background: none;
   padding: 0;
 `;
 const BtnWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
   top: 28.75rem;
-  left: 1.7rem;
+  left: 0.7rem;
   width: 3.7rem;
   height: 3.7rem;
 
   &:hover {
     cursor: pointer;
   }
+`;
+
+const GuideText = styled.div`
+  font-size: 0.75rem;
+  font-family: 'Pretendard-Regular';
+  text-align: center;
+  margin-top: 0.2rem;
+  color: rgba(157, 158, 163, 1);
 `;
 
 const StickerModal = styled.div`
