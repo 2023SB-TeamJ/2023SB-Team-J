@@ -1,136 +1,104 @@
-version: "3.9"
-
+version: "3"
+# docker compose -f docker-compose.prod.yml up --build
 services:
-  frontend:
+  fronted:
+    build: ./frontend
     command: sh -c "npm install && npm start"
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: t4y-frontend
+    container_name: fronted
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
       - ./frontend:/frontend
+      - build_folder:/frontend/build
+      - ./frontend/node_modules/:/frontend/node_modules
+    stdin_open: true
     tty: true
-
-  database:
-    image: mysql:8.0
-    container_name: t4y-database
-    env_file:
-      - ./backend/.env
-    ports:
-      - 3306:3306
     networks:
       - t4y
 
   backend:
+    container_name: backend
     build:
       context: ./backend
-      dockerfile: Dockerfile
-    container_name: t4y-backend
-    volumes:
-      - ./backend:/app # 컴파일시 자동으로 빌드 설정
+
+    command : gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240
     restart: on-failure
     ports:
       - 8000:8000
+    volumes:
+      - ./backend:/backend
+      - static_volume:/backend/staticfiles
     expose:
       - 8000
-    depends_on:
-      - database
-    environment:
-      - DB_HOST=t4y-database
-      - DB_NAME=mydatabase
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-#    command: "python manage.py runserver 0.0.0.0:8000"
-    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
-    tty: true
     networks:
       - t4y
 
-#  rabbitmq:
-#    hostname: t4yhost
-#    container_name: rabbitmq
-#    image: rabbitmq:3-management
-#    command: rabbitmq-server
-#    restart: unless-stopped
-#    env_file:
-#      - backend/.env
-#    ports:
-#      - 5672:5672 # Default Port
-#      - 15672:15672 # For UI=
-#    volumes:
-#      - ./backend:/backend
-#    depends_on:
-#      - backend
-#    networks:
-#      - t4y
-#
-#  celery_worker:
-#    container_name: celery_worker
-#    restart: always
-#    build:
-#      context: ./backend
-#      dockerfile: Dockerfile
-#    command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
-#    depends_on:
-#      - rabbitmq
-#      - backend
-#    volumes:
-#      - ./backend:/backend
-#    networks:
-#      - t4y
-
-  nginx:
-    image: nginx
+  rabbitmq:
+    hostname: t4yhost
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    command: rabbitmq-server
+    restart: unless-stopped
+    env_file:
+      - backend/.env
     ports:
-      - 80:80
+      - 5672:5672 # Default Port
+      - 15672:15672 # For UI=
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./backend:/backend
     depends_on:
       - backend
-      - frontend
-    # networks:
-    #   - t4y
+    networks:
+      - t4y
 
-#  prometheus:
-#    image: prom/prometheus
-#    container_name: prometheus
-#    user: root
-#    volumes:
-#      - ./prometheus/config/:/etc/prometheus/
-#      - ./prometheus/prometheus-volume:/prometheus
-#    ports:
-#      - 9090:9090
-#    command: # web.enalbe-lifecycle은 api 재시작없이 설정파일들을 reload 할 수 있게 해줌
-#      - '--web.enable-lifecycle'
-#      - '--config.file=/etc/prometheus/prometheus.yml'
-#    restart: always
-#    depends_on:
-#      - backend
-#    networks:
-#      - t4y
-#
-#  grafana:
-#      image: grafana/grafana-oss:latest
-#      container_name: grafana
-#      user: root
-#      environment:
-#        GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
-#      ports:
-#        - 3300:3000
-#      volumes:
-#        - ./grafana/grafana-volume/datasource:/var/lib/grafana/datasource
-#        - ./grafana/grafana-volume:/var/lib/grafana
-#      restart: always
-#      depends_on:
-#        - prometheus
-#      networks:
-#        - t4y
+  celery:
+    container_name: celery
+    build:
+      context: ./backend
+    restart : unless-stopped
+    command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
+    depends_on:
+      - rabbitmq
+      - backend
+    volumes:
+      - ./backend:/backend
+    networks:
+      - t4y
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - 80:8080
+      - 443:443
+    restart: unless-stopped
+    volumes:
+      - static_volume:/backend/staticfiles
+      - media_volume:/backend/mediafiles
+      - build_folder:/var/www/frontend
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - backend
+    # 가상 네트워크 연결
+    networks:
+      - t4y
+  certbot: #certbot
+    image: certbot/certbot
+    restart: unless-stopped
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - nginx
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 networks:
   t4y:
     driver: bridge
 
 volumes:
-  grafana-data:
+  static_volume: null
+  media_volume: null
+  build_folder: null
