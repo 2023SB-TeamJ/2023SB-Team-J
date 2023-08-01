@@ -3,7 +3,6 @@ from io import BytesIO
 from .s3_utils import *
 import torch
 from PIL import Image
-from django import db
 
 torch.hub.set_dir("image/torch")
 class Models:
