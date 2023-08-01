@@ -25,7 +25,7 @@ function ChooseFramePage() {
   useEffect(() => {
     // 0부터 50까지 프로그레스 증가 애니메이션
     let currentProgress = 0;
-    const targetProgress = 20;
+    const targetProgress = 1;
     const increment = 1;
 
     const animateProgress = () => {
@@ -40,7 +40,7 @@ function ChooseFramePage() {
 
     // 페이지 1 작업이 완료될 때까지 50%로 설정
     setTimeout(() => {
-      setProgress(20);
+      setProgress(1);
     }, 2000); // 2초로 변경
   }, []);
 
@@ -49,7 +49,6 @@ function ChooseFramePage() {
       <Container>
         <Header />
         <MainWrap>
-          <ProgressBar progress={progress} number={`${progress}%`} />
           <FrameWrap>
             <ImgWrap
               // 1X4 배열 형태의 컴포넌트로 이루어진 페이지로 이동한다.
@@ -79,6 +78,9 @@ function ChooseFramePage() {
               />
             </ImgWrap>
           </FrameWrap>
+          <ProgressWrap>
+            <ProgressBar progress={progress} number={`${progress}%`} />
+          </ProgressWrap>
         </MainWrap>
       </Container>
     </div>
@@ -136,10 +138,9 @@ const ImgWrap = styled.div`
   }
 `;
 
-// const Img1X4 = styled(motion.img)`
-// whileHover={{ scale: 1.1 }}
-// `;
-
-// const Img2X2 = styled(motion.img)`
-//   whileHover={{ scale: 1.1 }}
-//
+const ProgressWrap = styled.div`
+  margin-top: 5rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  padding-bottom: 2rem;
+`;

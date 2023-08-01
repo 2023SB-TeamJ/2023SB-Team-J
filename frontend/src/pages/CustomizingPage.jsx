@@ -35,12 +35,12 @@ function CustomizingPage() {
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
 
-    const [progress, setProgress] = useState(80);
+    const [progress, setProgress] = useState(61);
 
     useEffect(() => {
       // 0부터 50까지 프로그레스 증가 애니메이션
-      let currentProgress = 80;
-      const targetProgress = 100;
+      let currentProgress = 62;
+      const targetProgress = 82;
       const increment = 1;
 
       const animateProgress = () => {
@@ -55,7 +55,7 @@ function CustomizingPage() {
 
       // 페이지 1 작업이 완료될 때까지 50%로 설정
       setTimeout(() => {
-        setProgress(80);
+        setProgress(82);
       }, 2000); // 2초로 변경
     }, []);
 
@@ -111,7 +111,6 @@ function CustomizingPage() {
       <Container>
         <MainWrap>
           <Header />
-          <ProgressBar progress={progress} number={`${progress}%`} />
           {/* <CustomWrap> */}
           {/* <MenuWrap>
               <CustomMenuBar />
@@ -145,6 +144,9 @@ function CustomizingPage() {
             </BtnWrap>
           </CustomWrap>
           {/* </CustomWrap> */}
+          <ProgressWrap>
+            <ProgressBar progress={progress} number={`${progress}%`} />
+          </ProgressWrap>
         </MainWrap>
       </Container>
     </div>
@@ -235,6 +237,12 @@ const AddLocalBtn = styled(motion.div)`
   cursor: pointer;
 `;
 
+const ProgressWrap = styled.div`
+  margin-top: 5rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  padding-bottom: 2rem;
+`;
 // ----------------------
 // const StickerModal = styled.div`
 //   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};

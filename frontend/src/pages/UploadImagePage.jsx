@@ -24,12 +24,12 @@ function UploadImagePage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수를 추가합니다.
 
-  const [progress, setProgress] = useState(20);
+  const [progress, setProgress] = useState(1);
 
   useEffect(() => {
     // 0부터 50까지 프로그레스 증가 애니메이션
-    let currentProgress = 20;
-    const targetProgress = 40;
+    let currentProgress = 1;
+    const targetProgress = 22;
     const increment = 1;
 
     const animateProgress = () => {
@@ -44,7 +44,7 @@ function UploadImagePage() {
 
     // 페이지 1 작업이 완료될 때까지 50%로 설정
     setTimeout(() => {
-      setProgress(40);
+      setProgress(22);
     }, 2000); // 2초로 변경
   }, []);
 
@@ -134,7 +134,6 @@ function UploadImagePage() {
       <Container>
         <MainWrap>
           <Header />
-          <ProgressBar progress={progress} number={`${progress}%`} />
           {isLoading ? (
             <LoadingWrap>
               <Loading />
@@ -144,6 +143,9 @@ function UploadImagePage() {
               {uploadImageComponents}
             </ImageWrapper>
           )}
+          <ProgressWrap>
+            <ProgressBar progress={progress} number={`${progress}%`} />
+          </ProgressWrap>
         </MainWrap>
         <PageShiftWrap onClick={uploadAllImages}>
           <PageShiftBtn />
@@ -215,4 +217,11 @@ const LoadingWrap = styled.div`
   height: 100%;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.2);
+`;
+
+const ProgressWrap = styled.div`
+  margin-top: 5rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  padding-bottom: 2rem;
 `;
