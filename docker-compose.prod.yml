@@ -1,5 +1,5 @@
 version: "3"
-
+# docker compose -f docker-compose.prod.yml up --build
 services:
   fronted:
     build: ./frontend
