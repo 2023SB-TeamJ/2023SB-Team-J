@@ -53,10 +53,7 @@ function SignUpModal({ isOpen, onClose }) {
         password,
       };
       console.log(data);
-      const response = await axios.post(
-        'http://13.124.29.222/api/v1/login/',
-        data,
-      );
+      const response = await axios.post(`${apiUrl}login/`, data);
       console.log(response.status); // 실제 반환되는 상태 코드 확인
       // 응답 확인
       if (response.status === 201) {
