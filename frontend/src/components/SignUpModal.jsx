@@ -11,7 +11,7 @@ import {
   RowDiv,
 } from './AuthModalStyle';
 
-const apiUrl = process.env.REACT_APP_API_URL;
+// const apiUrl = process.env.REACT_APP_API_URL;
 
 // eslint-disable-next-line react/prop-types
 function SignUpModal({ isOpen, onClose }) {
@@ -54,7 +54,7 @@ function SignUpModal({ isOpen, onClose }) {
       };
       console.log(data);
       const response = await axios.post(
-        'http://13.124.29.222/api/v1/login/',
+        'http://localhost/api/v1/signup/',
         data,
       );
       console.log(response.status); // 실제 반환되는 상태 코드 확인

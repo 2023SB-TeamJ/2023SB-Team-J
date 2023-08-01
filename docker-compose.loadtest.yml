@@ -1,20 +1,21 @@
-version: "3.9"
-
-# docker-compose -f docker-compose.loadtest.yml up -d
+version: "3"
 
 services:
-  frontend:
-    command: sh -c "npm install && npm build && npm start"
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: t4y-frontend
+
+  fronted:
+    build: ./frontend
+    command: sh -c "npm install && npm start"
+    container_name: fronted
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
       - ./frontend:/frontend
+      - build_folder:/frontend/build
+      - ./frontend/node_modules/:/frontend/node_modules
+    stdin_open: true
     tty: true
-
+    networks:
+      - t4y
   database:
     image: mysql:8.0
     container_name: t4y-database
@@ -26,27 +27,19 @@ services:
       - t4y
 
   backend:
+    container_name: backend
     build:
       context: ./backend
-      dockerfile: Dockerfile
-    container_name: t4y-backend
-    volumes:
-      - ./backend:/app # 컴파일시 자동으로 빌드 설정
+
+    command : gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240
     restart: on-failure
     ports:
       - 8000:8000
+    volumes:
+      - ./backend:/backend
+      - static_volume:/backend/staticfiles
     expose:
       - 8000
-    depends_on:
-      - database
-    environment:
-      - DB_HOST=t4y-database
-      - DB_NAME=mydatabase
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-#    command: "python manage.py runserver 0.0.0.0:8000"
-    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
-    tty: true
     networks:
       - t4y
 
@@ -68,12 +61,11 @@ services:
     networks:
       - t4y
 
-  celery_worker:
-    container_name: celery_worker
-    restart: always
+  celery:
+    container_name: celery
     build:
       context: ./backend
-      dockerfile: Dockerfile
+    restart : unless-stopped
     command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
     depends_on:
       - rabbitmq
@@ -84,16 +76,20 @@ services:
       - t4y
 
   nginx:
-    image: nginx
+    build: ./nginx
+    container_name: nginx
     ports:
-      - 80:80
+      - 80:8080
+    restart: unless-stopped
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - static_volume:/backend/staticfiles
+      - media_volume:/backend/mediafiles
+      - build_folder:/var/www/frontend
     depends_on:
       - backend
-      - frontend
-    # networks:
-    #   - t4y
+    # 가상 네트워크 연결
+    networks:
+      - t4y
 
   prometheus:
     image: prom/prometheus
@@ -153,9 +149,14 @@ services:
     networks:
       - t4y
 
+#volumes:
+#  grafana-data:
+
 networks:
   t4y:
     driver: bridge
 
 volumes:
-  grafana-data:
+  static_volume: null
+  media_volume: null
+  build_folder: null
