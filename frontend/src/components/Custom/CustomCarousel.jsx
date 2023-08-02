@@ -3,19 +3,44 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import html2canvas from 'html2canvas';
 import LeftAIShift from '../LeftAIShift';
 import RightAIShift from '../RightAIShift';
 import Black from '../../assets/images/BlackImg.png';
-import Brown from '../../assets/images/Brown.png';
 import Green from '../../assets/images/Green.png';
-import Gray from '../../assets/images/Solid_gray.png';
-import addphoto from '../../assets/images/addphoto.png';
-// import logoText from '../../assets/images/logoText.png';
+import aframe1 from '../../assets/images/frame_1.png';
+import aframe2 from '../../assets/images/frame_2.png';
+import aframe3 from '../../assets/images/frame_3.png';
+import bframe1 from '../../assets/images/bframe_1.png';
+import bframe2 from '../../assets/images/bframe_2.png';
 
+// 4~6개 할까 생각중
 const MAX_IMAGES = 4;
 
-function CustomCarousel({ setColImg, sendData, frameType }) {
+function CustomCarousel({ sendData, frameType }) {
+  const IMAGES_1 = [Black, aframe1, aframe2, aframe3];
+  const IMAGES_2 = [Black, bframe1, bframe2, Green];
+
+  const [imgIdx, setImgIdx] = useState(0);
+
+  const leftBtn1 = () => {
+    if (imgIdx === 0) return;
+    setImgIdx((prev) => prev - 1);
+  };
+
+  const rightBtn1 = () => {
+    if (imgIdx === IMAGES_1.length - 1) return;
+    setImgIdx((prev) => prev + 1);
+  };
+  const leftBtn2 = () => {
+    if (imgIdx === 0) return;
+    setImgIdx((prev) => prev - 1);
+  };
+
+  const rightBtn2 = () => {
+    if (imgIdx === IMAGES_2.length - 1) return;
+    setImgIdx((prev) => prev + 1);
+  };
+
   // // base64 이미지를 담는 배열로 state를 초기화합니다.
   // const [base64Images, setBase64Images] = useState([]);
 
@@ -48,12 +73,6 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
 
     img.src = url;
   };
-  // useEffect(() => {
-  //   convertToBase64(sendData.url1, 0);
-  //   convertToBase64(sendData.url2, 1);
-  //   convertToBase64(sendData.url3, 2);
-  //   convertToBase64(sendData.url4, 3);
-  // }, [sendData]);
 
   useEffect(() => {
     for (let i = 0; i < MAX_IMAGES; i++) {
@@ -61,105 +80,82 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
     }
   }, [sendData]);
 
-  // FramePage에서 구조 분해 할당으로 setColImg 받아옴
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  // 이전 버튼 클릭 시 activeIndex 값 업데이트
-  const handlePrev = () => {
-    setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? MAX_IMAGES - 1 : prevIndex - 1,
-    );
-  };
-
-  // 다음 버튼 클릭 시 activeIndex 값 업데이트
-  const handleNext = () => {
-    setActiveIndex((nextIndex) =>
-      nextIndex === MAX_IMAGES - 1 ? 0 : nextIndex + 1,
-    );
-  };
-
-  const captureArea = () => {
-    const captureDiv = document.getElementById('captureArea');
-
-    html2canvas(captureDiv).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      console.log(imgData);
-      setColImg(imgData);
-    });
-  };
+  console.log(base64Images);
 
   return (
-    <Container>
-      <ButtonWrap
-        onClick={handlePrev}
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ borderRadius: '50%' }}
-      >
-        <LeftAIShift
-          className="carousel-control-prev-icon"
-          aria-hidden="true"
-        />
-      </ButtonWrap>
+    <div>
       {frameType === '1X4' ? (
-        <ImageWrap id="captureArea" frameType={frameType}>
-          <CarouselImage>
-            {activeIndex === 0 && <Images src={Black} alt="..." />}
-          </CarouselImage>
-          <CarouselImage>
-            {activeIndex === 1 && <Images src={Green} alt="..." />}
-          </CarouselImage>
-          <CarouselImage>
-            {activeIndex === 2 && <Images src={Gray} alt="..." />}
-          </CarouselImage>
-          <CarouselImage>
-            {activeIndex === 3 && <Images src={Brown} alt="..." />}
-          </CarouselImage>
-          <FrameImageWrap frameType={frameType}>
-            <TopImage src={base64Images.image0} />
-            <SecondImage src={base64Images.image1} />
-            <ThirdImage src={base64Images.image2} />
-            <FourthImage src={base64Images.image3} />
-          </FrameImageWrap>
-        </ImageWrap>
+        <Container>
+          <ButtonWrap
+            onClick={leftBtn1}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          >
+            <LeftAIShift
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            />
+          </ButtonWrap>
+          <ImageWrap
+            id="captureArea"
+            src={IMAGES_1[imgIdx]}
+            frameType={frameType}
+          >
+            <FrameImageWrap frameType={frameType}>
+              <TopImage src={base64Images.image0} />
+              <SecondImage src={base64Images.image1} />
+              <ThirdImage src={base64Images.image2} />
+              <FourthImage src={base64Images.image3} />
+            </FrameImageWrap>
+          </ImageWrap>
+          <ButtonWrap
+            onClick={rightBtn1}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          >
+            <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            />
+          </ButtonWrap>
+        </Container>
       ) : (
-        <ImageWrap id="captureArea" frameType={frameType}>
-          <CarouselImage>
-            {activeIndex === 0 && <Images src={Black} alt="..." />}
-          </CarouselImage>
-          <CarouselImage>
-            {activeIndex === 1 && <Images src={Green} alt="..." />}
-          </CarouselImage>
-          <CarouselImage>
-            {activeIndex === 2 && <Images src={Gray} alt="..." />}
-          </CarouselImage>
-          <CarouselImage>
-            {activeIndex === 3 && <Images src={Brown} alt="..." />}
-          </CarouselImage>
-          <FrameImageWrap frameType={frameType}>
-            <TopLeftImage src={base64Images.image0} />
-            <TopRightImage src={base64Images.image1} />
-            <BottomLeftImage src={base64Images.image2} />
-            <BottomRightImage src={base64Images.image3} />
-          </FrameImageWrap>
-        </ImageWrap>
+        <Container>
+          <ButtonWrap
+            onClick={leftBtn2}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          >
+            <LeftAIShift
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            />
+          </ButtonWrap>
+          <ImageWrap
+            id="captureArea"
+            src={IMAGES_2[imgIdx]}
+            frameType={frameType}
+          >
+            <FrameImageWrap frameType={frameType}>
+              <TopLeftImage src={base64Images.image0} />
+              <TopRightImage src={base64Images.image1} />
+              <BottomLeftImage src={base64Images.image2} />
+              <BottomRightImage src={base64Images.image3} />
+            </FrameImageWrap>
+          </ImageWrap>
+          <ButtonWrap
+            onClick={rightBtn2}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          >
+            <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            />
+          </ButtonWrap>
+        </Container>
       )}
-
-      <ButtonWrap
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ borderRadius: '50%' }}
-        onClick={handleNext}
-      >
-        <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
-          className="carousel-control-next-icon"
-          aria-hidden="true"
-        />
-      </ButtonWrap>
-      <AddPhotoBtn
-        onClick={captureArea}
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ borderRadius: '50%' }}
-      />
-    </Container>
+    </div>
   );
 }
 
@@ -178,152 +174,94 @@ const ButtonWrap = styled(motion.div)`
 
 // 전체 이미지 스타일
 const ImageWrap = styled.div`
+  background-image: url(${(props) => props.src});
+  width: 200px;
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        width: 30rem;
-        aspect-ratio: 1 / 1;
-        margin : -1rem;
-      `;
-    }
-    if (frameType === '2X2') {
-      return `
-        padding-top : 4rem;
-        width: 36rem;
-        aspect-ratio: 1 / 1;
-        margin : 4rem;
-      `;
-    }
-  }}
-`;
-
-// 각각의 이미지 스타일
-const CarouselImage = styled.div``;
-
-const Images = styled.img`
-  position: absolute;
-  ${({ frameType }) => {
-    if (frameType === '1X4') {
-      return `
-        width: 200px;
-        height: 100px;
+        width: 180px;
+        height: 550px;
+        margin: 40px;
       `;
     }
     if (frameType === '2X2') {
       return `
         width: 580px;
         height: 440px;
+        margin: 40px;
       `;
     }
-    // 기본 스타일을 지정해주어야 합니다.
-    return `
-        width: 580px;
-        height: 440px;
-    `;
   }}
 `;
+
 // 4개 이미지를 감싸는 wrap인데, 삼항연산자를 쓰기위해 만들었다.
 const FrameImageWrap = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        position: absolute;
-        width: 280px;
-        height: 1000px;
-        padding: 20px;
-     
+      display :flex;
+      flex-direction: column;  
+      align-items: center;
+      width: 180px;
+      height: 550px;
+      padding: 10px;
       `;
     }
     if (frameType === '2X2') {
       return `
-        position: absolute;
         width: 440px;
         height: 440px;
-        padding: 20px;
+        padding: 15px;
       `;
     }
-    return `
-      padding: 20px;
-    `;
   }}
 `;
 
 const TopImage = styled.img`
-  height: 25%;
-
-  aspect-ratio: 1 / 1;
-  padding: 5px 7px 2px 0;
+  width: 150px;
+  height: 120px;
+  padding: 5px;
 `;
 
 const SecondImage = styled.img`
-  height: 25%;
-
-  aspect-ratio: 1 / 1;
-  padding: 5px 7px 2px 0;
+  width: 150px;
+  height: 120px;
+  padding: 5px;
 `;
 
 const ThirdImage = styled.img`
-  height: 25%;
-
-  aspect-ratio: 1 / 1;
-  padding: 5px 7px 2px 0;
+  width: 150px;
+  height: 120px;
+  padding: 5px;
 `;
 
 const FourthImage = styled.img`
-  height: 25%;
-
-  aspect-ratio: 1 / 1;
-  padding: 5px 7px 2px 0;
+  width: 150px;
+  height: 120px;
+  padding: 5px;
 `;
-
-// const UpperLogoText = styled.img`
-//   width: 60%;
-//   height: 15%;
-//   position: absolute;
-//   bottom: 35.3rem;
-//   left: 6rem;
-// `;
+//
 
 const TopLeftImage = styled.img`
   aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 5px 5px 5px;
+  padding: 5px 5px 5px 5px;
 `;
 
 const TopRightImage = styled.img`
   aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 5px 10px 5px;
+  padding: 5px 5px 5px 5px;
 `;
 
 const BottomLeftImage = styled.img`
   aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 5px 5px 5px;
+  padding: 5px 5px 5px 5px;
 `;
 
 const BottomRightImage = styled.img`
   aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 5px 10px 5px;
-`;
-
-// const BottomLogoText = styled.img`
-//   width: 80%;
-//   height: 10%;
-//   position: absolute;
-//   bottom: 1rem;
-//   left: 2rem;
-// `;
-
-const AddPhotoBtn = styled(motion.div)`
-  position: absolute;
-  top: 55%;
-  right: 10%;
-  width: 79.5px;
-  height: 66px;
-  flex-shrink: 0;
-  background: url(${addphoto}) lightgray 50% / cover no-repeat;
-  background-color: ${(props) => props.theme.backgroundColor};
-  cursor: pointer;
+  padding: 5px 5px 5px 5px;
 `;

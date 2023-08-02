@@ -36,7 +36,7 @@ function ConvertAIPage() {
   // console.log(aiResponse2);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [progress, setProgress] = useState(21);
+  const [progress, setProgress] = useState(22);
 
   useEffect(() => {
     // 0부터 50까지 프로그레스 증가 애니메이션
@@ -53,12 +53,12 @@ function ConvertAIPage() {
     };
 
     animateProgress();
-
-    // 페이지 1 작업이 완료될 때까지 50%로 설정
-    setTimeout(() => {
-      setProgress(42);
-    }, 2000); // 2초로 변경
+    setProgress(42);
   }, []);
+
+  // setTimeout(() => {
+  //   setProgress(42);
+  // }, 2000); // 2초로 변경 //clearTimeOut
 
   const handlePageShift = async () => {
     setIsLoading(true);

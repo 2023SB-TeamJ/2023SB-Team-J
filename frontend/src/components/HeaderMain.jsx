@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import Logo from './Logo';
 import Name from './Name';
 import SignBtn from './SignBtn';
@@ -8,6 +9,7 @@ import SignUpModal from './SignUpModal';
 import LoginModal from './LoginModal';
 
 function HeaderMain() {
+  const { isLoginLoading } = useAuth();
   const navigate = useNavigate();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
@@ -35,12 +37,15 @@ function HeaderMain() {
           <Logo />
           <Name />
         </LogoWrap>
-        <BtnWrap>
-          <LoginBtn onClick={handleOpenLoginModal}>로그인</LoginBtn>
-          <SignBtn className="signUp" onClick={handleOpenSignUpModal}>
-            회원가입
-          </SignBtn>
-        </BtnWrap>
+        {!isLoginLoading && (
+          <BtnWrap>
+            <LoginBtn onClick={handleOpenLoginModal}>로그인</LoginBtn>
+            <SignBtn className="signUp" onClick={handleOpenSignUpModal}>
+              회원가입
+            </SignBtn>
+          </BtnWrap>
+        )}
+
         <SignUpModal
           isOpen={signUpModalOpen}
           onClose={handleCloseSignUpModal}
