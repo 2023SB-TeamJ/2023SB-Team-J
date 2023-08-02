@@ -73,12 +73,7 @@ function Carousel3({ aiData, setSelectedData }) {
 
         <ImageWrap>
           <CarouselImage active={activeIndex === 0}>
-            {activeIndex === 0 && (
-              <img
-                src={data.origin_img_url}
-                style={{ width: '240px', height: '160px', objectFit: 'cover' }}
-              />
-            )}
+            {activeIndex === 0 && <ImgStyled src={data.origin_img_url} />}
           </CarouselImage>
           <CarouselImage active={activeIndex === 1}>
             {activeIndex === 1 && <img src={data.model1_url} />}
@@ -115,6 +110,17 @@ const CarouselWrap = styled.div`
   justify-content: center;
   align-items: center;
   height: 12rem;
+`;
+
+const ImgStyled = styled.img`
+  width: 240px;
+  height: 160px;
+  objectfit: cover;
+
+  @media screen and (max-width: 850px) {
+    width: 180px;
+    height: 120px;
+  }
 `;
 
 // Indicator 버튼 컨테이너 스타일
