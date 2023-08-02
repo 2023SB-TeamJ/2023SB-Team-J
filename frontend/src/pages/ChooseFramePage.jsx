@@ -101,11 +101,7 @@ const MainWrap = styled.div`
   flex-shrink: 0;
   align-items: center;
 `;
-const TitleWrap = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-`;
+
 const FrameWrap = styled.div`
   display: flex;
   justify-content: center;
