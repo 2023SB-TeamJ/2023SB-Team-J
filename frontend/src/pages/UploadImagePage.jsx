@@ -127,7 +127,7 @@ function UploadImagePage() {
       <div key={index}>
         <WrapContent>
           <UploadImage onImageUpload={onImageUpload} />
-          <ImageText>{`${index + 1}번 이미지`}</ImageText>
+          {/* <ImageText>{`${index + 1}번 이미지`}</ImageText> */}
         </WrapContent>
       </div>
     ));
@@ -219,12 +219,12 @@ const ImageWrapper = styled.div`
   }}
 `;
 
-const ImageText = styled.p`
-  font-size: 1.2rem;
-  margin-top: 1rem;
-  text-align: center;
-  font-family: 'Pretendar-Regular';
-`;
+// const ImageText = styled.p`
+//   font-size: 1.2rem;
+//   margin-top: 1rem;
+//   text-align: center;
+//   font-family: 'Pretendar-Regular';
+// `;
 
 const PageShiftWrap = styled(motion.div)`
   position: absolute;

@@ -23,7 +23,7 @@ function CustomText() {
         text: '',
         position: { x: 0, y: 0 },
         size: { width: 200, height: 100 },
-        fontSize: 22,
+        fontSize: 20,
       },
     ]);
   };

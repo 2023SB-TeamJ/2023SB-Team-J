@@ -183,6 +183,7 @@ const ImageWrap = styled.div`
       return `
         width: 30rem;
         aspect-ratio: 1 / 1;
+        margin : -1rem;
       `;
     }
     if (frameType === '2X2') {
@@ -206,34 +207,31 @@ const Images = styled.img`
       return `
         width: 200px;
         height: 100px;
-        aspect-ratio: 1 / 4;
       `;
     }
     if (frameType === '2X2') {
       return `
-        position: absolute;
         width: 580px;
         height: 440px;
       `;
     }
-    // 기본(default) 경우: 빈 문자열 또는 기본 스타일 반환
+    // 기본 스타일을 지정해주어야 합니다.
     return `
-       width: 700px;
-       height: 300px;
-        `;
+        width: 580px;
+        height: 440px;
+    `;
   }}
 `;
-
 // 4개 이미지를 감싸는 wrap인데, 삼항연산자를 쓰기위해 만들었다.
 const FrameImageWrap = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
         position: absolute;
-        width: 440px;
+        width: 280px;
         height: 1000px;
         padding: 20px;
-        padding: 20px;
+     
       `;
     }
     if (frameType === '2X2') {
@@ -252,24 +250,28 @@ const FrameImageWrap = styled.div`
 
 const TopImage = styled.img`
   height: 25%;
+
   aspect-ratio: 1 / 1;
   padding: 5px 7px 2px 0;
 `;
 
 const SecondImage = styled.img`
   height: 25%;
+
   aspect-ratio: 1 / 1;
   padding: 5px 7px 2px 0;
 `;
 
 const ThirdImage = styled.img`
   height: 25%;
+
   aspect-ratio: 1 / 1;
   padding: 5px 7px 2px 0;
 `;
 
 const FourthImage = styled.img`
   height: 25%;
+
   aspect-ratio: 1 / 1;
   padding: 5px 7px 2px 0;
 `;
@@ -285,25 +287,25 @@ const FourthImage = styled.img`
 const TopLeftImage = styled.img`
   aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 5px 7px 2px 0;
+  padding: 5px 5px 5px;
 `;
 
 const TopRightImage = styled.img`
   aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 5px 0 2px 7px;
+  padding: 5px 10px 5px;
 `;
 
 const BottomLeftImage = styled.img`
   aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 0 7px 8px 0;
+  padding: 5px 5px 5px;
 `;
 
 const BottomRightImage = styled.img`
   aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 0 0 8px 7px;
+  padding: 5px 10px 5px;
 `;
 
 // const BottomLogoText = styled.img`

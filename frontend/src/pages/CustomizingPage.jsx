@@ -28,7 +28,8 @@ function CustomizingPage() {
   // FramePage.jsx에서 받아온 colImg를 가져와 colImg에 저장
   // location.state가 객체이고 그 객체의 colImg 프로퍼티도 객체인 것을 가정하고 있습니다.
   // 그러나 실제로는 colImg가 문자열이어서 아래 코드처럼 작성
-  const { colImg, frameType3 } = location.state;
+  const colImg2 = location.state.colImg;
+  const frameType4 = location.state.frameType3;
   console.log(location.state);
 
   const [progress, setProgress] = useState(62);
@@ -114,15 +115,15 @@ function CustomizingPage() {
           {/* <MenuWrap>
               <CustomMenuBar />
             </MenuWrap> */}
-          <CustomWrap>
+          <CustomContainer>
             <MenuWrap>
               <div />
             </MenuWrap>
             <CaptureWrap>
               <DivArea
                 id="captureArea"
-                aiimage={colImg}
-                frameType3={frameType3}
+                aiimage={colImg2}
+                frameType={frameType4}
               >
                 <CustomTextBox />
                 <CustomPhoto />
@@ -141,7 +142,7 @@ function CustomizingPage() {
                 whileTap={{ borderRadius: '50%' }}
               />
             </BtnWrap>
-          </CustomWrap>
+          </CustomContainer>
           {/* </CustomWrap> */}
           <ProgressWrap>
             <ProgressBar progress={progress} number={`${progress}%`} />
@@ -168,8 +169,15 @@ const MainWrap = styled.div`
   align-items: center;
 `;
 
-const CustomWrap = styled.div`
+const CustomContainer = styled.div`
   display: flex;
+  max-width: 100rem;
+  height: 370px;
+  margin-top: 7rem;
+  margin-bottom: 7rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
 `;
 
 const MenuWrap = styled.div`
@@ -184,17 +192,18 @@ const CaptureWrap = styled.div`
 `;
 
 const DivArea = styled.div`
-  ${({ frameType3 }) => {
-    if (frameType3 === '1X4') {
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
       return `
       width: 14rem;
       aspect-ratio: 1 / 3;
       `;
     }
-    if (frameType3 === '2X2') {
+    if (frameType === '2X2') {
       return `
-      width: 25rem;
-      aspect-ratio: auto 2 / 3;
+      width: 40rem;
+      height: 30rem;
+      aspect-ratio: auto 3 / 2;
       `;
     }
     return `
