@@ -90,68 +90,75 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
 
   return (
     <Container>
-      <CustomContainer>
-        <ButtonWrap onClick={handlePrev}>
-          <LeftAIShift
-            className="carousel-control-prev-icon"
-            aria-hidden="true"
-          />
-        </ButtonWrap>
-        {frameType === '1X4' ? (
-          <ImageWrap id="captureArea" frameType={frameType}>
-            <CarouselImage>
-              {activeIndex === 0 && <Images src={Black} alt="..." />}
-            </CarouselImage>
-            <CarouselImage>
-              {activeIndex === 1 && <Images src={Green} alt="..." />}
-            </CarouselImage>
-            <CarouselImage>
-              {activeIndex === 2 && <Images src={Gray} alt="..." />}
-            </CarouselImage>
-            <CarouselImage>
-              {activeIndex === 3 && <Images src={Brown} alt="..." />}
-            </CarouselImage>
-            <FrameImageWrap frameType={frameType}>
-              <FirstImage src={base64Images.image0} />
-              <SecondImage src={base64Images.image1} />
-              <ThirdImage src={base64Images.image2} />
-              <FourthImage src={base64Images.image3} />
-            </FrameImageWrap>
-          </ImageWrap>
-        ) : (
-          <ImageWrap id="captureArea" frameType={frameType}>
-            <CarouselImage>
-              {activeIndex === 0 && <Images src={Black} alt="..." />}
-            </CarouselImage>
-            <CarouselImage>
-              {activeIndex === 1 && <Images src={Green} alt="..." />}
-            </CarouselImage>
-            <CarouselImage>
-              {activeIndex === 2 && <Images src={Gray} alt="..." />}
-            </CarouselImage>
-            <CarouselImage>
-              {activeIndex === 3 && <Images src={Brown} alt="..." />}
-            </CarouselImage>
-            <FrameImageWrap frameType={frameType}>
-              <TopLeftImage src={base64Images.image0} />
-              <TopRightImage src={base64Images.image1} />
-              <BottomLeftImage src={base64Images.image2} />
-              <BottomRightImage src={base64Images.image3} />
-            </FrameImageWrap>
-          </ImageWrap>
-        )}
-        <ButtonWrap onClick={handleNext}>
-          <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
-            className="carousel-control-next-icon"
-            aria-hidden="true"
-          />
-        </ButtonWrap>
-        <AddPhotoBtn
-          onClick={captureArea}
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ borderRadius: '50%' }}
+      <ButtonWrap
+        onClick={handlePrev}
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ borderRadius: '50%' }}
+      >
+        <LeftAIShift
+          className="carousel-control-prev-icon"
+          aria-hidden="true"
         />
-      </CustomContainer>
+      </ButtonWrap>
+      {frameType === '1X4' ? (
+        <ImageWrap id="captureArea" frameType={frameType}>
+          <CarouselImage>
+            {activeIndex === 0 && <Images src={Black} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 1 && <Images src={Green} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 2 && <Images src={Gray} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 3 && <Images src={Brown} alt="..." />}
+          </CarouselImage>
+          <FrameImageWrap frameType={frameType}>
+            <TopImage src={base64Images.image0} />
+            <SecondImage src={base64Images.image1} />
+            <ThirdImage src={base64Images.image2} />
+            <FourthImage src={base64Images.image3} />
+          </FrameImageWrap>
+        </ImageWrap>
+      ) : (
+        <ImageWrap id="captureArea" frameType={frameType}>
+          <CarouselImage>
+            {activeIndex === 0 && <Images src={Black} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 1 && <Images src={Green} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 2 && <Images src={Gray} alt="..." />}
+          </CarouselImage>
+          <CarouselImage>
+            {activeIndex === 3 && <Images src={Brown} alt="..." />}
+          </CarouselImage>
+          <FrameImageWrap frameType={frameType}>
+            <TopLeftImage src={base64Images.image0} />
+            <TopRightImage src={base64Images.image1} />
+            <BottomLeftImage src={base64Images.image2} />
+            <BottomRightImage src={base64Images.image3} />
+          </FrameImageWrap>
+        </ImageWrap>
+      )}
+
+      <ButtonWrap
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ borderRadius: '50%' }}
+        onClick={handleNext}
+      >
+        <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
+          className="carousel-control-next-icon"
+          aria-hidden="true"
+        />
+      </ButtonWrap>
+      <AddPhotoBtn
+        onClick={captureArea}
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ borderRadius: '50%' }}
+      />
     </Container>
   );
 }
@@ -162,81 +169,109 @@ export default CustomCarousel;
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
 `;
 
-const CustomContainer = styled.div``;
+const ButtonWrap = styled(motion.div)`
+  display: block;
+`;
+
 // 전체 이미지 스타일
 const ImageWrap = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        width: 12rem;
-        aspect-ratio: 4 / 1;
+        width: 30rem;
+        aspect-ratio: 1 / 1;
       `;
     }
     if (frameType === '2X2') {
       return `
-        width: 30rem;
-        aspect-ratio: 3 / 2;
+        padding-top : 4rem;
+        width: 36rem;
+        aspect-ratio: 1 / 1;
+        margin : 4rem;
       `;
     }
   }}
-  margin: 2rem;
 `;
 
 // 각각의 이미지 스타일
-const CarouselImage = styled.div`
-  width: 100%;
-  height: 100%;
-`;
+const CarouselImage = styled.div``;
 
 const Images = styled.img`
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
+      return `
+        width: 200px;
+        height: 100px;
+        aspect-ratio: 1 / 4;
+      `;
+    }
+    if (frameType === '2X2') {
+      return `
+        position: absolute;
+        width: 580px;
+        height: 440px;
+      `;
+    }
+    // 기본(default) 경우: 빈 문자열 또는 기본 스타일 반환
+    return `
+       width: 700px;
+       height: 300px;
+        `;
+  }}
 `;
 
 // 4개 이미지를 감싸는 wrap인데, 삼항연산자를 쓰기위해 만들었다.
 const FrameImageWrap = styled.div`
-  width: 100%;
-  height: 100%;
-  z-index: 1;
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        padding: 20px 20px 20px 20px;
+        position: absolute;
+        width: 440px;
+        height: 1000px;
+        padding: 20px;
+        padding: 20px;
       `;
     }
     if (frameType === '2X2') {
       return `
-        padding: 20px 20px 20px 20px;
+        position: absolute;
+        width: 440px;
+        height: 440px;
+        padding: 20px;
       `;
     }
     return `
       padding: 20px;
     `;
-  }};
+  }}
 `;
 
-const FirstImage = styled.img`
-  width: 100%;
+const TopImage = styled.img`
+  height: 25%;
   aspect-ratio: 1 / 1;
+  padding: 5px 7px 2px 0;
 `;
 
 const SecondImage = styled.img`
-  width: 100%;
+  height: 25%;
   aspect-ratio: 1 / 1;
+  padding: 5px 7px 2px 0;
 `;
 
 const ThirdImage = styled.img`
-  width: 100%;
+  height: 25%;
   aspect-ratio: 1 / 1;
+  padding: 5px 7px 2px 0;
 `;
 
 const FourthImage = styled.img`
-  width: 100%;
+  height: 25%;
   aspect-ratio: 1 / 1;
+  padding: 5px 7px 2px 0;
 `;
 
 // const UpperLogoText = styled.img`
@@ -248,21 +283,25 @@ const FourthImage = styled.img`
 // `;
 
 const TopLeftImage = styled.img`
+  aspect-ratio: 1 / 1;
   width: 50%;
   padding: 5px 7px 2px 0;
 `;
 
 const TopRightImage = styled.img`
+  aspect-ratio: 1 / 1;
   width: 50%;
   padding: 5px 0 2px 7px;
 `;
 
 const BottomLeftImage = styled.img`
+  aspect-ratio: 1 / 1;
   width: 50%;
   padding: 0 7px 8px 0;
 `;
 
 const BottomRightImage = styled.img`
+  aspect-ratio: 1 / 1;
   width: 50%;
   padding: 0 0 8px 7px;
 `;
@@ -275,14 +314,10 @@ const BottomRightImage = styled.img`
 //   left: 2rem;
 // `;
 
-const ButtonWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const AddPhotoBtn = styled(motion.div)`
-  margin-left: 30px;
+  position: absolute;
+  top: 55%;
+  right: 10%;
   width: 79.5px;
   height: 66px;
   flex-shrink: 0;

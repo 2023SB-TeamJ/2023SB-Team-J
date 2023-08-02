@@ -1,10 +1,10 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-else-return */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-use-before-define */
-/* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -214,7 +214,6 @@ const ImageWrapper = styled.div`
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 200px);
         grid-gap: 2rem;
-
       `;
     }
   }}
