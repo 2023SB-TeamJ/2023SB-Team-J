@@ -9,7 +9,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
-import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
@@ -178,7 +177,6 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
-  border: 3px solid black;
 `;
 
 const PageShiftWrap = styled.div`

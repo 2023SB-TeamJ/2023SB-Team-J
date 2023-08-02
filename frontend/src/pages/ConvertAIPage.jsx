@@ -163,7 +163,6 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
-  border: 3px solid black;
 `;
 
 const PageShiftWrap = styled.div`
@@ -171,6 +170,7 @@ const PageShiftWrap = styled.div`
   top: 50%; /* 수직 중앙에 위치하도록 설정 */
   right: 16rem; /* 오른쪽으로 이동시키기 위한 값 */
   transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
+`;
 
 const CarouselContainer = styled.div`
   display: flex;
