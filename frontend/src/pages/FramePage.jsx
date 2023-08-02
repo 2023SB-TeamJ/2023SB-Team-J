@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { styled } from 'styled-components';
 import Header from '../components/Header';
 import Title from '../components/Title';
@@ -8,7 +9,7 @@ import PageShiftBtn from '../components/PageShiftBtn';
 import CustomCarousel from '../components/Custom/CustomCarousel';
 import ProgressBar from '../components/ProgressBar';
 
-function FramePage() {
+function FramePage(captureArea) {
   const [colImg, setColImg] = useState('');
   const location = useLocation();
   console.log(location.state);
@@ -47,13 +48,13 @@ function FramePage() {
       <Container>
         <MainWrap>
           <Header />
-          <CarouselWrap>
+          <CarouselContainer>
             <CustomCarousel
               setColImg={setColImg}
               sendData={sendData2}
               frameType={frameType3}
             />
-          </CarouselWrap>
+          </CarouselContainer>
           <PageShiftWrap>
             <PageShiftBtn path="/custom" state={{ colImg, frameType3 }} />
           </PageShiftWrap>
@@ -82,10 +83,21 @@ const MainWrap = styled.div`
   align-items: center;
 `;
 
-const CarouselWrap = styled.div`
-  position: relative;
-  margin-top: 4rem;
+const CarouselContainer = styled.div`
+  display: flex;
+  max-width: 100rem;
+  height: 370px;
+  margin-top: 7rem;
+  margin-bottom: 7rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
 `;
+
+// const CarouselWrap = styled.div`
+//   position: relative;
+//   margin-top: 4rem;
+// `;
 
 const PageShiftWrap = styled.div`
   position: absolute;

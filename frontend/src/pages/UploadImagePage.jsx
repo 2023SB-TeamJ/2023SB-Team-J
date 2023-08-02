@@ -1,14 +1,15 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-else-return */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-use-before-define */
-/* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
@@ -124,32 +125,40 @@ function UploadImagePage() {
     .fill(0)
     .map((_, index) => (
       <div key={index}>
-        <UploadImage onImageUpload={onImageUpload} />
-        <ImageText>{`${index + 1}번 이미지`}</ImageText>
+        <WrapContent>
+          <UploadImage onImageUpload={onImageUpload} />
+          {/* <ImageText>{`${index + 1}번 이미지`}</ImageText> */}
+        </WrapContent>
       </div>
     ));
 
   return (
     <div>
       <Container>
+        <Header />
         <MainWrap>
-          <Header />
           {isLoading ? (
             <LoadingWrap>
               <Loading />
             </LoadingWrap>
           ) : (
-            <ImageWrapper frameType={frameType}>
-              {uploadImageComponents}
-            </ImageWrapper>
+            <ImageContainer>
+              <ImageWrapper frameType={frameType}>
+                {uploadImageComponents}
+              </ImageWrapper>
+            </ImageContainer>
           )}
+          <PageShiftWrap
+            onClick={uploadAllImages}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          >
+            <PageShiftBtn />
+          </PageShiftWrap>
           <ProgressWrap>
             <ProgressBar progress={progress} number={`${progress}%`} />
           </ProgressWrap>
         </MainWrap>
-        <PageShiftWrap onClick={uploadAllImages}>
-          <PageShiftBtn />
-        </PageShiftWrap>
       </Container>
     </div>
   );
@@ -162,6 +171,7 @@ const Container = styled.div`
   min-height: 100vh;
   background: #f6f6f6;
 `;
+
 const MainWrap = styled.div`
   max-width: 1440px;
   height: 100vh;
@@ -170,10 +180,22 @@ const MainWrap = styled.div`
   align-items: center;
 `;
 
-const PageShiftWrap = styled.div`
-  position: absolute;
-  bottom: 5rem;
-  right: 5rem;
+const ImageContainer = styled.div`
+  display: flex;
+  max-width: 100rem;
+  height: 370px;
+  margin-top: 7rem;
+  margin-bottom: 7rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+`;
+
+const WrapContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ImageWrapper = styled.div`
@@ -184,26 +206,30 @@ const ImageWrapper = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        margin-top: 11rem;
         gap: 20px;
       `;
     } else if (frameType === '2X2') {
       return `
         display: grid;
         grid-template-rows: repeat(2, 200px);
-        grid-template-columns: repeat(2, 0.2fr);
-        grid-gap: 3rem;
-        margin-top: 4rem;
+        grid-template-columns: repeat(2, 200px);
+        grid-gap: 2rem;
       `;
     }
   }}
 `;
 
-const ImageText = styled.p`
-  font-size: 1.2rem;
-  margin-top: 1rem;
-  text-align: center;
-  font-family: 'Pretendar-Regular';
+// const ImageText = styled.p`
+//   font-size: 1.2rem;
+//   margin-top: 1rem;
+//   text-align: center;
+//   font-family: 'Pretendar-Regular';
+// `;
+
+const PageShiftWrap = styled(motion.div)`
+  position: absolute;
+  bottom: 50%;
+  right: 5rem;
 `;
 
 const LoadingWrap = styled.div`
