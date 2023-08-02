@@ -7,9 +7,9 @@ import LeftAIShift from '../LeftAIShift';
 import RightAIShift from '../RightAIShift';
 import Black from '../../assets/images/BlackImg.png';
 import Green from '../../assets/images/Green.png';
-import aframe1 from '../../assets/images/frame_1.png';
-import aframe2 from '../../assets/images/frame_2.png';
-import aframe3 from '../../assets/images/frame_3.png';
+import aframe1 from '../../assets/images/aframe_1.png';
+import aframe2 from '../../assets/images/aframe_2.png';
+import aframe3 from '../../assets/images/aframe_3.png';
 import bframe1 from '../../assets/images/bframe_1.png';
 import bframe2 from '../../assets/images/bframe_2.png';
 
