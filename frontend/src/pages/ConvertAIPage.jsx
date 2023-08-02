@@ -163,13 +163,14 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
+  border: 3px solid black;
 `;
 
-const PageShiftWrap = styled(motion.div)`
+const PageShiftWrap = styled.div`
   position: absolute;
-  bottom: 50%;
-  right: 5rem;
-`;
+  top: 50%; /* 수직 중앙에 위치하도록 설정 */
+  right: 16rem; /* 오른쪽으로 이동시키기 위한 값 */
+  transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
 
 const CarouselContainer = styled.div`
   display: flex;
@@ -185,6 +186,7 @@ const CarouselContainer = styled.div`
 const CarouselWrap = styled.div`
   justify-content: center;
   align-items: center;
+  transform: translateY(100px);
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
@@ -202,6 +204,17 @@ const CarouselWrap = styled.div`
       `;
     }
   }}
+
+  @media screen and (max-width: 850px) {
+    display: grid;
+    grid-template-rows: repeat(4, 100px); // row의 크기를 줄임
+    grid-template-columns: 0.2fr;
+    grid-gap: 8rem; // gap을 줄임
+  }
+
+  @media screen and (max-width: 660px) {
+    transform: translateY(100px);
+  }
 `;
 
 const LoadingWrap = styled.div`
@@ -221,4 +234,8 @@ const ProgressWrap = styled.div`
   margin-left: 10rem;
   margin-right: 10rem;
   padding-bottom: 2rem;
+
+  @media screen and (max-width: 660px) {
+    display: none;
+  }
 `;

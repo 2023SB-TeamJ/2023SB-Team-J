@@ -23,4 +23,9 @@ const Logo = styled(motion.div)`
   flex-shrink: 0;
   border-radius: 10px;
   background: url(${logoImage}) lightgray 50% / cover no-repeat;
+
+  @media screen and (max-width: 500px) {
+    width: 13rem;
+    height: 13rem;
+  }
 `;

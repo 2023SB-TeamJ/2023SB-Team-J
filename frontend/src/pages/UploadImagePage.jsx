@@ -178,6 +178,14 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
+  border: 3px solid black;
+`;
+
+const PageShiftWrap = styled.div`
+  position: absolute;
+  top: 50%; /* 수직 중앙에 위치하도록 설정 */
+  right: 13%; /* 오른쪽으로 이동시키기 위한 값 */
+  transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
 `;
 
 const ImageContainer = styled.div`
@@ -217,6 +225,21 @@ const ImageWrapper = styled.div`
       `;
     }
   }}
+
+  @media screen and (max-width: 950px) {
+    display: grid;
+    grid-template-rows: repeat(2, 200px);
+    grid-template-columns: repeat(2, 0.2fr);
+    grid-gap: 3rem;
+    margin-top: 4rem;
+  }
+
+  @media screen and (max-width: 650px) {
+    display: grid;
+    grid-template-rows: repeat(4, 200px);
+    grid-template-columns: repeat(1, 0.2fr);
+    grid-gap: 0.05rem;
+  }
 `;
 
 // const ImageText = styled.p`
@@ -225,12 +248,6 @@ const ImageWrapper = styled.div`
 //   text-align: center;
 //   font-family: 'Pretendar-Regular';
 // `;
-
-const PageShiftWrap = styled(motion.div)`
-  position: absolute;
-  bottom: 50%;
-  right: 5rem;
-`;
 
 const LoadingWrap = styled.div`
   display: flex;
@@ -250,4 +267,8 @@ const ProgressWrap = styled.div`
   margin-left: 10rem;
   margin-right: 10rem;
   padding-bottom: 2rem;
+
+  @media screen and (max-width: 660px) {
+    display: none;
+  }
 `;

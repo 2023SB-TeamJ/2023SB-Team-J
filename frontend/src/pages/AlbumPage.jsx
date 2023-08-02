@@ -191,6 +191,9 @@ const MyMasonryGrid = styled(Masonry)`
 `;
 
 const MyMasonryGridColumn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-clip: padding-box;
 `;
 

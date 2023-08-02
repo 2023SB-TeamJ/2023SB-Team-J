@@ -109,8 +109,9 @@ const FrameContainer = styled.div`
   margin-top: 7rem;
   margin-bottom: 7rem;
   flex-shrink: 0;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  gap: 5rem;
 `;
 
 const ImgWrap = styled.div`
@@ -119,9 +120,8 @@ const ImgWrap = styled.div`
   align-items: center;
 
   .oneFour {
-    width: 9rem;
-    margin: 0 5rem;
-    margin-top: 1rem;
+    width: 11rem;
+    margin-top: 3rem;
 
     &:hover {
       cursor: pointer;
@@ -129,12 +129,21 @@ const ImgWrap = styled.div`
   }
 
   .twoTwo {
-    width: 18rem;
-    margin: 0 5rem;
-    margin-top: 1rem;
+    width: 22rem;
+    margin-top: 3rem;
 
     &:hover {
       cursor: pointer;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .oneFour {
+      width: 6rem;
+    }
+
+    .twoTwo {
+      width: 12rem;
     }
   }
 `;

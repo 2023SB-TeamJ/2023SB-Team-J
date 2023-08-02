@@ -55,15 +55,15 @@ function Carousel1({ aiData, setSelectedData }) {
 
         <ImageWrap>
           <CarouselImage active={activeIndex === 0}>
-            {activeIndex === 0 && (
-              <img
-                src={data.origin_img_url}
-                style={{ width: '200px', height: '200px', objectFit: 'cover' }}
-              />
-            )}
+            {activeIndex === 0 && <ImgStyled src={data.origin_img_url} />}
           </CarouselImage>
           <CarouselImage active={activeIndex === 1}>
-            {activeIndex === 1 && <img src={data.model1_url} />}
+            {activeIndex === 1 && (
+              <img
+                src={data.model1_url}
+                style={{ width: '11.25rem', height: '11.25rem' }}
+              />
+            )}
           </CarouselImage>
           <CarouselImage active={activeIndex === 2}>
             {activeIndex === 2 && <img src={data.model2_url} />}
@@ -96,6 +96,17 @@ const CarouselWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const ImgStyled = styled.img`
+  width: 240px;
+  height: 160px;
+  objectfit: cover;
+
+  @media screen and (max-width: 850px) {
+    width: 180px;
+    height: 120px;
+  }
 `;
 
 // 전체 이미지 스타일

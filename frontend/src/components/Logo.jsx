@@ -10,6 +10,11 @@ const LogoStyle = styled.div`
     url(${logoImage}),
     lightgray 50% / cover no-repeat;
   background-size: cover;
+
+  @media screen and (max-width: 500px) {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
 `;
 
 function Logo() {
