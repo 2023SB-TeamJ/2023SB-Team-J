@@ -173,6 +173,21 @@ const ImageWrapper = styled.div`
       `;
     }
   }}
+
+  @media screen and (max-width: 950px) {
+    display: grid;
+    grid-template-rows: repeat(2, 200px);
+    grid-template-columns: repeat(2, 0.2fr);
+    grid-gap: 3rem;
+    margin-top: 4rem;
+  }
+
+  @media screen and (max-width: 500px) {
+    display: grid;
+    grid-template-rows: repeat(4, 200px);
+    grid-template-columns: repeat(1, 0.2fr);
+    grid-gap: 0.05rem;
+  }
 `;
 
 const ImageText = styled.p`

@@ -128,6 +128,7 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
+  border: 3px solid black;
 `;
 
 const ProgressBar = styled.div`
@@ -137,8 +138,10 @@ const ProgressBar = styled.div`
 `;
 
 const PageShiftWrap = styled.div`
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  top: 50%; /* 수직 중앙에 위치하도록 설정 */
+  right: 250px; /* 오른쪽으로 이동시키기 위한 값 */
+  transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
 `;
 
 const CarouselWrap = styled.div`
@@ -162,6 +165,13 @@ const CarouselWrap = styled.div`
       `;
     }
   }}
+
+  @media screen and (max-width: 600px) {
+    display: grid;
+    grid-template-rows: repeat(4, 100px); // row의 크기를 줄임
+    grid-template-columns: 0.2fr;
+    grid-gap: 3rem; // gap을 줄임
+  }
 `;
 
 const LoadingWrap = styled.div`
