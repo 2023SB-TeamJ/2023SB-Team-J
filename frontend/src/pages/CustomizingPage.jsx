@@ -132,7 +132,7 @@ function CustomizingPage() {
       <Container>
         {/* <IconWrap /> */}
         <HeaderCustom />
-        <CustomWrap>
+        <CustomContainer>
           <MenuWrap isFolded={isFolded}>
             {isTextDivVisible && !isFolded && (
               <TextDiv>
@@ -187,7 +187,7 @@ function CustomizingPage() {
             {isTextDivVisible && !isFolded && <Divider />}
           </MenuWrap>
           <CaptureWrap>
-            <DivArea id="captureArea" aiimage={colImg} frameType3={frameType3}>
+            <DivArea id="captureArea" aiimage={colImg2} frameType={frameType4}>
               <CustomTextBox
                 color={color}
                 fontFamily={fontFamily}
@@ -216,10 +216,10 @@ function CustomizingPage() {
             </SaveWrap>
           </CaptureWrap>
           <Fold isFolded={isFolded} onClick={() => setIsFolded(!isFolded)} />
-        </CustomWrap>
-          <ProgressWrap>
-            <ProgressBar progress={progress} number={`${progress}%`} />
-          </ProgressWrap>
+        </CustomContainer>
+        <ProgressWrap>
+          <ProgressBar progress={progress} number={`${progress}%`} />
+        </ProgressWrap>
       </Container>
     </div>
   );
@@ -269,13 +269,13 @@ const IconWrap = styled.div`
 
 const CustomContainer = styled.div`
   display: flex;
-  max-width: 100rem;
+  /* max-width: 100rem;
   height: 370px;
   margin-top: 7rem;
   margin-bottom: 7rem;
   flex-shrink: 0;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
 `;
 
 const MenuWrap = styled.div`
@@ -439,7 +439,7 @@ const Fold = styled.div`
 `;
 
 const ProgressWrap = styled.div`
-  margin-top: 5rem;
+  margin-top: 3rem;
   margin-left: 10rem;
   margin-right: 10rem;
   padding-bottom: 2rem;
