@@ -23,7 +23,7 @@ const Progress = styled.div`
   justify-content: end;
   align-items: center;
   padding-right: 40px;
-  transition: width 0.3s ease;
+  transition: width 1s ease;
 `;
 
 // const ProgressNumber = styled.div`
@@ -41,8 +41,11 @@ const Separator = styled.div`
   background-color: #ffffff;
   left: ${(props) => props.separatorPosition - 1}%;
   display: ${(props) => (props.showSeparator ? 'block' : 'none')};
+  /* transition-delay: 3s;
+  transition: 3s ease-in; */
 `;
 
+// state -> useEffect -> setTimeout 1000
 function ProgressBar({ progress }) {
   return (
     <ProgressBarWrapper>

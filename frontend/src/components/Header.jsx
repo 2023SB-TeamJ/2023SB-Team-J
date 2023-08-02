@@ -3,14 +3,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
 import Logo from './Logo';
 import Name from './Name';
 import SignBtn from './SignBtn';
-import { useAuth } from '../contexts/AuthContext';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 function Header() {
+  const { isLoginLoading } = useAuth();
+
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAuth();
 
@@ -50,7 +52,9 @@ function Header() {
           <Name />
         </LogoWrap>
         <BtnWrap>
-          <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
+          {!isLoginLoading && (
+            <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
+          )}
         </BtnWrap>
       </Container>
     </div>

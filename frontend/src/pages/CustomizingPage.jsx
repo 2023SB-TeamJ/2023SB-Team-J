@@ -343,7 +343,7 @@ const DivArea = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-      width: 14rem;
+      width: 12rem;
       aspect-ratio: 1 / 3;
       `;
     }
