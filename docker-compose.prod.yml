@@ -69,7 +69,11 @@ services:
     build: ./nginx
     container_name: nginx
     ports:
-      - 80:8080
+      - 80:80
+      - 443:443
+    expose:
+      - 80
+      - 443
     restart: unless-stopped
     volumes:
       - static_volume:/backend/staticfiles
@@ -80,6 +84,7 @@ services:
     # 가상 네트워크 연결
     networks:
       - t4y
+
 
 networks:
   t4y:

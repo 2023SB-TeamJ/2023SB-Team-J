@@ -1,12 +1,13 @@
 import styled from 'styled-components';
+import logo from '../assets/images/logo.jpg';
 
 export const AuthLogo = styled.div`
   width: 40px;
   height: 40px;
   flex-shrink: 0;
   margin-top: 45px;
-  border-radius: 10px;
-  background-image: url(/logo.jpg);
+  border-radius: 5px;
+  background-image: url(${logo});
   background-size: cover;
 `;
 
