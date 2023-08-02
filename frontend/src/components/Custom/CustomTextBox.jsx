@@ -20,10 +20,10 @@ function CustomText({ color, fontFamily }) {
       ...prevTextElements,
       {
         id: Date.now().toString(),
-        text: '텍스트 입력 후 드래그하세요',
+        text: '텍스트 입력 후 드래그',
         position: { x: -270, y: 100 },
-        size: { width: 200, height: 100 },
-        fontSize: 16,
+        size: { width: 180 },
+        fontSize: 18,
       },
     ]);
   };
@@ -54,19 +54,30 @@ function CustomText({ color, fontFamily }) {
 
   const handleResize = (id, e, { size }) => {
     const { width, height } = size;
-    const fontSize = calculateFontSize(width, height);
     setTextElements((prevTextElements) =>
       prevTextElements.map((element) =>
-        element.id === id ? { ...element, size, fontSize } : element,
+        element.id === id ? { ...element, size } : element,
       ),
     );
   };
+  // 폰트 사이즈 조절
+  // const handleResize = (id, e, { size }) => {
+  //   const { width, height } = size;
+  //   const fontSize = calculateFontSize(width, height);
+  //   setTextElements((prevTextElements) =>
+  //     prevTextElements.map((element) =>
+  //       element.id === id ? { ...element, size, fontSize } : element,
+  //     ),
+  //   );
+  // };
 
-  const calculateFontSize = (width, height) => {
-    const ratio = width / 120;
-    const fontSize = 14 * ratio;
-    return fontSize;
-  };
+  // const calculateFontSize = (width, height) => {
+  //   // 폰트 크기를 원하는 비율로 조절하는 로직을 작성하세요
+  //   // 예를 들어, 폭이 커질수록 폰트 크기도 커지도록 비율을 계산할 수 있습니다.
+  //   const ratio = width / 120; // 원하는 비율 계산
+  //   const fontSize = 14 * ratio; // 기본 폰트 크기에 비율을 곱하여 적용
+  //   return fontSize;
+  // };
   return (
     <div>
       <BtnWrap>
@@ -93,35 +104,35 @@ function CustomText({ color, fontFamily }) {
           onDrag={(e, ui) => handleDrag(element.id, e, ui)}
           cancel=".react-resizable-handle"
         >
-          <ResizableBox
+          {/* <ResizableBox
             key={element.id}
             width={element.size.width}
             height={element.size.height}
             onResize={(e, data) => handleResize(element.id, e, data)}
-            minConstraints={[100, 50]}
-            maxConstraints={[300, 150]}
-          >
-            <TextboxContainer>
-              {/* 삭제 버튼 */}
-              <DeleteButton
-                onClick={() => handleDeleteTextbox(element.id)}
-                show={show}
-                onMouseEnter={() => setShow(true)}
-                onMouseLeave={() => setShow(false)}
-              >
-                X
-              </DeleteButton>
-              {/* 텍스트 박스 내용 */}
-              <TextboxInput
-                type="text"
-                value={element.text}
-                onChange={(e) => handleTextChange(element.id, e.target.value)}
-                style={{ color, fontFamily, fontSize: `${element.fontSize}px` }}
-                onMouseEnter={() => setShow(true)}
-                onMouseLeave={() => setShow(false)}
-              />
-            </TextboxContainer>
-          </ResizableBox>
+            minConstraints={[200, 100]}
+            maxConstraints={[200, 100]}
+          > */}
+          <TextboxContainer>
+            {/* 텍스트 박스 내용 */}
+            <TextboxInput
+              type="text"
+              value={element.text}
+              onChange={(e) => handleTextChange(element.id, e.target.value)}
+              style={{ color, fontFamily, fontSize: `${element.fontSize}px` }}
+              onMouseEnter={() => setShow(true)}
+              onMouseLeave={() => setShow(false)}
+            />
+            {/* 삭제 버튼 */}
+            <DeleteButton
+              onClick={() => handleDeleteTextbox(element.id)}
+              show={show}
+              onMouseEnter={() => setShow(true)}
+              onMouseLeave={() => setShow(false)}
+            >
+              x
+            </DeleteButton>
+          </TextboxContainer>
+          {/* </ResizableBox> */}
         </Draggable>
       ))}
     </div>
@@ -133,7 +144,7 @@ const BtnWrap = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
-  top: 8rem;
+  top: 7rem;
   left: 0.7rem;
   width: 3.7rem;
   height: 3.7rem;
@@ -158,16 +169,15 @@ const AddTextboxButton = styled(motion.div)`
 `;
 
 const TextboxContainer = styled.div`
-  position: relative;
+  display: flex;
   width: 100%;
   height: 100%;
 `;
 
 // 삭제 버튼 스타일 및 표시 여부에 따른 스타일 적용
 const DeleteButton = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  display: flex;
+  align-self: center;
   padding: 3px;
   border: none;
   background-color: red;
@@ -175,15 +185,15 @@ const DeleteButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   display: ${({ show }) => (show ? 'block' : 'none')};
+  font-family: 'Pretendard-Regulard';
 `;
 
 const TextboxInput = styled.input`
   padding: 5px;
-  width: 100%;
+  width: 180px;
   height: 100%;
   border: none;
   outline: none;
-  background-color: #ffffff;
   background-color: rgba(255, 255, 255, 0);
 `;
 

@@ -4,13 +4,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/button-has-type */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import { SketchPicker } from 'react-color';
-import Header from '../components/Header';
+import HeaderCustom from '../components/HeaderCustom';
 import addphoto from '../assets/images/saveAlbum.png';
 import addlocal from '../assets/images/download.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
@@ -33,8 +33,20 @@ function CustomizingPage() {
 
   const [color, setColor] = useState('#000000');
   const [fontFamily, setFontFamily] = useState('Pretendar-Regular');
-
   const [isTextDivVisible, setIsTextDivVisible] = useState(true);
+  const [isFolded, setIsFolded] = useState(false);
+
+  useEffect(() => {
+    let timerId;
+    if (!isFolded) {
+      timerId = setTimeout(() => {
+        setIsTextDivVisible(true);
+      }, 400);
+    } else {
+      setIsTextDivVisible(false);
+    }
+    return () => clearTimeout(timerId);
+  }, [isFolded]);
 
   const handleChangeComplete = (newColor) => {
     setColor(newColor.hex);
@@ -94,10 +106,10 @@ function CustomizingPage() {
     <div>
       <Container>
         {/* <IconWrap /> */}
-        <Header />
+        <HeaderCustom />
         <CustomWrap>
-          <MenuWrap>
-            {isTextDivVisible && (
+          <MenuWrap isFolded={isFolded}>
+            {isTextDivVisible && !isFolded && (
               <TextDiv>
                 <SketchPicker
                   color={color}
@@ -112,7 +124,7 @@ function CustomizingPage() {
                 />
                 <FontCol>
                   <FontPicker
-                    style={{ fontFamily: 'iceSotong-Rg', fontSize: '2.5rem' }}
+                    style={{ fontFamily: 'iceSotong-Rg', fontSize: '2.4rem' }}
                     onClick={() => setFontFamily('iceSotong-Rg')} // 클릭 시 폰트 패밀리 변경
                   >
                     인천교육소통체
@@ -137,17 +149,17 @@ function CustomizingPage() {
                   </FontPicker>
                   <FontPicker
                     style={{
-                      fontFamily: 'Pretendard-Regular',
+                      fontFamily: 'KCCChassam',
                       fontSize: '1.8rem',
                     }}
-                    onClick={() => setFontFamily('Pretendard-Regular')} // 클릭 시 폰트 패밀리 변경
+                    onClick={() => setFontFamily('KCCChassam')} // 클릭 시 폰트 패밀리 변경
                   >
-                    프리텐다드
+                    KCC차쌤체
                   </FontPicker>
                 </FontCol>
               </TextDiv>
             )}
-            <Divider />
+            {isTextDivVisible && !isFolded && <Divider />}
           </MenuWrap>
           <CaptureWrap>
             <DivArea id="captureArea" aiimage={colImg} frameType3={frameType3}>
@@ -178,7 +190,7 @@ function CustomizingPage() {
               </BtnWrap>
             </SaveWrap>
           </CaptureWrap>
-          <Fold />
+          <Fold isFolded={isFolded} onClick={() => setIsFolded(!isFolded)} />
         </CustomWrap>
       </Container>
     </div>
@@ -233,11 +245,12 @@ const CustomWrap = styled.div`
 `;
 
 const MenuWrap = styled.div`
-  flex: 1;
+  flex: ${(props) => (props.isFolded ? '0.145' : '1')};
   border-top: 1px solid rgba(37, 40, 47, 0.1);
   border-right: 1px solid rgba(37, 40, 47, 0.1);
   border-bottom: 1px solid rgba(37, 40, 47, 0.1);
   position: relative;
+  transition: flex 0.5s ease-in-out;
 `;
 
 const TextDiv = styled.div`
@@ -365,14 +378,25 @@ const SaveText = styled.span`
   color: #1f1f1f;
 `;
 
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+`;
+
 const Fold = styled.div`
   position: absolute;
-  bottom: 8rem;
+  bottom: 9.5rem;
   left: 1.3rem;
   width: 2.3rem; // 필요한 크기로 지정
   height: 2.3rem; // 필요한 크기로 지정
   background: url(${FoldSvg}) no-repeat;
   background-size: cover;
+  transform: ${(props) => (props.isFolded ? 'rotate(180deg)' : 'rotate(0deg)')};
+  transition: transform 0.5s ease-in-out;
 
   &:hover {
     cursor: pointer;
