@@ -46,24 +46,6 @@ function Carousel2({ aiData, setSelectedData }) {
   return (
     <ColWrap>
       <CarouselWrap id="carouselExampleIndicators">
-        {/* <CarouselIndicators>
-        <IndicatorButton
-          type="button"
-          active={activeIndex === 0}
-          aria-label="Slide 1"
-        />
-        <IndicatorButton
-          type="button"
-          active={activeIndex === 1}
-          aria-label="Slide 2"
-        />
-        <IndicatorButton
-          type="button"
-          active={activeIndex === 2}
-          aria-label="Slide 3"
-        />
-      </CarouselIndicators> */}
-
         <ButtonWrap onClick={handlePrev}>
           <LeftAIShift
             className="carousel-control-prev-icon"
@@ -92,7 +74,7 @@ function Carousel2({ aiData, setSelectedData }) {
           />
         </ButtonWrap>
       </CarouselWrap>
-      <ImageText>두번째 이미지</ImageText>
+      {/* <ImageText>두번째 이미지</ImageText> */}
     </ColWrap>
   );
 }
@@ -109,7 +91,6 @@ const CarouselWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 12rem;
 `;
 
 const ImgStyled = styled.img`
@@ -123,17 +104,9 @@ const ImgStyled = styled.img`
   }
 `;
 
-// Indicator 버튼 컨테이너 스타일
-// const CarouselIndicators = styled.div``;
-
-// // Indicator 버튼 스타일
-// // 슬라이드 표시
-
-// const IndicatorButton = styled.button``;
-
 // 전체 이미지 스타일
 const ImageWrap = styled.div`
-  margin: 3rem;
+  margin: 1rem;
 `;
 
 // 각각의 이미지 스타일
@@ -141,8 +114,8 @@ const CarouselImage = styled.div``;
 
 const ButtonWrap = styled.div``;
 
-const ImageText = styled.p`
-  font-size: 1.2rem;
-  text-align: center;
-  font-family: 'Pretendar-Regular';
-`;
+// const ImageText = styled.p`
+//   font-size: 1.2rem;
+//   text-align: center;
+//   font-family: 'Pretendar-Regular';
+// `;

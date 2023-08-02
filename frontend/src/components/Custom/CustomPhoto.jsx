@@ -9,7 +9,7 @@ import { ResizableBox } from 'react-resizable';
 import Draggable from 'react-draggable';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import imageButton from '../../assets/images/photo.png';
+import imageButton from '../../assets/images/photoSvg.svg';
 // import CustomPhotoBtn from './CustomPhotoBtn';
 
 function CustomPhoto() {
@@ -57,6 +57,7 @@ function CustomPhoto() {
             />
           </ImageButtonContainer>
         </div>
+        <GuideText>사진</GuideText>
       </BtnWrap>
 
       <ImgWrap>
@@ -99,19 +100,38 @@ function CustomPhoto() {
 const ImageContainer = styled.div``;
 
 const BtnWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
-  top: 58%;
-  left: 20%;
+  top: 14rem;
+  left: 0.7rem;
+  width: 3.7rem;
+  height: 3.7rem;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const ImgWrap = styled.div`
   z-index: -1;
 `;
 
+const GuideText = styled.div`
+  font-size: 0.75rem;
+  font-family: 'Pretendard-Regular';
+  text-align: center;
+  margin-top: 0.2rem;
+  color: rgba(157, 158, 163, 1);
+`;
+
 const ImageButtonContainer = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   background: none;
   padding: 0;
-  cursor: pointer;
 `;
 
 const DeleteButton = styled.button`

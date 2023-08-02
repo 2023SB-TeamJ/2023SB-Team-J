@@ -1,15 +1,8 @@
-/* eslint-disable no-undef */
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable react/button-has-type */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-const-assign */
+/* eslint-disable no-plusplus */
+/* eslint-disable consistent-return */
 import React, { useEffect, useState } from 'react';
-import { frame, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
-// import { Image } from 'react-konva';
-// import useImage from 'use-image';
-// import { useNavigate } from 'react-router-dom';
-// import domtoimage from 'dom-to-image';
 import html2canvas from 'html2canvas';
 import LeftAIShift from '../LeftAIShift';
 import RightAIShift from '../RightAIShift';
@@ -17,23 +10,18 @@ import Black from '../../assets/images/BlackImg.png';
 import Brown from '../../assets/images/Brown.png';
 import Green from '../../assets/images/Green.png';
 import Gray from '../../assets/images/Solid_gray.png';
-// import image1 from '../../assets/images/image1.png';
-// import image2 from '../../assets/images/image2.png';
-// import image3 from '../../assets/images/image3.png';
-// import image4 from '../../assets/images/image4.png';
 import addphoto from '../../assets/images/addphoto.png';
 // import logoText from '../../assets/images/logoText.png';
+
+const MAX_IMAGES = 4;
 
 function CustomCarousel({ setColImg, sendData, frameType }) {
   // // base64 이미지를 담는 배열로 state를 초기화합니다.
   // const [base64Images, setBase64Images] = useState([]);
 
-  const [base64Images, setBase64Images] = useState({
-    image0: null,
-    image1: null,
-    image2: null,
-    image3: null,
-  });
+  const [base64Images, setBase64Images] = useState(
+    Array.from({ length: MAX_IMAGES }, () => null),
+  );
 
   // 이미지를 Base64로 변환하는 함수
   const convertToBase64 = (url, index) => {
@@ -60,18 +48,17 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
 
     img.src = url;
   };
-
-  // // 4개 url 변환
-  // convertToBase64(sendData.url1);
-  // convertToBase64(sendData.url2);
-  // convertToBase64(sendData.url3);
-  // convertToBase64(sendData.url4);
+  // useEffect(() => {
+  //   convertToBase64(sendData.url1, 0);
+  //   convertToBase64(sendData.url2, 1);
+  //   convertToBase64(sendData.url3, 2);
+  //   convertToBase64(sendData.url4, 3);
+  // }, [sendData]);
 
   useEffect(() => {
-    convertToBase64(sendData.url1, 0);
-    convertToBase64(sendData.url2, 1);
-    convertToBase64(sendData.url3, 2);
-    convertToBase64(sendData.url4, 3);
+    for (let i = 0; i < MAX_IMAGES; i++) {
+      convertToBase64(sendData[`url${i + 1}`], i);
+    }
   }, [sendData]);
 
   // FramePage에서 구조 분해 할당으로 setColImg 받아옴
@@ -79,12 +66,16 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
 
   // 이전 버튼 클릭 시 activeIndex 값 업데이트
   const handlePrev = () => {
-    setActiveIndex((prevIndex) => (prevIndex === 0 ? 3 : prevIndex - 1));
+    setActiveIndex((prevIndex) =>
+      prevIndex === 0 ? MAX_IMAGES - 1 : prevIndex - 1,
+    );
   };
 
   // 다음 버튼 클릭 시 activeIndex 값 업데이트
   const handleNext = () => {
-    setActiveIndex((nextIndex) => (nextIndex === 3 ? 0 : nextIndex + 1));
+    setActiveIndex((nextIndex) =>
+      nextIndex === MAX_IMAGES - 1 ? 0 : nextIndex + 1,
+    );
   };
 
   const captureArea = () => {
@@ -96,9 +87,14 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
       setColImg(imgData);
     });
   };
+
   return (
-    <Container id="carouselExampleIndicators">
-      <ButtonWrap onClick={handlePrev}>
+    <Container>
+      <ButtonWrap
+        onClick={handlePrev}
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ borderRadius: '50%' }}
+      >
         <LeftAIShift
           className="carousel-control-prev-icon"
           aria-hidden="true"
@@ -148,7 +144,11 @@ function CustomCarousel({ setColImg, sendData, frameType }) {
         </ImageWrap>
       )}
 
-      <ButtonWrap onClick={handleNext}>
+      <ButtonWrap
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ borderRadius: '50%' }}
+        onClick={handleNext}
+      >
         <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
           className="carousel-control-next-icon"
           aria-hidden="true"
@@ -169,8 +169,11 @@ export default CustomCarousel;
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+`;
+
+const ButtonWrap = styled(motion.div)`
+  display: block;
 `;
 
 // 전체 이미지 스타일
@@ -178,55 +181,65 @@ const ImageWrap = styled.div`
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        width: 14rem;
-        aspect-ratio: 1 / 3;
+        width: 30rem;
+        aspect-ratio: 1 / 1;
+        margin : -1rem;
       `;
     }
     if (frameType === '2X2') {
       return `
-        width: 25rem;
-        aspect-ratio: 2 / 3;
+        padding-top : 4rem;
+        width: 36rem;
+        aspect-ratio: 1 / 1;
+        margin : 4rem;
       `;
     }
-    return `
-      width: 14rem;
-      aspect-ratio: 1 / 3;
-    `;
   }}
-  margin: 3rem;
-  position: relative;
 `;
 
 // 각각의 이미지 스타일
-const CarouselImage = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
+const CarouselImage = styled.div``;
 
 const Images = styled.img`
-  width: 100%;
-  height: 100%;
-`;
-
-// 4개 이미지를 감싸는 wrap인데, 삼항연산자를 쓰기위해 만들었다.
-const FrameImageWrap = styled.div`
-  width: 100%;
-  height: 100%;
   position: absolute;
-  top: 0%;
-  left: 0%;
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
-        padding: 20px;
+        width: 200px;
+        height: 100px;
       `;
     }
     if (frameType === '2X2') {
       return `
-        padding: 50px 20px 10px 20px;
+        width: 580px;
+        height: 440px;
+      `;
+    }
+    // 기본 스타일을 지정해주어야 합니다.
+    return `
+        width: 580px;
+        height: 440px;
+    `;
+  }}
+`;
+// 4개 이미지를 감싸는 wrap인데, 삼항연산자를 쓰기위해 만들었다.
+const FrameImageWrap = styled.div`
+  ${({ frameType }) => {
+    if (frameType === '1X4') {
+      return `
+        position: absolute;
+        width: 280px;
+        height: 1000px;
+        padding: 20px;
+     
+      `;
+    }
+    if (frameType === '2X2') {
+      return `
+        position: absolute;
+        width: 440px;
+        height: 440px;
+        padding: 20px;
       `;
     }
     return `
@@ -236,23 +249,31 @@ const FrameImageWrap = styled.div`
 `;
 
 const TopImage = styled.img`
-  width: 100%;
-  aspect-ratio: 1.5 / 1;
+  height: 25%;
+
+  aspect-ratio: 1 / 1;
+  padding: 5px 7px 2px 0;
 `;
 
 const SecondImage = styled.img`
-  width: 100%;
-  aspect-ratio: 1.5 / 1;
+  height: 25%;
+
+  aspect-ratio: 1 / 1;
+  padding: 5px 7px 2px 0;
 `;
 
 const ThirdImage = styled.img`
-  width: 100%;
-  aspect-ratio: 1.5 / 1;
+  height: 25%;
+
+  aspect-ratio: 1 / 1;
+  padding: 5px 7px 2px 0;
 `;
 
 const FourthImage = styled.img`
-  width: 100%;
-  aspect-ratio: 1.5 / 1;
+  height: 25%;
+
+  aspect-ratio: 1 / 1;
+  padding: 5px 7px 2px 0;
 `;
 
 // const UpperLogoText = styled.img`
@@ -264,27 +285,27 @@ const FourthImage = styled.img`
 // `;
 
 const TopLeftImage = styled.img`
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 5px 7px 2px 0;
+  padding: 5px 5px 5px;
 `;
 
 const TopRightImage = styled.img`
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 5px 0 2px 7px;
+  padding: 5px 10px 5px;
 `;
 
 const BottomLeftImage = styled.img`
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 0 7px 8px 0;
+  padding: 5px 5px 5px;
 `;
 
 const BottomRightImage = styled.img`
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 1 / 1;
   width: 50%;
-  padding: 0 0 8px 7px;
+  padding: 5px 10px 5px;
 `;
 
 // const BottomLogoText = styled.img`
@@ -295,14 +316,10 @@ const BottomRightImage = styled.img`
 //   left: 2rem;
 // `;
 
-const ButtonWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const AddPhotoBtn = styled(motion.div)`
-  margin-left: 30px;
+  position: absolute;
+  top: 55%;
+  right: 10%;
   width: 79.5px;
   height: 66px;
   flex-shrink: 0;

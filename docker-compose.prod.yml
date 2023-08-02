@@ -69,30 +69,17 @@ services:
     build: ./nginx
     container_name: nginx
     ports:
-      - 80:8080
-      - 443:443
+      - 80:80
     restart: unless-stopped
     volumes:
       - static_volume:/backend/staticfiles
       - media_volume:/backend/mediafiles
       - build_folder:/var/www/frontend
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
     depends_on:
       - backend
     # 가상 네트워크 연결
     networks:
       - t4y
-  certbot: #certbot
-    image: certbot/certbot
-    restart: unless-stopped
-    container_name: certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    depends_on:
-      - nginx
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 networks:
   t4y:

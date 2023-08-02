@@ -49,7 +49,7 @@ function ChooseFramePage() {
       <Container>
         <Header />
         <MainWrap>
-          <FrameWrap>
+          <FrameContainer>
             <ImgWrap
               // 1X4 배열 형태의 컴포넌트로 이루어진 페이지로 이동한다.
               onClick={() => {
@@ -77,7 +77,7 @@ function ChooseFramePage() {
                 whileHover={{ scale: 1.1 }}
               />
             </ImgWrap>
-          </FrameWrap>
+          </FrameContainer>
           <ProgressWrap>
             <ProgressBar progress={progress} number={`${progress}%`} />
           </ProgressWrap>
@@ -101,13 +101,14 @@ const MainWrap = styled.div`
   flex-shrink: 0;
   align-items: center;
 `;
-const TitleWrap = styled.div`
-  margin-top: 3rem;
+
+const FrameContainer = styled.div`
   display: flex;
-  justify-content: center;
-`;
-const FrameWrap = styled.div`
-  display: flex;
+  max-width: 100rem;
+  height: 370px;
+  margin-top: 7rem;
+  margin-bottom: 7rem;
+  flex-shrink: 0;
   justify-content: center;
   align-items: center;
   gap: 5rem;

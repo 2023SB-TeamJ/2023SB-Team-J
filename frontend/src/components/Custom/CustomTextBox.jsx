@@ -7,9 +7,9 @@ import styled from 'styled-components';
 import { ResizableBox } from 'react-resizable';
 import Draggable from 'react-draggable';
 import { motion } from 'framer-motion';
-import img from '../../assets/images/textbox.png';
+import img from '../../assets/images/textSvg.svg';
 
-function CustomText() {
+function CustomText({ color, fontFamily }) {
   const [textElements, setTextElements] = useState([]);
 
   // 삭제 버튼의 기본적인 표시 여부 상태
@@ -20,10 +20,10 @@ function CustomText() {
       ...prevTextElements,
       {
         id: Date.now().toString(),
-        text: '',
-        position: { x: 0, y: 0 },
-        size: { width: 200, height: 100 },
-        fontSize: 22,
+        text: '텍스트 입력 후 드래그',
+        position: { x: -270, y: 100 },
+        size: { width: 180 },
+        fontSize: 18,
       },
     ]);
   };
@@ -88,10 +88,14 @@ function CustomText() {
         >
           <img
             src={img}
-            style={{ width: '90%', height: '90%' }}
+            style={{
+              width: '90%',
+              height: '90%',
+            }}
             alt="Uploaded"
           />
         </AddTextboxButton>
+        <GuideText>텍스트</GuideText>
       </BtnWrap>
       {textElements.map((element) => (
         <Draggable
@@ -100,35 +104,35 @@ function CustomText() {
           onDrag={(e, ui) => handleDrag(element.id, e, ui)}
           cancel=".react-resizable-handle"
         >
-          <ResizableBox
+          {/* <ResizableBox
             key={element.id}
             width={element.size.width}
             height={element.size.height}
             onResize={(e, data) => handleResize(element.id, e, data)}
             minConstraints={[200, 100]}
             maxConstraints={[200, 100]}
-          >
-            <TextboxContainer>
-              {/* 삭제 버튼 */}
-              <DeleteButton
-                onClick={() => handleDeleteTextbox(element.id)}
-                show={show}
-                onMouseEnter={() => setShow(true)}
-                onMouseLeave={() => setShow(false)}
-              >
-                X
-              </DeleteButton>
-              {/* 텍스트 박스 내용 */}
-              <TextboxInput
-                type="text"
-                value={element.text}
-                onChange={(e) => handleTextChange(element.id, e.target.value)}
-                style={{ fontSize: `${element.fontSize}px` }}
-                onMouseEnter={() => setShow(true)}
-                onMouseLeave={() => setShow(false)}
-              />
-            </TextboxContainer>
-          </ResizableBox>
+          > */}
+          <TextboxContainer>
+            {/* 텍스트 박스 내용 */}
+            <TextboxInput
+              type="text"
+              value={element.text}
+              onChange={(e) => handleTextChange(element.id, e.target.value)}
+              style={{ color, fontFamily, fontSize: `${element.fontSize}px` }}
+              onMouseEnter={() => setShow(true)}
+              onMouseLeave={() => setShow(false)}
+            />
+            {/* 삭제 버튼 */}
+            <DeleteButton
+              onClick={() => handleDeleteTextbox(element.id)}
+              show={show}
+              onMouseEnter={() => setShow(true)}
+              onMouseLeave={() => setShow(false)}
+            >
+              x
+            </DeleteButton>
+          </TextboxContainer>
+          {/* </ResizableBox> */}
         </Draggable>
       ))}
     </div>
@@ -136,26 +140,44 @@ function CustomText() {
 }
 
 const BtnWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
-  top: 45%;
-  left: 20.5%;
+  top: 7rem;
+  left: 0.7rem;
+  width: 3.7rem;
+  height: 3.7rem;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
+
+const GuideText = styled.div`
+  font-size: 0.75rem;
+  font-family: 'Pretendard-Regular';
+  text-align: center;
+  margin-top: 0.2rem;
+  color: rgba(157, 158, 163, 1);
+`;
+
 const AddTextboxButton = styled(motion.div)`
-  width: 100px;
-  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TextboxContainer = styled.div`
-  position: relative;
+  display: flex;
   width: 100%;
   height: 100%;
 `;
 
 // 삭제 버튼 스타일 및 표시 여부에 따른 스타일 적용
 const DeleteButton = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 5px;
+  display: flex;
+  align-self: center;
   padding: 3px;
   border: none;
   background-color: red;
@@ -163,15 +185,15 @@ const DeleteButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   display: ${({ show }) => (show ? 'block' : 'none')};
+  font-family: 'Pretendard-Regulard';
 `;
 
 const TextboxInput = styled.input`
   padding: 5px;
-  width: 100%;
+  width: 180px;
   height: 100%;
   border: none;
   outline: none;
-  background-color: #ffffff;
   background-color: rgba(255, 255, 255, 0);
 `;
 

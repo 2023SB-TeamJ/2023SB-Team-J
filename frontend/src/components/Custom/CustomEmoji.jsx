@@ -7,7 +7,7 @@ import Draggable from 'react-draggable';
 import { ResizableBox } from 'react-resizable';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import imojiButton from '../../assets/images/emoji.png';
+import imojiButton from '../../assets/images/emojiSvg.svg';
 
 function CustomEmoji() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -41,7 +41,7 @@ function CustomEmoji() {
   const handleStickerClick = (emoji) => {
     setDroppedStickers((prevStickers) => [
       ...prevStickers,
-      { emoji, position: { x: 0, y: 0 }, size: { width: 80, height: 80 } },
+      { emoji, position: { x: 480, y: 100 }, size: { width: 80, height: 80 } },
     ]);
     handleCloseModal();
   };
@@ -90,10 +90,11 @@ function CustomEmoji() {
           <img
             src={imojiButton}
             alt="Upload"
-            style={{ width: '80%', height: '80%' }}
+            style={{ width: '90%', height: '90%' }}
             onClick={handleOpenModal}
           />
         </EmojiButtonContainer>
+        <GuideText>스티커</GuideText>
       </BtnWrap>
       <StickerModal isOpen={isModalOpen}>
         <StickerContent>
@@ -147,15 +148,35 @@ function CustomEmoji() {
 export default CustomEmoji;
 
 const EmojiButtonContainer = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
   border: none;
   background: none;
   padding: 0;
-  cursor: pointer;
 `;
 const BtnWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
-  top: 72%;
-  left: 20.2%;
+  top: 21rem;
+  left: 0.7rem;
+  width: 3.7rem;
+  height: 3.7rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const GuideText = styled.div`
+  font-size: 0.75rem;
+  font-family: 'Pretendard-Regular';
+  text-align: center;
+  margin-top: 0.2rem;
+  color: rgba(157, 158, 163, 1);
 `;
 
 const StickerModal = styled.div`
@@ -171,12 +192,13 @@ const StickerModal = styled.div`
 `;
 
 const StickerContent = styled.div`
-  background-color: white;
+  background-color: #f6f6f6;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  max-width: 800px;
-  max-height: 500px;
+  border-radius: 10px;
+  max-width: 50rem;
+  max-height: 32rem;
 `;
 
 const CloseButton = styled.span`
@@ -194,8 +216,8 @@ const CloseButton = styled.span`
 
 const Sticker = styled.div`
   display: inline-block;
-  font-size: 100px;
-  margin: 10px;
+  font-size: 3rem;
+  margin: 0.6rem;
   cursor: pointer;
 `;
 

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import PageShiftBtn from '../components/PageShiftBtn';
 import Carousel1 from '../components/Carousel1';
@@ -103,34 +104,40 @@ function ConvertAIPage() {
               <Loading />
             </LoadingWrap>
           ) : (
-            <CarouselWrap frameType={frameType2}>
-              <Carousel1
-                aiData={aiResponse2[0]}
-                setSelectedData={(data) =>
-                  setSelectedData((prev) => ({ ...prev, carousel1: data }))
-                }
-              />
-              <Carousel2
-                aiData={aiResponse2[1]}
-                setSelectedData={(data) =>
-                  setSelectedData((prev) => ({ ...prev, carousel2: data }))
-                }
-              />
-              <Carousel3
-                aiData={aiResponse2[2]}
-                setSelectedData={(data) =>
-                  setSelectedData((prev) => ({ ...prev, carousel3: data }))
-                }
-              />
-              <Carousel4
-                aiData={aiResponse2[3]}
-                setSelectedData={(data) =>
-                  setSelectedData((prev) => ({ ...prev, carousel4: data }))
-                }
-              />
-            </CarouselWrap>
+            <CarouselContainer>
+              <CarouselWrap frameType={frameType2}>
+                <Carousel1
+                  aiData={aiResponse2[0]}
+                  setSelectedData={(data) =>
+                    setSelectedData((prev) => ({ ...prev, carousel1: data }))
+                  }
+                />
+                <Carousel2
+                  aiData={aiResponse2[1]}
+                  setSelectedData={(data) =>
+                    setSelectedData((prev) => ({ ...prev, carousel2: data }))
+                  }
+                />
+                <Carousel3
+                  aiData={aiResponse2[2]}
+                  setSelectedData={(data) =>
+                    setSelectedData((prev) => ({ ...prev, carousel3: data }))
+                  }
+                />
+                <Carousel4
+                  aiData={aiResponse2[3]}
+                  setSelectedData={(data) =>
+                    setSelectedData((prev) => ({ ...prev, carousel4: data }))
+                  }
+                />
+              </CarouselWrap>
+            </CarouselContainer>
           )}
-          <PageShiftWrap onClick={handlePageShift}>
+          <PageShiftWrap
+            onClick={handlePageShift}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ borderRadius: '50%' }}
+          >
             <PageShiftBtn />
           </PageShiftWrap>
           <ProgressWrap>
@@ -164,6 +171,16 @@ const PageShiftWrap = styled.div`
   top: 50%; /* 수직 중앙에 위치하도록 설정 */
   right: 16rem; /* 오른쪽으로 이동시키기 위한 값 */
   transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
+
+const CarouselContainer = styled.div`
+  display: flex;
+  max-width: 100rem;
+  height: 370px;
+  margin-top: 7rem;
+  margin-bottom: 7rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
 `;
 
 const CarouselWrap = styled.div`
@@ -174,9 +191,8 @@ const CarouselWrap = styled.div`
     if (frameType === '1X4') {
       return `
         display: grid;
-        grid-template-rows: repeat(2, 200px);
-        grid-template-columns: repeat(2, 0.2fr);
-        grid-gap: 6rem;
+        grid-template-columns: repeat(4, 200px);
+        grid-gap: 7.5rem;
       `;
     }
     if (frameType === '2X2') {
@@ -184,7 +200,7 @@ const CarouselWrap = styled.div`
         display: grid;
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 0.2fr);
-        grid-gap: 6rem;
+        grid-gap: 3rem;
       `;
     }
   }}

@@ -38,10 +38,10 @@ function UploadImage({ onImageUpload }) {
         {uploadedImage ? (
           <UploadedImg src={uploadedImage} alt="Uploaded Image" />
         ) : (
-          <>
+          <ImageWrapper>
             <SampleUploadImage />
             <UploadGuideText>클릭하거나 이미지를 드래그하세요</UploadGuideText>
-          </>
+          </ImageWrapper>
         )}
         {fileError && <ErrorMessage>{fileError}</ErrorMessage>}
       </UploadImageFrame>
@@ -60,10 +60,10 @@ const RowWrap = styled.div`
 const UploadImageFrame = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: center;
   align-items: center;
-  width: 15rem;
-  height: 10rem;
+  width: 180px;
+  height: 180px;
   flex-shrink: 0;
   background: #fff;
   box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);
@@ -75,17 +75,25 @@ const UploadImageFrame = styled.div`
     cursor: pointer;
   }
 `;
+const ImageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+`;
 const SampleUploadImage = styled.div`
-  width: 120px;
-  height: 100px;
-  margin-bottom: 8px;
+  width: 80px;
+  height: 60px;
   flex-shrink: 0;
   background: url(${sampleUploadImage}) no-repeat center center;
   background-size: cover;
+  margin: 0 auto;
+  margin-bottom: 20px;
 `;
 
 const UploadGuideText = styled.div`
   font-family: 'Pretendard-Regular';
+  margin: 0 auto;
+  font-size: 12px;
 `;
 
 const UploadedImg = styled.img`
