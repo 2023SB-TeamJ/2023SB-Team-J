@@ -7,9 +7,13 @@ import LeftAIShift from '../LeftAIShift';
 import RightAIShift from '../RightAIShift';
 import Black from '../../assets/images/BlackImg.png';
 import Green from '../../assets/images/Green.png';
-import aframe1 from '../../assets/images/aframe_1.png';
-import aframe2 from '../../assets/images/aframe_2.png';
-import aframe3 from '../../assets/images/aframe_3.png';
+// import aframe1 from '../../assets/images/aframe_1.png';
+// import aframe2 from '../../assets/images/aframe_2.png';
+// import aframe3 from '../../assets/images/aframe_3.png';
+import aframe4 from '../../assets/images/aframe_4.png';
+import aframe5 from '../../assets/images/aframe_5.png';
+import aframe6 from '../../assets/images/aframe_6.png';
+import aframe7 from '../../assets/images/aframe_7.png';
 import bframe1 from '../../assets/images/bframe_1.png';
 import bframe2 from '../../assets/images/bframe_2.png';
 
@@ -17,7 +21,7 @@ import bframe2 from '../../assets/images/bframe_2.png';
 const MAX_IMAGES = 4;
 
 function CustomCarousel({ sendData, frameType }) {
-  const IMAGES_1 = [Black, aframe1, aframe2, aframe3];
+  const IMAGES_1 = [aframe4, aframe5, aframe6, aframe7];
   const IMAGES_2 = [Black, bframe1, bframe2, Green];
 
   const [imgIdx, setImgIdx] = useState(0);
