@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import oneFourImage from '../assets/images/imageSample2.jpg';
 import twoTwoImage from '../assets/images/imageSample1.jpg';
+import ProgressBar from '../components/ProgressBar';
 
 function ChooseFramePage() {
   const navigate = useNavigate();
@@ -19,12 +20,35 @@ function ChooseFramePage() {
     navigate('/upload', { state: '2X2' });
   };
 
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    // 0부터 50까지 프로그레스 증가 애니메이션
+    let currentProgress = 0;
+    const targetProgress = 1;
+    const increment = 1;
+
+    const animateProgress = () => {
+      if (currentProgress <= targetProgress) {
+        setProgress(currentProgress);
+        currentProgress += increment;
+        requestAnimationFrame(animateProgress);
+      }
+    };
+
+    animateProgress();
+
+    // 페이지 1 작업이 완료될 때까지 50%로 설정
+    setTimeout(() => {
+      setProgress(1);
+    }, 2000); // 2초로 변경
+  }, []);
+
   return (
     <div>
       <Container>
         <Header />
         <MainWrap>
-          <ProgressBar />
           <FrameWrap>
             <ImgWrap
               // 1X4 배열 형태의 컴포넌트로 이루어진 페이지로 이동한다.
@@ -54,6 +78,9 @@ function ChooseFramePage() {
               />
             </ImgWrap>
           </FrameWrap>
+          <ProgressWrap>
+            <ProgressBar progress={progress} number={`${progress}%`} />
+          </ProgressWrap>
         </MainWrap>
       </Container>
     </div>
@@ -73,12 +100,6 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
-`;
-
-const ProgressBar = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 3rem;
 `;
 
 const FrameWrap = styled.div`
@@ -113,10 +134,9 @@ const ImgWrap = styled.div`
   }
 `;
 
-// const Img1X4 = styled(motion.img)`
-// whileHover={{ scale: 1.1 }}
-// `;
-
-// const Img2X2 = styled(motion.img)`
-//   whileHover={{ scale: 1.1 }}
-//
+const ProgressWrap = styled.div`
+  margin-top: 5rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  padding-bottom: 2rem;
+`;

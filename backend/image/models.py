@@ -1,9 +1,5 @@
 from django.db import models
 
-
-# from backend.common.models import User
-# from ..common.models import User
-
 class Image_upload(models.Model):
     user_id = models.ForeignKey('common.User', on_delete=models.RESTRICT)
     url = models.URLField(null=False)

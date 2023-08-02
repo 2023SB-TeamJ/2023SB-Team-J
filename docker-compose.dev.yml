@@ -44,8 +44,8 @@ services:
       - DB_NAME=mydatabase
       - DB_USER=myuser
       - DB_PASSWORD=mypassword
-    # command: "python manage.py runserver 0.0.0.0:8000"
-    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
+    command: "python manage.py runserver 0.0.0.0:8000"
+#    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
     tty: true
     networks:
       - t4y
@@ -83,18 +83,6 @@ services:
     networks:
       - t4y
 
-#  nginx:
-#    image: nginx
-#    ports:
-#      - 80:80
-#    volumes:
-#      - ./nginx.conf:/etc/nginx/nginx.conf
-#    depends_on:
-#      - backend
-#      - frontend
-#    # networks:
-#    #   - t4y
-#
 networks:
   t4y:
     driver: bridge

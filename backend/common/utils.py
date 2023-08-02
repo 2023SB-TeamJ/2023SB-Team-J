@@ -14,10 +14,3 @@ def user_find_by_id(user_id):
 
 def user_find_by_email(email):
     return user.objects.filter(email=email)
-
-# def user_generate_access_token(user_data):
-#     return jwt.encode(
-#         {'id': str(user_data.id), 'type': 'access_token', 'exp': datetime.utcnow() + timedelta(minutes=30)},
-#         SECRET_KEY,
-#         'HS256'
-#     ).decode('utf-8')

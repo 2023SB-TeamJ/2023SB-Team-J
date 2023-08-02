@@ -3,16 +3,10 @@ from django.contrib.auth import get_user_model
 
 from drf_yasg import openapi
 
-# from image.serializers import UploadedImageSerializer
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
-
 
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
-    # 이미지 업로드 serializer -> 추후 결과물 뽑는 Serializer 로 변경 가능성 있음
-    # images = UploadedImageSerializer(many=True, read_only=True)
     class Meta:
         model = User
         fields = ("email", "nickname", "password", "created_at", "updated_at", "state")
@@ -60,18 +54,3 @@ class SwaggerSignupPostSerializer(serializers.Serializer):
 
 class SwaggerBadResponseSignupPostSerializer(serializers.Serializer):
     detail = serializers.CharField(default="invalid credentials")
-
-
-
-# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-#     @classmethod
-#     def validate(cls, attrs):
-#         token = super().get_token(user)
-#
-#         user = attrs['users']
-#         # Add custom claims to the token's payload
-#         token['user_id'] = user.id
-#         token['nickname'] = user.nickname
-#
-#         return token
-
