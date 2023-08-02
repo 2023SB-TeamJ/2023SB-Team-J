@@ -60,7 +60,7 @@ const RowWrap = styled.div`
 const UploadImageFrame = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   width: 15rem;
   height: 10rem;

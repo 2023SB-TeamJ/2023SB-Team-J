@@ -6,22 +6,12 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
 
 from .serializers import *
-from drf_yasg.utils import swagger_auto_schema
-
-from rest_framework_simplejwt.views import TokenObtainPairView
-
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from backend_project.settings import SECRET_KEY
-
-# from .utils import user_generate_access_token
-
 from drf_yasg.utils import swagger_auto_schema
 
 User = get_user_model()
-# class MyTokenObtainPairView(TokenObtainPairView):
-#     serializer_class = MyTokenObtainPairSerializeㅋ
-
 
 # 회원가입
 class SignupAPIView(APIView):
@@ -47,9 +37,6 @@ class LoginAPIView(APIView):
         email = request.data.get('email')
         password = request.data.get('password')
 
-        # access_token = None
-        # refresh_token = None
-
         if email is None or password is None:
             return Response({'error': 'Please provide both email and password.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -57,7 +44,6 @@ class LoginAPIView(APIView):
 
         if user and user.check_password(password):
             refresh = RefreshToken.for_user(user)
-            # access_token = AccessToken.for_user(user)
 
             return Response({
                 'message': 'success',

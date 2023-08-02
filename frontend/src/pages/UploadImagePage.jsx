@@ -1,17 +1,21 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-else-return */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-use-before-define */
 /* eslint-disable consistent-return */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import Header from '../components/Header';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
+import ProgressBar from '../components/ProgressBar';
 import Loading from '../components/LoadingAnimation';
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 function UploadImagePage() {
   const location = useLocation();
@@ -19,6 +23,30 @@ function UploadImagePage() {
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태를 관리하는 상태 변수를 추가합니다.
+
+  const [progress, setProgress] = useState(1);
+
+  useEffect(() => {
+    // 0부터 50까지 프로그레스 증가 애니메이션
+    let currentProgress = 1;
+    const targetProgress = 22;
+    const increment = 1;
+
+    const animateProgress = () => {
+      if (currentProgress <= targetProgress) {
+        setProgress(currentProgress);
+        currentProgress += increment;
+        requestAnimationFrame(animateProgress);
+      }
+    };
+
+    animateProgress();
+
+    // 페이지 1 작업이 완료될 때까지 50%로 설정
+    setTimeout(() => {
+      setProgress(22);
+    }, 2000); // 2초로 변경
+  }, []);
 
   const onImageUpload = (file) => {
     setFiles((prevFiles) => [...prevFiles, file]);
@@ -39,7 +67,7 @@ function UploadImagePage() {
       });
 
       return axios
-        .post('http://localhost:8000/api/v1/frame/', formData, {
+        .post(`${apiUrl}frame/`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${access}`,
@@ -70,7 +98,7 @@ function UploadImagePage() {
     const access = localStorage.getItem('access');
 
     return axios
-      .post('http://localhost:8000/api/v1/frame/ai/', formData, {
+      .post(`${apiUrl}frame/ai/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${access}`,
@@ -106,7 +134,6 @@ function UploadImagePage() {
       <Container>
         <MainWrap>
           <Header />
-          <ProgressBar />
           {isLoading ? (
             <LoadingWrap>
               <Loading />
@@ -116,6 +143,9 @@ function UploadImagePage() {
               {uploadImageComponents}
             </ImageWrapper>
           )}
+          <ProgressWrap>
+            <ProgressBar progress={progress} number={`${progress}%`} />
+          </ProgressWrap>
         </MainWrap>
         <PageShiftWrap onClick={uploadAllImages}>
           <PageShiftBtn />
@@ -138,12 +168,6 @@ const MainWrap = styled.div`
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
-`;
-
-const ProgressBar = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 3rem;
 `;
 
 const PageShiftWrap = styled.div`
@@ -208,4 +232,11 @@ const LoadingWrap = styled.div`
   height: 100%;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.2);
+`;
+
+const ProgressWrap = styled.div`
+  margin-top: 5rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  padding-bottom: 2rem;
 `;

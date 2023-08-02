@@ -1,10 +1,10 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/img-redundant-alt */
-/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/button-has-type */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -17,6 +17,7 @@ import addlocal from '../assets/images/save.png';
 import CustomPhoto from '../components/Custom/CustomPhoto';
 import CustomTextBox from '../components/Custom/CustomTextBox';
 import CustomEmoji from '../components/Custom/CustomEmoji';
+import ProgressBar from '../components/ProgressBar';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -29,11 +30,34 @@ function CustomizingPage() {
   // 그러나 실제로는 colImg가 문자열이어서 아래 코드처럼 작성
   const { colImg, frameType3 } = location.state;
   console.log(location.state);
+
+  const [progress, setProgress] = useState(62);
   // const { frameType } = location.state;
+
+  useEffect(() => {
+    // 0부터 50까지 프로그레스 증가 애니메이션
+    let currentProgress = 62;
+    const targetProgress = 82;
+    const increment = 1;
+
+    const animateProgress = () => {
+      if (currentProgress <= targetProgress) {
+        setProgress(currentProgress);
+        currentProgress += increment;
+        requestAnimationFrame(animateProgress);
+      }
+    };
+
+    animateProgress();
+
+    // 페이지 1 작업이 완료될 때까지 50%로 설정
+    setTimeout(() => {
+      setProgress(82);
+    }, 2000); // 2초로 변경
+  }, []);
 
   const captureArea = () => {
     const captureDiv = document.getElementById('captureArea');
-
     function sendImageToServer(blob) {
       const userDummy = '1';
       const formData = new FormData();
@@ -119,6 +143,9 @@ function CustomizingPage() {
             </BtnWrap>
           </CustomWrap>
           {/* </CustomWrap> */}
+          <ProgressWrap>
+            <ProgressBar progress={progress} number={`${progress}%`} />
+          </ProgressWrap>
         </MainWrap>
       </Container>
     </div>
@@ -209,6 +236,12 @@ const AddLocalBtn = styled(motion.div)`
   cursor: pointer;
 `;
 
+const ProgressWrap = styled.div`
+  margin-top: 5rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  padding-bottom: 2rem;
+`;
 // ----------------------
 // const StickerModal = styled.div`
 //   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};

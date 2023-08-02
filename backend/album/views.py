@@ -65,7 +65,6 @@ class AlbumDetailView(APIView): #album/detail
         except:
             # 해당 객체를 찾지 못한 경우 HTTP_400
             return Response({"error" : "해당되는 객체가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
-        # serializer = AlbumDetailSerializer(image_collage)
 
         image_collage.state = 0
         image_collage.save()
