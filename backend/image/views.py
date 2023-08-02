@@ -42,6 +42,7 @@ class UploadImageView(APIView):
 
         with Image.open(image) as im:
             im = im.convert("RGB")
+            im = im.resize((180,180))
             im_jpeg = BytesIO()
             im.save(im_jpeg, 'JPEG')
             im_jpeg.seek(0)
