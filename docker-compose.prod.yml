@@ -69,7 +69,7 @@ services:
     build: ./nginx
     container_name: nginx
     ports:
-      - 80:8080
+      - 80:80
     restart: unless-stopped
     volumes:
       - static_volume:/backend/staticfiles
