@@ -56,6 +56,24 @@ function CustomizingPage() {
     setColor(newColor.hex);
   };
 
+  const handleResize = () => {
+    setIsFolded(window.innerWidth <= 1024);
+  };
+
+  useEffect(() => {
+    // 창 크기 변경 이벤트를 처리하여 접기/펼치기를 담당하는 이벤트 리스너를 추가
+    // resize 이벤트는 사용자가 브라우저 창 크기를 조절할 때마다 발생
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트 마운트 시 초기 확인
+    handleResize();
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     // 0부터 50까지 프로그레스 증가 애니메이션
     let currentProgress = 62;
@@ -149,7 +167,7 @@ function CustomizingPage() {
                 />
                 <FontCol>
                   <FontPicker
-                    style={{ fontFamily: 'iceSotong-Rg', fontSize: '2.4rem' }}
+                    style={{ fontFamily: 'iceSotong-Rg', fontSize: '2.2rem' }}
                     onClick={() => setFontFamily('iceSotong-Rg')} // 클릭 시 폰트 패밀리 변경
                   >
                     인천교육소통체
@@ -157,7 +175,7 @@ function CustomizingPage() {
                   <FontPicker
                     style={{
                       fontFamily: 'Hangeuljaemin4-Regular',
-                      fontSize: '1.8rem',
+                      fontSize: '1.6rem',
                     }}
                     onClick={() => setFontFamily('Hangeuljaemin4-Regular')} // 클릭 시 폰트 패밀리 변경
                   >
@@ -166,7 +184,7 @@ function CustomizingPage() {
                   <FontPicker
                     style={{
                       fontFamily: 'WandohopeR',
-                      fontSize: '1.8rem',
+                      fontSize: '1.6rem',
                     }}
                     onClick={() => setFontFamily('WandohopeR')} // 클릭 시 폰트 패밀리 변경
                   >
@@ -175,7 +193,7 @@ function CustomizingPage() {
                   <FontPicker
                     style={{
                       fontFamily: 'KCCChassam',
-                      fontSize: '1.8rem',
+                      fontSize: '1.6rem',
                     }}
                     onClick={() => setFontFamily('KCCChassam')} // 클릭 시 폰트 패밀리 변경
                   >
@@ -285,6 +303,16 @@ const MenuWrap = styled.div`
   border-bottom: 1px solid rgba(37, 40, 47, 0.1);
   position: relative;
   transition: flex 0.5s ease-in-out;
+
+  @media screen and (max-width: 1260px) {
+    flex-basis: 200px;
+  }
+
+  @media screen and (max-width: 1024px) {
+    flex-basis: 200px;
+    max-width: ${(props) => (props.isFolded ? '0' : '400px')};
+    overflow: hidden;
+  }
 `;
 
 const TextDiv = styled.div`
@@ -435,6 +463,15 @@ const Fold = styled.div`
 
   &:hover {
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 1024px) {
+    position: fixed;
+    bottom: 23rem;
+    padding: 0.5rem;
+    transform: ${(props) =>
+      props.isFolded ? 'rotate(180deg)' : 'rotate(0deg)'};
+    transition: transform 0.5s ease-in-out;
   }
 `;
 
