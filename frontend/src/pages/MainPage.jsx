@@ -281,7 +281,7 @@ const StartBtn1 = styled.button`
   height: 3.7rem;
   flex-shrink: 0;
   border-radius: 50px;
-  background: #f6f6f6;
+  background: rgba(37, 40, 47, 0.05);
   border: 1.3px solid black;
   opacity: 0;
 
