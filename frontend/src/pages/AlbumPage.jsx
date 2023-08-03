@@ -86,7 +86,7 @@ function AlbumPage() {
               onClick={() => navigate('/choose')}
               whileHover={{ scale: 1.2 }}
             >
-              버튼바꿀예정
+              START
             </AddBtn>
           </BtnWrap>
           <MyMasonryGrid
@@ -157,13 +157,14 @@ const BtnWrap = styled.div`
 
 const AddBtn = styled(motion.button)`
   margin: 0 auto;
-  width: 8rem; // width 추가
+  width: 9rem; // width 추가
   height: 3.5rem; // height 추가
   background-color: #f1f1f1;
   border-radius: 30px;
   color: #1f1f1f;
   font-size: 1.2rem;
   font-family: 'Pretendard-Regular';
+  font-weight: 600;
   border: 1.5px solid #1f1f1f;
 
   &:hover {
