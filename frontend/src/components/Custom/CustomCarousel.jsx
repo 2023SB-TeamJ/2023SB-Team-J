@@ -14,7 +14,7 @@ import aframe5 from '../../assets/images/frameImg/aframe_5.png';
 import aframe6 from '../../assets/images/frameImg/aframe_6.png';
 import aframe7 from '../../assets/images/frameImg/aframe_7.png';
 // import aframe8 from '../../assets/images/frameImg/aframe_8.png';
-import aframe9 from '../../assets/images/frameImg/aframe_9.png';
+import aframe11 from '../../assets/images/frameImg/aframe_11.png';
 /// ///////////////////////////////////////////////////////////////
 // import bframe1 from '../../assets/images/frameImg/bframe_1.png';
 // import bframe2 from '../../assets/images/frameImg/bframe_2.png';
@@ -40,7 +40,7 @@ function CustomCarousel({ sendData, frameType }) {
     aframe5,
     aframe6,
     aframe7,
-    aframe9,
+    aframe11,
   ];
   const IMAGES_2 = [
     Black,
