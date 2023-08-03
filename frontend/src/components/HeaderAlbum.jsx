@@ -45,7 +45,19 @@ function HeaderAlbum() {
         <Name />
       </LogoWrap>
       <BtnWrap>
-        <AlbumUserName>{nickname}님의 앨범</AlbumUserName>
+        <AlbumUserName>
+          <span
+            style={{
+              color: '#dc2045',
+              fontFamily: 'SUITE-Regular',
+              fontWeight: '800',
+              marginRight: '0.2rem',
+            }}
+          >
+            {nickname}
+          </span>
+          님의 앨범
+        </AlbumUserName>
         <SignBtn onClick={handleLogout}>로그아웃</SignBtn>
       </BtnWrap>
     </Container>
@@ -77,19 +89,19 @@ const BtnWrap = styled.div`
   align-items: center;
 `;
 
-const AlbumUserName = styled.div`
+const AlbumUserName = styled.span`
   display: flex;
-  width: 280px;
-  height: 29px;
-  margin-right: 5px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
   color: ${(props) => props.theme.deepGrayColor};
-  font-size: 1.5rem;
-  font-family: 'Pretendard-Regular';
+  font-size: 1.25rem;
+  font-family: 'SUITE-Regular';
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 500px) {
     display: none;
   }
 `;
