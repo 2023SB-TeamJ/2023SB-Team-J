@@ -140,7 +140,7 @@ function ConvertAIPage() {
           >
             <PageShiftBtn />
           </PageShiftWrap>
-          <ProgressWrap>
+          <ProgressWrap frameType={frameType2}>
             <ProgressBar progress={progress} number={`${progress}%`} />
           </ProgressWrap>
         </MainWrap>
@@ -167,9 +167,24 @@ const MainWrap = styled.div`
 
 const PageShiftWrap = styled.div`
   position: absolute;
-  top: 50%; /* 수직 중앙에 위치하도록 설정 */
-  right: 16rem; /* 오른쪽으로 이동시키기 위한 값 */
+  width: 4rem;
+  height: 4rem;
+  top: 74%; /* 수직 중앙에 위치하도록 설정 */
+  right: 3%; /* 오른쪽으로 이동시키기 위한 값 */
   transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
+
+  @media screen and (max-width: 1260px) {
+    position: absolute;
+    top: 50%; /* 수직 중앙에 위치하도록 설정 */
+    right: 3%; /* 오른쪽으로 이동시키기 위한 값 */
+    transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
+  }
+
+  @media screen and (max-width: 650px) {
+    top: auto;
+    right: 45%; // 가로 중앙에 위치
+    bottom: -2%;
+  }
 `;
 
 const CarouselContainer = styled.div`
@@ -186,13 +201,29 @@ const CarouselContainer = styled.div`
 const CarouselWrap = styled.div`
   justify-content: center;
   align-items: center;
-  transform: translateY(100px);
+  transform: translateY(10px);
   ${({ frameType }) => {
     if (frameType === '1X4') {
       return `
         display: grid;
         grid-template-columns: repeat(4, 200px);
         grid-gap: 7.5rem;
+
+        @media screen and (max-width: 1260px) {
+          display: grid;
+          grid-template-rows: repeat(2, 200px);
+          grid-template-columns: repeat(2, 0.2fr);
+          grid-gap: 3rem;
+        }
+
+        @media screen and (max-width: 1024px) {
+          display: grid;
+          grid-template-rows: repeat(4, 100px); // row의 크기를 줄임
+          grid-template-columns: 0.2fr;
+          grid-gap: 4.5rem; // gap을 줄임
+      
+          transform: translateY(60px);
+        }
       `;
     }
     if (frameType === '2X2') {
@@ -200,20 +231,18 @@ const CarouselWrap = styled.div`
         display: grid;
         grid-template-rows: repeat(2, 200px);
         grid-template-columns: repeat(2, 0.2fr);
-        grid-gap: 3rem;
+        grid-gap: 4.5rem;
       `;
     }
   }}
 
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 650px) {
     display: grid;
     grid-template-rows: repeat(4, 100px); // row의 크기를 줄임
     grid-template-columns: 0.2fr;
-    grid-gap: 8rem; // gap을 줄임
-  }
+    grid-gap: 5rem; // gap을 줄임
 
-  @media screen and (max-width: 660px) {
-    transform: translateY(100px);
+    transform: translateY(60px);
   }
 `;
 
@@ -235,7 +264,7 @@ const ProgressWrap = styled.div`
   margin-right: 10rem;
   padding-bottom: 2rem;
 
-  @media screen and (max-width: 660px) {
-    display: none;
+  @media screen and (max-width: 1024px) {
+    transform: translateY(200px);
   }
 `;

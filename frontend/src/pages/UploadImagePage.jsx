@@ -181,9 +181,17 @@ const MainWrap = styled.div`
 
 const PageShiftWrap = styled.div`
   position: absolute;
-  top: 50%; /* 수직 중앙에 위치하도록 설정 */
-  right: 13%; /* 오른쪽으로 이동시키기 위한 값 */
+  width: 4rem;
+  height: 4rem;
+  top: 70%; /* 수직 중앙에 위치하도록 설정 */
+  right: 3%; /* 오른쪽으로 이동시키기 위한 값 */
   transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
+
+  @media screen and (max-width: 580px) {
+    top: auto;
+    right: 45%; // 가로 중앙에 위치
+    bottom: 10%;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -213,31 +221,33 @@ const ImageWrapper = styled.div`
     if (frameType === '1X4') {
       return `
         gap: 20px;
+        transform: translateY(-50px);
+
+        @media screen and (max-width: 950px) {
+          display: grid;
+          grid-template-rows: repeat(2, 200px);
+          grid-template-columns: repeat(2, 0.2fr);
+          grid-gap: 3rem;
+          margin-top: 4rem;
+        }
       `;
     } else if (frameType === '2X2') {
       return `
-        display: grid;
-        grid-template-rows: repeat(2, 200px);
-        grid-template-columns: repeat(2, 200px);
-        grid-gap: 2rem;
-      `;
+          display: grid;
+          grid-template-rows: repeat(2, 200px);
+          grid-template-columns: repeat(2, 200px);
+          grid-gap: 2rem;
+          
+          @media screen and (max-width: 950px) {
+            display: grid;
+            grid-template-rows: repeat(2, 200px);
+            grid-template-columns: repeat(2, 0.2fr);
+            grid-gap: 3rem;
+            margin-top: 4rem;
+          }
+        `;
     }
   }}
-
-  @media screen and (max-width: 950px) {
-    display: grid;
-    grid-template-rows: repeat(2, 200px);
-    grid-template-columns: repeat(2, 0.2fr);
-    grid-gap: 3rem;
-    margin-top: 4rem;
-  }
-
-  @media screen and (max-width: 650px) {
-    display: grid;
-    grid-template-rows: repeat(4, 200px);
-    grid-template-columns: repeat(1, 0.2fr);
-    grid-gap: 0.05rem;
-  }
 `;
 
 // const ImageText = styled.p`
@@ -265,8 +275,4 @@ const ProgressWrap = styled.div`
   margin-left: 10rem;
   margin-right: 10rem;
   padding-bottom: 2rem;
-
-  @media screen and (max-width: 660px) {
-    display: none;
-  }
 `;

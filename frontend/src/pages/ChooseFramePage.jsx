@@ -153,4 +153,5 @@ const ProgressWrap = styled.div`
   margin-left: 10rem;
   margin-right: 10rem;
   padding-bottom: 2rem;
+  transform: translateY(50px);
 `;

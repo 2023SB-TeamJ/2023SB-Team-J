@@ -310,57 +310,13 @@ const StartBtn1 = styled.button`
     top: 83%;
     left: 0;
     right: 0;
+    bottom: -25%;
     margin: auto;
     width: 11rem;
     height: 3rem;
     font-size: 1.5rem;
   }
 `;
-
-// const StartBtn2 = styled.button`
-//   display: flex;
-//   position: absolute;
-//   z-index: 3;
-//   left: 14rem;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   width: 12rem;
-//   height: 3.7rem;
-//   flex-shrink: 0;
-//   border-radius: 50px;
-//   background: #f4d3d7;
-//   border: 1px solid black;
-//   opacity: 0;
-
-//   animation: ${startBtnOpacity} 1s ease-out;
-//   animation-delay: 2s;
-//   animation-fill-mode: forwards;
-
-//   font-family: 'Noto Sans', '맑은 고딕', 'Malgun Gothic', verdana, sans-serif;
-//   font-weight: 600;
-//   font-style: normal;
-//   line-height: normal;
-//   font-size: 1.5rem;
-
-//   cursor: pointer;
-
-//   &:hover {
-//     background-color: #000;
-//     color: #fff;
-//     transition: all 0.4s;
-//   }
-
-//   @media screen and (max-width: 980px) {
-//     top: 83%;
-//     left: 0;
-//     right: 0;
-//     margin: auto;
-//     width: 11rem;
-//     height: 3rem;
-//     font-size: 1.5rem;
-//   }
-// `;
 
 const SampleImageWrapper = styled.div`
   position: absolute;
