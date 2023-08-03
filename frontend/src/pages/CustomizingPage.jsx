@@ -56,6 +56,24 @@ function CustomizingPage() {
     setColor(newColor.hex);
   };
 
+  const handleResize = () => {
+    setIsFolded(window.innerWidth <= 1248);
+  };
+
+  useEffect(() => {
+    // 창 크기 변경 이벤트를 처리하여 접기/펼치기를 담당하는 이벤트 리스너를 추가
+    // resize 이벤트는 사용자가 브라우저 창 크기를 조절할 때마다 발생
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트 마운트 시 초기 확인
+    handleResize();
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     // 0부터 50까지 프로그레스 증가 애니메이션
     let currentProgress = 62;
@@ -129,7 +147,7 @@ function CustomizingPage() {
 
   return (
     <div>
-      <Container>
+      <Container setIsFolded={setIsFolded}>
         {/* <IconWrap /> */}
         <HeaderCustom />
         <CustomContainer>
@@ -279,7 +297,7 @@ const CustomContainer = styled.div`
 `;
 
 const MenuWrap = styled.div`
-  flex: ${(props) => (props.isFolded ? '0.145' : '1')};
+  flex: ${(props) => (props.isFolded ? '0.165' : '1')};
   border-top: 1px solid rgba(37, 40, 47, 0.1);
   border-right: 1px solid rgba(37, 40, 47, 0.1);
   border-bottom: 1px solid rgba(37, 40, 47, 0.1);
