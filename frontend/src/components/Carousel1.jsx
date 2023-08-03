@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import LeftAIShift from './LeftAIShift';
 import RightAIShift from './RightAIShift';
@@ -46,7 +47,11 @@ function Carousel1({ aiData, setSelectedData }) {
   return (
     <ColWrap>
       <CarouselWrap id="carouselExampleIndicators">
-        <ButtonWrap onClick={handlePrev}>
+        <ButtonWrap
+          onClick={handlePrev}
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ borderRadius: '50%' }}
+        >
           <LeftAIShift
             className="carousel-control-prev-icon"
             aria-hidden="true"
@@ -91,7 +96,11 @@ function Carousel1({ aiData, setSelectedData }) {
             )}
           </CarouselImage>
         </ImageWrap>
-        <ButtonWrap onClick={handleNext}>
+        <ButtonWrap
+          onClick={handleNext}
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ borderRadius: '50%' }}
+        >
           <RightAIShift // 밑의 두 줄 코드 있어야만 Carousel 동작함
             className="carousel-control-next-icon"
             aria-hidden="true"
@@ -123,9 +132,9 @@ const ImageWrap = styled.div`
 `;
 
 // 각각의 이미지 스타일
-const CarouselImage = styled.div``;
+const CarouselImage = styled(motion.div)``;
 
-const ButtonWrap = styled.div``;
+const ButtonWrap = styled(motion.div)``;
 
 // const ImageText = styled.p`
 //   font-size: 1.2rem;
