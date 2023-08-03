@@ -174,7 +174,7 @@ const AddBtn = styled(motion.button)`
 const MyMasonryGrid = styled(Masonry)`
   display: flex;
   margin: 0 auto;
-  margin-top: 20rem;
+  margin-top: 10rem;
   justify-content: center;
   align-items: center;
   width: auto;

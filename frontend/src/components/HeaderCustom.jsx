@@ -63,6 +63,7 @@ const Container = styled.div`
   padding-top: 1rem;
   padding-left: 2rem;
   padding-right: 2rem;
+  padding-bottom: 1rem;
   align-items: center;
   justify-content: space-between;
 `;
