@@ -21,7 +21,7 @@ from album.serializers import *
 
 from common.utils import user_token_to_data
 from common.serializers import SwaggerHeader
-
+from pillow_heif import register_heif_opener
 
 class UploadImageView(APIView):
     permission_classes = [IsAuthenticated]
@@ -29,6 +29,7 @@ class UploadImageView(APIView):
     @swagger_auto_schema(manual_parameters=SwaggerFramePost, responses={"201":SwaggerResponseFramePost})
     def post(self, request):
         print(">>> 1. in api v1 frame >>>")
+        register_heif_opener()
         image = request.data.get("image")
         authorization_header = request.META.get('HTTP_AUTHORIZATION')
         if authorization_header and authorization_header.startswith('Bearer '):
