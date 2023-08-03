@@ -12,6 +12,7 @@
     "dom-to-image": "^2.6.0",
     "framer-motion": "^10.12.18",
     "gsap": "^3.12.2",
+    "heic2any": "^0.0.4",
     "html2canvas": "^1.4.1",
     "konva": "^9.2.0",
     "react": "^18.2.0",

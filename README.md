@@ -4,8 +4,7 @@
 > 친구와 함께한 추억을 어디에 넣지?<br/>
 > 오늘을 그림처럼 기억하고 싶을 땐 어떡하지?
 
-<br/>
-
+<br/><br/>
 
 <div display="justify" align="center">
     <img width="10%" src="https://raw.githubusercontent.com/2023SB-TeamJ/2023SB-Team-J/develop/frontend/src/assets/images/frame1.PNG">
@@ -31,8 +30,7 @@
   </a>
 </p>
 
-
-#### <div align="center">📚 Tech Stack 📚</div>
+<div align="center">#### 📚 Tech Stack 📚</div>
 <div align="center">
     <div class="frontend">
         <img src="https://img.shields.io/badge/React-%2361DAFB?style=flat-square&logo=React&logoColor=white"/>
@@ -62,32 +60,10 @@
 </div>
 <br/><br/><br/>
 
-### How to run?
-
-```
-cd frontend
-npm install
-cd ..
-docker compose -f docker.compose.prod.yml up --build
-```
-
-### 시스템 아키텍쳐
-### erd
-### 데모 -> gif 로 짤막하게
-
-
-
-
-
 ### Team J
-| Name    | 장아령 | 김도우 | 김선재 | 민택기 | 박진우 | 송지우 | 조희은 |
-| ------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+
+| Name    | 장아령                                                                                                    | 김도우                                                                                                    | 김선재                                                                                                    | 민택기                                                                                                    | 박진우                                                                                                    | 송지우                                                                                                    | 조희은                                                                                                    |
+| ------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | Profile | <img width="100px" alt="장아령" src="https://ca.slack-edge.com/T05E22RUGJW-U05EEMW4PPT-4a082de6cd17-512"> | <img width="100px" alt="김도우" src="https://ca.slack-edge.com/T05E22RUGJW-U05E1V83J11-3481b7ca4095-512"> | <img width="100px" alt="김선재" src="https://ca.slack-edge.com/T05E22RUGJW-U05E23DMMDY-354951eddc67-512"> | <img width="100px" alt="민택기" src="https://ca.slack-edge.com/T05E22RUGJW-U05DZ5B9MT7-3da6e76684cf-512"> | <img width="100px" alt="박진우" src="https://ca.slack-edge.com/T05E22RUGJW-U05E1V7SR51-6e822f9f7896-512"> | <img width="100px" alt="송지우" src="https://ca.slack-edge.com/T05E22RUGJW-U05E4G70GJ0-fe09c20c18a0-512"> | <img width="100px" alt="조희은" src="https://ca.slack-edge.com/T05E22RUGJW-U05DMH0H08P-5aaaf65286cb-512"> |
-|Role| Leader, Backend | Backend | Frontend | Frontend | Frontend | Backend | Backend | 
-| gitHub  |[@aristo0922](https://github.com/aristo0922)|[kimdw0823](https://github.com/kimdw0823)|[@sunjae98](https://github.com/sunjae98)|[@TaekkiMin](https://github.com/TaekkiMin)|[@nagosu](https://github.com/nagosu)|[@alpakaka0o0](https://github.com/alpakaka0o0)|[@kubit2](https://github.com/kubit2)
-
-
-### Reference
-- [AnimeGan](https://github.com/bryandlee/animegan2-pytorch)
-
-### youtube, disquiet, medium link 
+| Role    | Leader, Backend                                                                                           | Backend                                                                                                   | Frontend                                                                                                  | Frontend                                                                                                  | Frontend                                                                                                  | Backend                                                                                                   | Backend                                                                                                   |
+| gitHub  | [@aristo0922](https://github.com/aristo0922)                                                              | [kimdw0823](https://github.com/kimdw0823)                                                                 | [@sunjae98](https://github.com/sunjae98)                                                                  | [@TaekkiMin](https://github.com/TaekkiMin)                                                                | [@nagosu](https://github.com/nagosu)                                                                      | [@alpakaka0o0](https://github.com/alpakaka0o0)                                                            | [@kubit2](https://github.com/kubit2)                                                                      |

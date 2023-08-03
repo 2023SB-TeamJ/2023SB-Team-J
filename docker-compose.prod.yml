@@ -1,10 +1,10 @@
 version: "3"
 # docker compose -f docker-compose.prod.yml up --build
 services:
-  fronted:
+  frontend:
     build: ./frontend
-    command: sh -c "npm install && npm start"
-    container_name: fronted
+    command: sh -c "npm install && npm run build && npm start"
+    container_name: frontend
     ports:
       - 3000:3000
     volumes:
@@ -70,6 +70,10 @@ services:
     container_name: nginx
     ports:
       - 80:80
+      - 443:443
+    expose:
+      - 80
+      - 443
     restart: unless-stopped
     volumes:
       - static_volume:/backend/staticfiles
@@ -80,6 +84,7 @@ services:
     # 가상 네트워크 연결
     networks:
       - t4y
+
 
 networks:
   t4y:
