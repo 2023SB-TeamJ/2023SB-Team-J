@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
-import oneFourImage from '../assets/images/imageSample2.jpg';
-import twoTwoImage from '../assets/images/imageSample1.jpg';
+import oneFourImage from '../assets/images/mainSample3.png';
+import twoTwoImage from '../assets/images/mainSample4.png';
 import ProgressBar from '../components/ProgressBar';
 
 function ChooseFramePage() {
@@ -122,7 +122,10 @@ const ImgWrap = styled.div`
   .oneFour {
     width: 10rem;
     margin-top: 3rem;
-    margin-right: 4rem;
+    margin-left: 8rem;
+    margin-right: 10rem;
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);
+    border: 0.1px solid #d8cccc;
 
     &:hover {
       cursor: pointer;
@@ -130,9 +133,10 @@ const ImgWrap = styled.div`
   }
 
   .twoTwo {
-    width: 20rem;
+    width: 30rem;
     margin-top: 3rem;
-    margin-left: 4rem;
+    box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.25);
+    border: 0.1px solid #d8cccc;
 
     &:hover {
       cursor: pointer;

@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 // import SampleImage1 from '../assets/images/1x4sampleImage.png';
 // import SampleImage2 from '../assets/images/2x2sampleImage.jpg';
 // import { useState, useEffect } from 'react';
-import ImageSample1 from '../assets/images/imageSample1.jpg';
-import ImageSample2 from '../assets/images/imageSample2.jpg';
+import ImageSample1 from '../assets/images/mainSample2.png';
+import ImageSample2 from '../assets/images/mainSample1.png';
 import { useAuth } from '../contexts/AuthContext';
 import Header from '../components/Header';
 import HeaderMain from '../components/HeaderMain';
@@ -130,19 +130,19 @@ const startBtnOpacity = keyframes`
 
 const move1 = keyframes`
   0% {
-    transform: translate3d(0, 0, 10px) rotate(-10deg);
+    transform: translate3d(0, 0, 10px) rotate(8deg);
   }
   100% {
-    transform: translate3d(-5px, 10px, 10px) rotate(-10deg);
+    transform: translate3d(-5px, 10px, 10px) rotate(8deg);
   }
 `;
 
 const move2 = keyframes`
   0% {
-    transform: translate3d(0, 0, 10px) rotate(5.63deg);
+    transform: translate3d(0, 0, 10px) rotate(-8deg);
   }
   100% {
-    transform: translate3d(5px, 10px, 10px) rotate(5.63deg);
+    transform: translate3d(5px, 10px, 10px) rotate(-8deg);
   }
 `;
 
@@ -183,7 +183,7 @@ const Slogan1 = styled.div`
   animation-fill-mode: forwards;
   position: relative;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1024px) {
     display: none;
   }
 `;
@@ -209,7 +209,7 @@ const Slogan2 = styled.div`
   animation-delay: 1.4s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1024px) {
     display: none;
   }
 `;
@@ -226,8 +226,8 @@ const Slogan3 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: 0.6rem;
-  word-spacing: -0.4rem;
+  letter-spacing: 0.4rem;
+  word-spacing: -0.2rem;
   opacity: 0;
   font-family: 'Pretendard-Regular';
 
@@ -235,7 +235,7 @@ const Slogan3 = styled.div`
   animation-delay: 1.6s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1024px) {
     display: none;
   }
 `;
@@ -250,8 +250,8 @@ const Slogan4 = styled.div`
   height: 5rem;
   font-size: 1.5rem;
   font-weight: 400;
-  letter-spacing: 0.6rem;
-  word-spacing: -0.4rem;
+  letter-spacing: 0.4rem;
+  word-spacing: -0.2rem;
   opacity: 0;
   font-family: 'Pretendard-Regular';
 
@@ -259,7 +259,7 @@ const Slogan4 = styled.div`
   animation-delay: 1.8s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1024px) {
     display: none;
   }
 `;
@@ -301,7 +301,7 @@ const StartBtn1 = styled.button`
     transition: all 0.4s;
   }
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1024px) {
     top: 83%;
     left: 0;
     right: 0;
@@ -316,13 +316,13 @@ const StartBtn1 = styled.button`
 const SampleImageWrapper = styled.div`
   position: absolute;
   top: 2rem;
-  right: 3rem;
-  width: 650px;
+  right: 0;
+  width: 750px;
   height: 650px;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1024px) {
     width: 500px;
-    top: 15%;
+    top: 5rem;
     left: 0;
     right: 0;
     margin: auto;
@@ -333,14 +333,11 @@ const OneTimesFourSampleImage = styled.div`
   position: absolute;
   z-index: 2;
   top: 0;
-  right: 26rem;
-  width: 13rem;
-  height: 39.5rem;
-  flex-shrink: 0;
-  background:
-    url(${ImageSample2}),
-    lightgray 50% / cover no-repeat;
-  background-size: cover;
+  right: 8rem;
+  width: 11rem;
+  height: 33.5rem;
+  background: url(${ImageSample1}) no-repeat;
+  background-size: contain;
   box-shadow: 3px 4px 4px 3px rgba(0, 0, 0, 0.25);
   opacity: 0;
 
@@ -350,26 +347,24 @@ const OneTimesFourSampleImage = styled.div`
   animation-delay: 1.2s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1024px) {
     position: absolute;
-    width: 160px;
-    height: 500px;
-    top: 3vh;
-    right: 61%;
+    width: 13rem;
+    height: 39rem;
+    top: 0;
+    right: 0;
   }
 `;
 
 const TwoTimesTwoSampleImage = styled.div`
   position: absolute;
   z-index: 1;
-  top: 2rem;
-  right: 3rem;
-  width: 25rem;
-  height: 37.5rem;
-  background:
-    url(${ImageSample1}),
-    lightgray 50% / cover no-repeat;
-  background-size: cover;
+  top: 3rem;
+  left: 1rem;
+  width: 34rem;
+  height: 25.5rem;
+  background: url(${ImageSample2}) no-repeat;
+  background-size: contain;
   box-shadow: 3px 4px 4px 3px rgba(0, 0, 0, 0.25);
   opacity: 0;
 
@@ -379,12 +374,12 @@ const TwoTimesTwoSampleImage = styled.div`
   animation-delay: 1s;
   animation-fill-mode: forwards;
 
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1024px) {
     position: absolute;
-    width: 350px;
-    height: 470px;
-    top: 3vh;
-    right: 7%;
+    width: 40rem;
+    height: 30rem;
+    top: 4rem;
+    left: 0;
   }
 `;
 
