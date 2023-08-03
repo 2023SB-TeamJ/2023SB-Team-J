@@ -380,7 +380,7 @@ const BtnWrap = styled(motion.div)`
   margin-right: 0.5rem;
   margin-left: 0.5rem;
   border-radius: 5px;
-  background: rgba(37, 40, 47, 0.05);
+  background: #f4d3d7;
 
   &:hover {
     cursor: pointer;
