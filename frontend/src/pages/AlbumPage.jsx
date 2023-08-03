@@ -94,13 +94,7 @@ function AlbumPage() {
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
-            {isLoading && (
-              <LoadingWrap>
-                <Loading />
-              </LoadingWrap>
-            )}
-            {!isLoading &&
-              images.length > 0 &&
+            {images.length > 0 &&
               images.map((img, i) => {
                 return (
                   <MyMasonryGridColumn key={img.result_image_id}>
@@ -114,7 +108,7 @@ function AlbumPage() {
                   </MyMasonryGridColumn>
                 );
               })}
-            {!isLoading && images.length === 0 && (
+            {images.length === 0 && (
               <FloatingWrap>
                 <FloatingImage />
               </FloatingWrap>
