@@ -56,7 +56,7 @@ function CustomEmoji() {
     // 폰트 크기를 원하는 비율로 조절하는 로직을 작성하세요
     // 예를 들어, 폭이 커질수록 폰트 크기도 커지도록 비율을 계산할 수 있습니다.
     const ratio = width / 20; // 원하는 비율 계산
-    const fontSize = 14 * ratio; // 기본 폰트 크기에 비율을 곱하여 적용
+    const fontSize = 18 * ratio; // 기본 폰트 크기에 비율을 곱하여 적용
     return fontSize;
   };
 
@@ -116,12 +116,10 @@ function CustomEmoji() {
             onDrag={(event, data) => handleDrag(event, data, index)}
             cancel=".react-resizable-handle"
           >
-            <ResizableBox
+            <CustomResizableBox
               width={sticker.size.width}
               height={sticker.size.height}
               onResizeStop={(event, data) => handleResize(event, data, index)}
-              minConstraints={[40, 40]}
-              maxConstraints={[200, 200]}
             >
               <DraggableSticker
                 fontSize={sticker.fontSize}
@@ -138,7 +136,7 @@ function CustomEmoji() {
                   X
                 </DeleteButton>
               </DraggableSticker>
-            </ResizableBox>
+            </CustomResizableBox>
           </Draggable>
         ))}
       </DropArea>
@@ -248,4 +246,14 @@ const DeleteButton = styled.span`
   font-weight: bold;
   cursor: pointer;
   display: ${({ show }) => (show ? 'block' : 'none')};
+`;
+
+const CustomResizableBox = styled(ResizableBox)`
+  .react-resizable-handle {
+    opacity: 0; /* 기본적으로 핸들 숨김 */
+  }
+
+  &:hover .react-resizable-handle {
+    opacity: 1; /* hover될 때 핸들 보이기 */
+  }
 `;

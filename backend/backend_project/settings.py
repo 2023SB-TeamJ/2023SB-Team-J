@@ -328,3 +328,5 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
     "TOKEN_OBTAIN_SERIALIZER": "common.serializers.MyTokenObtainPairSerializer",
 }
+BROKER_HEARTBEAT=60 # 60 seconds for the heartbeat signal
+BROKER_HEARTBEAT_CHECKRATE=2.0 # Check for a heartbeat every 2 seconds
