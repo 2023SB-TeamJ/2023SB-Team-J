@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable react/no-array-index-key */
@@ -9,7 +10,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
-import { motion } from 'framer-motion';
 import heic2any from 'heic2any';
 import Header from '../components/Header';
 import PageShiftBtn from '../components/PageShiftBtn';
@@ -168,11 +168,7 @@ function UploadImagePage() {
               </ImageWrapper>
             </ImageContainer>
           )}
-          <PageShiftWrap
-            onClick={uploadAllImages}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ borderRadius: '50%' }}
-          >
+          <PageShiftWrap onClick={uploadAllImages}>
             <PageShiftBtn />
           </PageShiftWrap>
           <ProgressWrap>
@@ -200,7 +196,7 @@ const MainWrap = styled.div`
   align-items: center;
 `;
 
-const PageShiftWrap = styled(motion.div)`
+const PageShiftWrap = styled.div`
   position: absolute;
   width: 4rem;
   height: 4rem;

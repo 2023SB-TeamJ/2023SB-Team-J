@@ -67,10 +67,7 @@ function FramePage() {
           <CarouselContainer>
             <CustomCarousel sendData={sendData2} frameType={frameType3} />
           </CarouselContainer>
-          <PageShiftWrap
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ borderRadius: '50%' }}
-          >
+          <PageShiftWrap>
             <PageShiftBtn handler={captureHandler} />
           </PageShiftWrap>
           <ProgressWrap>
@@ -114,7 +111,7 @@ const CarouselContainer = styled.div`
 //   margin-top: 4rem;
 // `;
 
-const PageShiftWrap = styled(motion.div)`
+const PageShiftWrap = styled.div`
   position: absolute;
   width: 4rem;
   height: 4rem;

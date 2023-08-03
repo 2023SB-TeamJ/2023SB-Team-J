@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-lone-blocks */
 import { keyframes, styled } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 // import SampleImage1 from '../assets/images/1x4sampleImage.png';
@@ -12,17 +14,6 @@ import HeaderMain from '../components/HeaderMain';
 function MainPage() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  // const [scrollPos, setScrollPos] = useState(0);
-
-  // useEffect(() => {
-  //   function updateScrollPos() {
-  //     setScrollPos(window.scrollY);
-  //   }
-  //   window.addEventListener('scroll', updateScrollPos);
-  //   return () => window.removeEventListener('scroll', updateScrollPos);
-  // }, []);
-
-  // const diameter = 500 + 2 * scrollPos;
 
   return (
     <div>
@@ -35,11 +26,15 @@ function MainPage() {
           <Slogan4>네장의 사진을 만들어보세요</Slogan4>
           {/* useLocation */}
           <StartBtn1
-            onClick={() =>
-              navigate('/album', {
-                // state: { userId, nickName },
-              })
-            }
+            onClick={() => {
+              {
+                isLoggedIn
+                  ? navigate('/album', {
+                      // state: { userId, nickName },
+                    })
+                  : alert('로그인을 해주세요!');
+              }
+            }}
           >
             시작하기
           </StartBtn1>

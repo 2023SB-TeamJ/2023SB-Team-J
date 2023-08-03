@@ -127,11 +127,7 @@ function ConvertAIPage() {
               />
             </CarouselWrap>
           </CarouselContainer>
-          <PageShiftWrap
-            onClick={handlePageShift}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ borderRadius: '50%' }}
-          >
+          <PageShiftWrap onClick={handlePageShift}>
             <PageShiftBtn />
           </PageShiftWrap>
           <ProgressWrap>
@@ -159,7 +155,7 @@ const MainWrap = styled.div`
   align-items: center;
 `;
 
-const PageShiftWrap = styled(motion.div)`
+const PageShiftWrap = styled.div`
   position: absolute;
   width: 4rem;
   height: 4rem;
