@@ -24,7 +24,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'prettier/prettier': ['error', {"endOfLine": "auto"}],
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx'] }],
     'no-var': 'error', // var 금지

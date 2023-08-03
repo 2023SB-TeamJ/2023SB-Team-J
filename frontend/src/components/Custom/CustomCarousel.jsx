@@ -5,31 +5,49 @@ import { motion, useAnimation } from 'framer-motion';
 import styled from 'styled-components';
 import LeftAIShift from '../LeftAIShift';
 import RightAIShift from '../RightAIShift';
-// import aframe1 from '../../assets/images/aframe_1.png';
-// import aframe2 from '../../assets/images/aframe_2.png';
-// import aframe3 from '../../assets/images/aframe_3.png';
-// import aframe4 from '../../assets/images/aframe_4.png';
-// import aframe5 from '../../assets/images/aframe_5.png';
-// import Black from '../../assets/images/BlackImg.png';
-import aframe6 from '../../assets/images/aframe_6.png';
-import aframe7 from '../../assets/images/aframe_7.png';
-import aframe8 from '../../assets/images/aframe_8.png';
-import aframe9 from '../../assets/images/aframe_9.png';
-import bframe1 from '../../assets/images/bframe_1.png';
-import bframe2 from '../../assets/images/bframe_2.png';
-import bframe3 from '../../assets/images/bframe_3.png';
-// import bframe4 from '../../assets/images/bframe_4.png';
-// import bframe5 from '../../assets/images/bframe_5.png';
-// import bframe6 from '../../assets/images/bframe_6.png';
-// import bframe7 from '../../assets/images/bframe_7.png';
-import bframe8 from '../../assets/images/bframe_8.png';
+import Black from '../../assets/images/frameImg/BlackImg.png';
+import aframe1 from '../../assets/images/frameImg/aframe_1.png';
+// import aframe2 from '../../assets/images/frameImg/aframe_2.png';
+import aframe3 from '../../assets/images/frameImg/aframe_3.png';
+// import aframe4 from '../../assets/images/frameImg/aframe_4.png';
+import aframe5 from '../../assets/images/frameImg/aframe_5.png';
+import aframe6 from '../../assets/images/frameImg/aframe_6.png';
+import aframe7 from '../../assets/images/frameImg/aframe_7.png';
+import aframe8 from '../../assets/images/frameImg/aframe_8.png';
+/// ///////////////////////////////////////////////////////////////
+// import bframe1 from '../../assets/images/frameImg/bframe_1.png';
+// import bframe2 from '../../assets/images/frameImg/bframe_2.png';
+// import bframe3 from '../../assets/images/frameImg/bframe_3.png';
+import bframe4 from '../../assets/images/frameImg/bframe_4.png';
+import bframe5 from '../../assets/images/frameImg/bframe_5.png';
+import bframe6 from '../../assets/images/frameImg/bframe_6.png';
+import bframe7 from '../../assets/images/frameImg/bframe_7.png';
+import bframe8 from '../../assets/images/frameImg/bframe_8.png';
+import bframe9 from '../../assets/images/frameImg/bframe_9.png';
+// import bframe10 from '../../assets/images/frameImg/bframe_10.png';
 
 // 4~6개 할까 생각중
-const MAX_IMAGES = 4;
+const MAX_IMAGES = 6;
 
 function CustomCarousel({ sendData, frameType }) {
-  const IMAGES_1 = [aframe8, aframe9, aframe6, aframe7];
-  const IMAGES_2 = [bframe1, bframe2, bframe3, bframe8];
+  const IMAGES_1 = [
+    Black,
+    aframe1,
+    aframe3,
+    aframe5,
+    aframe6,
+    aframe7,
+    aframe8,
+  ];
+  const IMAGES_2 = [
+    Black,
+    bframe4,
+    bframe5,
+    bframe6,
+    bframe7,
+    bframe8,
+    bframe9,
+  ];
 
   const [imgIdx, setImgIdx] = useState(0);
   const controls = useAnimation();
