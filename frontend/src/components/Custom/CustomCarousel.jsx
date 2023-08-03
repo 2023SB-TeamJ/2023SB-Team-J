@@ -15,18 +15,20 @@ import aframe6 from '../../assets/images/aframe_6.png';
 import aframe7 from '../../assets/images/aframe_7.png';
 import aframe8 from '../../assets/images/aframe_8.png';
 import aframe9 from '../../assets/images/aframe_9.png';
-// import bframe1 from '../../assets/images/bframe_1.png';
-// import bframe2 from '../../assets/images/bframe_2.png';
+import bframe1 from '../../assets/images/bframe_1.png';
+import bframe2 from '../../assets/images/bframe_2.png';
 import bframe3 from '../../assets/images/bframe_3.png';
-import bframe4 from '../../assets/images/bframe_4.png';
+// import bframe4 from '../../assets/images/bframe_4.png';
 import bframe5 from '../../assets/images/bframe_5.png';
-import bframe6 from '../../assets/images/bframe_6.png';
+// import bframe6 from '../../assets/images/bframe_6.png';
+// import bframe7 from '../../assets/images/bframe_7.png';
+
 // 4~6개 할까 생각중
 const MAX_IMAGES = 4;
 
 function CustomCarousel({ sendData, frameType }) {
   const IMAGES_1 = [aframe8, aframe9, aframe6, aframe7];
-  const IMAGES_2 = [bframe5, bframe3, bframe4, bframe6];
+  const IMAGES_2 = [bframe1, bframe2, bframe3, bframe5];
 
   const [imgIdx, setImgIdx] = useState(0);
   const controls = useAnimation();
