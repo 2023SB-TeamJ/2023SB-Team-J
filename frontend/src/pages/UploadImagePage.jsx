@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import heic2any from 'heic2any';
 import Header from '../components/Header';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
@@ -49,8 +50,27 @@ function UploadImagePage() {
     }, 2000); // 2초로 변경
   }, []);
 
-  const onImageUpload = (file) => {
-    setFiles((prevFiles) => [...prevFiles, file]);
+  // const onImageUpload = (file) => {
+  //   setFiles((prevFiles) => [...prevFiles, file]);
+  // };
+  const onImageUpload = async (file) => {
+    if (file.type === 'image/heic') {
+      // Convert .heic file to .jpg
+      const jpegBlob = await heic2any({
+        blob: file,
+        toType: 'image/jpeg',
+        quality: 0.7, // You can adjust the quality if needed
+      });
+      // Create a new File object with the .jpg blob
+      const jpgFile = new File([jpegBlob], file.name.replace('.heic', '.jpg'), {
+        type: 'image/jpeg',
+      });
+      // Upload the .jpg file instead of the original .heic file
+      setFiles((prevFiles) => [...prevFiles, jpgFile]);
+    } else {
+      // For non-.heic images, upload them as is
+      setFiles((prevFiles) => [...prevFiles, file]);
+    }
   };
 
   const uploadAllImages = async () => {
