@@ -10,7 +10,7 @@ const NameStyle = styled.div`
   background-size: cover;
 
   @media screen and (max-width: 500px) {
-    width: 8rem;
+    width: 10rem;
   }
 `;
 

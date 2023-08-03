@@ -120,8 +120,9 @@ const ImgWrap = styled.div`
   align-items: center;
 
   .oneFour {
-    width: 11rem;
+    width: 10rem;
     margin-top: 3rem;
+    margin-right: 4rem;
 
     &:hover {
       cursor: pointer;
@@ -129,8 +130,9 @@ const ImgWrap = styled.div`
   }
 
   .twoTwo {
-    width: 22rem;
+    width: 20rem;
     margin-top: 3rem;
+    margin-left: 4rem;
 
     &:hover {
       cursor: pointer;

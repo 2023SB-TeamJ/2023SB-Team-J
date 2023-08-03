@@ -27,8 +27,8 @@ const float = keyframes`
 `;
 
 const Container = styled.div`
-  width: 250px;
-  height: 250px;
+  width: 15.625rem;
+  height: 15.625rem;
   animation: ${float} 4s ease-in-out infinite;
   display: flex;
   flex-direction: column;
