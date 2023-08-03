@@ -67,7 +67,7 @@ function CustomPhoto() {
             onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
             cancel=".react-resizable-handle"
           >
-            <ResizableBox
+            <CustomResizableBox
               width={size.width}
               height={size.height}
               onResize={handleResize}
@@ -89,7 +89,7 @@ function CustomPhoto() {
                   onMouseLeave={() => setShow(false)}
                 />
               </div>
-            </ResizableBox>
+            </CustomResizableBox>
           </Draggable>
         )}
       </ImgWrap>
@@ -145,5 +145,15 @@ const DeleteButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   display: ${({ show }) => (show ? 'block' : 'none')};
+`;
+
+const CustomResizableBox = styled(ResizableBox)`
+  .react-resizable-handle {
+    opacity: 0; /* 기본적으로 핸들 숨김 */
+  }
+
+  &:hover .react-resizable-handle {
+    opacity: 1; /* hover될 때 핸들 보이기 */
+  }
 `;
 export default CustomPhoto;
