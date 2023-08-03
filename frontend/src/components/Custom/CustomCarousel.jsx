@@ -1,7 +1,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable consistent-return */
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import styled from 'styled-components';
 import LeftAIShift from '../LeftAIShift';
 import RightAIShift from '../RightAIShift';
@@ -25,6 +25,13 @@ function CustomCarousel({ sendData, frameType }) {
   const IMAGES_2 = [Black, bframe1, bframe2, Green];
 
   const [imgIdx, setImgIdx] = useState(0);
+  const controls = useAnimation();
+
+  // 이미지 변경 시 페이드 효과를 주기 위해 `fadeInOut` 애니메이션을 정의합니다.
+  const fadeInOut = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
 
   const leftBtn1 = () => {
     if (imgIdx === 0) return;
@@ -44,9 +51,17 @@ function CustomCarousel({ sendData, frameType }) {
     if (imgIdx === IMAGES_2.length - 1) return;
     setImgIdx((prev) => prev + 1);
   };
-
   // // base64 이미지를 담는 배열로 state를 초기화합니다.
   // const [base64Images, setBase64Images] = useState([]);
+
+  // 이미지가 변경될 때 애니메이션을 트리거합니다.
+  useEffect(() => {
+    controls.start({ opacity: 0 });
+    // 애니메이션이 끝난 후 이미지를 변경하고 다시 페이드 인합니다.
+    setTimeout(() => {
+      controls.start({ opacity: 1 });
+    }, 100); // 페이드 인 애니메이션 시간 (0.5초)
+  }, [imgIdx, controls]);
 
   const [base64Images, setBase64Images] = useState(
     Array.from({ length: MAX_IMAGES }, () => null),
@@ -104,6 +119,10 @@ function CustomCarousel({ sendData, frameType }) {
             id="captureArea"
             src={IMAGES_1[imgIdx]}
             frameType={frameType}
+            initial="hidden" // 처음에는 투명도 0으로 시작
+            animate={controls} // controls를 animate에 전달합니다.
+            variants={fadeInOut} // fadeInOut 애니메이션 적용
+            transition={{ duration: 0.2 }} // 페이드 효과 시간 설정 (0.5초)
           >
             <FrameImageWrap frameType={frameType}>
               <TopImage src={base64Images.image0} />
@@ -139,6 +158,10 @@ function CustomCarousel({ sendData, frameType }) {
             id="captureArea"
             src={IMAGES_2[imgIdx]}
             frameType={frameType}
+            initial="hidden" // 처음에는 투명도 0으로 시작
+            animate={controls} // controls를 animate에 전달합니다.
+            variants={fadeInOut} // fadeInOut 애니메이션 적용
+            transition={{ duration: 0.2 }} // 페이드 효과 시간 설정 (0.5초)
           >
             <FrameImageWrap frameType={frameType}>
               <TopLeftImage src={base64Images.image0} />
@@ -177,7 +200,7 @@ const ButtonWrap = styled(motion.div)`
 `;
 
 // 전체 이미지 스타일
-const ImageWrap = styled.div`
+const ImageWrap = styled(motion.div)`
   background-image: url(${(props) => props.src});
   width: 200px;
   ${({ frameType }) => {
