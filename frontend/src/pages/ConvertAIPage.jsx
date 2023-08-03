@@ -99,40 +99,34 @@ function ConvertAIPage() {
       <Container>
         <MainWrap>
           <Header />
-          {isLoading ? (
-            <LoadingWrap>
-              <Loading />
-            </LoadingWrap>
-          ) : (
-            <CarouselContainer>
-              <CarouselWrap frameType={frameType2}>
-                <Carousel1
-                  aiData={aiResponse2[0]}
-                  setSelectedData={(data) =>
-                    setSelectedData((prev) => ({ ...prev, carousel1: data }))
-                  }
-                />
-                <Carousel2
-                  aiData={aiResponse2[1]}
-                  setSelectedData={(data) =>
-                    setSelectedData((prev) => ({ ...prev, carousel2: data }))
-                  }
-                />
-                <Carousel3
-                  aiData={aiResponse2[2]}
-                  setSelectedData={(data) =>
-                    setSelectedData((prev) => ({ ...prev, carousel3: data }))
-                  }
-                />
-                <Carousel4
-                  aiData={aiResponse2[3]}
-                  setSelectedData={(data) =>
-                    setSelectedData((prev) => ({ ...prev, carousel4: data }))
-                  }
-                />
-              </CarouselWrap>
-            </CarouselContainer>
-          )}
+          <CarouselContainer>
+            <CarouselWrap frameType={frameType2}>
+              <Carousel1
+                aiData={aiResponse2[0]}
+                setSelectedData={(data) =>
+                  setSelectedData((prev) => ({ ...prev, carousel1: data }))
+                }
+              />
+              <Carousel2
+                aiData={aiResponse2[1]}
+                setSelectedData={(data) =>
+                  setSelectedData((prev) => ({ ...prev, carousel2: data }))
+                }
+              />
+              <Carousel3
+                aiData={aiResponse2[2]}
+                setSelectedData={(data) =>
+                  setSelectedData((prev) => ({ ...prev, carousel3: data }))
+                }
+              />
+              <Carousel4
+                aiData={aiResponse2[3]}
+                setSelectedData={(data) =>
+                  setSelectedData((prev) => ({ ...prev, carousel4: data }))
+                }
+              />
+            </CarouselWrap>
+          </CarouselContainer>
           <PageShiftWrap
             onClick={handlePageShift}
             whileHover={{ scale: 1.2 }}
@@ -140,7 +134,7 @@ function ConvertAIPage() {
           >
             <PageShiftBtn />
           </PageShiftWrap>
-          <ProgressWrap frameType={frameType2}>
+          <ProgressWrap>
             <ProgressBar progress={progress} number={`${progress}%`} />
           </ProgressWrap>
         </MainWrap>
@@ -159,17 +153,17 @@ const Container = styled.div`
 
 const MainWrap = styled.div`
   max-width: 1440px;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
 `;
 
-const PageShiftWrap = styled.div`
+const PageShiftWrap = styled(motion.div)`
   position: absolute;
   width: 4rem;
   height: 4rem;
-  top: 74%; /* 수직 중앙에 위치하도록 설정 */
+  top: 50%; /* 수직 중앙에 위치하도록 설정 */
   right: 3%; /* 오른쪽으로 이동시키기 위한 값 */
   transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
 
@@ -179,14 +173,7 @@ const PageShiftWrap = styled.div`
     right: 3%; /* 오른쪽으로 이동시키기 위한 값 */
     transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
   }
-
-  @media screen and (max-width: 650px) {
-    top: auto;
-    right: 45%; // 가로 중앙에 위치
-    bottom: -2%;
-  }
 `;
-
 const CarouselContainer = styled.div`
   display: flex;
   max-width: 100rem;
@@ -202,39 +189,25 @@ const CarouselWrap = styled.div`
   justify-content: center;
   align-items: center;
   transform: translateY(10px);
-  ${({ frameType }) => {
-    if (frameType === '1X4') {
-      return `
-        display: grid;
-        grid-template-columns: repeat(4, 200px);
-        grid-gap: 7.5rem;
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  grid-gap: 7.5rem;
 
-        @media screen and (max-width: 1260px) {
-          display: grid;
-          grid-template-rows: repeat(2, 200px);
-          grid-template-columns: repeat(2, 0.2fr);
-          grid-gap: 3rem;
-        }
+  @media screen and (max-width: 1260px) {
+    display: grid;
+    grid-template-rows: repeat(2, 200px);
+    grid-template-columns: repeat(2, 0.2fr);
+    grid-gap: 3rem;
+  }
 
-        @media screen and (max-width: 1024px) {
-          display: grid;
-          grid-template-rows: repeat(4, 100px); // row의 크기를 줄임
-          grid-template-columns: 0.2fr;
-          grid-gap: 4.5rem; // gap을 줄임
-      
-          transform: translateY(60px);
-        }
-      `;
-    }
-    if (frameType === '2X2') {
-      return `
-        display: grid;
-        grid-template-rows: repeat(2, 200px);
-        grid-template-columns: repeat(2, 0.2fr);
-        grid-gap: 4.5rem;
-      `;
-    }
-  }}
+  @media screen and (max-width: 1024px) {
+    display: grid;
+    grid-template-rows: repeat(4, 100px); // row의 크기를 줄임
+    grid-template-columns: 0.2fr;
+    grid-gap: 5rem; // gap을 줄임
+
+    transform: translateY(60px);
+  }
 
   @media screen and (max-width: 650px) {
     display: grid;
@@ -246,17 +219,17 @@ const CarouselWrap = styled.div`
   }
 `;
 
-const LoadingWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.2);
-`;
+// const LoadingWrap = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   z-index: 1;
+//   background-color: rgba(0, 0, 0, 0.2);
+// `;
 
 const ProgressWrap = styled.div`
   margin-top: 5rem;
@@ -265,6 +238,6 @@ const ProgressWrap = styled.div`
   padding-bottom: 2rem;
 
   @media screen and (max-width: 1024px) {
-    transform: translateY(200px);
+    transform: translateY(110px);
   }
 `;

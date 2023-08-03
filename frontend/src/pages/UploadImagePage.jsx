@@ -9,6 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import PageShiftBtn from '../components/PageShiftBtn';
 import UploadImage from '../components/UploadImage';
@@ -173,24 +174,31 @@ const Container = styled.div`
 
 const MainWrap = styled.div`
   max-width: 1440px;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
 `;
 
-const PageShiftWrap = styled.div`
+const PageShiftWrap = styled(motion.div)`
   position: absolute;
   width: 4rem;
   height: 4rem;
-  top: 70%; /* 수직 중앙에 위치하도록 설정 */
+  top: 50%; /* 수직 중앙에 위치하도록 설정 */
   right: 3%; /* 오른쪽으로 이동시키기 위한 값 */
   transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
+
+  @media screen and (max-width: 1260px) {
+    position: absolute;
+    top: 50%; /* 수직 중앙에 위치하도록 설정 */
+    right: 3%; /* 오른쪽으로 이동시키기 위한 값 */
+    transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
+  }
 
   @media screen and (max-width: 580px) {
     top: auto;
     right: 45%; // 가로 중앙에 위치
-    bottom: 10%;
+    bottom: 5%;
   }
 `;
 
@@ -217,37 +225,16 @@ const ImageWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  ${({ frameType }) => {
-    if (frameType === '1X4') {
-      return `
-        gap: 20px;
-        transform: translateY(-50px);
+  gap: 20px;
+  transform: translateY(-50px);
 
-        @media screen and (max-width: 950px) {
-          display: grid;
-          grid-template-rows: repeat(2, 200px);
-          grid-template-columns: repeat(2, 0.2fr);
-          grid-gap: 3rem;
-          margin-top: 4rem;
-        }
-      `;
-    } else if (frameType === '2X2') {
-      return `
-          display: grid;
-          grid-template-rows: repeat(2, 200px);
-          grid-template-columns: repeat(2, 200px);
-          grid-gap: 2rem;
-          
-          @media screen and (max-width: 950px) {
-            display: grid;
-            grid-template-rows: repeat(2, 200px);
-            grid-template-columns: repeat(2, 0.2fr);
-            grid-gap: 3rem;
-            margin-top: 4rem;
-          }
-        `;
-    }
-  }}
+  @media screen and (max-width: 950px) {
+    display: grid;
+    grid-template-rows: repeat(2, 200px);
+    grid-template-columns: repeat(2, 0.2fr);
+    grid-gap: 3rem;
+    margin-top: 4rem;
+  }
 `;
 
 // const ImageText = styled.p`

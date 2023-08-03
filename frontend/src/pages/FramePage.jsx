@@ -11,7 +11,7 @@ import CustomCarousel from '../components/Custom/CustomCarousel';
 import ProgressBar from '../components/ProgressBar';
 
 function FramePage() {
-  const [colImg, setColImg] = useState('');
+  // const [colImg, setColImg] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -92,7 +92,7 @@ const Container = styled.div`
 
 const MainWrap = styled.div`
   max-width: 1440px;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   flex-shrink: 0;
   align-items: center;
@@ -116,11 +116,25 @@ const CarouselContainer = styled.div`
 
 const PageShiftWrap = styled(motion.div)`
   position: absolute;
-  top: 50%; /* 세로 가운데 정렬을 위해 50% */
-  right: 4rem; /* 가로 오른쪽 정렬을 위해 right: 0 */
-  transform: translateY(-50%); /* 세로 가운데 정렬을 위한 추가적인 변형 */
-`;
+  width: 4rem;
+  height: 4rem;
+  top: 50%; /* 수직 중앙에 위치하도록 설정 */
+  right: 3%; /* 오른쪽으로 이동시키기 위한 값 */
+  transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
 
+  @media screen and (max-width: 1260px) {
+    position: absolute;
+    top: 50%; /* 수직 중앙에 위치하도록 설정 */
+    right: 3%; /* 오른쪽으로 이동시키기 위한 값 */
+    transform: translateY(-50%); /* 수직 중앙에 맞추기 위해 세로로 이동 */
+  }
+
+  @media screen and (max-width: 700px) {
+    top: auto;
+    right: 45%; // 가로 중앙에 위치
+    bottom: 5%;
+  }
+`;
 const ProgressWrap = styled.div`
   margin-top: 5rem;
   margin-left: 10rem;

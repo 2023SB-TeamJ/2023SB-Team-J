@@ -94,6 +94,7 @@ const Container = styled.div`
   min-height: 100vh;
   background: #f6f6f6;
 `;
+
 const MainWrap = styled.div`
   max-width: 1440px;
   height: 100%;
@@ -109,9 +110,8 @@ const FrameContainer = styled.div`
   margin-top: 7rem;
   margin-bottom: 7rem;
   flex-shrink: 0;
-  justify-content: center;
   align-items: center;
-  gap: 5rem;
+  justify-content: center;
 `;
 
 const ImgWrap = styled.div`
@@ -153,5 +153,4 @@ const ProgressWrap = styled.div`
   margin-left: 10rem;
   margin-right: 10rem;
   padding-bottom: 2rem;
-  transform: translateY(50px);
 `;
