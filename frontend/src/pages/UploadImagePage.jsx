@@ -275,11 +275,4 @@ const ProgressWrap = styled.div`
   margin-left: 10rem;
   margin-right: 10rem;
   padding-bottom: 2rem;
-
-  @media screen and (max-width: 660px) {
-    transform: translateY(400px);
-  }
-  @media screen and (max-width: 580px) {
-    display: none;
-  }
 `;

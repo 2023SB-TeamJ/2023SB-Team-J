@@ -264,30 +264,7 @@ const ProgressWrap = styled.div`
   margin-right: 10rem;
   padding-bottom: 2rem;
 
-  ${({ frameType }) => {
-    if (frameType === '1X4') {
-      return `
-        @media screen and (max-width: 1260px) {
-          transform: translateY(120px);
-        }
-      
-        @media screen and (max-width: 1024px) {
-          transform: translateY(120px);
-        }
-
-        @media screen and (max-width: 650px) {
-          display: none;
-        }
-      `;
-    }
-    if (frameType === '2X2') {
-      return `
-        transform: translateY(50px);
-        
-        @media screen and (max-width: 650px) {
-          display: none;
-        }
-      `;
-    }
-  }}
+  @media screen and (max-width: 1024px) {
+    transform: translateY(200px);
+  }
 `;
