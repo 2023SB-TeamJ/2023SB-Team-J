@@ -177,8 +177,8 @@ const Slogan1 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: 0.8rem;
-  word-spacing: -1rem;
+  letter-spacing: 0.7rem;
+  word-spacing: -0.9rem;
   font-family: 'Noto Sans', '맑은 고딕', 'Malgun Gothic', verdana, sans-serif;
   font-weight: 800;
   opacity: 0;
@@ -205,8 +205,8 @@ const Slogan2 = styled.div`
   font-style: normal;
   font-weight: 800;
   line-height: normal;
-  letter-spacing: 0.8rem;
-  word-spacing: -1rem;
+  letter-spacing: 0.7rem;
+  word-spacing: -0.9rem;
   opacity: 0;
   font-family: 'Noto Sans', '맑은 고딕', 'Malgun Gothic', verdana, sans-serif;
 
@@ -231,7 +231,7 @@ const Slogan3 = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: 0.7rem;
+  letter-spacing: 0.6rem;
   word-spacing: -0.4rem;
   opacity: 0;
   font-family: 'Pretendard-Regular';
@@ -255,7 +255,7 @@ const Slogan4 = styled.div`
   height: 5rem;
   font-size: 1.5rem;
   font-weight: 400;
-  letter-spacing: 0.7rem;
+  letter-spacing: 0.6rem;
   word-spacing: -0.4rem;
   opacity: 0;
   font-family: 'Pretendard-Regular';
@@ -281,7 +281,7 @@ const StartBtn1 = styled.button`
   height: 3.7rem;
   flex-shrink: 0;
   border-radius: 50px;
-  background: #f6f6f6;
+  background: rgba(37, 40, 47, 0.05);
   border: 1.3px solid black;
   opacity: 0;
 

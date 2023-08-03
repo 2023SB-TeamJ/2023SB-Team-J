@@ -185,6 +185,7 @@ function CustomizingPage() {
               </TextDiv>
             )}
             {isTextDivVisible && !isFolded && <Divider />}
+            <Fold isFolded={isFolded} onClick={() => setIsFolded(!isFolded)} />
           </MenuWrap>
           <CaptureWrap>
             <DivArea id="captureArea" aiimage={colImg2} frameType={frameType4}>
@@ -215,7 +216,6 @@ function CustomizingPage() {
               </BtnWrap>
             </SaveWrap>
           </CaptureWrap>
-          <Fold isFolded={isFolded} onClick={() => setIsFolded(!isFolded)} />
         </CustomContainer>
         <ProgressWrap>
           <ProgressBar progress={progress} number={`${progress}%`} />
@@ -303,7 +303,7 @@ const FontCol = styled.div`
 `;
 
 const FontPicker = styled.span`
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 
   &:hover {
     cursor: pointer;
@@ -380,7 +380,7 @@ const BtnWrap = styled(motion.div)`
   margin-right: 0.5rem;
   margin-left: 0.5rem;
   border-radius: 5px;
-  background: rgba(37, 40, 47, 0.05);
+  background: #f4d3d7;
 
   &:hover {
     cursor: pointer;
@@ -424,7 +424,7 @@ const rotate = keyframes`
 
 const Fold = styled.div`
   position: absolute;
-  bottom: 9.5rem;
+  bottom: 2.5rem;
   left: 1.3rem;
   width: 2.3rem; // 필요한 크기로 지정
   height: 2.3rem; // 필요한 크기로 지정

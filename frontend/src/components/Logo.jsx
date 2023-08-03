@@ -12,8 +12,8 @@ const LogoStyle = styled.div`
   background-size: cover;
 
   @media screen and (max-width: 500px) {
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 `;
 
