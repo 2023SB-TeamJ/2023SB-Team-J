@@ -181,6 +181,8 @@ services:
       - static_volume:/backend/staticfiles
       - media_volume:/backend/mediafiles
       - build_folder:/var/www/frontend
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     depends_on:
       - backend1
       - backend2
@@ -189,6 +191,7 @@ services:
     # 가상 네트워크 연결
     networks:
       - t4y
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot: #certbot
     image: certbot/certbot
     restart: unless-stopped
