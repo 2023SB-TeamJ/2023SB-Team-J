@@ -154,19 +154,19 @@ docker compose -f docker.compose.prod.yml up --build
         <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/d98b98ea-bfbc-404b-8a10-515d93cbe275"
             width = 50%/>
     <h3>Album</h4>
-        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/26dd256b-a11d-4fc9-b56a-eca2554ee0e4"
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/f12526ce-d6fc-424e-993a-91a0eb4e47cd"
             width = 50%/>
     <h3>Frame Type ~ Upload Image</h4>
-        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/7f7469bd-371e-41ad-87a5-118488d3c4f3"
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/baadd2fe-b690-4877-9e41-13528ed32926)"
             width = 50%/>
     <h3>Convert AI</h4>
-        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/95852097-f2cc-4c28-9cef-05795565da83"
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/4df31202-f648-4130-9ba7-272cfccd5e4c"
             width = 50%/>
     <h3>Frame Background</h4>
-        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/8196e74d-8cdf-4229-a471-b5ba07a0fd08"
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/dc3f9f69-1643-4b77-9e46-0c772291a14e"
             width = 50%/>
     <h3>Customizng</h4>
-        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/75b4c543-9b4d-4301-b2b3-515b2201e462"
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/127868094/9a2d13ff-6d18-4c6b-9961-514ea38adf58"
             width = 50%/>
 </div>
 
