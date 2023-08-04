@@ -43,6 +43,8 @@
 <div align="center">
     <div class="frontend">
         <img src="https://img.shields.io/badge/React-%2361DAFB?style=flat-square&logo=React&logoColor=white"/>
+        <img src ="https://img.shields.io/static/v1?style=for-the-badge&message=styled-components&color=DB7093&logo=styled-components&logoColor=FFFFFF&label="
+            width = "13.5%">
         <img src="https://img.shields.io/badge/React_Router-%23CA4245?style=flat-square&logo=React Router&logoColor=white"/>
     </div>
     <div class="backend">
