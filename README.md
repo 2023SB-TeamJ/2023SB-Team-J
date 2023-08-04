@@ -1,10 +1,19 @@
-<img src="https://file.notion.so/f/s/af9df68e-7b80-4898-b141-ca9bd41ba791/701DDAA6-EDEF-4AE5-81D4-5427065E6CF7.jpeg?id=bbb6208b-259e-47ca-a514-4d1d8b03bc8d&table=block&spaceId=538f7a64-51f8-47cd-9d26-0c68234fd88c&expirationTimestamp=1691006400000&signature=N9OSs3_-sD8098kqpCDRhftpaPRoT9t0PF0MfLNDdK8&downloadName=701DDAA6-EDEF-4AE5-81D4-5427065E6CF7.JPEG.jpeg">
-<br/><br/><br/>
+<h2 align="left"> 📝 Introduction </div>
+    
+### <div align="center">T4Y : This is for you </div>
 
-> 친구와 함께한 추억을 어디에 넣지?<br/>
-> 오늘을 그림처럼 기억하고 싶을 땐 어떡하지?
+<div display="justify" align="center">
+    <img  width="20%" src="https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/eed8dd9d-e02a-4c1f-ad91-ddb5c732dcc1">
+</div>
 
-<br/><br/>
+<br/>
+
+<div display="justify" align="center">
+    친구와 함께한 추억을 어디에 넣지?<br/>
+    오늘을 그림처럼 기억하고 싶을 땐 어떡하지?
+<div display="justify" align="center">
+    
+<br/>
 
 <div display="justify" align="center">
     <img width="10%" src="https://raw.githubusercontent.com/2023SB-TeamJ/2023SB-Team-J/develop/frontend/src/assets/images/frame1.PNG">
@@ -18,9 +27,9 @@
 
 ### <div align="center">고민하는 당신에게 특별한 사진첩을 <span style="display:inline; color:red; background-color:#ffdce0;">선물</span>합니다.</div>
 
-<br/><br/><br/><br/>
+<br/><br/>
 
-# <div align="center">T4Y : This is for you</div>
+## <div align="center"></div>
 
 <div align="right">2023 Summer Silicon Valley Boot Camp</div>
 <div align="right">Team J</div>
@@ -30,7 +39,7 @@
   </a>
 </p>
 
-<div align="center">#### 📚 Tech Stack 📚</div>
+<div align="center">📚 Tech Stack 📚</div>
 <div align="center">
     <div class="frontend">
         <img src="https://img.shields.io/badge/React-%2361DAFB?style=flat-square&logo=React&logoColor=white"/>
@@ -58,9 +67,106 @@
         <img src="https://img.shields.io/badge/Grafana-%23F46800?style=flat-square&logo=Grafana&logoColor=white"/>
     </div>
 </div>
+
 <br/><br/><br/>
 
-### Team J
+---
+
+<h2 align="left"> 🚀 How to run? </h2>
+<div align="left">
+
+### clone Repository
+
+```
+https://github.com/2023SB-TeamJ/2023SB-Team-J.git
+```
+
+### env & secrets.json setting
+
+#### frontend
+```
+REACT_APP_API_URL=/api/v1/
+```
+
+#### backend
+
+```
+MYSQL_ROOT_PASSWORD:""
+MYSQL_DATABASE:""
+MYSQL_USER:admin
+
+RABBITMQ_DEFAULT_USER=guest
+RABBITMQ_DEFAULT_PASS=guest
+```
+
+```
+{
+
+  "buket_name " : "",
+
+  "django_secret_key" : "",
+
+  "aws_access_key_id": "",
+
+  "aws_secret_access_key": "",
+
+  "mysql_pwd" : "",
+
+  "db_name" : "",
+
+  "db_host" : ""
+}
+```
+
+### run
+
+```
+docker compose -f docker.compose.prod.yml up --build
+```
+
+</div>
+
+---
+
+<h2 align="left"> 💻 시스템 아키텍쳐 </h2>
+<div align="center">
+    <img width="700" alt="스크린샷 2023-08-04 오후 9 55 02" src="https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/838ee178-29db-40fe-95e6-a35c9ee9b7f1">
+</div>
+
+---
+
+<h2 align="left"> 🔑 erd </h2>
+<div align="center">
+    <img width="700" alt="스크린샷 2023-08-04 오후 9 56 40" src="https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/396fb18e-354a-4acd-94ba-e6d1b8c2f8c5">
+</div>
+
+---
+
+<h2 align="left"> 🎥 demo </h2>
+<div align="left">
+    <h4>Main && Login</h4>
+    <h4>Album</h4>
+    <h4>Chosse Frame -> Frame</h4>
+    <h4>Customizng</h4>
+</div>
+
+---
+
+<h2 align="left"> 📜 Reference </h2>
+<div align="left">
+    AnimeGan](https://github.com/bryandlee/animegan2-pytorch)
+</div>
+
+---
+
+<h2 align="left"> 📖 youtube, disquiet, medium link </h2>
+<div align="left">
+   dd
+</div>
+
+---
+
+<h2 align="left"> 💡 Team J </h2>
 
 | Name    | 장아령                                                                                                    | 김도우                                                                                                    | 김선재                                                                                                    | 민택기                                                                                                    | 박진우                                                                                                    | 송지우                                                                                                    | 조희은                                                                                                    |
 | ------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
