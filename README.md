@@ -9,8 +9,10 @@
 <br/>
 
 <div display="justify" align="center">
+    <b>
     친구와 함께한 추억을 어디에 넣지?<br/>
-    오늘을 그림처럼 기억하고 싶을 땐 어떡하지?
+    오늘을 그림처럼 기억하고 싶을 땐 어떡하지
+        </b>
 <div display="justify" align="center">
     
 <br/>
@@ -25,8 +27,12 @@
 
 <br/>
 
-### <div align="center">고민하는 당신에게 특별한 사진첩을 <span style="display:inline; color:red; background-color:#ffdce0;">선물</span>합니다.</div>
+### <div align="center">고민하는 당신에게 특별한 사진첩을 <span style="display:inline; color:red; background-color:#ffdce0;">선물</span>합니다.
+</div>
 
+### 📒 Medium: [Medium](https://medium.com/@say004972/roll-it-online-rolling-paper-service-b2b4e23a47b8)
+
+### 📕 Youtube
 <br/><br/>
 
 ## <div align="center"></div>
@@ -44,7 +50,7 @@
     <div class="frontend">
         <img src="https://img.shields.io/badge/React-%2361DAFB?style=flat-square&logo=React&logoColor=white"/>
         <img src ="https://img.shields.io/static/v1?style=for-the-badge&message=styled-components&color=DB7093&logo=styled-components&logoColor=FFFFFF&label="
-            width = "13.5%">
+            width = "23%">
         <img src="https://img.shields.io/badge/React_Router-%23CA4245?style=flat-square&logo=React Router&logoColor=white"/>
     </div>
     <div class="backend">
@@ -77,13 +83,13 @@
 <h2 align="left"> 🚀 How to run? </h2>
 <div align="left">
 
-### clone Repository
+### 1. clone Repository
 
 ```
 https://github.com/2023SB-TeamJ/2023SB-Team-J.git
 ```
 
-### env & secrets.json setting
+### 2. env & secrets.json setting
 
 #### frontend
 ```
@@ -120,7 +126,7 @@ RABBITMQ_DEFAULT_PASS=guest
 }
 ```
 
-### run
+### 3. run
 
 ```
 docker compose -f docker.compose.prod.yml up --build
@@ -157,13 +163,6 @@ docker compose -f docker.compose.prod.yml up --build
 <h2 align="left"> 📜 Reference </h2>
 <div align="left">
     AnimeGan](https://github.com/bryandlee/animegan2-pytorch)
-</div>
-
----
-
-<h2 align="left"> 📖 youtube, disquiet, medium link </h2>
-<div align="left">
-   dd
 </div>
 
 ---
