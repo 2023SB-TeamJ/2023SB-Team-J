@@ -2,6 +2,12 @@
 .idea/*
 .DS_Store
 backend/secrets.json
+.github/*
+.github
+prometheus/prometheus-volume/*
+prometheus/prometheus-volume
+grafana/grafana-volume/grafana.db
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -163,3 +169,14 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+#monitor
+.my.cnf
+prometheus/prometheus-volume/*
+prometheus/prometheus-volume
+grafana/grafana-volume/grafana.db
+grafana/grafana-volume/*
+.env_monitor
+k6_scripts
+k6_scripts/*
+k6_scripts/*

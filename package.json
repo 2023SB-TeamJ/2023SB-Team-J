@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "aos": "^3.0.0-beta.6",
+    "axios": "^1.4.0",
+    "gsap": "^3.12.2",
+    "three": "^0.155.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
+}

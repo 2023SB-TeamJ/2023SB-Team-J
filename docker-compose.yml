@@ -1,0 +1,104 @@
+version: "3"
+# docker compose -f docker-compose.prod.yml up --build
+services:
+  fronted:
+    build: ./frontend
+    command: sh -c "npm install && npm start"
+    container_name: fronted
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/frontend
+      - build_folder:/frontend/build
+      - ./frontend/node_modules/:/frontend/node_modules
+    stdin_open: true
+    tty: true
+    networks:
+      - t4y
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+
+    command : gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240
+    restart: on-failure
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/backend
+      - static_volume:/backend/staticfiles
+    expose:
+      - 8000
+    networks:
+      - t4y
+
+  rabbitmq:
+    hostname: t4yhost
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    command: rabbitmq-server
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+    ports:
+      - 5672:5672 # Default Port
+      - 15672:15672 # For UI=
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      - backend
+    networks:
+      - t4y
+
+  celery:
+    container_name: celery
+    build:
+      context: ./backend
+    restart : unless-stopped
+    command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
+    depends_on:
+      - rabbitmq
+      - backend
+    volumes:
+      - ./backend:/backend
+    networks:
+      - t4y
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - 80:8080
+      - 443:443
+    restart: unless-stopped
+    volumes:
+      - static_volume:/backend/staticfiles
+      - media_volume:/backend/mediafiles
+      - build_folder:/var/www/frontend
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - backend
+    # 가상 네트워크 연결
+    networks:
+      - t4y
+  certbot: #certbot
+    image: certbot/certbot
+    restart: unless-stopped
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - nginx
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+networks:
+  t4y:
+    driver: bridge
+
+volumes:
+  static_volume: null
+  media_volume: null
+  build_folder: null
