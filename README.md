@@ -150,10 +150,24 @@ docker compose -f docker.compose.prod.yml up --build
 
 <h2 align="left"> 🎥 Demo </h2>
 <div align="left">
-    <h3>Main && Login</h4>
+    <h3>Main</h4>
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/d98b98ea-bfbc-404b-8a10-515d93cbe275"
+            width = 50%/>
     <h3>Album</h4>
-    <h3>Chosse Frame -> Frame</h4>
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/26dd256b-a11d-4fc9-b56a-eca2554ee0e4"
+            width = 50%/>
+    <h3>Frame Type ~ Upload Image</h4>
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/7f7469bd-371e-41ad-87a5-118488d3c4f3"
+            width = 50%/>
+    <h3>Convert AI</h4>
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/95852097-f2cc-4c28-9cef-05795565da83"
+            width = 50%/>
+    <h3>Frame Background</h4>
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/8196e74d-8cdf-4229-a471-b5ba07a0fd08"
+            width = 50%/>
     <h3>Customizng</h4>
+        <img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/75b4c543-9b4d-4301-b2b3-515b2201e462"
+            width = 50%/>
 </div>
 
 ---
