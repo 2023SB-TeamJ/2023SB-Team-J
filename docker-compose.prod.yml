@@ -21,7 +21,7 @@ services:
     build:
       context: ./backend
 
-    command : gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240
+    command : gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8001 --timeout 240
     restart: on-failure
     ports:
       - 8001:8001
@@ -37,7 +37,7 @@ services:
     build:
       context: ./backend
 
-    command: gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240
+    command: gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8002 --timeout 240
     restart: on-failure
     ports:
       - 8002:8002
@@ -53,7 +53,7 @@ services:
     build:
       context: ./backend
 
-    command: gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240
+    command: gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8003 --timeout 240
     restart: on-failure
     ports:
       - 8003:8003
@@ -70,7 +70,7 @@ services:
     build:
       context: ./backend
 
-    command: gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240
+    command: gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8004 --timeout 240
     restart: on-failure
     ports:
       - 8004:8004
