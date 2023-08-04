@@ -18,11 +18,11 @@
 <br/>
 
 <div display="justify" align="center">
-    <img width="10%" src="https://raw.githubusercontent.com/2023SB-TeamJ/2023SB-Team-J/develop/frontend/src/assets/images/frame1.PNG">
-    <img width="20%" src="https://raw.githubusercontent.com/2023SB-TeamJ/2023SB-Team-J/develop/frontend/src/assets/images/imageSample1.jpg">
-    <img width="10%" src="https://raw.githubusercontent.com/2023SB-TeamJ/2023SB-Team-J/develop/frontend/src/assets/images/frame2.PNG">
-    <img width="10%" src="https://raw.githubusercontent.com/2023SB-TeamJ/2023SB-Team-J/develop/frontend/src/assets/images/imageSample2.jpg">
-    <img width="10%" src="https://raw.githubusercontent.com/2023SB-TeamJ/2023SB-Team-J/develop/frontend/src/assets/images/frame3.PNG">
+<img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/4ebc833a-a42a-435d-abcf-765888e403c4"
+    width = 40%/>
+<img src = "https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/46235bdc-583f-4f1f-b3bc-581ce3c8f353"
+    width = 10%/>
+
 </div>
 
 <br/>
@@ -134,33 +134,33 @@ docker compose -f docker.compose.prod.yml up --build
 
 ---
 
-<h2 align="left"> 💻 시스템 아키텍쳐 </h2>
+<h2 align="left"> 💻 System architecture </h2>
 <div align="center">
     <img width="700" alt="스크린샷 2023-08-04 오후 9 55 02" src="https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/838ee178-29db-40fe-95e6-a35c9ee9b7f1">
 </div>
 
 ---
 
-<h2 align="left"> 🔑 erd </h2>
+<h2 align="left"> 🔑 Erd </h2>
 <div align="center">
     <img width="700" alt="스크린샷 2023-08-04 오후 9 56 40" src="https://github.com/2023SB-TeamJ/2023SB-Team-J/assets/83015089/396fb18e-354a-4acd-94ba-e6d1b8c2f8c5">
 </div>
 
 ---
 
-<h2 align="left"> 🎥 demo </h2>
+<h2 align="left"> 🎥 Demo </h2>
 <div align="left">
-    <h4>Main && Login</h4>
-    <h4>Album</h4>
-    <h4>Chosse Frame -> Frame</h4>
-    <h4>Customizng</h4>
+    <h3>Main && Login</h4>
+    <h3>Album</h4>
+    <h3>Chosse Frame -> Frame</h4>
+    <h3>Customizng</h4>
 </div>
 
 ---
 
 <h2 align="left"> 📜 Reference </h2>
 <div align="left">
-    AnimeGan](https://github.com/bryandlee/animegan2-pytorch)
+    <b>[AnimeGan]</b> https://github.com/bryandlee/animegan2-pytorch
 </div>
 
 ---
