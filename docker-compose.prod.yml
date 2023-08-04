@@ -95,7 +95,10 @@ services:
     volumes:
       - ./backend:/backend
     depends_on:
-      - backend
+      - backend1
+      - backend2
+      - backend3
+      - backend4
     networks:
       - t4y
 
@@ -107,7 +110,10 @@ services:
     command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
     depends_on:
       - rabbitmq
-      - backend
+      - backend1
+      - backend2
+      - backend3
+      - backend4
     volumes:
       - ./backend:/backend
     networks:
@@ -120,7 +126,10 @@ services:
     command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
     depends_on:
       - rabbitmq
-      - backend
+      - backend1
+      - backend2
+      - backend3
+      - backend4
     volumes:
       - ./backend:/backend
     networks:
@@ -133,7 +142,10 @@ services:
     command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
     depends_on:
       - rabbitmq
-      - backend
+      - backend1
+      - backend2
+      - backend3
+      - backend4
     volumes:
       - ./backend:/backend
     networks:
@@ -146,7 +158,10 @@ services:
     command: "celery -A backend_project.celery worker --loglevel=info --pool=gevent --concurrency=12"
     depends_on:
       - rabbitmq
-      - backend
+      - backend1
+      - backend2
+      - backend3
+      - backend4
     volumes:
       - ./backend:/backend
     networks:
@@ -167,7 +182,10 @@ services:
       - media_volume:/backend/mediafiles
       - build_folder:/var/www/frontend
     depends_on:
-      - backend
+      - backend1
+      - backend2
+      - backend3
+      - backend4
     # 가상 네트워크 연결
     networks:
       - t4y
