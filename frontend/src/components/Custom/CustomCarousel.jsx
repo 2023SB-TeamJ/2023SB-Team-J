@@ -11,46 +11,51 @@ import aframe1 from '../../assets/images/frameImg/aframe_1.png';
 import aframe3 from '../../assets/images/frameImg/aframe_3.png';
 // import aframe4 from '../../assets/images/frameImg/aframe_4.png';
 import aframe5 from '../../assets/images/frameImg/aframe_5.png';
-import aframe6 from '../../assets/images/frameImg/aframe_6.png';
+// import aframe6 from '../../assets/images/frameImg/aframe_6.png';
 import aframe7 from '../../assets/images/frameImg/aframe_7.png';
 // import aframe8 from '../../assets/images/frameImg/aframe_8.png';
 // import aframe10 from '../../assets/images/frameImg/aframe_10.png';
 import aframe11 from '../../assets/images/frameImg/aframe_11.png';
+import aframe12 from '../../assets/images/frameImg/aframe_12.png';
+import aframe14 from '../../assets/images/frameImg/aframe_14.png';
 /// ///////////////////////////////////////////////////////////////
 // import bframe1 from '../../assets/images/frameImg/bframe_1.png';
 // import bframe2 from '../../assets/images/frameImg/bframe_2.png';
 // import bframe3 from '../../assets/images/frameImg/bframe_3.png';
-import bframe4 from '../../assets/images/frameImg/bframe_4.png';
+// import bframe4 from '../../assets/images/frameImg/bframe_4.png';
 import bframe5 from '../../assets/images/frameImg/bframe_5.png';
 import bframe6 from '../../assets/images/frameImg/bframe_6.png';
 import bframe7 from '../../assets/images/frameImg/bframe_7.png';
-// import bframe8 from '../../assets/images/frameImg/bframe_8.png';
+import bframe8 from '../../assets/images/frameImg/bframe_8.png';
 // import bframe9 from '../../assets/images/frameImg/bframe_9.png';
 // import bframe10 from '../../assets/images/frameImg/bframe_10.png';
 // import bframe11 from '../../assets/images/frameImg/bframe_11.png';
 import bframe12 from '../../assets/images/frameImg/bframe_12.png';
-import bframe13 from '../../assets/images/frameImg/bframe_13.png';
+import bframe14 from '../../assets/images/frameImg/bframe_14.jpg';
+import bframe16 from '../../assets/images/frameImg/bframe_16.jpg';
 // 4~6개 할까 생각중
-const MAX_IMAGES = 6;
+const MAX_IMAGES = 8;
 
 function CustomCarousel({ sendData, frameType }) {
   const IMAGES_1 = [
     Black,
     aframe1,
-    aframe11,
     aframe3,
     aframe5,
-    aframe6,
     aframe7,
+    aframe11,
+    aframe12,
+    aframe14,
   ];
   const IMAGES_2 = [
     Black,
-    bframe12,
-    bframe13,
-    bframe4,
     bframe5,
     bframe6,
     bframe7,
+    bframe8,
+    bframe12,
+    bframe14,
+    bframe16,
   ];
 
   const [imgIdx, setImgIdx] = useState(0);

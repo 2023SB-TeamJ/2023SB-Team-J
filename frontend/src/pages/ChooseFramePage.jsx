@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
-import oneFourImage from '../assets/images/mainSample1.png';
-import twoTwoImage from '../assets/images/mainSample2.png';
+import oneFourImage from '../assets/images/mainSample2.png';
+import twoTwoImage from '../assets/images/mainSample1.png';
 import ProgressBar from '../components/ProgressBar';
 
 function ChooseFramePage() {
