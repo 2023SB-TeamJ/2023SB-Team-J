@@ -31,8 +31,8 @@ import bframe8 from '../../assets/images/frameImg/bframe_8.png';
 // import bframe10 from '../../assets/images/frameImg/bframe_10.png';
 // import bframe11 from '../../assets/images/frameImg/bframe_11.png';
 import bframe12 from '../../assets/images/frameImg/bframe_12.png';
-import bframe14 from '../../assets/images/frameImg/bframe_14.jpg';
-import bframe16 from '../../assets/images/frameImg/bframe_16.jpg';
+import bframe14 from '../../assets/images/frameImg/bframe_14.png';
+import bframe16 from '../../assets/images/frameImg/bframe_16.png';
 // 4~6개 할까 생각중
 const MAX_IMAGES = 8;
 
