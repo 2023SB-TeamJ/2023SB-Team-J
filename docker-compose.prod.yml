@@ -135,7 +135,7 @@ services:
     networks:
       - t4y
   celery2:
-    container_name: celery1
+    container_name: celery2
     build:
       context: ./backend
     restart: unless-stopped
@@ -173,10 +173,7 @@ services:
     ports:
       - 80:80
       - 443:443
-    expose:
-      - 80
-      - 443
-    restart: unless-stopped
+    restart: always
     volumes:
       - static_volume:/backend/staticfiles
       - media_volume:/backend/mediafiles
@@ -188,6 +185,7 @@ services:
       - backend2
       - backend3
       - backend4
+      - frontend
     # 가상 네트워크 연결
     networks:
       - t4y
