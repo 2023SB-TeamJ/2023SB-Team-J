@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,7 @@ function HeaderMain() {
   const navigate = useNavigate();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
+
   const handleOpenLoginModal = () => {
     setLoginModalOpen(true);
   };
@@ -25,6 +27,7 @@ function HeaderMain() {
   const handleCloseSignUpModal = () => {
     setSignUpModalOpen(false);
   };
+
   return (
     <div>
       <Container>
@@ -49,8 +52,13 @@ function HeaderMain() {
         <SignUpModal
           isOpen={signUpModalOpen}
           onClose={handleCloseSignUpModal}
+          onOpen={handleOpenLoginModal}
         />
-        <LoginModal isOpen={loginModalOpen} onClose={handleCloseLoginModal} />
+        <LoginModal
+          isOpen={loginModalOpen}
+          onClose={handleCloseLoginModal}
+          onOpen={handleOpenSignUpModal}
+        />
       </Container>
     </div>
   );

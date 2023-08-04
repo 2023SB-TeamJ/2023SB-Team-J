@@ -14,7 +14,7 @@ import {
 const apiUrl = process.env.REACT_APP_API_URL;
 
 // eslint-disable-next-line react/prop-types
-function SignUpModal({ isOpen, onClose }) {
+function SignUpModal({ isOpen, onClose, onOpen }) {
   const MAX_NICKNAME_LENGTH = 10; // 최대 닉네임 길이
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
@@ -225,7 +225,14 @@ function SignUpModal({ isOpen, onClose }) {
           <AuthBtn onClick={handleSignUp}>회원가입</AuthBtn>
           <RowDiv>
             <AuthQuestion>이미 회원이신가요?</AuthQuestion>
-            <AuthLink>로그인하기</AuthLink>
+            <AuthLink
+              onClick={() => {
+                onClose();
+                onOpen();
+              }}
+            >
+              로그인하기
+            </AuthLink>
           </RowDiv>
         </SignUpModalFrame>
       </ModalWindow>

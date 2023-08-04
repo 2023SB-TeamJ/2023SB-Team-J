@@ -18,17 +18,13 @@ import { useAuth } from '../contexts/AuthContext';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 // eslint-disable-next-line react/prop-types
-function LoginModal({ isOpen, onClose }) {
+function LoginModal({ isOpen, onClose, onOpen }) {
   const MAX_EMAIL_LENGTH = 20; // 최대 이메일 길이
   const MAX_PASSWORD_LENGTH = 14; // 최대 비밀번호 길이
   const [showPassword, setShowPassword] = useState(false); //  눈 아이콘 패스워드 보이기
   const toggleShowPassword = () => {
     setShowPassword(!showPassword); // 눈 아이콘 토글
   };
-
-  // const [userId, setUserID] = useState('');
-  // const [nickName, setNickName] = useState('');
-
   const [isVisible, setIsVisible] = useState(false);
   const [animation, setAnimation] = useState('');
   const [email, setEmail] = useState('');
@@ -183,7 +179,14 @@ function LoginModal({ isOpen, onClose }) {
           <AuthBtn onClick={handleLogin}>로그인</AuthBtn>
           <RowDiv>
             <AuthQuestion>아직 회원이 아니신가요?</AuthQuestion>
-            <AuthLink>가입하기</AuthLink>
+            <AuthLink
+              onClick={() => {
+                onClose();
+                onOpen();
+              }}
+            >
+              가입하기
+            </AuthLink>
           </RowDiv>
         </LoginModalFrame>
       </ModalWindow>
