@@ -30,7 +30,7 @@
 ### <div align="center">고민하는 당신에게 특별한 사진첩을 <span style="display:inline; color:red; background-color:#ffdce0;">선물</span>합니다.
 </div>
 
-### 📒 [Medium](https://medium.com/@say004972/roll-it-online-rolling-paper-service-b2b4e23a47b8)
+### 📒 [Medium](https://medium.com/@dkfud2121/2023sb-summer-bootcamp-team-j-8a03b6340464)
 
 ### 📕 [Youtube](https://youtu.be/ORLeo80nmis)
 <br/><br/>
