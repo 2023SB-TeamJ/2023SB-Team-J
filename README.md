@@ -33,6 +33,8 @@
 ### 📒 [Medium](https://medium.com/@dkfud2121/2023sb-summer-bootcamp-team-j-8a03b6340464)
 
 ### 📕 [Youtube](https://youtu.be/ORLeo80nmis)
+
+### 📓 [Github](https://github.com/2023SB-TeamJ/2023SB-Team-J)
 <br/><br/>
 
 ## <div align="center"></div>
