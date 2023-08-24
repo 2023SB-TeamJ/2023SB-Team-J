@@ -33,8 +33,6 @@ SECRET_KEY = get_secret("django_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 INSTALLED_APPS = [
@@ -126,6 +124,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
+CORS_ALLOW_HEADERS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 CORS_ALLOW_METHODS = [
     'GET',
@@ -204,7 +204,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # engine: mysql
         'NAME': get_secret("db_name"),  # DB Name
-        'USER': "admin",  # DB User
+        'USER': "adam",  # DB User
         'PASSWORD': get_secret("mysql_pwd"),  # Password
         'HOST': get_secret("db_host"),
         'PORT': "3306",  # 데이터베이스 포트
@@ -257,7 +257,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # AWS Setting
 
 AWS_REGION = 'ap-northeast-2'
-AWS_STORAGE_BUCKET_NAME = "bucketkubit"
+AWS_STORAGE_BUCKET_NAME = "t4y-s3-bucket"
 AWS_ACCESS_KEY_ID = get_secret("aws_access_key_id")
 AWS_SECRET_ACCESS_KEY = get_secret("aws_secret_access_key")
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
@@ -266,34 +266,6 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = "http://%s/media/" % AWS_S3_CUSTOM_DOMAIN
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-CORS_ALLOW_HEADERS = (
-    'access-control-allow-credentials',
-    'access-control-allow-origin',
-    'access-control-request-method',
-    'access-control-request-headers',
-    'accept',
-    'accept-encoding',
-    'accept-language',
-    'authorization',
-    'connection',
-    'content-type',
-    'dnt',
-    'credentials',
-    'host',
-    'origin',
-    'user-agent',
-    'csrftoken',
-    'x-requested-with',
-    'x-xsrf-token',
-    'x-csrftoken',
-    'x-csrf-token',
-    'mode',
-    'Sec-Ch-Ua',
-    'Sec-Ch-Ua-Mobile',
-    'Sec-Ch-Ua-Platform',
-    'User-Agent',
-)
 
 # 추가적인 JWT_AUTH 설정
 SIMPLE_JWT = {
