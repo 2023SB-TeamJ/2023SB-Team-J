@@ -225,30 +225,30 @@ WSGI_APPLICATION = 'backend_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 pymysql.install_as_MySQLdb()
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',  # engine: mysql
-#         'NAME': get_secret("db_name"),  # DB Name
-#         'USER': "admin",  # DB User
-#         'PASSWORD': get_secret("mysql_pwd"),  # Password
-#         'HOST': get_secret("db_host"),
-#         'PORT': "3306",  # 데이터베이스 포트
-#         'OPTIONS': {
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-#         }
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django_prometheus.db.backends.mysql',
-        'NAME': 't4ydb_monitoring',
-        'USER': 'root',
-        'PASSWORD': get_secret("mysql_pwd_monitor"),
-        'HOST': 't4y-database',  # MySQL 컨테이너가 실행 중인 호스트 주소
-        'PORT': '3306',       # MySQL 컨테이너가 사용하는 포트
-
+        'ENGINE': 'django.db.backends.mysql',  # engine: mysql
+        'NAME': get_secret("db_name"),  # DB Name
+        'USER': "adam",  # DB User
+        'PASSWORD': get_secret("mysql_pwd"),  # Password
+        'HOST': get_secret("db_host"),
+        'PORT': "3306",  # 데이터베이스 포트
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_prometheus.db.backends.mysql',
+#         'NAME': 't4ydb_monitoring',
+#         'USER': 'root',
+#         'PASSWORD': get_secret("mysql_pwd_monitor"),
+#         'HOST': 't4y-database',  # MySQL 컨테이너가 실행 중인 호스트 주소
+#         'PORT': '3306',       # MySQL 컨테이너가 사용하는 포트
+#
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -293,7 +293,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # AWS Setting
 
 AWS_REGION = 'ap-northeast-2'
-AWS_STORAGE_BUCKET_NAME = "bucketkubit"
+AWS_STORAGE_BUCKET_NAME = "t4y-s3-bucket"
 AWS_ACCESS_KEY_ID = get_secret("aws_access_key_id")
 AWS_SECRET_ACCESS_KEY = get_secret("aws_secret_access_key")
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
