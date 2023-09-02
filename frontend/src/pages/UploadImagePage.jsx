@@ -82,10 +82,13 @@ function UploadImagePage() {
           index, // Include index in return
           origin_img_id: originImgId,
           origin_img_url: imageUrl,
+
           model1_id: response.data.model1_id,
           model1_url: response.data.model1_url,
+
           model2_id: response.data.model2_id,
           model2_url: response.data.model2_url,
+
           model3_id: response.data.model3_id,
           model3_url: response.data.model3_url,
         };

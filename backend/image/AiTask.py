@@ -14,15 +14,29 @@ def model1_execute(url, id):
         "model_result_url": result,
     }
     serializer = Ai_modelSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        response = {
-            "model1_id": serializer.data["id"],
-            "model1_url": serializer.data["model_result_url"]
-        }
-        return response
-    else:
-        return False
+    try:
+        if serializer.is_valid():
+            serializer.save()
+            response = {
+                "model1_id": serializer.data["id"],
+                "model1_url": serializer.data["model_result_url"]
+            }
+            return response
+        else:
+            # Handle validation errors
+            errors = serializer.errors
+            # Log the validation errors
+            print("-----Validation Errors:", errors)
+            # You can raise a custom APIException or return an appropriate response here
+            # For example, raise APIException(errors) to return a 400 Bad Request response
+    except ValidationError as validation_error:
+        # Handle validation error exceptions
+        print("---Validation Error:", validation_error)
+        # You can raise a custom APIException or return an appropriate response here
+        # For example, raise APIException(str(validation_error)) to return a 400 Bad Request response
+    except Exception as e:
+        # Handle other exceptions
+        print("----Error:", e)
 
 @app.task(name="model2_execute")
 def model2_execute(url, id):

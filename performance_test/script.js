@@ -1,7 +1,6 @@
 import http from "k6/http";
-import { sleep, check } from "k6";
-import { Trend } from "k6/metrics";
-import { FormData } from "https://jslib.k6.io/formdata/0.0.1/index.js"; // Import FormData library
+import { sleep } from "k6";
+import { FormData } from "https://jslib.k6.io/formdata/0.0.2/index.js"; // Import FormData library
 
 export const options = {
   vus: 1,
@@ -71,6 +70,9 @@ function get_upload(GetAccesskey) {
     const response = http.post(apiUrl, fd.body(), params);
     if (response.status === 201) {
       console.log("upload success! Response:");
+
+      const responseBody = JSON.parse(response.body);
+      return responseBody;
     } else {
       console.log("upload Error! status:", response.status);
     }
@@ -79,35 +81,29 @@ function get_upload(GetAccesskey) {
   }
 }
 
-function get_frame(GetAccesskey) {
-  const apiUrl = "http://localhost:8000/api/v1/frame/"; // 실행할 API URL
-
-  // Create a FormData object
+function convert(GetAccesskey) {
+  const apiUrl = "http://localhost:8000/api/v1/frame/ai/"; // 실행할 API URL
   const fd = new FormData();
 
-  // Append the images to the FormData object
-  fd.append("image", img1);
-  fd.append("image", img2);
-  fd.append("image", img3);
-  fd.append("image", img4);
-  // // Append the images to the FormData object
-  // fd.append("images", http.file(img1, "조훈-1.jpg", "image/jpeg"));
-  // fd.append("images", http.file(img2, "청서.jpeg", "image/jpeg"));
-  // fd.append("images", http.file(img3, "카호.jpeg", "image/jpeg"));
-  // fd.append("images", http.file(img4, "test.jpg", "image/jpeg"));
+  fd.append("image_origin_id", "5");
+  fd.append(
+    "image",
+    "https://t4y-s3-bucket.s3.amazonaws.com/image_upload/275700b85eaa60422194c38872598df9.jpeg"
+  );
 
-  // Make the POST request with the FormData object
-  const res = http.post(apiUrl, fd.body(), {
+  const params = {
     headers: {
-      Authorization: `Bearer ${GetAccesskey}`,
       "Content-Type": "multipart/form-data; boundary=" + fd.boundary,
+      Authorization: `Bearer ${GetAccesskey}`,
     },
-  });
-  // Log the result
-  if (res.status === 200) {
-    console.log("converting success! Response:");
+  };
+
+  const response = http.post(apiUrl, fd.body(), params);
+
+  if (response.status === 201) {
+    console.log("convert success! Response:");
   } else {
-    console.log("converting fail! Response:", res.status);
+    console.log("convert Error! status:", response.status);
   }
 }
 
@@ -125,16 +121,14 @@ export default function () {
 
   const response = http.post(url, JSON.stringify(payload), params);
   if (response.status == 200) {
-    // console.log("Login Success! Response:", response.body);
+    console.log("Login Success! Response:");
     access = JSON.parse(response.body).access; // Assign the value here
     // const access = JSON.parse(response.body).access;
     const refresh = JSON.parse(response.body).refresh;
 
     get_album(access);
-
-    const upload_response = get_upload(access);
-    console.log(upload_response.body);
-
+    get_upload(access);
+    convert(access);
     post_logout(access, refresh);
     sleep(1);
   } else {

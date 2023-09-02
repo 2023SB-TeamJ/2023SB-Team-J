@@ -1,3 +1,4 @@
+import logging
 import pickle
 import time
 
@@ -51,67 +52,53 @@ class UploadImageView(APIView):
             "user_id": user_id,
             "url": img_url
         }
-        print(">>> 2. data >>> ", data)
         serializer = UploadedImageSerializer(data=data)
-        print(">>> 3. after serializer >>>", serializer)
         if serializer.is_valid():
             serializer.save()
             response = {
-                "image_origin_id": serializer.data["id"],
+                "origin_img_id": serializer.data["id"],
                 "url": serializer.data["url"]
             }
             return Response(response, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-#     def get(self, request, format=None):
-#         raw_data = request.body.decode('utf-8')
-#         try:
-#             data = json.loads(raw_data)
-#             user_id = data.get('user_id')
-#             source = data.get('source')
-
-#             if user_id is None or source is None:  # request 형식에 맞지 않는 경우
-#                 return Response(status=status.HTTP_400_BAD_REQUEST)
-
-#             image_origin = Image_upload.objects.get(id=source, user_id=user_id, deleted_at__isnull=True)
-
-#         except:
-#             # 찾지 못한 경우 HTTP_400
-#             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-#         serializer = UploadedImageSerializer(image_origin)
-
-#         picture = {
-#             'url_1': serializer.data.get('url_1'),
-#             'url_2': serializer.data.get('url_2'),
-#             'url_3': serializer.data.get('url_3'),
-#             'url_4': serializer.data.get('url_4'),
-#         }
-#         return Response(picture, status=status.HTTP_200_OK)
 
 class AiExecute(APIView):
     permission_classes = [AllowAny]
-
+    parser_classes = [MultiPartParser]
     @swagger_auto_schema(manual_parameters= SwaggerHeader, request_body=SwaggerFrameAiPostSerializer, responses={"200":SwaggerResponseFrameAiPostSerializer})
     def post(self, request):
-        url = request.data.get("image")
-        id = request.data.get("image_origin_id")
-        task1 = model1_execute.delay(url, id)
-        task2 = model2_execute.delay(url, id)
-        task3 = model3_execute.delay(url, id)
+        logger = logging.getLogger(__name__)
+        try:
+            logger.debug(">>> ai api zoen---- >>>")
+            # print(">>>> image id is >>> ", id)
 
-        while True:
-            if task1.ready() and task2.ready() and task3.ready():
-                break
-            time.sleep(1)
-        if task1.result and task2.result and task3.result:
-            response = {**task1.result, **task2.result, **task3.result}
+            url = request.data.get("image")
+            id = request.data.get("image_origin_id")
 
-            return Response(response, status=status.HTTP_201_CREATED)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            task1 = model1_execute.delay(url, id)
+            task2 = model2_execute.delay(url, id)
+            task3 = model3_execute.delay(url, id)
+
+            while True:
+                if task1.ready() and task2.ready() and task3.ready():
+                    break
+                time.sleep(1)
+
+            logger.debug(">>> task1", task1.result)
+            logger.debug(">>> task2", task2.result)
+            logger.debug(">>> task3", task3.result)
+
+            if task1.result and task2.result and task3.result:
+                response = {**task1.result, **task2.result, **task3.result}
+
+                return Response(response, status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            logger.debug(">>> error >>> ", e)
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 #sudo celery -A backend_project.celery multi start 4 --loglevel=info --pool=threads
 #sudo celery multi stop 4 -A backend_project.celery --all
