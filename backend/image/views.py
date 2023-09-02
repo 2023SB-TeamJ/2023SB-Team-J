@@ -29,7 +29,6 @@ class UploadImageView(APIView):
     parser_classes = [MultiPartParser]
     @swagger_auto_schema(manual_parameters=SwaggerFramePost, responses={"201":SwaggerResponseFramePost})
     def post(self, request):
-        print(">>> 1. in api v1 frame >>>")
         image = request.data.get("image")
         authorization_header = request.META.get('HTTP_AUTHORIZATION')
         if authorization_header and authorization_header.startswith('Bearer '):
@@ -58,7 +57,7 @@ class UploadImageView(APIView):
         if serializer.is_valid():
             serializer.save()
             response = {
-                "origin_img_id": serializer.data["id"],
+                "image_origin_id": serializer.data["id"],
                 "url": serializer.data["url"]
             }
             return Response(response, status=status.HTTP_201_CREATED)
