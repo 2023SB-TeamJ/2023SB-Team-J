@@ -4,9 +4,9 @@ import { FormData } from "https://jslib.k6.io/formdata/0.0.2/index.js"; // Impor
 
 export const options = {
     stages: [
-        { duration: '5m', target: 100 },
-        { duration: '30m', target: 100 },
-        { duration: '5m', target: 0 },
+        { duration: '30s', target: 10 },
+        { duration: '1m40s', target: 30 },
+        { duration: '1m', target: 0 },
     ],
 };
 
@@ -114,8 +114,8 @@ function convert(GetAccesskey) {
 export default function () {
   const url = "http://localhost:8000/api/v1/login/"; // token 취득
   const payload = {
-    email: "hello@naver.com",
-    password: "hello",
+    email: "adam@naver.com",
+    password: "adam",
   };
   const params = {
     headers: {
@@ -130,10 +130,11 @@ export default function () {
     // const access = JSON.parse(response.body).access;
     const refresh = JSON.parse(response.body).refresh;
 
-    get_album(access);
+
     get_upload(access);
     convert(access);
-    post_logout(access, refresh);
+
+//    post_logout(access, refresh);
     sleep(1);
   } else {
     console.log("Login Error! status:", response.status);
