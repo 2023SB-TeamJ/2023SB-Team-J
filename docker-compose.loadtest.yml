@@ -16,11 +16,26 @@ services:
     networks:
       - t4y
 
+  database:
+    image: mysql:latest
+    container_name: t4y-database
+    env_file:
+      - ./backend/.env
+    ports:
+      - 3306:3306
+    networks:
+      - t4y
+
   backend:
     container_name: backend
     build:
       context: ./backend
-    command : gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240
+    command: >
+      sh -c "python manage.py makemigrations common &&
+      python manage.py makemigrations image &&
+      python manage.py makemigrations album &&
+      python manage.py migrate &&
+      gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
     restart: on-failure
     ports:
       - 8000:8000
@@ -31,6 +46,7 @@ services:
       - 8000
     networks:
       - t4y
+
 
   rabbitmq:
     hostname: t4yhost
@@ -91,7 +107,7 @@ services:
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-      - /var/run/docker.sock:/var/run/docker.sock:rw
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
       - /dev/disk/:/dev/disk:ro
 #      - $GOPATH/src/github.com/google/cadvisor/perf/testing:/etc/configs/perf
     #      - /etc/machine-id:/etc/machine-id:ro

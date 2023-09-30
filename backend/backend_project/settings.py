@@ -126,7 +126,7 @@ MIDDLEWARE = [
 # CELERY_RESULT_BACKEND = 'django-db+mysql://admin:kimdw0823!@t4y-database.cnfbwfoijmwg.us-east-1.rds.amazonaws.com/t4yDB'
 # # Replace 'user', 'password', and 't4yDB' with your actual MySQL RDS credentials and database name
 
-# # CELERY_RESULT_BACKEND = 't4y-database.cnfbwfoijmwg.us-east-1.rds.amazonaws.com'
+# CELERY_RESULT_BACKEND = 't4y-database'
 # CELERY_ACCEPT_CONTENT = ['application/json']
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
@@ -229,7 +229,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # engine: mysql
         'NAME': get_secret("db_name"),  # DB Name
-        'USER': "adam",  # DB User
+        'USER': get_secret("db_user"),  # DB User
         'PASSWORD': get_secret("mysql_pwd"),  # Password
         'HOST': get_secret("db_host"),
         'PORT': "3306",  # 데이터베이스 포트
@@ -364,3 +364,11 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
     "TOKEN_OBTAIN_SERIALIZER": "common.serializers.MyTokenObtainPairSerializer",
 }
+
+BROKER_HEARTBEAT=60 # 60 seconds for the heartbeat signal
+BROKER_HEARTBEAT_CHECKRATE=2.0 # Check for a heartbeat every 2 seconds
+# settings.py
+
+# 사진 등의 파일 업로드 용량 제한 설정 (10MB로 설정)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
+MEDIA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
