@@ -4,7 +4,7 @@ import { FormData } from 'https://jslib.k6.io/formdata/0.0.2/index.js'; // Impor
 
 export const options = {
     stages: [
-        { duration: '5m', target: 100 },
+        { duration: '5m', target: 30 },
         { duration: '30m', target: 100 },
         { duration: '5m', target: 0 },
     ],
