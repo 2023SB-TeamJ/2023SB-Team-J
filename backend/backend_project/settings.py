@@ -204,7 +204,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # engine: mysql
         'NAME': get_secret("db_name"),  # DB Name
-        'USER': "admin",  # DB User
+        'USER': get_secret("db_user"),  # DB User
         'PASSWORD': get_secret("mysql_pwd"),  # Password
         'HOST': get_secret("db_host"),
         'PORT': "3306",  # 데이터베이스 포트
