@@ -13,6 +13,8 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
+      - build_folder:/frontend/build
+      - ./frontend/node_modules/:/frontend/node_modules
     tty: true
 
   database:
@@ -39,13 +41,13 @@ services:
       - 8000
     depends_on:
       - database
-    environment:
-      - DB_HOST=t4y-database
-      - DB_NAME=mydatabase
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
 #    command: "python manage.py runserver 0.0.0.0:8000"
-    command: "gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
+    command: >
+      sh -c "python manage.py makemigrations common &&
+      python manage.py makemigrations image &&
+      python manage.py makemigrations album &&
+      python manage.py migrate &&
+      gunicorn backend_project.wsgi --preload --bind 0.0.0.0:8000 --timeout 240"
     tty: true
     networks:
       - t4y
